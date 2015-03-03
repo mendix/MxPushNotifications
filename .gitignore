@@ -1,0 +1,9 @@
+test/deployment/
+test/.classpath
+test/.project
+test/.mendix-cache
+test/.svn
+*.launch
+*.tmp
+*.lock
+.idea/

@@ -1,0 +1,817 @@
+/* ==========================================================================
+   App Cloud Services Master Layout
+   ========================================================================== */
+/* Top container including bar */
+.mx-layoutcontainer .mxappcloud-topcontainer,
+.mx-layoutcontainer .mxappcloud-topcontainer > .mx-layoutcontainer-wrapper {
+	padding: 0;
+}
+
+/* Content section */
+.mx-layoutcontainer .mxappcloud-contentcontainer > .mx-layoutcontainer-wrapper {
+	padding: 0;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+body {
+	color: #26323D;
+	font-size: 12px;
+}
+a {
+	color: #4280cb;
+	-webkit-transition: 0.25s;
+	-moz-transition: 0.25s;
+	-o-transition: 0.25s;
+	transition: 0.25s;
+	-webkit-backface-visibility: hidden;
+}
+a:hover {
+	text-decoration: none;
+}
+
+
+
+/* ==========================================================================
+   Default Login Modal
+   ========================================================================== */
+.mx-login .modal-body {
+	padding: 0 15px;
+}
+.mx-login .modal-content input {
+	padding: 12px 12px;
+	height: 56px;
+	border: 1px solid #EEE;
+	background: #eee;
+	box-shadow: none;
+	font-size: 16px;
+}
+.mx-login .modal-content input:focus {
+	border-color: #66afe9;
+}
+.mx-login .modal-header,
+.mx-login .modal-footer {
+	border-style: none;
+}
+.mx-login button {
+	font-size: 16px;
+}
+.mx-login h4 {
+	color: #aaa;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+
+
+/* ==========================================================================
+   Layout 
+   ========================================================================== */
+.mx-layoutcontainer-wrapper {
+	padding: 20px;
+}
+.mx-layoutcontainer-wrapper.mx-layoutcontainer-nested {
+	padding: 0;
+}
+
+/* 	Sidebar 
+   ========================================================================== */
+.app-sidebar {
+	background-color: #26323D;
+}
+.app-sidebar > .mx-layoutcontainer-wrapper {
+	padding: 0;
+}
+.app-sidebar .app-applogo { 
+	margin: 0;
+	border-bottom: 1px solid #36465A;
+}
+.app-sidebar .app-applogo .mx-groupbox-body { 
+	padding: 15px 20px;
+	border:0;
+	border-radius: 0;
+}
+.app-sidebar .app-applogo span {
+	padding: 0;
+}
+.app-sidebar .app-applogo span a,
+.app-sidebar .app-applogo span a:hover
+.app-sidebar .app-applogo span a:visited {
+	width: 100%;
+	color: #FFF;
+	text-align: left;
+	white-space: normal;
+	font-size: 15px;
+}
+
+
+/* 	Topbar 
+   ========================================================================== */
+.app-topbar {
+	background-color: #26323D;
+}
+.app-topbar > .mx-layoutcontainer-wrapper {
+	padding: 0;
+}
+.app-topbar .app-applogo {
+	float: left; 
+	margin: 0;
+	padding: 0 20px;
+	min-width: 150px;
+	max-width: 20%;
+	height: 51px;
+}
+.app-topbar .app-applogo .mx-groupbox-body {
+	padding: 0; 
+	border:0;
+	border-radius: 0;
+}
+.app-topbar .app-applogo span {
+	padding: 0;
+}
+.app-topbar .app-applogo span a,
+.app-topbar .app-applogo span a:hover
+.app-topbar .app-applogo span a:visited {
+	overflow: hidden;
+	width: 100%;
+	color: #FFF;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 15px;
+	line-height: 51px;
+}
+.app-topbar .mx-menubar li.mx-menubar-item > a {
+	padding: 0 20px;
+	height: 51px;
+	line-height: 51px;
+}
+
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+.mx-title {
+	margin-bottom: 15px;
+	color: #26323D;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn,
+.btn-default {
+	border: 0;
+	background-color: #d1dade;
+	box-shadow: none;
+	color: #26323D;
+	text-shadow: none;
+	font-size: 12px;
+	height: 30px;
+}
+.btn:hover,
+.btn:focus,
+.btn-default:hover,
+.btn-default:focus {
+	outline: none;
+	background-color: #b9c1c4;
+}
+.mx-fileinput .mx-wrapped-form:hover .mx-fileinput-upload-button {
+	background-color: #b9c1c4;
+}
+.btn-inverse {
+	background-color: #26323D;
+	color: #FFF;
+}
+.btn-inverse:hover,
+.btn-inverse:focus {
+	background-color: #36465A;
+	color: #FFF;
+}
+.btn-primary {
+	background-color: #4280cb;
+	color: #FFF;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: #3b71b3;
+	color: #FFF;
+}
+.btn-info {
+	background-color: #38afd4;
+	color: #FFF;
+}
+.btn-info:hover,
+.btn-info:focus {
+	background-color: #309aba;
+	color: #FFF;
+}
+.btn-success {
+	background-color: #2ecc71;
+	color: #FFF;
+}
+.btn-success:hover,
+.btn-success:focus {
+	background-color: #29b362;
+	color: #FFF;
+}
+.btn-warning {
+	background-color: #E67E22;
+	color: #FFF;	
+}
+.btn-warning:hover,
+.btn-warning:focus {
+	background-color: #cc701f;
+	color: #FFF;
+}
+.btn-danger {
+	background-color: #d30606;
+	color: #FFF;	
+}
+.btn-danger:hover,
+.btn-danger:focus {
+	background-color: #ba0606;
+	color: #FFF;
+}
+.btn.disabled, 
+.btn[disabled] {
+	
+}
+
+
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+.mx-datagrid input, 
+.mx-datagrid select, 
+.mx-datagrid textarea,
+.form-control {
+	padding: 6px 8px;
+	height: 30px;
+	font-size: 12px;
+}
+.mx-fileinput .mx-wrapped-input {
+	cursor: pointer;
+}
+
+
+
+/* ==========================================================================
+   Data view
+   ========================================================================== */
+.mx-dataview .mx-dataview-controls {
+	margin-top: 10px;
+	padding: 8px;
+	border-top: 1px solid #eee;
+	background-color: transparent;
+}
+.mx-dataview .mx-grid {
+	border: 0;
+}
+.mx-dataview .mx-dataview-controls .mx-button {
+	margin-bottom: 0;
+}
+.mx-grid-controlbar .mx-grid-pagingbar .mx-button {
+	padding: 6px;
+	background-color: transparent;
+	color: #AAA;
+}
+.mx-grid-controlbar .mx-grid-pagingbar .mx-button:active {
+	box-shadow: none;
+}
+.mx-grid-controlbar .mx-grid-pagingbar .mx-button:hover {
+	background-color: transparent;
+	color: #26323D;
+}
+.mx-grid-controlbar .mx-grid-pagingbar .mx-button.btn.disabled, 
+.mx-grid-controlbar .mx-grid-pagingbar .mx-button.btn[disabled] {
+	color: #DDD;
+}
+.mx-grid-controlbar .mx-grid-pagingbar .mx-grid-paging-status {
+	padding: 0 8px 8px;
+}
+
+
+
+/* ==========================================================================
+   Grids
+   ========================================================================== */
+.mx-grid {
+	/* remove widget padding */
+	padding: 0px;
+}
+.mx-grid .mx-grid-controlbar {
+	padding: 8px 0;
+}
+.mx-grid .table-striped tr:nth-child(odd) td {
+	background-color: #F3F7F8;
+}
+
+/* Data Grid
+   ========================================================================== */
+.mx-datagrid .mx-datagrid-body-table td {
+	padding: 5px 8px;
+	border: 0;
+}
+.mx-datagrid .mx-datagrid-body-table tr:focus {
+	outline: none;
+}
+.mx-datagrid .mx-datagrid-body-table tr:hover td {
+	background-color: #E8EDF1;
+}
+.mx-datagrid .mx-datagrid-body-table .selected td {
+	background-color: #ffffcc !important;
+}
+.mx-datagrid .mx-datagrid-body-table .selected:hover td {
+	background-color: #fef8ae !important;
+}
+.mx-page .mx-datagrid .mx-datagrid-foot th {
+	padding: 1px;
+	background-color: #ddd;
+}
+
+/* Template Grid
+   ========================================================================== */
+.mx-templategrid .mx-templategrid-item:hover {
+	background-color: #E8EDF1;
+}
+.mx-templategrid .mx-templategrid-item.selected {
+	background-color: #ffffcc !important;
+}
+.mx-templategrid .mx-templategrid-item.selected:hover {
+	background-color: #fef8ae !important;
+}
+
+
+
+/* ==========================================================================
+   List View
+   ========================================================================== */
+.mx-listview {
+	/* remove widget padding */ 
+	padding: 0;
+}   
+.mx-listview .mx-list.mx-list-striped > li.mx-listview-item:nth-child(2n+1) {
+	background-color: #F3F7F8;
+}
+.mx-listview .mx-list li.mx-listview-item:hover {
+	background-color: #E8EDF1 !important;
+}
+.mx-listview .mx-button {
+	width: 100%;
+} 
+.mx-listview .mx-button.mx-listview-clear-button {
+	width: auto;
+}
+
+
+
+/* ==========================================================================
+   Navigation List
+   ========================================================================== */
+.mx-navigationlist {
+	padding: 0;
+}
+.mx-navigationlist li.mx-navigationlist-item:hover {
+	background-color: #E8EDF1 !important;
+}
+
+
+
+/* ==========================================================================
+   Tab Container
+   ========================================================================== */
+.mx-tabcontainer {
+
+}
+.mx-tabcontainer-tabs > li > a {
+	color: #26323D;
+	font-weight: bold;
+}
+.mx-tabcontainer-tabs > li > a:hover {
+	background-color: #E8EDF1;
+}
+
+
+
+/* ==========================================================================
+   Group Box
+   ========================================================================== */
+.mx-groupbox-header {
+	background: #4280CA;
+	color: #FFF;
+	font-weight: bold;
+}
+
+
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+
+/* Navigation Bar
+========================================================================== */
+.mx-navbar {
+	background-color: #26323D;
+}
+.mx-navbar .nav > .mx-navbar-item > a {
+	padding: 15px 20px;
+	border-radius: 0;
+	color: #A4ABC0;
+	font-weight: normal;
+	font-size: 13px;
+}
+.mx-navbar .nav > .dropdown > a .caret {
+	border-top-color: #A4ABC0;
+	border-bottom-color: #A4ABC0;
+}
+.mx-navbar .nav > .mx-navbar-item > a:hover,
+.mx-navbar .nav > .mx-navbar-item > a:focus,
+.mx-navbar .nav > .open> a, 
+.mx-navbar .nav > .open > a:hover, 
+.mx-navbar .nav > .open > a:focus {
+	background-color: #36465A;
+	color: #FFF;
+	text-decoration: none;
+}
+.mx-navbar .nav  > .dropdown > a:hover .caret,
+.mx-navbar .nav  > .dropdown > a:focus .caret {
+	border-top-color: #FFF;
+	border-bottom-color: #FFF;
+}
+.mx-navbar .nav li.dropdown.open > .dropdown-toggle, 
+.mx-navbar .nav li.dropdown.active > .dropdown-toggle, 
+.mx-navbar .nav li.dropdown.open.active > .dropdown-toggle {
+
+}
+
+/* Dropdown */
+.mx-navbar .mx-navbar-item .mx-navbar-submenu:before {
+	position: absolute;
+	top: -9px;
+	left: 15px;
+	width: 0;
+	height: 0;
+	border-width: 0 9px 9px 9px;
+	border-style: solid;
+	border-color: transparent transparent #34495e transparent;
+	content: "";
+	-webkit-transform: rotate(360deg);
+}
+.mx-navbar .mx-navbar-item .mx-navbar-submenu {
+
+}
+.mx-navbar .mx-navbar-item .mx-navbar-submenu .mx-navbar-subitem a {
+
+}
+.mx-navbar .mx-navbar-item .mx-navbar-submenu .mx-navbar-subitem a:hover,
+.mx-navbar .mx-navbar-item .mx-navbar-submenu .mx-navbar-subitem a:focus {
+
+}
+
+/* Navigation Tree
+========================================================================== */
+.mx-navigationtree {
+	background-color: #26323D;
+}
+.mx-navigationtree ul {
+	margin: 0;
+	padding-left: 0;
+}
+.mx-navigationtree li {
+	padding: 0;
+}
+.mx-navigationtree a {
+	padding: 15px 20px;
+	border-bottom: 1px solid #36465A;
+	border-radius: 0;
+	color: #A4ABC0;
+	font-weight: normal;
+	font-size: 13px;
+	text-shadow: none;
+	display: block;
+}
+.mx-navigationtree a .caret {
+	border-top-color: #A4ABC0;
+	border-bottom-color: #A4ABC0;
+}
+.mx-navigationtree a:hover,
+.mx-navigationtree a:focus {
+	background-color: #36465A;
+	color: #FFF;
+	text-decoration: none;
+}
+
+.mx-navigationtree a:hover .caret,
+.mx-navigationtree a:focus .caret {
+	border-top-color: #FFF;
+	border-bottom-color: #FFF;
+}
+.mx-navigationtree ul li ul {
+
+}
+.mx-navigationtree ul li ul li {
+
+}
+.mx-navigationtree .mx-navigationtree-has-items > a {
+
+}
+.mx-navigationtree .mx-navigationtree-has-items ul li:last-child {
+	
+}
+
+/* Simple Menu Bar
+========================================================================== */
+.mx-menubar {
+	padding: 0;
+	background-color: #26323D;
+
+}
+
+.mx-menubar li.mx-menubar-item {
+	margin: 0;
+}
+
+.mx-menubar li.mx-menubar-item > a {
+	padding: 15px 20px;
+	border-radius: 0;
+	color: #A4ABC0;
+	font-weight: normal;
+	font-size: 13px;
+}
+.mx-menubar.mx-menubar-vertical li.mx-menubar-item > a {
+	border-bottom: 1px solid #36465A;
+}
+.mx-menubar li.mx-menubar-item > a:hover,
+.mx-menubar li.mx-menubar-item > a:focus {
+	background-color: #36465A;
+	color: #FFF;
+}
+
+/* SidebarToggle
+========================================================================== */
+.sidebar {
+	background: #222;
+}
+.sidebar .mx-menubar {
+	border-style: none;
+	background: #222;
+}
+.sidebar .mx-menubar-vertical .mx-menubar-item {
+	margin: 0;
+	padding: 0;
+	border-width: 0 0 1px 0;
+	border-style: solid;
+	border-color: #666;
+	border-radius: 0;
+	background: none;
+}
+.sidebar .mx-menubar-vertical .mx-menubar-item img {
+	display: inline;
+	margin: auto 5px 3px auto;
+}
+.sidebar .mx-menubar-vertical .mx-menubar-item a {
+	padding: 16px 10px 16px 10px;
+	border-radius: 0;
+	color: #FFF;
+}
+.sidebar .mx-menubar-vertical .mx-menubar-item a:hover, 
+.sidebar .mx-menubar-vertical .mx-menubar-item a:focus {
+	background-color: #343434;
+}
+
+/* ==========================================================================
+   Popups
+   ========================================================================== */
+.mx-window .mx-window-header,
+.mx-dialog .mx-dialog-header {
+	padding: 8px 15px;
+}
+.mx-window .mx-window-header h4,
+.mx-dialog .mx-dialog-header h4 {
+	font-size: 16px;
+}
+.mx-window .mx-window-footer,
+.mx-dialog .mx-dialog-footer {
+	padding: 8px 15px;
+}
+
+/* ==========================================================================
+   Dijit Widgets
+   ========================================================================== */
+
+/* Calendar
+========================================================================== */
+.dijitCalendarContainer {
+	background-color: #eff0f2;
+}
+.dijitCalendarContainer tr th,
+.dijitCalendarContainer tr td {
+	padding: 6px;
+	text-align: center;
+}
+.dijitCalendarContainer tr th {
+	background-color: #26323D;
+	color: #FFF;
+	text-align: center;
+}
+.dijitCalendarContainer tr .dijitCalendarArrow {
+	cursor: pointer;
+}
+.dijitCalendarMonthLabel {
+	font-weight: bold;
+}
+.dijitCalendarContainer .dijitCalendarMonthContainer th:first-child,
+.dj_rtl .dijitCalendarContainer .dijitCalendarMonthContainer th:last-child {
+	border-top-left-radius: 3px;
+}
+.dijitCalendarContainer .dijitCalendarMonthContainer th:last-child,
+.dj_rtl .dijitCalendarContainer .dijitCalendarMonthContainer th:first-child {
+	border-top-right-radius: 3px;
+}
+.dj_rtl .dijitCalendarContainer .dijitCalendarMonthContainer th:first-child {
+	border-top-left-radius: 0;
+}
+.dj_rtl .dijitCalendarContainer .dijitCalendarMonthContainer th:last-child {
+	border-top-right-radius: 0;
+}
+.dijitCalendarContainer .dijitButtonNode {
+	border-style: none;
+}
+.dijitCalendarSelectedDate,
+.dijitCalendarSelectedDate:hover {
+	border-radius: 10px;
+	background: #4280cb;
+	color: #FFF;
+}
+.dijitCalendarHoveredDate,
+.dijitCalendarPreviousYearHover,
+.dijitCalendarNextYearHover,
+.dijitCalendarMonthLabelHover {
+	border-radius: 10px;
+	background-color: #dbdcdd;
+}
+.dijitCalendarYearContainer td {
+	border-top: 1px solid #dbdcdd;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	text-align: center;
+	font-weight: bold;
+}
+.dijitCalendarContainer tfoot h3 {
+	margin: 0;
+	padding: 0;
+	font-size: inherit;
+}
+
+/* Tooltip
+========================================================================== */
+.dijitTooltipContainer {
+	border-width: 1px;
+	border-color: #26323D;
+	border-radius: 4px;
+	background: #FFF;
+	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+}
+.mx-tooltip-content {
+	padding: 5px;
+}
+.dijitTooltipConnector {
+	margin-left:-10px;
+	width: 0;
+	height: 0;
+	border-width: 10px 10px 10px 0;
+	border-style: solid;
+	border-color: transparent;
+	border-right-color: #26323D;
+}
+
+/* Split Container
+========================================================================== */
+.dijitBorderContainer {
+     padding: 5px;
+    background-color: #fcfcfc;
+}
+.dijitSplitContainer-child, 
+.dijitBorderContainer-child {
+    border: 1px #ccc solid;
+}
+.dijitBorderContainer-dijitTabContainerTop, 
+.dijitBorderContainer-dijitTabContainerBottom, 
+.dijitBorderContainer-dijitTabContainerLeft,
+.dijitBorderContainer-dijitTabContainerRight {
+    border:  none;
+}
+.dijitBorderContainer-dijitBorderContainer {
+     padding:  0;
+    border:  none;
+}
+.dijitSplitterH, .tundra .dijitGutterH {
+	height: 5px;
+	border: 0;
+	background: #fcfcfc;
+}
+.dijitSplitterH .dijitSplitterThumb {
+	top: 2px;
+	width: 19px;
+	height: 1px;
+	background: #B0B0B0 none;
+}
+.dijitSplitterV,
+.dijitGutterV {
+	width: 5px;
+	border: 0;
+	background: #fcfcfc;
+}
+.dijitSplitterV .dijitSplitterThumb {
+	left: 2px;
+	width: 1px;
+	height: 19px;
+	background: #B0B0B0 none;
+}
+.dijitSplitterActive {
+	margin: 0;
+	background-color: #aaa;
+	background-image: none;
+	font-size: 1px;
+	opacity: 0.6;
+	filter: Alpha(Opacity=60);
+	-moz-opacity: 0.6;
+}
+.dijitSplitContainer-dijitContentPane,
+.dijitBorderContainer-dijitContentPane {
+	padding: 5px;
+	background-color: #fff;
+}
+
+/* ==========================================================================
+   Mobile
+   ========================================================================== */
+.profile-phone .mx-login .modal-content,
+.profile-tablet .mx-login .modal-content {
+	border-style: none;
+	background: #FFF;
+	box-shadow: none;
+}
+
+.mx-header {
+	padding: 13px;
+	border-bottom: 1px solid #3cb6c7;
+	background: #4ac0d2;
+}
+
+.mx-header .mx-link a {
+	color: #FFF;
+	font-size: 14px;
+}
+
+.profile-phone .mx-tabcontainer-tabs,
+.profile-tablet .mx-tabcontainer-tabs {
+	border-color: transparent;
+	background: #FFF;
+	/* Align tabs in center */
+	text-align: center;
+	margin: 20px 0;
+}
+.profile-phone .mx-tabcontainer-tabs li,
+.profile-tablet .mx-tabcontainer-tabs li {
+	display: inline-block;
+	/* Align tabs in center */
+	float: none;
+}
+.profile-phone .mx-tabcontainer-tabs li a,
+.profile-tablet .mx-tabcontainer-tabs li a {
+	margin: 0;
+	padding: 5px 15px;
+	border-width: 1px 0 1px 1px;
+	border-style: solid;
+	border-color: #26323D;
+	border-radius: 0;
+	box-shadow: none;
+	font-weight: normal;
+}
+.profile-phone .mx-tabcontainer-tabs li:first-child a,
+.profile-tablet .mx-tabcontainer-tabs li:first-child a {
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.profile-phone .mx-tabcontainer-tabs li:last-child a,
+.profile-tablet .mx-tabcontainer-tabs li:last-child a {
+	border-right: 1px solid #26323D;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+.profile-phone .mx-tabcontainer-tabs li.active a,
+.profile-tablet .mx-tabcontainer-tabs li.active a {
+	border-width: 1px 0 1px 1px;
+	border-style: solid;
+	border-color: #26323D;
+	background: #26323D;
+	color: #FFF;
+}
