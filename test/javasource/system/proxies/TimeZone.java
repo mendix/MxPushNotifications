@@ -64,16 +64,6 @@ public class TimeZone
 	}
 
 	/**
-	 * @deprecated Use 'new TimeZone(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.TimeZone create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.TimeZone");
-		return new system.proxies.TimeZone(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'TimeZone.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

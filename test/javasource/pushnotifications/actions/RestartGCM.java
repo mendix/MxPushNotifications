@@ -35,7 +35,9 @@ public class RestartGCM extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		GCMConnection connection = GCMConnection.getConnection();
-		connection.stop();
+		if (connection != null) {
+			connection.stop();
+		}
 		if (settings.getEnabled()) {
 			connection.start(settings);
 		}

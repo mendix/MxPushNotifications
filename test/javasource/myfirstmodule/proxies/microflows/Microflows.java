@@ -16,6 +16,19 @@ public class Microflows
 {
 	// These are the Microflows for the MyFirstModule module
 
+	public static boolean afterStartup(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			return (Boolean)Core.execute(context, "MyFirstModule.AfterStartup", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
 	public static usermanagement.proxies.Account getCurrentAccount(IContext context)
 	{
 		try

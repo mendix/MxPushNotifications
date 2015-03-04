@@ -64,16 +64,6 @@ public class ExampleConfiguration
 	}
 
 	/**
-	 * @deprecated Use 'new ExampleConfiguration(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static encryption.proxies.ExampleConfiguration create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "Encryption.ExampleConfiguration");
-		return new encryption.proxies.ExampleConfiguration(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'ExampleConfiguration.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

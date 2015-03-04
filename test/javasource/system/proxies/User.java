@@ -72,16 +72,6 @@ public class User
 	}
 
 	/**
-	 * @deprecated Use 'new User(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.User create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.User");
-		return new system.proxies.User(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'User.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

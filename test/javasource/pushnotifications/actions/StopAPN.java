@@ -35,7 +35,10 @@ public class StopAPN extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		APNConnection connection = APNConnection.getConnection();
-		connection.stop();
+		if(connection!= null){
+			connection.stop();
+		}
+		
 		return true;
 		// END USER CODE
 	}

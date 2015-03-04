@@ -64,16 +64,6 @@ public class Error
 	}
 
 	/**
-	 * @deprecated Use 'new Error(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.Error create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.Error");
-		return new system.proxies.Error(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'Error.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

@@ -29,7 +29,10 @@ public class SoapFault extends system.proxies.Error
 		Reason("Reason"),
 		Node("Node"),
 		Role("Role"),
-		Detail("Detail");
+		Detail("Detail"),
+		ErrorType("ErrorType"),
+		Message("Message"),
+		Stacktrace("Stacktrace");
 
 		private String metaName;
 
@@ -55,16 +58,6 @@ public class SoapFault extends system.proxies.Error
 		super(context, soapFaultMendixObject);
 		if (!Core.isSubClassOf("System.SoapFault", soapFaultMendixObject.getType()))
 			throw new IllegalArgumentException("The given object is not a System.SoapFault");
-	}
-
-	/**
-	 * @deprecated Use 'new SoapFault(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.SoapFault create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.SoapFault");
-		return new system.proxies.SoapFault(context, mendixObject);
 	}
 
 	/**

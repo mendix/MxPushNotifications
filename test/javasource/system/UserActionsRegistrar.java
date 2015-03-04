@@ -41,6 +41,17 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(appcloudservices.actions.GenerateRandomPassword.class);
 			component.actionRegistry().registerUserAction(appcloudservices.actions.LogOutUser.class);
 			component.actionRegistry().registerUserAction(appcloudservices.actions.StartSignOnServlet.class);
+			component.actionRegistry().registerUserAction(encryption.actions.DecryptString.class);
+			component.actionRegistry().registerUserAction(encryption.actions.EncryptString.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.PollFeedbackService.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.RestartGCM.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendAppleMessages.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendGoogleMessages.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessagesInBackground.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendWindowMessage.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.StartAPN.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.StartGCM.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.StopAPN.class);
 			component.actionRegistry().registerUserAction(system.actions.VerifyPassword.class);
 		}
 	}

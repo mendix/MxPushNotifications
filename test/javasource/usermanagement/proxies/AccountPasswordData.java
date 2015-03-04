@@ -65,16 +65,6 @@ public class AccountPasswordData
 	}
 
 	/**
-	 * @deprecated Use 'new AccountPasswordData(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static usermanagement.proxies.AccountPasswordData create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "UserManagement.AccountPasswordData");
-		return new usermanagement.proxies.AccountPasswordData(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'AccountPasswordData.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

@@ -64,16 +64,6 @@ public class PasswordData
 	}
 
 	/**
-	 * @deprecated Use 'new PasswordData(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static encryption.proxies.PasswordData create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "Encryption.PasswordData");
-		return new encryption.proxies.PasswordData(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'PasswordData.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

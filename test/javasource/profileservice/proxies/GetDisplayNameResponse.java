@@ -2,7 +2,7 @@
 //
 // WARNING: Code you write here will be lost the next time you deploy the project.
 
-package permissionsapi.proxies;
+package profileservice.proxies;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
@@ -13,24 +13,23 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * 
  */
-public class AppRole
+public class GetDisplayNameResponse
 {
-	private final IMendixObject appRoleMendixObject;
+	private final IMendixObject getDisplayNameResponseMendixObject;
 
 	private final IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PermissionsAPI.AppRole";
+	public static final String entityName = "ProfileService.GetDisplayNameResponse";
 
 	/**
 	 * Enum describing members of this entity
 	 */
 	public enum MemberNames
 	{
-		UUID("UUID"),
-		DisplayName("DisplayName");
+		Result("Result");
 
 		private String metaName;
 
@@ -46,44 +45,44 @@ public class AppRole
 		}
 	}
 
-	public AppRole(IContext context)
+	public GetDisplayNameResponse(IContext context)
 	{
-		this(context, Core.instantiate(context, "PermissionsAPI.AppRole"));
+		this(context, Core.instantiate(context, "ProfileService.GetDisplayNameResponse"));
 	}
 
-	protected AppRole(IContext context, IMendixObject appRoleMendixObject)
+	protected GetDisplayNameResponse(IContext context, IMendixObject getDisplayNameResponseMendixObject)
 	{
-		if (appRoleMendixObject == null)
+		if (getDisplayNameResponseMendixObject == null)
 			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PermissionsAPI.AppRole", appRoleMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PermissionsAPI.AppRole");
+		if (!Core.isSubClassOf("ProfileService.GetDisplayNameResponse", getDisplayNameResponseMendixObject.getType()))
+			throw new IllegalArgumentException("The given object is not a ProfileService.GetDisplayNameResponse");
 
-		this.appRoleMendixObject = appRoleMendixObject;
+		this.getDisplayNameResponseMendixObject = getDisplayNameResponseMendixObject;
 		this.context = context;
 	}
 
 	/**
-	 * @deprecated Use 'AppRole.load(IContext, IMendixIdentifier)' instead.
+	 * @deprecated Use 'GetDisplayNameResponse.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static permissionsapi.proxies.AppRole initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static profileservice.proxies.GetDisplayNameResponse initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
-		return permissionsapi.proxies.AppRole.load(context, mendixIdentifier);
+		return profileservice.proxies.GetDisplayNameResponse.load(context, mendixIdentifier);
 	}
 
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static permissionsapi.proxies.AppRole initialize(IContext context, IMendixObject mendixObject)
+	public static profileservice.proxies.GetDisplayNameResponse initialize(IContext context, IMendixObject mendixObject)
 	{
-		return new permissionsapi.proxies.AppRole(context, mendixObject);
+		return new profileservice.proxies.GetDisplayNameResponse(context, mendixObject);
 	}
 
-	public static permissionsapi.proxies.AppRole load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static profileservice.proxies.GetDisplayNameResponse load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
 		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
-		return permissionsapi.proxies.AppRole.initialize(context, mendixObject);
+		return profileservice.proxies.GetDisplayNameResponse.initialize(context, mendixObject);
 	}
 
 	/**
@@ -118,75 +117,39 @@ public class AppRole
 		Core.delete(context, getMendixObject());
 	}
 	/**
-	 * @return value of UUID
+	 * @return value of Result
 	 */
-	public final String getUUID()
+	public final String getResult()
 	{
-		return getUUID(getContext());
+		return getResult(getContext());
 	}
 
 	/**
 	 * @param context
-	 * @return value of UUID
+	 * @return value of Result
 	 */
-	public final String getUUID(IContext context)
+	public final String getResult(IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.UUID.toString());
+		return (String) getMendixObject().getValue(context, MemberNames.Result.toString());
 	}
 
 	/**
-	 * Set value of UUID
-	 * @param uuid
+	 * Set value of Result
+	 * @param result
 	 */
-	public final void setUUID(String uuid)
+	public final void setResult(String result)
 	{
-		setUUID(getContext(), uuid);
+		setResult(getContext(), result);
 	}
 
 	/**
-	 * Set value of UUID
+	 * Set value of Result
 	 * @param context
-	 * @param uuid
+	 * @param result
 	 */
-	public final void setUUID(IContext context, String uuid)
+	public final void setResult(IContext context, String result)
 	{
-		getMendixObject().setValue(context, MemberNames.UUID.toString(), uuid);
-	}
-
-	/**
-	 * @return value of DisplayName
-	 */
-	public final String getDisplayName()
-	{
-		return getDisplayName(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of DisplayName
-	 */
-	public final String getDisplayName(IContext context)
-	{
-		return (String) getMendixObject().getValue(context, MemberNames.DisplayName.toString());
-	}
-
-	/**
-	 * Set value of DisplayName
-	 * @param displayname
-	 */
-	public final void setDisplayName(String displayname)
-	{
-		setDisplayName(getContext(), displayname);
-	}
-
-	/**
-	 * Set value of DisplayName
-	 * @param context
-	 * @param displayname
-	 */
-	public final void setDisplayName(IContext context, String displayname)
-	{
-		getMendixObject().setValue(context, MemberNames.DisplayName.toString(), displayname);
+		getMendixObject().setValue(context, MemberNames.Result.toString(), result);
 	}
 
 	/**
@@ -194,7 +157,7 @@ public class AppRole
 	 */
 	public final IMendixObject getMendixObject()
 	{
-		return appRoleMendixObject;
+		return getDisplayNameResponseMendixObject;
 	}
 
 	/**
@@ -213,7 +176,7 @@ public class AppRole
 
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
-			final permissionsapi.proxies.AppRole that = (permissionsapi.proxies.AppRole) obj;
+			final profileservice.proxies.GetDisplayNameResponse that = (profileservice.proxies.GetDisplayNameResponse) obj;
 			return getMendixObject().equals(that.getMendixObject());
 		}
 		return false;
@@ -230,7 +193,7 @@ public class AppRole
 	 */
 	public static String getType()
 	{
-		return "PermissionsAPI.AppRole";
+		return "ProfileService.GetDisplayNameResponse";
 	}
 
 	/**

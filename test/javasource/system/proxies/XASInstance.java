@@ -66,16 +66,6 @@ public class XASInstance
 	}
 
 	/**
-	 * @deprecated Use 'new XASInstance(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.XASInstance create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.XASInstance");
-		return new system.proxies.XASInstance(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'XASInstance.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

@@ -412,21 +412,7 @@ public final class Core
 	{
 		return component.core().instantiateAsync(context, objectType);
 	}
-	
-	/**
-	 * Creates a new IMendixObject with the given object type (synchronously). The object will be stored in the 
-	 * database immediately. The rollback method can be used to cancel this.
-	 * @param context the context.
-	 * @param objectType type of object to create (e.g. "System.User"). 
-	 * @return returns the newly created object.
-	 * @deprecated use Core.instantiate instead.
-	 */
-	@Deprecated
-	public static IMendixObject create(IContext context, String objectType) throws CoreException
-	{
-		return component.core().create(context, objectType);
-	}
-	
+		
 	/**
 	 * Creates a new IMendixObject with the given object type (synchronously). The object will NOT be stored in the 
 	 * database. This action is executed in a transaction.

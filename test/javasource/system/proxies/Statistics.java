@@ -66,16 +66,6 @@ public class Statistics
 	}
 
 	/**
-	 * @deprecated Use 'new Statistics(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.Statistics create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.Statistics");
-		return new system.proxies.Statistics(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'Statistics.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

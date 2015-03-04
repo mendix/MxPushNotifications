@@ -63,16 +63,6 @@ public class Language
 	}
 
 	/**
-	 * @deprecated Use 'new Language(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.Language create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.Language");
-		return new system.proxies.Language(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'Language.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

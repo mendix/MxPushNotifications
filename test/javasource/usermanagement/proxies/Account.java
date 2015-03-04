@@ -26,7 +26,19 @@ public class Account extends system.proxies.User
 	public enum MemberNames
 	{
 		FullName("FullName"),
-		IsLocalUser("IsLocalUser");
+		IsLocalUser("IsLocalUser"),
+		Name("Name"),
+		Password("Password"),
+		LastLogin("LastLogin"),
+		Blocked("Blocked"),
+		Active("Active"),
+		FailedLogins("FailedLogins"),
+		WebServiceUser("WebServiceUser"),
+		IsAnonymous("IsAnonymous"),
+		Device_Account("PushNotifications.Device_Account"),
+		UserRoles("System.UserRoles"),
+		User_Language("System.User_Language"),
+		User_TimeZone("System.User_TimeZone");
 
 		private String metaName;
 
@@ -52,16 +64,6 @@ public class Account extends system.proxies.User
 		super(context, accountMendixObject);
 		if (!Core.isSubClassOf("UserManagement.Account", accountMendixObject.getType()))
 			throw new IllegalArgumentException("The given object is not a UserManagement.Account");
-	}
-
-	/**
-	 * @deprecated Use 'new Account(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static usermanagement.proxies.Account create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "UserManagement.Account");
-		return new usermanagement.proxies.Account(context, mendixObject);
 	}
 
 	/**
@@ -166,6 +168,49 @@ public class Account extends system.proxies.User
 	public final void setIsLocalUser(IContext context, Boolean islocaluser)
 	{
 		getMendixObject().setValue(context, MemberNames.IsLocalUser.toString(), islocaluser);
+	}
+
+	/**
+	 * @return value of Device_Account
+	 */
+	public final pushnotifications.proxies.Device getDevice_Account() throws CoreException
+	{
+		return getDevice_Account(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Device_Account
+	 */
+	public final pushnotifications.proxies.Device getDevice_Account(IContext context) throws CoreException
+	{
+		pushnotifications.proxies.Device result = null;
+		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
+		if (identifier != null)
+			result = pushnotifications.proxies.Device.load(context, identifier);
+		return result;
+	}
+
+	/**
+	 * Set value of Device_Account
+	 * @param device_account
+	 */
+	public final void setDevice_Account(pushnotifications.proxies.Device device_account)
+	{
+		setDevice_Account(getContext(), device_account);
+	}
+
+	/**
+	 * Set value of Device_Account
+	 * @param context
+	 * @param device_account
+	 */
+	public final void setDevice_Account(IContext context, pushnotifications.proxies.Device device_account)
+	{
+		if (device_account == null)
+			getMendixObject().setValue(context, MemberNames.Device_Account.toString(), null);
+		else
+			getMendixObject().setValue(context, MemberNames.Device_Account.toString(), device_account.getMendixObject().getId());
 	}
 
 	@Override

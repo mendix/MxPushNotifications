@@ -66,16 +66,6 @@ public class ScheduledEventInformation
 	}
 
 	/**
-	 * @deprecated Use 'new ScheduledEventInformation(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.ScheduledEventInformation create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.ScheduledEventInformation");
-		return new system.proxies.ScheduledEventInformation(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'ScheduledEventInformation.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

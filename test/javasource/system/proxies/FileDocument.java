@@ -67,16 +67,6 @@ public class FileDocument
 	}
 
 	/**
-	 * @deprecated Use 'new FileDocument(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.FileDocument create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.FileDocument");
-		return new system.proxies.FileDocument(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'FileDocument.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
@@ -91,6 +81,9 @@ public class FileDocument
 	 */
 	public static system.proxies.FileDocument initialize(IContext context, IMendixObject mendixObject)
 	{
+		if (Core.isSubClassOf("PushNotifications.APNCertificate", mendixObject.getType()))
+			return pushnotifications.proxies.APNCertificate.initialize(context, mendixObject);
+
 		if (Core.isSubClassOf("System.Image", mendixObject.getType()))
 			return system.proxies.Image.initialize(context, mendixObject);
 

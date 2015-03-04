@@ -100,17 +100,21 @@ require({
         
     },
     _initGCMSettings: function(){
+        
         var xpathString = '//' + this.settingsEntity + this.settingsXpathConstraint;
         
         mx.data.get({
-                xpath    : xpathString,
-                callback : lang.hitch(this, this._registerDevice)
-            });
+                xpath : xpathString,
+                callback : this._registerDevice
+            }, this);
         
     },
         
+        
     _registerDevice: function(settings) {
+       
         if(settings.length===1){
+            
             this._gcmSettings = settings[0];
             this._gcmSenderID = this._gcmSettings.getAttribute(this.senderId);
             window.mxPush = this;
@@ -245,41 +249,53 @@ require({
         },
 
         // Android
-        _androidCallBack : function (event){
+        _androidCallBack : function (e){
+            
+            switch( e.event ){
+                case 'registered':
+                    if(e.regid.length > 0){
+                        console.log("Regid " + e.regid);
+                        window.mObject.set('RegistrationID', e.regid);
+                        mx.data.commit({
+                                mxobj    : window.mObject,
+                                callback : function() {
+                                console.log('[PUSHNOTIFY] Object committed');
+                        },
+                            error : function(e) {
+                                console.log('[PUSHNOTIFY] Error occurred attempting to commit: ' + e);
+                            }
+                        });
+                    }
+                break;
 
-        if( event.message){
-            $('.notification p').text(event.message);
-            $('.notification').fadeIn();
-        }
-        if ( event.alert ){
-            $('.notification p').text(event.message);
-            $('.notification').fadeIn();
-            navigator.notification.alert(event.alert);
-        }
+                case 'message':
+                // this is the actual push notification. its format depends on the data model from the push server
+                     if ( e.foreground ){
+                            // on Android soundname is outside the payload.
+                            // On Amazon FireOS all custom attributes are contained within payload
+                        var soundfile = e.soundname || e.payload.sound;
+                        // if the notification contains a soundname, play it.
+                        var my_media = new Media("/android_asset/www/"+ soundfile);
+                        my_media.play();
+                    }
+                   
+                    $('.notification p').text(e.payload.message);
+                    $('.notification').fadeIn();
+                    break;
 
-        if ( event.sound ){
-            var snd = new Media(event.sound);
-            snd.play();
-        }
+                case 'alert':          
+                    $('.notification p').text(e.alert);
+                    $('.notification').fadeIn();
+                    break;
 
-        if ( event.badge ){
-            window.plugins.pushNotification.setApplicationIconBadgeNumber(this.androidSuccessHandler, this.androidErrorHandler, event.badge);
-        }
+                default:
+                    console.log('An unknown GCM event has occurred');
+                    break;
+            }   
+            
     },
 
     _androidSuccessHandler : function (result){
-            if ( result.regid){
-                window.mObject.set('RegistrationID', result.regid);
-                mx.data.commit({
-                    mxobj    : window.mObject,
-                    callback : function() {
-                    console.log('[PUSHNOTIFY] Object committed');
-                },
-                error : function(e) {
-                    console.log('[PUSHNOTIFY] Error occurred attempting to commit: ' + result);
-                }
-            });
-        }
         console.log('[PUSHNOTIFY] - Android - Result - ');
         console.log(result);
     },

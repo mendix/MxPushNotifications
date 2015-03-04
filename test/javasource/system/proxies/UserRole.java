@@ -65,16 +65,6 @@ public class UserRole
 	}
 
 	/**
-	 * @deprecated Use 'new UserRole(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.UserRole create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.UserRole");
-		return new system.proxies.UserRole(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'UserRole.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

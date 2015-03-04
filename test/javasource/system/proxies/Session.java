@@ -64,16 +64,6 @@ public class Session
 	}
 
 	/**
-	 * @deprecated Use 'new Session(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.Session create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.Session");
-		return new system.proxies.Session(context, mendixObject);
-	}
-
-	/**
 	 * @deprecated Use 'Session.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated

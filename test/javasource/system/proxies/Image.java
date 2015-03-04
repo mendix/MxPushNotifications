@@ -25,7 +25,12 @@ public class Image extends system.proxies.FileDocument
 	 */
 	public enum MemberNames
 	{
-		PublicThumbnailPath("PublicThumbnailPath");
+		PublicThumbnailPath("PublicThumbnailPath"),
+		FileID("FileID"),
+		Name("Name"),
+		DeleteAfterDownload("DeleteAfterDownload"),
+		Contents("Contents"),
+		HasContents("HasContents");
 
 		private String metaName;
 
@@ -51,16 +56,6 @@ public class Image extends system.proxies.FileDocument
 		super(context, imageMendixObject);
 		if (!Core.isSubClassOf("System.Image", imageMendixObject.getType()))
 			throw new IllegalArgumentException("The given object is not a System.Image");
-	}
-
-	/**
-	 * @deprecated Use 'new Image(Context)' instead. Note that the constructor will not insert the new object in the database.
-	 */
-	@Deprecated
-	public static system.proxies.Image create(IContext context) throws CoreException
-	{
-		IMendixObject mendixObject = Core.create(context, "System.Image");
-		return new system.proxies.Image(context, mendixObject);
 	}
 
 	/**
