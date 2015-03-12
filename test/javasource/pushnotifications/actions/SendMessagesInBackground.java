@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import pushnotifications.proxies.AppleMessage;
 import pushnotifications.proxies.GoogleMessage;
-import pushnotifications.proxies.WindowsMessage;
 import pushnotifications.proxies.Message;
 import pushnotifications.proxies.constants.Constants;
 import com.mendix.core.Core;
@@ -56,8 +55,6 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 				appleMessages.add(message.getMendixObject());
 			} else if (message instanceof GoogleMessage) {
 				googleMessages.add(message.getMendixObject());
-			} else if (message instanceof WindowsMessage) {
-				windowsMessages.add(message.getMendixObject());
 			}
 		}
 		

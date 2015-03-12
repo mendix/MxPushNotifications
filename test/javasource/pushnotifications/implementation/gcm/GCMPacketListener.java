@@ -30,11 +30,12 @@ public class GCMPacketListener implements PacketListener {
 		String json = gcmPacket.getJson();
 		try {
 			@SuppressWarnings("unchecked")
-			Map<String, Object> jsonObject = (Map<String, Object>) JSONValue
-					.parseWithException(json);
+            Map<String, Object> jsonObject =
+                    (Map<String, Object>) JSONValue.
+                    parseWithException(json);
 
-			// present for "ack"/"nack", null otherwise
-			Object messageType = jsonObject.get("message_type");
+            // present for "ack"/"nack", null otherwise
+            Object messageType = jsonObject.get("message_type");
 
 			if (messageType == null) {
 				// Normal upstream data message

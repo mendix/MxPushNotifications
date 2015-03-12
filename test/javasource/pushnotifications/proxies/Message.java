@@ -90,9 +90,6 @@ public class Message
 		if (Core.isSubClassOf("PushNotifications.GoogleMessage", mendixObject.getType()))
 			return pushnotifications.proxies.GoogleMessage.initialize(context, mendixObject);
 
-		if (Core.isSubClassOf("PushNotifications.WindowsMessage", mendixObject.getType()))
-			return pushnotifications.proxies.WindowsMessage.initialize(context, mendixObject);
-
 		return new pushnotifications.proxies.Message(context, mendixObject);
 	}
 

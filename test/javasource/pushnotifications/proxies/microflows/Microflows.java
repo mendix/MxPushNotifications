@@ -99,27 +99,6 @@ public class Microflows
 		}
 	}
 
-	public static void background_SendWindowsMessages(IContext context, java.util.List<pushnotifications.proxies.WindowsMessage> _windowsMessageList)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			java.util.ArrayList<IMendixObject> listparam_windowsMessageList = null;
-			if (_windowsMessageList != null)
-			{
-				listparam_windowsMessageList = new java.util.ArrayList<IMendixObject>();
-				for (pushnotifications.proxies.WindowsMessage obj : _windowsMessageList)
-					listparam_windowsMessageList.add(obj.getMendixObject());
-			}
-			params.put("WindowsMessageList", listparam_windowsMessageList);
-			Core.execute(context, "PushNotifications.Background_SendWindowsMessages", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
 	public static pushnotifications.proxies.AppleMessage dS_CreateAppleMessage(IContext context)
 	{
 		try

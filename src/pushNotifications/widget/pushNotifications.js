@@ -22,13 +22,14 @@ require({
     packages: []
 }, [
     'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text'
-], function (declare, _WidgetBase, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text) {
+    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text','dojo/text!pushNotifications/widget/template/pushNotifications.html' 
+], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, widgetTemplate) {
     'use strict';
     
     // Declare widget's prototype.
-    return declare('pushNotifications.widget.pushNotifications', [_WidgetBase], {
+    return declare('pushNotifications.widget.pushNotifications', [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
+        templateString: widgetTemplate,
         // Parameters configured in the Modeler.
         androidId: "",
         settingsEntity: "",
@@ -50,6 +51,8 @@ require({
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
+            this.domNode.appendChild(this.templateString);
+            
         },
         alertDismissed : function(){
         },
@@ -250,48 +253,53 @@ require({
 
         // Android
         _androidCallBack : function (e){
-            
-            switch( e.event ){
+            switch( e.event )
+            {
                 case 'registered':
-                    if(e.regid.length > 0){
-                        console.log("Regid " + e.regid);
-                        window.mObject.set('RegistrationID', e.regid);
-                        mx.data.commit({
-                                mxobj    : window.mObject,
-                                callback : function() {
-                                console.log('[PUSHNOTIFY] Object committed');
-                        },
-                            error : function(e) {
-                                console.log('[PUSHNOTIFY] Error occurred attempting to commit: ' + e);
-                            }
-                        });
+                    if ( e.regid.length > 0 )
+                    {
+                                    console.log("Regid " + e.regid);
+                                    window.mObject.set('RegistrationID', e.regid);
+                                    mx.data.commit({
+                                            mxobj    : window.mObject,
+                                            callback : function() {
+                                            console.log('[PUSHNOTIFY] Object committed');
+                                    },
+                                        error : function(e) {
+                                            console.log('[PUSHNOTIFY] Error occurred attempting to commit: ' + e);
+                                        }
+                                    });
                     }
                 break;
 
                 case 'message':
-                // this is the actual push notification. its format depends on the data model from the push server
-                     if ( e.foreground ){
-                            // on Android soundname is outside the payload.
-                            // On Amazon FireOS all custom attributes are contained within payload
+                    // if this flag is set, this notification happened while we were in the foreground.
+                    // you might want to play a sound to get the user's attention, throw up a dialog, etc.
+                    if ( e.foreground )
+                    {
+                       
+
+                        // on Android soundname is outside the payload.
+                        // On Amazon FireOS all custom attributes are contained within payload
                         var soundfile = e.soundname || e.payload.sound;
                         // if the notification contains a soundname, play it.
                         var my_media = new Media("/android_asset/www/"+ soundfile);
                         my_media.play();
                     }
-                   
                     $('.notification p').text(e.payload.message);
                     $('.notification').fadeIn();
-                    break;
+                break;
 
-                case 'alert':          
-                    $('.notification p').text(e.alert);
+                case 'error':
+                    $('.notification p').text(e.msg);
                     $('.notification').fadeIn();
-                    break;
+                break;
 
                 default:
                     console.log('An unknown GCM event has occurred');
-                    break;
-            }   
+                break;
+              }
+   
             
     },
 
