@@ -37,8 +37,36 @@ The javascript inside the widget has examples of:
 ## Creating PhoneGap app
 In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
 
-Step 1
+### Step 1
 Open up home.mendix.com and navigate to the project that you wish to build the app for. Once on the project wall for your application click on the publish section.
+
+<img src="assets/images/step1.png"/>
+
+Once in the publish section you must enter an app identifier for your application. This is important when setting up an IOS app. Refer to the section about creating an app identifier to find out more information about creating an app identifier and IOS certificate.
+
+<img src="assets/images/step2.png"/>
+
+Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected. 
+
+Press the button publish to appstore and you will be asked whether you want to build in the cloud or do it yourself. Choose do it yourself and press the Download Phonegap Build Package.
+
+<img src="assets/images/step3.png"/>
+
+
+One the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
+
+The code you will need to include is:
+`<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />`
+
+<img src="assets/images/step4.png"/>
+
+Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
+
+<img src="assets/images/step5.png"/>
+
+
+
+
 
 
 
