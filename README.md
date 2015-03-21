@@ -1,6 +1,6 @@
 # Mendix Push notifications
 
-This module and widget should be used to implement push notifications for android and ios tablets/mobiles. This module/widget has been tested to work on 5.13.1 and up. 
+This module and widget should be used to implement push notifications for android and ios tablets/mobiles. This module/widget has been tested to work on Mendix 5.13.1 and up. 
 
 The project contains:
 
@@ -30,21 +30,24 @@ In order for the push notifications to work in Mendix you must have a few things
 4. The push notification snippet must be included on all layouts for mobile and tablet.
 5. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
 6. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
-7. The phonegap push plugin must be included in the config.xml more information [here](#creating-phonegap-app)
+7. The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
+8. The widget is connected up to the google settings object. 
+
+The application included in the test project can be used as reference.
 
 ## Sending push notifications
 
-In the module there are two operations to send messaged send via queued or send immediately. If you are planning to send several push notifications then I would suggest using the queued method. If you simply want to test the sending of messages then just use the send immediate option.
+In the module there are two operations to send messages. One which will queue the messages and the other to send immediately. If you are planning to send several push notifications to different devices at once, then I would suggest using the queued method. If however you simply want to test the sending of messages then just use the send immediate microflow.
 
 In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
 
-If you want to send a message via a different microflow then use the microflows provided in the _USE ME folder. 
+To send a message without using the devices page, simply create a microflow that retrieves the device from a user account and create a message object with the attributes filled. Then simply pass this message to one of the microflows in the use me folder that sends either a message or a list of messages.  
 
 ## Setting up Apple Push Notification Server
-In order to send push notifications for apple devices from this module you need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
+In order to send push notifications for apple devices from this module you will need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
 
 ### Step 1 - Login to members center
-Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an apple developers license you will need to purchase this from apple. Once logged in click on "Certificates, Identifiers & Profiles". In order to create a certificate for sending push notifications you must already have a signed apple certificate. See the Mendix documentation on how to do this: [Managing App Signing Keys](https://world.mendix.com/display/refguide5/Managing+App+Signing+Keys)
+Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an apple developers license you will need to purchase this from apple. When logged in to members center click on "Certificates, Identifiers & Profiles". 
 
 This will take you to a screen like this:
 <img src="assets/images/apn-step1.PNG"/>
@@ -91,14 +94,13 @@ This documentation should be helpful for getting your certificate converted:
 ### Step 7 - Setting up Mendix APNS
 Once you have the p12 certificate you can set up the apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
 
-Click on the enabled checkbox and then click Save. Once saved click restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
+Click on the enabled checkbox and then click Save. Once saved click the restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
 
 <img src="assets/images/apn-step7.PNG"/>
 
 
-
 ## Setting up Google Cloud Messaging Server
-In order to send push notifications from this module you need to have set up a google account with google cloud messaging enabled.
+In order to send google push notifications from this module you need to have set up a google account with google cloud messaging enabled.
 To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
 
 ### Step 1 - Login to developers console
@@ -118,11 +120,11 @@ Locate the Google Cloud Messaging for Android and click the off button to turn o
 <img src="assets/images/gcm-step4.PNG"/>
 
 ### Step 5 - Create server keys
-Click on the menu option credentials located on the left hand side under the APIs & Auth section. Then click on the button under the public API Access that says create new key. When the popup appears press the Server key button and then press create on the next screen. Take note of the API Key because you will need this when we set up the push notifcation in Mendix.
+Click on the menu option credentials, located on the left hand side under the APIs & Auth section. Then click on the button under the public API Access that says create new key. When the popup appears press the Server key button and then press create on the next screen. Take note of the API Key because you will need this when we set up the push notifcation in Mendix.
 <img src="assets/images/gcm-step5.PNG"/>
 
 ### Step 6 - Setup Mendix app
-Open up your application in Mendix and login as an Admin so that you can see the menu option google admin.
+Open up your application in Mendix and login as an Admin, so that you can see the menu option google admin.
 Enter the project ID into the sender ID field and the API key into the API field. 
 <img src="assets/images/gcm-step6.PNG"/>
 
@@ -154,7 +156,7 @@ Press the button publish to appstore and you will be asked whether you want to b
 
 ### Step 4 - Download phonegap.zip
 
-One the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
+Once the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
 
 The code you will need to include is:
 `<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />`
