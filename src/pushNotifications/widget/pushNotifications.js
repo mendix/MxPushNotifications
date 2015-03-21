@@ -194,7 +194,6 @@ require({
         _iosTokenHandler : function (result) {
             // Your iOS push server needs to know the token before it can push to this device
             // here is where you might want to send it the token for later use.
-            console.log('device token = ' + result);
             window.mObject.set('RegistrationID', result);
             mx.data.commit({
                 mxobj    : window.mObject,
@@ -258,7 +257,7 @@ require({
                 case 'registered':
                     if ( e.regid.length > 0 )
                     {
-                                    console.log("Regid " + e.regid);
+                                    
                                     window.mObject.set('RegistrationID', e.regid);
                                     mx.data.commit({
                                             mxobj    : window.mObject,
