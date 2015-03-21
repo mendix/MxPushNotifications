@@ -123,21 +123,25 @@ For more information on setting up your google API then please refer to this art
 ## Creating PhoneGap app
 In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
 
-### Step 1
+### Step 1 - Login to Mendix home
 Open up home.mendix.com and navigate to the project that you wish to build the app for. Once on the project wall for your application click on the publish section.
 
 <img src="assets/images/step1.png"/>
 
+### Step 2 - App Identifier
 Once in the publish section you must enter an app identifier for your application. This is important when setting up an IOS app. Refer to the section about creating an app identifier to find out more information about creating an app identifier and IOS certificate.
 
 <img src="assets/images/step2.png"/>
 
+### Step 3 - Select Devices
 Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected. 
 
 Press the button publish to appstore and you will be asked whether you want to build in the cloud or do it yourself. Choose do it yourself and press the Download Phonegap Build Package.
 
+
 <img src="assets/images/step3.png"/>
 
+### Step 4 - Download phonegap.zip
 
 One the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
 
@@ -146,9 +150,27 @@ The code you will need to include is:
 
 <img src="assets/images/step4.png"/>
 
+### Step 5 - Configure xml
 Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
 
 <img src="assets/images/step5.png"/>
 
 
-## Testing push notifications
+## Mendix setup
+In order for the push notifications to work in Mendix you must have a few things set up.
+
+1) The microflow AfterStartup_PushNotifications must be included in your after startup flow
+2) The index.html and components.json must include a reference to a jquery library.
+`<script type="text/javascript" src="js/jquerymin.js"></script>`
+3) The index.html and the components.json file must include the following reference to this javascript library
+`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
+4) The push notification snippet must be included on all layouts for mobile and tablet.
+5) The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
+
+## Sending push notifications
+
+In the module there are two operations to send messaged send via queued or send immediately. If you are planning to send several push notifications then I would suggest using the queued method. If you simply want to test the sending of messages then just use the send immediate option.
+
+In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
+
+If you want to send a message via a different microflow then use the microflows provided in the _USE ME folder. 
