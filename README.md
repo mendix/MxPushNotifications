@@ -6,7 +6,6 @@ The project contains:
 
 - Directory structure.
 - Readme.md file.
-- License.
 - Javascript source.
 - XSD for package.xml, to configure properties of the widget, visible inside the Mendix business modeler.
 - Example project
@@ -18,16 +17,9 @@ For more information on contributing to this repository visit [Contributing to a
  
 ## Description
 
-The javascript inside the widget has examples of:
+This project gives you all the necessary widgets, javascript, java and modules necessary for you to both send and receive push notifications. In order to find information on how to build your Mendix apps into phonegap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
 
-- Using CSS within a Widget.
-- Using templating.
-- Loading external library's.
-- DOM manipulation.
-- Event attaching.
-- Loading data.
-- Executing microflow and sending data.
-- Working with the context object (The object that is send by a contextview , for instance a dataview).
+
 
 ## Setting up Apple Push Notification Server
 In order to send push notifications for apple devices from this module you need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
@@ -159,13 +151,13 @@ Once you have edited the config.xml you should have everything necessary for you
 ## Mendix setup
 In order for the push notifications to work in Mendix you must have a few things set up.
 
-1) The microflow AfterStartup_PushNotifications must be included in your after startup flow
-2) The index.html and components.json must include a reference to a jquery library.
+1. The microflow AfterStartup_PushNotifications must be included in your after startup flow
+2. The index.html and components.json must include a reference to a jquery library.
 `<script type="text/javascript" src="js/jquerymin.js"></script>`
-3) The index.html and the components.json file must include the following reference to this javascript library
+3. The index.html and the components.json file must include the following reference to this javascript library
 `<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-4) The push notification snippet must be included on all layouts for mobile and tablet.
-5) The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
+4. The push notification snippet must be included on all layouts for mobile and tablet.
+5. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
 
 ## Sending push notifications
 
