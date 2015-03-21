@@ -19,7 +19,26 @@ For more information on contributing to this repository visit [Contributing to a
 
 This project gives you all the necessary widgets, javascript, java and modules necessary for you to both send and receive push notifications. In order to find information on how to build your Mendix apps into phonegap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
 
+## Mendix setup
+In order for the push notifications to work in Mendix you must have a few things set up.
 
+1. The microflow AfterStartup_PushNotifications must be included in your after startup flow
+2. The index.html and components.json must include a reference to a jquery library.
+`<script type="text/javascript" src="js/jquerymin.js"></script>`
+3. The index.html and the components.json file must include the following reference to this javascript library
+`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
+4. The push notification snippet must be included on all layouts for mobile and tablet.
+5. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
+6. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
+7. The phonegap push plugin must be included in the config.xml more information [here](#creating-phonegap-app)
+
+## Sending push notifications
+
+In the module there are two operations to send messaged send via queued or send immediately. If you are planning to send several push notifications then I would suggest using the queued method. If you simply want to test the sending of messages then just use the send immediate option.
+
+In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
+
+If you want to send a message via a different microflow then use the microflows provided in the _USE ME folder. 
 
 ## Setting up Apple Push Notification Server
 In order to send push notifications for apple devices from this module you need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
@@ -148,21 +167,3 @@ Once you have edited the config.xml you should have everything necessary for you
 <img src="assets/images/step5.png"/>
 
 
-## Mendix setup
-In order for the push notifications to work in Mendix you must have a few things set up.
-
-1. The microflow AfterStartup_PushNotifications must be included in your after startup flow
-2. The index.html and components.json must include a reference to a jquery library.
-`<script type="text/javascript" src="js/jquerymin.js"></script>`
-3. The index.html and the components.json file must include the following reference to this javascript library
-`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-4. The push notification snippet must be included on all layouts for mobile and tablet.
-5. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
-
-## Sending push notifications
-
-In the module there are two operations to send messaged send via queued or send immediately. If you are planning to send several push notifications then I would suggest using the queued method. If you simply want to test the sending of messages then just use the send immediate option.
-
-In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
-
-If you want to send a message via a different microflow then use the microflows provided in the _USE ME folder. 
