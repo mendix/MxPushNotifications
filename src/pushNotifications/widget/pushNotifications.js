@@ -31,7 +31,6 @@ require({
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
         // Parameters configured in the Modeler.
-        androidId: "",
         settingsEntity: "",
         settingsXpathConstraint: "",
         senderId : "",
