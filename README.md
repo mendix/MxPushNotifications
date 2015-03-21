@@ -10,6 +10,7 @@ The project contains:
 - XSD for package.xml, to configure properties of the widget, visible inside the Mendix business modeler.
 - Example project
 - Module for sending push notifications
+- Custom css file to style the push notification html
 
 ## Contributing
 
