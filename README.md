@@ -30,6 +30,60 @@ The javascript inside the widget has examples of:
 - Working with the context object (The object that is send by a contextview , for instance a dataview).
 
 ## Setting up Apple Push Notification Server
+In order to send push notifications for apple devices from this module you need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
+
+### Step 1 - Login to members center
+Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an apple developers license you will need to purchase this from apple. Once logged in click on "Certificates, Identifiers & Profiles". In order to create a certificate for sending push notifications you must already have a signed apple certificate. See the Mendix documentation on how to do this: [Managing App Signing Keys](https://world.mendix.com/display/refguide5/Managing+App+Signing+Keys)
+
+This will take you to a screen like this:
+<img src="assets/images/apn-step1.PNG"/>
+
+### Step 2 - Create APP ID
+
+Click on Identifiers and then click on App IDs.
+On the top right there will be a plus button, press this and a dialog like this should appear:
+<img src="assets/images/apn-step2.PNG"/>
+
+Enter your app ID name and select Explicit App ID. You must select Explicit App ID inorder to be able to perform push notifications.
+Enter a Bundle ID, this bundle ID must match the bundle ID that you entered during the phonegap build phase.
+<img src="assets/images/apn-step2-1.PNG"/>
+Tick the options push notifications and then click continue.
+
+### Step 3 - Confirm
+Click submit
+<img src="assets/images/apn-step3.PNG"/>
+
+### Step 4 - Creating APS Certificate
+Locate your created App ID and click on it. This will expand it out.
+<img src="assets/images/apn-step4.PNG"/>
+
+Click on Edit and scroll down to the push notifications section. You will see that there are two options one to generate a certificate for development purposes and one for production. For the purpose of this documentation we will generate a development certificate, so we will click on the development create certificate button.
+<img src="assets/images/apn-step4-1.PNG"/>
+
+### Step 5 - Generating Certificate 
+Click continue
+<img src="assets/images/apn-step5.PNG"/>
+
+You will then be asked to upload a certificate signing request file. In order to create this file please read the following documentation:
+
+[Creating CSR](https://world.mendix.com/display/refguide5/Managing+App+Signing+Keys)
+
+Upload the CSR and then click generate. You will be presented by a screen saying your certificate is ready.
+Click done and then click on your certificate from the list and click Download.
+
+### Step 6 - Converting Certificate
+Now that we have the certificate from apple we now need to convert this into p12 format so that we can get it to work with our Mendix application.
+This documentation should be helpful for getting your certificate converted:
+
+[Converting Cer to p12](http://docs.build.phonegap.com/en_US/signing_signing-ios.md.html)
+
+### Step 7 - Setting up Mendix APNS
+Once you have the p12 certificate you can set up the apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
+
+Click on the enabled checkbox and then click Save. Once saved click restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
+
+<img src="assets/images/apn-step7.PNG"/>
+
 
 
 ## Setting up Google Cloud Messaging Server
@@ -95,11 +149,6 @@ The code you will need to include is:
 Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
 
 <img src="assets/images/step5.png"/>
-
-
-
-
-
 
 
 ## Testing push notifications
