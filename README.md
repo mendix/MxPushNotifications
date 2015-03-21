@@ -59,7 +59,7 @@ Click on the menu option credentials located on the left hand side under the API
 ### Step 6
 Open up your application in Mendix and login as an Admin so that you can see the menu option google admin.
 Enter the project ID into the sender ID field and the API key into the API field. 
-<img src="assets/images/gcm-step5.PNG"/>
+<img src="assets/images/gcm-step6.PNG"/>
 
 Once entered tick the checkbox enabled and press restart. From now on your application will always start the gcm push notification system for you.
 
