@@ -38,6 +38,7 @@ public class APNConnection {
 	}
 	
 	public void stop() {
+		
 		try {
 			service.stop();
 		} catch (Exception e) {

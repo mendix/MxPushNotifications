@@ -31,7 +31,6 @@ public class Device
 	{
 		RegistrationID("RegistrationID"),
 		DeviceType("DeviceType"),
-		WindowsUUID("WindowsUUID"),
 		Device_Account("PushNotifications.Device_Account");
 
 		private String metaName;
@@ -205,42 +204,6 @@ public class Device
 			getMendixObject().setValue(context, MemberNames.DeviceType.toString(), devicetype.toString());
 		else
 			getMendixObject().setValue(context, MemberNames.DeviceType.toString(), null);
-	}
-
-	/**
-	 * @return value of WindowsUUID
-	 */
-	public final String getWindowsUUID()
-	{
-		return getWindowsUUID(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of WindowsUUID
-	 */
-	public final String getWindowsUUID(IContext context)
-	{
-		return (String) getMendixObject().getValue(context, MemberNames.WindowsUUID.toString());
-	}
-
-	/**
-	 * Set value of WindowsUUID
-	 * @param windowsuuid
-	 */
-	public final void setWindowsUUID(String windowsuuid)
-	{
-		setWindowsUUID(getContext(), windowsuuid);
-	}
-
-	/**
-	 * Set value of WindowsUUID
-	 * @param context
-	 * @param windowsuuid
-	 */
-	public final void setWindowsUUID(IContext context, String windowsuuid)
-	{
-		getMendixObject().setValue(context, MemberNames.WindowsUUID.toString(), windowsuuid);
 	}
 
 	/**

@@ -34,6 +34,7 @@ public class APNSettings
 		Port("Port"),
 		FeedbackServer("FeedbackServer"),
 		FeedbackPort("FeedbackPort"),
+		Started("Started"),
 		APNSettings_APNCertificate("PushNotifications.APNSettings_APNCertificate");
 
 		private String metaName;
@@ -307,6 +308,42 @@ public class APNSettings
 	public final void setFeedbackPort(IContext context, Integer feedbackport)
 	{
 		getMendixObject().setValue(context, MemberNames.FeedbackPort.toString(), feedbackport);
+	}
+
+	/**
+	 * @return value of Started
+	 */
+	public final Boolean getStarted()
+	{
+		return getStarted(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Started
+	 */
+	public final Boolean getStarted(IContext context)
+	{
+		return (Boolean) getMendixObject().getValue(context, MemberNames.Started.toString());
+	}
+
+	/**
+	 * Set value of Started
+	 * @param started
+	 */
+	public final void setStarted(Boolean started)
+	{
+		setStarted(getContext(), started);
+	}
+
+	/**
+	 * Set value of Started
+	 * @param context
+	 * @param started
+	 */
+	public final void setStarted(IContext context, Boolean started)
+	{
+		getMendixObject().setValue(context, MemberNames.Started.toString(), started);
 	}
 
 	/**
