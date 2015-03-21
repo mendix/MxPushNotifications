@@ -63,7 +63,7 @@ Enter the project ID into the sender ID field and the API key into the API field
 
 Once entered tick the checkbox enabled and press restart. From now on your application will always start the gcm push notification system for you.
 
-For more information on setting up your google API then please refer to this article: (http://developer.android.com/google/gcm/gs.html)[http://developer.android.com/google/gcm/gs.html]
+For more information on setting up your google API then please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
 
 
 ## Creating PhoneGap app
