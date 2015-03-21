@@ -33,6 +33,38 @@ The javascript inside the widget has examples of:
 
 
 ## Setting up Google Cloud Messaging Server
+In order to send push notifications from this module you need to have set up a google account with google cloud messaging enabled.
+To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
+
+### Step 1
+Open up the google [developers console] (https://console.developers.google.com) and login with your google id.
+<img src="assets/images/gcm-step1.PNG"/>
+
+### Step 2
+Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID. 
+<img src="assets/images/gcm-step2.PNG"/>
+
+### Step 3
+Once created click on the button enable an API. 
+<img src="assets/images/gcm-step3.PNG"/>
+
+### Step 4
+Locate the Google Cloud Messaging for Android and click the off button to turn on the API.
+<img src="assets/images/gcm-step4.PNG"/>
+
+### Step 5
+Click on the menu option credentials located on the left hand side under the APIs & Auth section. Then click on the button under the public API Access that says create new key. When the popup appears press the Server key button and then press create on the next screen. Take note of the API Key because you will need this when we set up the push notifcation in Mendix.
+<img src="assets/images/gcm-step5.PNG"/>
+
+### Step 6
+Open up your application in Mendix and login as an Admin so that you can see the menu option google admin.
+Enter the project ID into the sender ID field and the API key into the API field. 
+<img src="assets/images/gcm-step5.PNG"/>
+
+Once entered tick the checkbox enabled and press restart. From now on your application will always start the gcm push notification system for you.
+
+For more information on setting up your google API then please refer to this article: (http://developer.android.com/google/gcm/gs.html)[http://developer.android.com/google/gcm/gs.html]
+
 
 ## Creating PhoneGap app
 In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
