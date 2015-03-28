@@ -2,7 +2,7 @@
 //
 // WARNING: Code you write here will be lost the next time you deploy the project.
 
-package usermanagement.proxies;
+package administration.proxies;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
@@ -18,7 +18,7 @@ public class Account extends system.proxies.User
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "UserManagement.Account";
+	public static final String entityName = "Administration.Account";
 
 	/**
 	 * Enum describing members of this entity
@@ -56,45 +56,45 @@ public class Account extends system.proxies.User
 
 	public Account(IContext context)
 	{
-		this(context, Core.instantiate(context, "UserManagement.Account"));
+		this(context, Core.instantiate(context, "Administration.Account"));
 	}
 
 	protected Account(IContext context, IMendixObject accountMendixObject)
 	{
 		super(context, accountMendixObject);
-		if (!Core.isSubClassOf("UserManagement.Account", accountMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a UserManagement.Account");
+		if (!Core.isSubClassOf("Administration.Account", accountMendixObject.getType()))
+			throw new IllegalArgumentException("The given object is not a Administration.Account");
 	}
 
 	/**
 	 * @deprecated Use 'Account.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static usermanagement.proxies.Account initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.Account initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
-		return usermanagement.proxies.Account.load(context, mendixIdentifier);
+		return administration.proxies.Account.load(context, mendixIdentifier);
 	}
 
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static usermanagement.proxies.Account initialize(IContext context, IMendixObject mendixObject)
+	public static administration.proxies.Account initialize(IContext context, IMendixObject mendixObject)
 	{
-		return new usermanagement.proxies.Account(context, mendixObject);
+		return new administration.proxies.Account(context, mendixObject);
 	}
 
-	public static usermanagement.proxies.Account load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.Account load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
 		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
-		return usermanagement.proxies.Account.initialize(context, mendixObject);
+		return administration.proxies.Account.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<usermanagement.proxies.Account> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<administration.proxies.Account> load(IContext context, String xpathConstraint) throws CoreException
 	{
-		java.util.List<usermanagement.proxies.Account> result = new java.util.ArrayList<usermanagement.proxies.Account>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//UserManagement.Account" + xpathConstraint))
-			result.add(usermanagement.proxies.Account.initialize(context, obj));
+		java.util.List<administration.proxies.Account> result = new java.util.ArrayList<administration.proxies.Account>();
+		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//Administration.Account" + xpathConstraint))
+			result.add(administration.proxies.Account.initialize(context, obj));
 		return result;
 	}
 
@@ -221,7 +221,7 @@ public class Account extends system.proxies.User
 
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
-			final usermanagement.proxies.Account that = (usermanagement.proxies.Account) obj;
+			final administration.proxies.Account that = (administration.proxies.Account) obj;
 			return getMendixObject().equals(that.getMendixObject());
 		}
 		return false;
@@ -238,7 +238,7 @@ public class Account extends system.proxies.User
 	 */
 	public static String getType()
 	{
-		return "UserManagement.Account";
+		return "Administration.Account";
 	}
 
 	/**

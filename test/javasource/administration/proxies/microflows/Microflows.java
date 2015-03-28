@@ -2,7 +2,7 @@
 //
 // WARNING: Code you write here will be lost the next time you deploy the project.
 
-package usermanagement.proxies.microflows;
+package administration.proxies.microflows;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +14,15 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
-	// These are the Microflows for the UserManagement module
+	// These are the microflows for the Administration module
 
-	public static void changeMyPassword(IContext context, usermanagement.proxies.AccountPasswordData _accountPasswordData)
+	public static void changeMyPassword(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("AccountPasswordData", _accountPasswordData == null ? null : _accountPasswordData.getMendixObject());
-			Core.execute(context, "UserManagement.ChangeMyPassword", params);
+			Core.execute(context, "Administration.ChangeMyPassword", params);
 		}
 		catch (CoreException e)
 		{
@@ -30,13 +30,13 @@ public class Microflows
 		}
 	}
 
-	public static void changePassword(IContext context, usermanagement.proxies.AccountPasswordData _accountPasswordData)
+	public static void changePassword(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("AccountPasswordData", _accountPasswordData == null ? null : _accountPasswordData.getMendixObject());
-			Core.execute(context, "UserManagement.ChangePassword", params);
+			Core.execute(context, "Administration.ChangePassword", params);
 		}
 		catch (CoreException e)
 		{
@@ -44,13 +44,13 @@ public class Microflows
 		}
 	}
 
-	public static void iVK_RetrieveAppCloudUserAccountData(IContext context, usermanagement.proxies.Account _account)
+	public static void iVK_RetrieveAppCloudUserAccountData(IContext context, administration.proxies.Account _account)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("Account", _account == null ? null : _account.getMendixObject());
-			Core.execute(context, "UserManagement.IVK_RetrieveAppCloudUserAccountData", params);
+			Core.execute(context, "Administration.IVK_RetrieveAppCloudUserAccountData", params);
 		}
 		catch (CoreException e)
 		{
@@ -63,7 +63,7 @@ public class Microflows
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			Core.execute(context, "UserManagement.ManageMyAccount", params);
+			Core.execute(context, "Administration.ManageMyAccount", params);
 		}
 		catch (CoreException e)
 		{
@@ -76,7 +76,7 @@ public class Microflows
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			Core.execute(context, "UserManagement.NewAccount", params);
+			Core.execute(context, "Administration.NewAccount", params);
 		}
 		catch (CoreException e)
 		{
@@ -89,7 +89,7 @@ public class Microflows
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			Core.execute(context, "UserManagement.NewWebServiceAccount", params);
+			Core.execute(context, "Administration.NewWebServiceAccount", params);
 		}
 		catch (CoreException e)
 		{
@@ -103,7 +103,7 @@ public class Microflows
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("UserIdentity", _userIdentity);
-			Core.execute(context, "UserManagement.OnFirstLoginAppCloudUser", params);
+			Core.execute(context, "Administration.OnFirstLoginAppCloudUser", params);
 		}
 		catch (CoreException e)
 		{
@@ -116,7 +116,7 @@ public class Microflows
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			java.util.List<IMendixObject> objs = Core.execute(context, "UserManagement.RetrieveTimeZones", params);
+			java.util.List<IMendixObject> objs = Core.execute(context, "Administration.RetrieveTimeZones", params);
 			java.util.List<system.proxies.TimeZone> result = null;
 			if (objs != null)
 			{
@@ -132,13 +132,13 @@ public class Microflows
 		}
 	}
 
-	public static void saveNewAccount(IContext context, usermanagement.proxies.AccountPasswordData _accountPasswordData)
+	public static void saveNewAccount(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("AccountPasswordData", _accountPasswordData == null ? null : _accountPasswordData.getMendixObject());
-			Core.execute(context, "UserManagement.SaveNewAccount", params);
+			Core.execute(context, "Administration.SaveNewAccount", params);
 		}
 		catch (CoreException e)
 		{
@@ -146,13 +146,13 @@ public class Microflows
 		}
 	}
 
-	public static void showMyPasswordForm(IContext context, usermanagement.proxies.Account _account)
+	public static void showMyPasswordForm(IContext context, administration.proxies.Account _account)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("Account", _account == null ? null : _account.getMendixObject());
-			Core.execute(context, "UserManagement.ShowMyPasswordForm", params);
+			Core.execute(context, "Administration.ShowMyPasswordForm", params);
 		}
 		catch (CoreException e)
 		{
@@ -160,13 +160,13 @@ public class Microflows
 		}
 	}
 
-	public static void showPasswordForm(IContext context, usermanagement.proxies.Account _account)
+	public static void showPasswordForm(IContext context, administration.proxies.Account _account)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("Account", _account == null ? null : _account.getMendixObject());
-			Core.execute(context, "UserManagement.ShowPasswordForm", params);
+			Core.execute(context, "Administration.ShowPasswordForm", params);
 		}
 		catch (CoreException e)
 		{

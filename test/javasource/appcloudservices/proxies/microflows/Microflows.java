@@ -13,7 +13,7 @@ import com.mendix.systemwideinterfaces.core.IContext;
 
 public class Microflows
 {
-	// These are the Microflows for the AppCloudServices module
+	// These are the microflows for the AppCloudServices module
 
 	public static boolean checkUserRolesRemoved(IContext context, system.proxies.User _user)
 	{

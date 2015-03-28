@@ -2,7 +2,7 @@
 //
 // WARNING: Code you write here will be lost the next time you deploy the project.
 
-package usermanagement.proxies;
+package administration.proxies;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
@@ -22,7 +22,7 @@ public class AccountPasswordData
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "UserManagement.AccountPasswordData";
+	public static final String entityName = "Administration.AccountPasswordData";
 
 	/**
 	 * Enum describing members of this entity
@@ -32,7 +32,7 @@ public class AccountPasswordData
 		OldPassword("OldPassword"),
 		NewPassword("NewPassword"),
 		ConfirmPassword("ConfirmPassword"),
-		AccountPasswordData_Account("UserManagement.AccountPasswordData_Account");
+		AccountPasswordData_Account("Administration.AccountPasswordData_Account");
 
 		private String metaName;
 
@@ -50,15 +50,15 @@ public class AccountPasswordData
 
 	public AccountPasswordData(IContext context)
 	{
-		this(context, Core.instantiate(context, "UserManagement.AccountPasswordData"));
+		this(context, Core.instantiate(context, "Administration.AccountPasswordData"));
 	}
 
 	protected AccountPasswordData(IContext context, IMendixObject accountPasswordDataMendixObject)
 	{
 		if (accountPasswordDataMendixObject == null)
 			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("UserManagement.AccountPasswordData", accountPasswordDataMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a UserManagement.AccountPasswordData");
+		if (!Core.isSubClassOf("Administration.AccountPasswordData", accountPasswordDataMendixObject.getType()))
+			throw new IllegalArgumentException("The given object is not a Administration.AccountPasswordData");
 
 		this.accountPasswordDataMendixObject = accountPasswordDataMendixObject;
 		this.context = context;
@@ -68,24 +68,24 @@ public class AccountPasswordData
 	 * @deprecated Use 'AccountPasswordData.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static usermanagement.proxies.AccountPasswordData initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.AccountPasswordData initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
-		return usermanagement.proxies.AccountPasswordData.load(context, mendixIdentifier);
+		return administration.proxies.AccountPasswordData.load(context, mendixIdentifier);
 	}
 
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static usermanagement.proxies.AccountPasswordData initialize(IContext context, IMendixObject mendixObject)
+	public static administration.proxies.AccountPasswordData initialize(IContext context, IMendixObject mendixObject)
 	{
-		return new usermanagement.proxies.AccountPasswordData(context, mendixObject);
+		return new administration.proxies.AccountPasswordData(context, mendixObject);
 	}
 
-	public static usermanagement.proxies.AccountPasswordData load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.AccountPasswordData load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
 	{
 		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
-		return usermanagement.proxies.AccountPasswordData.initialize(context, mendixObject);
+		return administration.proxies.AccountPasswordData.initialize(context, mendixObject);
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class AccountPasswordData
 	/**
 	 * @return value of AccountPasswordData_Account
 	 */
-	public final usermanagement.proxies.Account getAccountPasswordData_Account() throws CoreException
+	public final administration.proxies.Account getAccountPasswordData_Account() throws CoreException
 	{
 		return getAccountPasswordData_Account(getContext());
 	}
@@ -239,12 +239,12 @@ public class AccountPasswordData
 	 * @param context
 	 * @return value of AccountPasswordData_Account
 	 */
-	public final usermanagement.proxies.Account getAccountPasswordData_Account(IContext context) throws CoreException
+	public final administration.proxies.Account getAccountPasswordData_Account(IContext context) throws CoreException
 	{
-		usermanagement.proxies.Account result = null;
+		administration.proxies.Account result = null;
 		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.AccountPasswordData_Account.toString());
 		if (identifier != null)
-			result = usermanagement.proxies.Account.load(context, identifier);
+			result = administration.proxies.Account.load(context, identifier);
 		return result;
 	}
 
@@ -252,7 +252,7 @@ public class AccountPasswordData
 	 * Set value of AccountPasswordData_Account
 	 * @param accountpassworddata_account
 	 */
-	public final void setAccountPasswordData_Account(usermanagement.proxies.Account accountpassworddata_account)
+	public final void setAccountPasswordData_Account(administration.proxies.Account accountpassworddata_account)
 	{
 		setAccountPasswordData_Account(getContext(), accountpassworddata_account);
 	}
@@ -262,7 +262,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @param accountpassworddata_account
 	 */
-	public final void setAccountPasswordData_Account(IContext context, usermanagement.proxies.Account accountpassworddata_account)
+	public final void setAccountPasswordData_Account(IContext context, administration.proxies.Account accountpassworddata_account)
 	{
 		if (accountpassworddata_account == null)
 			getMendixObject().setValue(context, MemberNames.AccountPasswordData_Account.toString(), null);
@@ -294,7 +294,7 @@ public class AccountPasswordData
 
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
-			final usermanagement.proxies.AccountPasswordData that = (usermanagement.proxies.AccountPasswordData) obj;
+			final administration.proxies.AccountPasswordData that = (administration.proxies.AccountPasswordData) obj;
 			return getMendixObject().equals(that.getMendixObject());
 		}
 		return false;
@@ -311,7 +311,7 @@ public class AccountPasswordData
 	 */
 	public static String getType()
 	{
-		return "UserManagement.AccountPasswordData";
+		return "Administration.AccountPasswordData";
 	}
 
 	/**

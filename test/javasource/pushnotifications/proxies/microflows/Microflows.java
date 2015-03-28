@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
-	// These are the Microflows for the PushNotifications module
+	// These are the microflows for the PushNotifications module
 
 	public static void aC_Device(IContext context, pushnotifications.proxies.Device _device)
 	{

@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
-	// These are the Microflows for the MyFirstModule module
+	// These are the microflows for the MyFirstModule module
 
 	public static boolean afterStartup(IContext context)
 	{
@@ -29,13 +29,13 @@ public class Microflows
 		}
 	}
 
-	public static usermanagement.proxies.Account getCurrentAccount(IContext context)
+	public static administration.proxies.Account getCurrentAccount(IContext context)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			IMendixObject result = (IMendixObject)Core.execute(context, "MyFirstModule.GetCurrentAccount", params);
-			return result == null ? null : usermanagement.proxies.Account.initialize(context, result);
+			return result == null ? null : administration.proxies.Account.initialize(context, result);
 		}
 		catch (CoreException e)
 		{

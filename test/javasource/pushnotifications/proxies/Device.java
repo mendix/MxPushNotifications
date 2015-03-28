@@ -209,7 +209,7 @@ public class Device
 	/**
 	 * @return value of Device_Account
 	 */
-	public final usermanagement.proxies.Account getDevice_Account() throws CoreException
+	public final administration.proxies.Account getDevice_Account() throws CoreException
 	{
 		return getDevice_Account(getContext());
 	}
@@ -218,12 +218,12 @@ public class Device
 	 * @param context
 	 * @return value of Device_Account
 	 */
-	public final usermanagement.proxies.Account getDevice_Account(IContext context) throws CoreException
+	public final administration.proxies.Account getDevice_Account(IContext context) throws CoreException
 	{
-		usermanagement.proxies.Account result = null;
+		administration.proxies.Account result = null;
 		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
 		if (identifier != null)
-			result = usermanagement.proxies.Account.load(context, identifier);
+			result = administration.proxies.Account.load(context, identifier);
 		return result;
 	}
 
@@ -231,7 +231,7 @@ public class Device
 	 * Set value of Device_Account
 	 * @param device_account
 	 */
-	public final void setDevice_Account(usermanagement.proxies.Account device_account)
+	public final void setDevice_Account(administration.proxies.Account device_account)
 	{
 		setDevice_Account(getContext(), device_account);
 	}
@@ -241,7 +241,7 @@ public class Device
 	 * @param context
 	 * @param device_account
 	 */
-	public final void setDevice_Account(IContext context, usermanagement.proxies.Account device_account)
+	public final void setDevice_Account(IContext context, administration.proxies.Account device_account)
 	{
 		if (device_account == null)
 			getMendixObject().setValue(context, MemberNames.Device_Account.toString(), null);

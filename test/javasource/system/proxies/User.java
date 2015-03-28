@@ -86,8 +86,8 @@ public class User
 	 */
 	public static system.proxies.User initialize(IContext context, IMendixObject mendixObject)
 	{
-		if (Core.isSubClassOf("UserManagement.Account", mendixObject.getType()))
-			return usermanagement.proxies.Account.initialize(context, mendixObject);
+		if (Core.isSubClassOf("Administration.Account", mendixObject.getType()))
+			return administration.proxies.Account.initialize(context, mendixObject);
 
 		return new system.proxies.User(context, mendixObject);
 	}

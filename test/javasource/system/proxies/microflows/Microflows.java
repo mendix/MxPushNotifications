@@ -13,7 +13,7 @@ import com.mendix.systemwideinterfaces.core.IContext;
 
 public class Microflows
 {
-	// These are the Microflows for the System module
+	// These are the microflows for the System module
 
 	public static void showHomePage(IContext context)
 	{

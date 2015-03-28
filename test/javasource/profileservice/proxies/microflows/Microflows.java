@@ -13,7 +13,7 @@ import com.mendix.systemwideinterfaces.core.IContext;
 
 public class Microflows
 {
-	// These are the Microflows for the ProfileService module
+	// These are the microflows for the ProfileService module
 
 	public static String getDisplayName(IContext context, String _openID, String _environmentPassword, String _environmentUUID)
 	{

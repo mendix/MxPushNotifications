@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
-	// These are the Microflows for the PermissionsAPI module
+	// These are the microflows for the PermissionsAPI module
 
 	public static java.util.List<permissionsapi.proxies.AppRole> getRolesForOpenID(IContext context, String _openID, String _environmentID, String _environmentPassword)
 	{

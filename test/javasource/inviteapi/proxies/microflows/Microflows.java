@@ -13,7 +13,7 @@ import com.mendix.systemwideinterfaces.core.IContext;
 
 public class Microflows
 {
-	// These are the Microflows for the InviteAPI module
+	// These are the microflows for the InviteAPI module
 
 	public static void sendInvite(IContext context, String _environmentUUID, String _environmentPassword, String _roleUUID, String _inviteeEmailAddress, String _inviterEmailAddress)
 	{
