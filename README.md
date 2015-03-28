@@ -33,8 +33,20 @@ In order for the push notifications to work in Mendix you must have a few things
 6. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
 7. The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
 8. The widget is connected up to the google settings object. 
+9. Encryption module from the appstore must be added to the project.
 
 The application included in the test project can be used as reference.
+
+## Components.json
+All mendix applications that want to utilise phonegap require a components file. The components file describes all the javascript and css files that need to be loaded when the application is loaded on the device. Bellow is an example of the components file that would be required for this module.
+
+`{"files":{"css":["lib/bootstrap/css/bootstrap.min.css","mxclientsystem/mxui/ui/mxui.css","css/theme.css"],"js":["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]},"cachebust":"635621064987856279"}`
+
+For more information on components file please read this documentation:
+[Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
+
+The components file should be included in the theme folder of your application.
+
 
 ## Sending push notifications
 
