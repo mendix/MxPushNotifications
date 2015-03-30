@@ -1,6 +1,6 @@
 # Mendix Push notifications
 
-This module and widget should be used to implement push notifications for android and ios tablets/mobiles. This module/widget has been tested to work on Mendix 5.13.1 and up. 
+This module and widget should be used to implement push notifications for android and ios tablets/mobiles. This module/widget has been tested to work on Mendix 5.14.1 and up. 
 
 The project contains:
 
@@ -22,18 +22,18 @@ This project gives you all the necessary widgets, javascript, java and modules n
 
 ## Mendix setup
 In order for the push notifications to work in Mendix you must have a few things set up.
-
-1. The microflow AfterStartup_PushNotifications must be included in your after startup flow
-2. The index.html and components.json must include a reference to a jquery library.
+1. Import module into a 5.14.1 or higher project.
+2. The microflow AfterStartup_PushNotifications must be included in your after startup flow
+3. The index.html and components.json must include a reference to a jquery library.
 `<script type="text/javascript" src="js/jquerymin.js"></script>`
-3. The index.html and the components.json file must include the following reference to this javascript library
+4. The index.html and the components.json file must include the following reference to this javascript library
 `<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-4. The push notification snippet must be included on all layouts for mobile and tablet.
-5. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
-6. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
-7. The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-8. The widget is connected up to the google settings object. 
-9. Encryption module from the appstore must be added to the project.
+5. The push notification snippet must be included on all layouts for mobile and tablet.
+6. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
+7. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
+8. The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
+9. The widget is connected up to the google settings object. 
+10. Encryption module from the appstore must be added to the project.
 
 The application included in the test project can be used as reference.
 
