@@ -7,7 +7,8 @@ package pushnotifications.proxies;
 public enum DeviceType
 {
 	Android(new String[][] { new String[] { "en_US", "Android" }, new String[] { "nl_NL", "Android" } }),
-	iOS(new String[][] { new String[] { "en_US", "IOS" }, new String[] { "nl_NL", "iOS" } });
+	iOS(new String[][] { new String[] { "en_US", "IOS" }, new String[] { "nl_NL", "iOS" } }),
+	Windows(new String[][] { new String[] { "en_US", "Windows" } });
 
 	private java.util.Map<String,String> captions;
 
