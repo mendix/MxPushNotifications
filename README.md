@@ -22,18 +22,18 @@ This project gives you all the necessary widgets, javascript, java and modules n
 
 ## Mendix setup
 In order for the push notifications to work in Mendix you must have a few things set up.
-1. Import module into a 5.14.1 or higher project.
-2. The microflow AfterStartup_PushNotifications must be included in your after startup flow
-3. The index.html and components.json must include a reference to a jquery library.
+- Import module into a 5.14.1 or higher project.
+- The microflow AfterStartup_PushNotifications must be included in your after startup flow
+- The index.html and components.json must include a reference to a jquery library.
 `<script type="text/javascript" src="js/jquerymin.js"></script>`
-4. The index.html and the components.json file must include the following reference to this javascript library
+- The index.html and the components.json file must include the following reference to this javascript library
 `<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-5. The push notification snippet must be included on all layouts for mobile and tablet.
-6. The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
-7. You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
-8. The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-9. The widget is connected up to the google settings object. 
-10. Encryption module from the appstore must be added to the project.
+- The push notification snippet must be included on all layouts for mobile and tablet.
+- The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
+- You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
+- The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
+- The widget is connected up to the google settings object. 
+- Encryption module from the appstore must be added to the project.
 
 The application included in the test project can be used as reference.
 
