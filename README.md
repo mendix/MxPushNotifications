@@ -162,7 +162,7 @@ You can download the SDK as well as development tools from [here](https://dev.wi
 
 Using the "Windows Phone Application Deployment" program you can deploy the XAP which PhoneGap creates onto your Windows device
 
-<img src="assets/images/apploader.png"/>
+<img src="assets/images/apploader.PNG"/>
 
 ## Creating PhoneGap app
 In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
