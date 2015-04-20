@@ -1,6 +1,6 @@
 # Mendix Push notifications
 
-This module and widget should be used to implement push notifications for android and ios tablets/mobiles. This module/widget has been tested to work on Mendix 5.14.1 and up. 
+This module and widget should be used to implement push notifications for android, ios and windows tablets/mobiles. This module/widget has been tested to work on Mendix 5.14.1 and up. 
 
 The project contains:
 
