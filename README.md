@@ -146,6 +146,22 @@ Once entered tick the checkbox enabled and press restart. From now on your appli
 For more information on setting up your google API then please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
 
 
+## Setting up Windows
+Windows requires no additional configuration for push notifications to work. Simply load the application onto a Windows 8 Phone and login to the application. The user's Windows Phone credentials should appear within the device menu.
+
+## Installing a Windows App
+In order to test and publish your Windows 8 applications you will need a Windows developer account that can be obtained from: 
+
+[Windows Dev Center](https://dev.windows.com/en-us) 
+
+Upon doing so you will receive a Publisher GUID (this can be located under Dashboard > Windows Phone Store > Account). This GUID is needed by PhoneGap in order to sign your applications. 
+
+You can download the SDK as well as development tools from [here](https://dev.windows.com/en-us/develop/download-phone-sdk)
+
+Using the "Windows Phone Application Deployment" program you can deploy the XAP which PhoneGap creates onto your Windows device
+
+<img src="assets/images/apploader.png"/>
+
 ## Creating PhoneGap app
 In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
 
