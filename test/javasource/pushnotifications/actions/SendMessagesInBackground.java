@@ -14,6 +14,7 @@ import java.util.List;
 import pushnotifications.proxies.AppleMessage;
 import pushnotifications.proxies.GoogleMessage;
 import pushnotifications.proxies.Message;
+import pushnotifications.proxies.WindowsMessage;
 import pushnotifications.proxies.constants.Constants;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
@@ -55,6 +56,8 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 				appleMessages.add(message.getMendixObject());
 			} else if (message instanceof GoogleMessage) {
 				googleMessages.add(message.getMendixObject());
+			} else if (message instanceof WindowsMessage){
+				windowsMessages.add(message.getMendixObject());
 			}
 		}
 		
@@ -78,7 +81,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 		
 		try {
 			if (windowsMessages.size() > 0) {
-				Core.executeAsync(sysContext, "PushNotifications.Background_SendWindowsMessages",
+				Core.executeAsync(sysContext, "PushNotifications.Background_SendWindowsMessage",
 						windowsMessages);
 			}
 		} catch (Exception e) {

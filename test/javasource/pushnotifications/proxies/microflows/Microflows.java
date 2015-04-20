@@ -99,6 +99,27 @@ public class Microflows
 		}
 	}
 
+	public static void background_SendWindowsMessage(IContext context, java.util.List<pushnotifications.proxies.WindowsMessage> _windowsMessageList)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			java.util.ArrayList<IMendixObject> listparam_windowsMessageList = null;
+			if (_windowsMessageList != null)
+			{
+				listparam_windowsMessageList = new java.util.ArrayList<IMendixObject>();
+				for (pushnotifications.proxies.WindowsMessage obj : _windowsMessageList)
+					listparam_windowsMessageList.add(obj.getMendixObject());
+			}
+			params.put("WindowsMessageList", listparam_windowsMessageList);
+			Core.execute(context, "PushNotifications.Background_SendWindowsMessage", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
 	public static pushnotifications.proxies.AppleMessage dS_CreateAppleMessage(IContext context)
 	{
 		try
@@ -150,6 +171,21 @@ public class Microflows
 			params.put("Device", _device == null ? null : _device.getMendixObject());
 			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_CreateGoogleMessageForDevice", params);
 			return result == null ? null : pushnotifications.proxies.GoogleMessage.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static pushnotifications.proxies.WindowsMessage dS_CreateWindowsMessage(IContext context, pushnotifications.proxies.Device _device)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Device", _device == null ? null : _device.getMendixObject());
+			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_CreateWindowsMessage", params);
+			return result == null ? null : pushnotifications.proxies.WindowsMessage.initialize(context, result);
 		}
 		catch (CoreException e)
 		{

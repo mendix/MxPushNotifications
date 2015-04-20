@@ -134,7 +134,21 @@ public class GCMConnection {
 	
 		        
 				if(!this.sendDownstreamMessage(messageJson)) {
+					/*if downstream fails need to add to fail counter else constant loop*/
+					if (message.getFailedCount() >= Constants.getMaxFailedCount()) {
+						message.delete();
+					}
+					else{
+						message.setFailed(true);
+						message.setFailedReason(messageJson);
+						message.setFailedCount(message.getFailedCount() + 1);
+						message.setQueued(true);
+						message.setNextTry(new Date(
+						System.currentTimeMillis() + (60000 * (message.getFailedCount() * 5) )));
+						message.commit();
+					}
 					throw new Exception("Message not delivered, view log.");
+					
 				}
 				
 				logger.info("GCM: Successfully sent message to: " + message.getTo());
