@@ -35,6 +35,7 @@ public class APNSettings
 		FeedbackServer("FeedbackServer"),
 		FeedbackPort("FeedbackPort"),
 		Started("Started"),
+		DTAPMode("DTAPMode"),
 		APNSettings_APNCertificate("PushNotifications.APNSettings_APNCertificate");
 
 		private String metaName;
@@ -344,6 +345,50 @@ public class APNSettings
 	public final void setStarted(IContext context, Boolean started)
 	{
 		getMendixObject().setValue(context, MemberNames.Started.toString(), started);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param dtapmode
+	 */
+	public final communitycommons.proxies.DTAPMode getDTAPMode()
+	{
+		return getDTAPMode(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of DTAPMode
+	 */
+	public final communitycommons.proxies.DTAPMode getDTAPMode(IContext context)
+	{
+		Object obj = getMendixObject().getValue(context, MemberNames.DTAPMode.toString());
+		if (obj == null)
+			return null;
+
+		return communitycommons.proxies.DTAPMode.valueOf((String) obj);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param dtapmode
+	 */
+	public final void setDTAPMode(communitycommons.proxies.DTAPMode dtapmode)
+	{
+		setDTAPMode(getContext(), dtapmode);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param context
+	 * @param dtapmode
+	 */
+	public final void setDTAPMode(IContext context, communitycommons.proxies.DTAPMode dtapmode)
+	{
+		if (dtapmode != null)
+			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), dtapmode.toString());
+		else
+			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), null);
 	}
 
 	/**

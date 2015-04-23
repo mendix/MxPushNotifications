@@ -33,7 +33,8 @@ public class GCMSettings
 		XMPPServer("XMPPServer"),
 		XMPPPort("XMPPPort"),
 		SenderId("SenderId"),
-		APIKey("APIKey");
+		APIKey("APIKey"),
+		DTAPMode("DTAPMode");
 
 		private String metaName;
 
@@ -306,6 +307,50 @@ public class GCMSettings
 	public final void setAPIKey(IContext context, String apikey)
 	{
 		getMendixObject().setValue(context, MemberNames.APIKey.toString(), apikey);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param dtapmode
+	 */
+	public final communitycommons.proxies.DTAPMode getDTAPMode()
+	{
+		return getDTAPMode(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of DTAPMode
+	 */
+	public final communitycommons.proxies.DTAPMode getDTAPMode(IContext context)
+	{
+		Object obj = getMendixObject().getValue(context, MemberNames.DTAPMode.toString());
+		if (obj == null)
+			return null;
+
+		return communitycommons.proxies.DTAPMode.valueOf((String) obj);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param dtapmode
+	 */
+	public final void setDTAPMode(communitycommons.proxies.DTAPMode dtapmode)
+	{
+		setDTAPMode(getContext(), dtapmode);
+	}
+
+	/**
+	 * Set value of DTAPMode
+	 * @param context
+	 * @param dtapmode
+	 */
+	public final void setDTAPMode(IContext context, communitycommons.proxies.DTAPMode dtapmode)
+	{
+		if (dtapmode != null)
+			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), dtapmode.toString());
+		else
+			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), null);
 	}
 
 	/**
