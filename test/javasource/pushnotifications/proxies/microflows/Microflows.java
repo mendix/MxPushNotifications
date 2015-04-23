@@ -57,6 +57,19 @@ public class Microflows
 		}
 	}
 
+	public static void appleAdministration_New(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			Core.execute(context, "PushNotifications.AppleAdministration_New", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
 	public static void background_SendAppleMessages(IContext context, java.util.List<pushnotifications.proxies.AppleMessage> _appleMessageList)
 	{
 		try
@@ -207,11 +220,12 @@ public class Microflows
 		}
 	}
 
-	public static pushnotifications.proxies.APNSettings dS_GetAPNSettings(IContext context)
+	public static pushnotifications.proxies.APNSettings dS_GetAPNSettings(IContext context, communitycommons.proxies.DTAPMode _dTAPMode)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("DTAPMode", _dTAPMode == null ? null : _dTAPMode.name());
 			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_GetAPNSettings", params);
 			return result == null ? null : pushnotifications.proxies.APNSettings.initialize(context, result);
 		}
@@ -221,13 +235,30 @@ public class Microflows
 		}
 	}
 
-	public static pushnotifications.proxies.GCMSettings dS_GetGCMSettings(IContext context)
+	public static pushnotifications.proxies.GCMSettings dS_GetGCMSettings(IContext context, communitycommons.proxies.DTAPMode _dTAPMode)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("DTAPMode", _dTAPMode == null ? null : _dTAPMode.name());
 			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_GetGCMSettings", params);
 			return result == null ? null : pushnotifications.proxies.GCMSettings.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static communitycommons.proxies.DTAPMode dTAPMode(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			String result = (String)Core.execute(context, "PushNotifications.DTAPMode", params);
+			if (result == null)
+				return null;
+			return communitycommons.proxies.DTAPMode.valueOf(result);
 		}
 		catch (CoreException e)
 		{
