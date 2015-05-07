@@ -50,7 +50,8 @@ require({
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
-            this.domNode.appendChild(this.templateString);
+           
+            this.domNode.innerHTML = this.templateString;
             
         },
         alertDismissed : function(){
@@ -58,8 +59,8 @@ require({
 
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
     update : function (obj, callback) {
-        if(typeof cordova !== undefined){
-        if(typeof window.plugins.pushNotification !== undefined){
+        if(typeof cordova != 'undefined'){
+        if(typeof window.plugins.pushNotification != 'undefined'){
         if(typeof obj === 'string'){
             this._contextGuid = obj;
             mx.data.get({
