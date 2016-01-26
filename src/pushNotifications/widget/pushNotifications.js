@@ -1,12 +1,10 @@
-/*jslint white:true, nomen: true, plusplus: true */
-/*global mx, define, require, browser, devel, console */
-/*mendix */
+/*global logger*/
 /*
     pushNotifications
     ========================
 
     @file      : pushNotifications.js
-    @version   : 1.0
+    @version   : 2.0
     @author    : Simon Black
     @date      : Tue, 17 Feb 2015 12:53:46 GMT
     @copyright : 
@@ -18,16 +16,33 @@
 */
 
 // Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
-require({
-    packages: []
-}, [
-    'dojo/_base/declare', 'mxui/widget/_WidgetBase', 'dijit/_TemplatedMixin',
-    'mxui/dom', 'dojo/dom', 'dojo/query', 'dojo/dom-prop', 'dojo/dom-geometry', 'dojo/dom-class', 'dojo/dom-style', 'dojo/dom-construct', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/text','dojo/text!pushNotifications/widget/template/pushNotifications.html' 
-], function (declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, domQuery, domProp, domGeom, domClass, domStyle, domConstruct, dojoArray, lang, text, widgetTemplate) {
-    'use strict';
-    
+define([
+    "dojo/_base/declare",
+    "mxui/widget/_WidgetBase",
+    "dijit/_TemplatedMixin",
+
+    "mxui/dom",
+    "dojo/dom",
+    "dojo/dom-prop",
+    "dojo/dom-geometry",
+    "dojo/dom-class",
+    "dojo/dom-style",
+    "dojo/dom-construct",
+    "dojo/_base/array",
+    "dojo/_base/lang",
+    "dojo/text",
+    "dojo/html",
+    "dojo/_base/event",
+
+	"pushNotifications/lib/jquery-1.11.2",
+    "dojo/text!pushNotifications/widget/template/pushNotifications.html"
+], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, _jQuery, widgetTemplate) {
+    "use strict";
+	
+	var $ = _jQuery.noConflict(true);
+
     // Declare widget's prototype.
-    return declare('pushNotifications.widget.pushNotifications', [_WidgetBase, _TemplatedMixin], {
+    return declare("pushNotifications.widget.pushNotifications", [ _WidgetBase, _TemplatedMixin ], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
         // Parameters configured in the Modeler.
@@ -113,7 +128,7 @@ require({
         if(settings.length===1){
             
             this._gcmSettings = settings[0];
-            this._gcmSenderID = this._gcmSettings.getAttribute(this.senderId);
+            this._gcmSenderID = this._gcmSettings.get(this.senderId);
             window.mxPush = this;
             window.mObject = this._contextObj;
             var pushNotification = window.plugins.pushNotification;
@@ -332,4 +347,8 @@ require({
     
     
     });
+});
+
+require(["pushNotifications/widget/pushNotifications"], function() {
+    "use strict";
 });
