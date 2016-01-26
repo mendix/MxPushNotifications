@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class User
 {
-	private final IMendixObject userMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject userMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.User";
+	public static final java.lang.String entityName = "System.User";
 
 	/**
 	 * Enum describing members of this entity
@@ -41,31 +35,31 @@ public class User
 		User_Language("System.User_Language"),
 		User_TimeZone("System.User_TimeZone");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public User(IContext context)
+	public User(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.User"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.User"));
 	}
 
-	protected User(IContext context, IMendixObject userMendixObject)
+	protected User(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject userMendixObject)
 	{
 		if (userMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.User", userMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.User");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.User", userMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.User");
 
 		this.userMendixObject = userMendixObject;
 		this.context = context;
@@ -75,7 +69,7 @@ public class User
 	 * @deprecated Use 'User.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.User initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.User initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.User.load(context, mendixIdentifier);
 	}
@@ -84,24 +78,24 @@ public class User
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.User initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.User initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
-		if (Core.isSubClassOf("Administration.Account", mendixObject.getType()))
+		if (com.mendix.core.Core.isSubClassOf("Administration.Account", mendixObject.getType()))
 			return administration.proxies.Account.initialize(context, mendixObject);
 
 		return new system.proxies.User(context, mendixObject);
 	}
 
-	public static system.proxies.User load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.User load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.User.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<? extends system.proxies.User> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<? extends system.proxies.User> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.User> result = new java.util.ArrayList<system.proxies.User>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.User" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.User" + xpathConstraint))
 			result.add(system.proxies.User.initialize(context, obj));
 		return result;
 	}
@@ -109,17 +103,17 @@ public class User
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -127,15 +121,15 @@ public class User
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Name
@@ -149,7 +143,7 @@ public class User
 	 * @param context
 	 * @return value of Name
 	 */
-	public final String getName(IContext context)
+	public final String getName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Name.toString());
 	}
@@ -168,7 +162,7 @@ public class User
 	 * @param context
 	 * @param name
 	 */
-	public final void setName(IContext context, String name)
+	public final void setName(com.mendix.systemwideinterfaces.core.IContext context, String name)
 	{
 		getMendixObject().setValue(context, MemberNames.Name.toString(), name);
 	}
@@ -187,7 +181,7 @@ public class User
 	 * @param context
 	 * @param password
 	 */
-	public final void setPassword(IContext context, String password)
+	public final void setPassword(com.mendix.systemwideinterfaces.core.IContext context, String password)
 	{
 		getMendixObject().setValue(context, MemberNames.Password.toString(), password);
 	}
@@ -204,7 +198,7 @@ public class User
 	 * @param context
 	 * @return value of LastLogin
 	 */
-	public final java.util.Date getLastLogin(IContext context)
+	public final java.util.Date getLastLogin(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (java.util.Date) getMendixObject().getValue(context, MemberNames.LastLogin.toString());
 	}
@@ -223,7 +217,7 @@ public class User
 	 * @param context
 	 * @param lastlogin
 	 */
-	public final void setLastLogin(IContext context, java.util.Date lastlogin)
+	public final void setLastLogin(com.mendix.systemwideinterfaces.core.IContext context, java.util.Date lastlogin)
 	{
 		getMendixObject().setValue(context, MemberNames.LastLogin.toString(), lastlogin);
 	}
@@ -240,7 +234,7 @@ public class User
 	 * @param context
 	 * @return value of Blocked
 	 */
-	public final Boolean getBlocked(IContext context)
+	public final Boolean getBlocked(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Blocked.toString());
 	}
@@ -259,7 +253,7 @@ public class User
 	 * @param context
 	 * @param blocked
 	 */
-	public final void setBlocked(IContext context, Boolean blocked)
+	public final void setBlocked(com.mendix.systemwideinterfaces.core.IContext context, Boolean blocked)
 	{
 		getMendixObject().setValue(context, MemberNames.Blocked.toString(), blocked);
 	}
@@ -276,7 +270,7 @@ public class User
 	 * @param context
 	 * @return value of Active
 	 */
-	public final Boolean getActive(IContext context)
+	public final Boolean getActive(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Active.toString());
 	}
@@ -295,7 +289,7 @@ public class User
 	 * @param context
 	 * @param active
 	 */
-	public final void setActive(IContext context, Boolean active)
+	public final void setActive(com.mendix.systemwideinterfaces.core.IContext context, Boolean active)
 	{
 		getMendixObject().setValue(context, MemberNames.Active.toString(), active);
 	}
@@ -312,7 +306,7 @@ public class User
 	 * @param context
 	 * @return value of FailedLogins
 	 */
-	public final Integer getFailedLogins(IContext context)
+	public final Integer getFailedLogins(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.FailedLogins.toString());
 	}
@@ -331,7 +325,7 @@ public class User
 	 * @param context
 	 * @param failedlogins
 	 */
-	public final void setFailedLogins(IContext context, Integer failedlogins)
+	public final void setFailedLogins(com.mendix.systemwideinterfaces.core.IContext context, Integer failedlogins)
 	{
 		getMendixObject().setValue(context, MemberNames.FailedLogins.toString(), failedlogins);
 	}
@@ -348,7 +342,7 @@ public class User
 	 * @param context
 	 * @return value of WebServiceUser
 	 */
-	public final Boolean getWebServiceUser(IContext context)
+	public final Boolean getWebServiceUser(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.WebServiceUser.toString());
 	}
@@ -367,7 +361,7 @@ public class User
 	 * @param context
 	 * @param webserviceuser
 	 */
-	public final void setWebServiceUser(IContext context, Boolean webserviceuser)
+	public final void setWebServiceUser(com.mendix.systemwideinterfaces.core.IContext context, Boolean webserviceuser)
 	{
 		getMendixObject().setValue(context, MemberNames.WebServiceUser.toString(), webserviceuser);
 	}
@@ -384,7 +378,7 @@ public class User
 	 * @param context
 	 * @return value of IsAnonymous
 	 */
-	public final Boolean getIsAnonymous(IContext context)
+	public final Boolean getIsAnonymous(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.IsAnonymous.toString());
 	}
@@ -403,7 +397,7 @@ public class User
 	 * @param context
 	 * @param isanonymous
 	 */
-	public final void setIsAnonymous(IContext context, Boolean isanonymous)
+	public final void setIsAnonymous(com.mendix.systemwideinterfaces.core.IContext context, Boolean isanonymous)
 	{
 		getMendixObject().setValue(context, MemberNames.IsAnonymous.toString(), isanonymous);
 	}
@@ -411,7 +405,7 @@ public class User
 	/**
 	 * @return value of UserRoles
 	 */
-	public final java.util.List<system.proxies.UserRole> getUserRoles() throws CoreException
+	public final java.util.List<system.proxies.UserRole> getUserRoles() throws com.mendix.core.CoreException
 	{
 		return getUserRoles(getContext());
 	}
@@ -421,13 +415,13 @@ public class User
 	 * @return value of UserRoles
 	 */
 	@SuppressWarnings("unchecked")
-	public final java.util.List<system.proxies.UserRole> getUserRoles(IContext context) throws CoreException
+	public final java.util.List<system.proxies.UserRole> getUserRoles(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.UserRole> result = new java.util.ArrayList<system.proxies.UserRole>();
 		Object valueObject = getMendixObject().getValue(context, MemberNames.UserRoles.toString());
 		if (valueObject == null)
 			return result;
-		for (IMendixObject mendixObject : Core.retrieveIdList(context, (java.util.List<IMendixIdentifier>) valueObject))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject mendixObject : com.mendix.core.Core.retrieveIdList(context, (java.util.List<com.mendix.systemwideinterfaces.core.IMendixIdentifier>) valueObject))
 			result.add(system.proxies.UserRole.initialize(context, mendixObject));
 		return result;
 	}
@@ -446,9 +440,9 @@ public class User
 	 * @param context
 	 * @param userroles
 	 */
-	public final void setUserRoles(IContext context, java.util.List<system.proxies.UserRole> userroles)
+	public final void setUserRoles(com.mendix.systemwideinterfaces.core.IContext context, java.util.List<system.proxies.UserRole> userroles)
 	{
-		java.util.List<IMendixIdentifier> identifiers = new java.util.ArrayList<IMendixIdentifier>();
+		java.util.List<com.mendix.systemwideinterfaces.core.IMendixIdentifier> identifiers = new java.util.ArrayList<com.mendix.systemwideinterfaces.core.IMendixIdentifier>();
 		for (system.proxies.UserRole proxyObject : userroles)
 			identifiers.add(proxyObject.getMendixObject().getId());
 		getMendixObject().setValue(context, MemberNames.UserRoles.toString(), identifiers);
@@ -457,7 +451,7 @@ public class User
 	/**
 	 * @return value of User_Language
 	 */
-	public final system.proxies.Language getUser_Language() throws CoreException
+	public final system.proxies.Language getUser_Language() throws com.mendix.core.CoreException
 	{
 		return getUser_Language(getContext());
 	}
@@ -466,10 +460,10 @@ public class User
 	 * @param context
 	 * @return value of User_Language
 	 */
-	public final system.proxies.Language getUser_Language(IContext context) throws CoreException
+	public final system.proxies.Language getUser_Language(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		system.proxies.Language result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.User_Language.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.User_Language.toString());
 		if (identifier != null)
 			result = system.proxies.Language.load(context, identifier);
 		return result;
@@ -489,7 +483,7 @@ public class User
 	 * @param context
 	 * @param user_language
 	 */
-	public final void setUser_Language(IContext context, system.proxies.Language user_language)
+	public final void setUser_Language(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.Language user_language)
 	{
 		if (user_language == null)
 			getMendixObject().setValue(context, MemberNames.User_Language.toString(), null);
@@ -500,7 +494,7 @@ public class User
 	/**
 	 * @return value of User_TimeZone
 	 */
-	public final system.proxies.TimeZone getUser_TimeZone() throws CoreException
+	public final system.proxies.TimeZone getUser_TimeZone() throws com.mendix.core.CoreException
 	{
 		return getUser_TimeZone(getContext());
 	}
@@ -509,10 +503,10 @@ public class User
 	 * @param context
 	 * @return value of User_TimeZone
 	 */
-	public final system.proxies.TimeZone getUser_TimeZone(IContext context) throws CoreException
+	public final system.proxies.TimeZone getUser_TimeZone(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		system.proxies.TimeZone result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.User_TimeZone.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.User_TimeZone.toString());
 		if (identifier != null)
 			result = system.proxies.TimeZone.load(context, identifier);
 		return result;
@@ -532,7 +526,7 @@ public class User
 	 * @param context
 	 * @param user_timezone
 	 */
-	public final void setUser_TimeZone(IContext context, system.proxies.TimeZone user_timezone)
+	public final void setUser_TimeZone(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.TimeZone user_timezone)
 	{
 		if (user_timezone == null)
 			getMendixObject().setValue(context, MemberNames.User_TimeZone.toString(), null);
@@ -543,7 +537,7 @@ public class User
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return userMendixObject;
 	}
@@ -551,7 +545,7 @@ public class User
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -579,7 +573,7 @@ public class User
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.User";
 	}
@@ -589,7 +583,7 @@ public class User
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

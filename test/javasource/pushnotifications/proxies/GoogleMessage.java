@@ -4,12 +4,6 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.GoogleMessage";
+	public static final java.lang.String entityName = "PushNotifications.GoogleMessage";
 
 	/**
 	 * Enum describing members of this entity
@@ -37,37 +31,37 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 		NextTry("NextTry"),
 		Queued("Queued");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public GoogleMessage(IContext context)
+	public GoogleMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.GoogleMessage"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.GoogleMessage"));
 	}
 
-	protected GoogleMessage(IContext context, IMendixObject googleMessageMendixObject)
+	protected GoogleMessage(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject googleMessageMendixObject)
 	{
 		super(context, googleMessageMendixObject);
-		if (!Core.isSubClassOf("PushNotifications.GoogleMessage", googleMessageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.GoogleMessage");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.GoogleMessage", googleMessageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.GoogleMessage");
 	}
 
 	/**
 	 * @deprecated Use 'GoogleMessage.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.GoogleMessage initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.GoogleMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.GoogleMessage.load(context, mendixIdentifier);
 	}
@@ -76,21 +70,21 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.GoogleMessage initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.GoogleMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.GoogleMessage(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.GoogleMessage load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.GoogleMessage load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.GoogleMessage.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.GoogleMessage> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.GoogleMessage> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.GoogleMessage> result = new java.util.ArrayList<pushnotifications.proxies.GoogleMessage>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.GoogleMessage" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.GoogleMessage" + xpathConstraint))
 			result.add(pushnotifications.proxies.GoogleMessage.initialize(context, obj));
 		return result;
 	}
@@ -107,7 +101,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of TimeToLive
 	 */
-	public final Long getTimeToLive(IContext context)
+	public final Long getTimeToLive(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Long) getMendixObject().getValue(context, MemberNames.TimeToLive.toString());
 	}
@@ -126,7 +120,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param timetolive
 	 */
-	public final void setTimeToLive(IContext context, Long timetolive)
+	public final void setTimeToLive(com.mendix.systemwideinterfaces.core.IContext context, Long timetolive)
 	{
 		getMendixObject().setValue(context, MemberNames.TimeToLive.toString(), timetolive);
 	}
@@ -143,7 +137,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of Title
 	 */
-	public final String getTitle(IContext context)
+	public final String getTitle(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Title.toString());
 	}
@@ -162,7 +156,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param title
 	 */
-	public final void setTitle(IContext context, String title)
+	public final void setTitle(com.mendix.systemwideinterfaces.core.IContext context, String title)
 	{
 		getMendixObject().setValue(context, MemberNames.Title.toString(), title);
 	}
@@ -190,7 +184,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.GoogleMessage";
 	}
@@ -201,7 +195,7 @@ public class GoogleMessage extends pushnotifications.proxies.Message
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class XASInstance
 {
-	private final IMendixObject xASInstanceMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject xASInstanceMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.XASInstance";
+	public static final java.lang.String entityName = "System.XASInstance";
 
 	/**
 	 * Enum describing members of this entity
@@ -35,31 +29,31 @@ public class XASInstance
 		PartnerName("PartnerName"),
 		CustomerName("CustomerName");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public XASInstance(IContext context)
+	public XASInstance(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.XASInstance"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.XASInstance"));
 	}
 
-	protected XASInstance(IContext context, IMendixObject xASInstanceMendixObject)
+	protected XASInstance(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject xASInstanceMendixObject)
 	{
 		if (xASInstanceMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.XASInstance", xASInstanceMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.XASInstance");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.XASInstance", xASInstanceMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.XASInstance");
 
 		this.xASInstanceMendixObject = xASInstanceMendixObject;
 		this.context = context;
@@ -69,7 +63,7 @@ public class XASInstance
 	 * @deprecated Use 'XASInstance.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.XASInstance initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.XASInstance initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.XASInstance.load(context, mendixIdentifier);
 	}
@@ -78,21 +72,21 @@ public class XASInstance
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.XASInstance initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.XASInstance initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new system.proxies.XASInstance(context, mendixObject);
 	}
 
-	public static system.proxies.XASInstance load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.XASInstance load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.XASInstance.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<system.proxies.XASInstance> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<system.proxies.XASInstance> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.XASInstance> result = new java.util.ArrayList<system.proxies.XASInstance>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.XASInstance" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.XASInstance" + xpathConstraint))
 			result.add(system.proxies.XASInstance.initialize(context, obj));
 		return result;
 	}
@@ -100,17 +94,17 @@ public class XASInstance
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -118,15 +112,15 @@ public class XASInstance
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of XASId
@@ -140,7 +134,7 @@ public class XASInstance
 	 * @param context
 	 * @return value of XASId
 	 */
-	public final String getXASId(IContext context)
+	public final String getXASId(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.XASId.toString());
 	}
@@ -159,7 +153,7 @@ public class XASInstance
 	 * @param context
 	 * @param xasid
 	 */
-	public final void setXASId(IContext context, String xasid)
+	public final void setXASId(com.mendix.systemwideinterfaces.core.IContext context, String xasid)
 	{
 		getMendixObject().setValue(context, MemberNames.XASId.toString(), xasid);
 	}
@@ -176,7 +170,7 @@ public class XASInstance
 	 * @param context
 	 * @return value of LastUpdate
 	 */
-	public final java.util.Date getLastUpdate(IContext context)
+	public final java.util.Date getLastUpdate(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (java.util.Date) getMendixObject().getValue(context, MemberNames.LastUpdate.toString());
 	}
@@ -195,7 +189,7 @@ public class XASInstance
 	 * @param context
 	 * @param lastupdate
 	 */
-	public final void setLastUpdate(IContext context, java.util.Date lastupdate)
+	public final void setLastUpdate(com.mendix.systemwideinterfaces.core.IContext context, java.util.Date lastupdate)
 	{
 		getMendixObject().setValue(context, MemberNames.LastUpdate.toString(), lastupdate);
 	}
@@ -212,7 +206,7 @@ public class XASInstance
 	 * @param context
 	 * @return value of AllowedNumberOfConcurrentUsers
 	 */
-	public final Integer getAllowedNumberOfConcurrentUsers(IContext context)
+	public final Integer getAllowedNumberOfConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.AllowedNumberOfConcurrentUsers.toString());
 	}
@@ -231,7 +225,7 @@ public class XASInstance
 	 * @param context
 	 * @param allowednumberofconcurrentusers
 	 */
-	public final void setAllowedNumberOfConcurrentUsers(IContext context, Integer allowednumberofconcurrentusers)
+	public final void setAllowedNumberOfConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context, Integer allowednumberofconcurrentusers)
 	{
 		getMendixObject().setValue(context, MemberNames.AllowedNumberOfConcurrentUsers.toString(), allowednumberofconcurrentusers);
 	}
@@ -248,7 +242,7 @@ public class XASInstance
 	 * @param context
 	 * @return value of PartnerName
 	 */
-	public final String getPartnerName(IContext context)
+	public final String getPartnerName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.PartnerName.toString());
 	}
@@ -267,7 +261,7 @@ public class XASInstance
 	 * @param context
 	 * @param partnername
 	 */
-	public final void setPartnerName(IContext context, String partnername)
+	public final void setPartnerName(com.mendix.systemwideinterfaces.core.IContext context, String partnername)
 	{
 		getMendixObject().setValue(context, MemberNames.PartnerName.toString(), partnername);
 	}
@@ -284,7 +278,7 @@ public class XASInstance
 	 * @param context
 	 * @return value of CustomerName
 	 */
-	public final String getCustomerName(IContext context)
+	public final String getCustomerName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.CustomerName.toString());
 	}
@@ -303,7 +297,7 @@ public class XASInstance
 	 * @param context
 	 * @param customername
 	 */
-	public final void setCustomerName(IContext context, String customername)
+	public final void setCustomerName(com.mendix.systemwideinterfaces.core.IContext context, String customername)
 	{
 		getMendixObject().setValue(context, MemberNames.CustomerName.toString(), customername);
 	}
@@ -311,7 +305,7 @@ public class XASInstance
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return xASInstanceMendixObject;
 	}
@@ -319,7 +313,7 @@ public class XASInstance
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -347,7 +341,7 @@ public class XASInstance
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.XASInstance";
 	}
@@ -357,7 +351,7 @@ public class XASInstance
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

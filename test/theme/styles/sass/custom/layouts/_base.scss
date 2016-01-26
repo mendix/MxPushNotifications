@@ -1,0 +1,61 @@
+/* ==========================================================================
+   Regions
+
+   Used for navigation layouts
+========================================================================== */
+.region-topbar {
+	/* Styles here */
+	> .mx-layoutcontainer-wrapper {
+		/* Styles here */
+	}
+	.toggle-btn {
+		/* Styles here */
+	}
+	.navbar-right {
+		/* SSO widgets */
+		.mx-appswitcher-button-placeholder,
+		.mx-profilemenu-button-placeholder {
+			/* Styles here */
+			iframe {
+			/* Styles here */
+			}
+		}
+		.mx-profilemenu-button-placeholder {
+			/* Styles here */
+		}
+	}
+}
+.region-sidebar {
+	/* Styles here */
+	> .mx-layoutcontainer-wrapper {
+		/* Styles here */
+	}
+}
+.region-content {
+	/* Styles here */
+	> .mx-layoutcontainer-wrapper {
+		/* Styles here */
+	}
+}
+.layout-sidebar-responsive {
+
+}
+
+/* ==========================================================================
+   Navbar Brand
+
+   Used to style your app brand and logo
+========================================================================== */
+.navbar-brand {
+	/* Styles here */
+	img {
+		/* Styles here */
+	}
+	a {
+		/* Styles here */
+		&:hover,
+		&:focus {
+			/* Styles here */
+		}
+	}
+}

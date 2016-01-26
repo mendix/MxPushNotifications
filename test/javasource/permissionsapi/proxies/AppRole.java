@@ -4,25 +4,19 @@
 
 package permissionsapi.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class AppRole
 {
-	private final IMendixObject appRoleMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject appRoleMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PermissionsAPI.AppRole";
+	public static final java.lang.String entityName = "PermissionsAPI.AppRole";
 
 	/**
 	 * Enum describing members of this entity
@@ -32,31 +26,31 @@ public class AppRole
 		UUID("UUID"),
 		DisplayName("DisplayName");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public AppRole(IContext context)
+	public AppRole(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PermissionsAPI.AppRole"));
+		this(context, com.mendix.core.Core.instantiate(context, "PermissionsAPI.AppRole"));
 	}
 
-	protected AppRole(IContext context, IMendixObject appRoleMendixObject)
+	protected AppRole(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject appRoleMendixObject)
 	{
 		if (appRoleMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PermissionsAPI.AppRole", appRoleMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PermissionsAPI.AppRole");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("PermissionsAPI.AppRole", appRoleMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PermissionsAPI.AppRole");
 
 		this.appRoleMendixObject = appRoleMendixObject;
 		this.context = context;
@@ -66,7 +60,7 @@ public class AppRole
 	 * @deprecated Use 'AppRole.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static permissionsapi.proxies.AppRole initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static permissionsapi.proxies.AppRole initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return permissionsapi.proxies.AppRole.load(context, mendixIdentifier);
 	}
@@ -75,31 +69,31 @@ public class AppRole
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static permissionsapi.proxies.AppRole initialize(IContext context, IMendixObject mendixObject)
+	public static permissionsapi.proxies.AppRole initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new permissionsapi.proxies.AppRole(context, mendixObject);
 	}
 
-	public static permissionsapi.proxies.AppRole load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static permissionsapi.proxies.AppRole load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return permissionsapi.proxies.AppRole.initialize(context, mendixObject);
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -107,15 +101,15 @@ public class AppRole
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of UUID
@@ -129,7 +123,7 @@ public class AppRole
 	 * @param context
 	 * @return value of UUID
 	 */
-	public final String getUUID(IContext context)
+	public final String getUUID(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.UUID.toString());
 	}
@@ -148,7 +142,7 @@ public class AppRole
 	 * @param context
 	 * @param uuid
 	 */
-	public final void setUUID(IContext context, String uuid)
+	public final void setUUID(com.mendix.systemwideinterfaces.core.IContext context, String uuid)
 	{
 		getMendixObject().setValue(context, MemberNames.UUID.toString(), uuid);
 	}
@@ -165,7 +159,7 @@ public class AppRole
 	 * @param context
 	 * @return value of DisplayName
 	 */
-	public final String getDisplayName(IContext context)
+	public final String getDisplayName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.DisplayName.toString());
 	}
@@ -184,7 +178,7 @@ public class AppRole
 	 * @param context
 	 * @param displayname
 	 */
-	public final void setDisplayName(IContext context, String displayname)
+	public final void setDisplayName(com.mendix.systemwideinterfaces.core.IContext context, String displayname)
 	{
 		getMendixObject().setValue(context, MemberNames.DisplayName.toString(), displayname);
 	}
@@ -192,7 +186,7 @@ public class AppRole
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return appRoleMendixObject;
 	}
@@ -200,7 +194,7 @@ public class AppRole
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -228,7 +222,7 @@ public class AppRole
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PermissionsAPI.AppRole";
 	}
@@ -238,7 +232,7 @@ public class AppRole
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

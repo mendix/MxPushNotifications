@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class Language
 {
-	private final IMendixObject languageMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject languageMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.Language";
+	public static final java.lang.String entityName = "System.Language";
 
 	/**
 	 * Enum describing members of this entity
@@ -32,31 +26,31 @@ public class Language
 		Code("Code"),
 		Description("Description");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Language(IContext context)
+	public Language(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.Language"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.Language"));
 	}
 
-	protected Language(IContext context, IMendixObject languageMendixObject)
+	protected Language(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject languageMendixObject)
 	{
 		if (languageMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.Language", languageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.Language");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.Language", languageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.Language");
 
 		this.languageMendixObject = languageMendixObject;
 		this.context = context;
@@ -66,7 +60,7 @@ public class Language
 	 * @deprecated Use 'Language.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.Language initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Language initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.Language.load(context, mendixIdentifier);
 	}
@@ -75,21 +69,21 @@ public class Language
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.Language initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.Language initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new system.proxies.Language(context, mendixObject);
 	}
 
-	public static system.proxies.Language load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Language load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.Language.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<system.proxies.Language> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<system.proxies.Language> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.Language> result = new java.util.ArrayList<system.proxies.Language>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.Language" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.Language" + xpathConstraint))
 			result.add(system.proxies.Language.initialize(context, obj));
 		return result;
 	}
@@ -97,17 +91,17 @@ public class Language
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -115,15 +109,15 @@ public class Language
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Code
@@ -137,7 +131,7 @@ public class Language
 	 * @param context
 	 * @return value of Code
 	 */
-	public final String getCode(IContext context)
+	public final String getCode(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Code.toString());
 	}
@@ -156,7 +150,7 @@ public class Language
 	 * @param context
 	 * @param code
 	 */
-	public final void setCode(IContext context, String code)
+	public final void setCode(com.mendix.systemwideinterfaces.core.IContext context, String code)
 	{
 		getMendixObject().setValue(context, MemberNames.Code.toString(), code);
 	}
@@ -173,7 +167,7 @@ public class Language
 	 * @param context
 	 * @return value of Description
 	 */
-	public final String getDescription(IContext context)
+	public final String getDescription(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Description.toString());
 	}
@@ -192,7 +186,7 @@ public class Language
 	 * @param context
 	 * @param description
 	 */
-	public final void setDescription(IContext context, String description)
+	public final void setDescription(com.mendix.systemwideinterfaces.core.IContext context, String description)
 	{
 		getMendixObject().setValue(context, MemberNames.Description.toString(), description);
 	}
@@ -200,7 +194,7 @@ public class Language
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return languageMendixObject;
 	}
@@ -208,7 +202,7 @@ public class Language
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -236,7 +230,7 @@ public class Language
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.Language";
 	}
@@ -246,7 +240,7 @@ public class Language
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

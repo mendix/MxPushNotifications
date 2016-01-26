@@ -4,25 +4,19 @@
 
 package administration.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class AccountPasswordData
 {
-	private final IMendixObject accountPasswordDataMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject accountPasswordDataMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "Administration.AccountPasswordData";
+	public static final java.lang.String entityName = "Administration.AccountPasswordData";
 
 	/**
 	 * Enum describing members of this entity
@@ -34,31 +28,31 @@ public class AccountPasswordData
 		ConfirmPassword("ConfirmPassword"),
 		AccountPasswordData_Account("Administration.AccountPasswordData_Account");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public AccountPasswordData(IContext context)
+	public AccountPasswordData(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "Administration.AccountPasswordData"));
+		this(context, com.mendix.core.Core.instantiate(context, "Administration.AccountPasswordData"));
 	}
 
-	protected AccountPasswordData(IContext context, IMendixObject accountPasswordDataMendixObject)
+	protected AccountPasswordData(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject accountPasswordDataMendixObject)
 	{
 		if (accountPasswordDataMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("Administration.AccountPasswordData", accountPasswordDataMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a Administration.AccountPasswordData");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("Administration.AccountPasswordData", accountPasswordDataMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a Administration.AccountPasswordData");
 
 		this.accountPasswordDataMendixObject = accountPasswordDataMendixObject;
 		this.context = context;
@@ -68,7 +62,7 @@ public class AccountPasswordData
 	 * @deprecated Use 'AccountPasswordData.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static administration.proxies.AccountPasswordData initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.AccountPasswordData initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return administration.proxies.AccountPasswordData.load(context, mendixIdentifier);
 	}
@@ -77,31 +71,31 @@ public class AccountPasswordData
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static administration.proxies.AccountPasswordData initialize(IContext context, IMendixObject mendixObject)
+	public static administration.proxies.AccountPasswordData initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new administration.proxies.AccountPasswordData(context, mendixObject);
 	}
 
-	public static administration.proxies.AccountPasswordData load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.AccountPasswordData load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return administration.proxies.AccountPasswordData.initialize(context, mendixObject);
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -109,15 +103,15 @@ public class AccountPasswordData
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of OldPassword
@@ -131,7 +125,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @return value of OldPassword
 	 */
-	public final String getOldPassword(IContext context)
+	public final String getOldPassword(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.OldPassword.toString());
 	}
@@ -150,7 +144,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @param oldpassword
 	 */
-	public final void setOldPassword(IContext context, String oldpassword)
+	public final void setOldPassword(com.mendix.systemwideinterfaces.core.IContext context, String oldpassword)
 	{
 		getMendixObject().setValue(context, MemberNames.OldPassword.toString(), oldpassword);
 	}
@@ -167,7 +161,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @return value of NewPassword
 	 */
-	public final String getNewPassword(IContext context)
+	public final String getNewPassword(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.NewPassword.toString());
 	}
@@ -186,7 +180,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @param newpassword
 	 */
-	public final void setNewPassword(IContext context, String newpassword)
+	public final void setNewPassword(com.mendix.systemwideinterfaces.core.IContext context, String newpassword)
 	{
 		getMendixObject().setValue(context, MemberNames.NewPassword.toString(), newpassword);
 	}
@@ -203,7 +197,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @return value of ConfirmPassword
 	 */
-	public final String getConfirmPassword(IContext context)
+	public final String getConfirmPassword(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.ConfirmPassword.toString());
 	}
@@ -222,7 +216,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @param confirmpassword
 	 */
-	public final void setConfirmPassword(IContext context, String confirmpassword)
+	public final void setConfirmPassword(com.mendix.systemwideinterfaces.core.IContext context, String confirmpassword)
 	{
 		getMendixObject().setValue(context, MemberNames.ConfirmPassword.toString(), confirmpassword);
 	}
@@ -230,7 +224,7 @@ public class AccountPasswordData
 	/**
 	 * @return value of AccountPasswordData_Account
 	 */
-	public final administration.proxies.Account getAccountPasswordData_Account() throws CoreException
+	public final administration.proxies.Account getAccountPasswordData_Account() throws com.mendix.core.CoreException
 	{
 		return getAccountPasswordData_Account(getContext());
 	}
@@ -239,10 +233,10 @@ public class AccountPasswordData
 	 * @param context
 	 * @return value of AccountPasswordData_Account
 	 */
-	public final administration.proxies.Account getAccountPasswordData_Account(IContext context) throws CoreException
+	public final administration.proxies.Account getAccountPasswordData_Account(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		administration.proxies.Account result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.AccountPasswordData_Account.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.AccountPasswordData_Account.toString());
 		if (identifier != null)
 			result = administration.proxies.Account.load(context, identifier);
 		return result;
@@ -262,7 +256,7 @@ public class AccountPasswordData
 	 * @param context
 	 * @param accountpassworddata_account
 	 */
-	public final void setAccountPasswordData_Account(IContext context, administration.proxies.Account accountpassworddata_account)
+	public final void setAccountPasswordData_Account(com.mendix.systemwideinterfaces.core.IContext context, administration.proxies.Account accountpassworddata_account)
 	{
 		if (accountpassworddata_account == null)
 			getMendixObject().setValue(context, MemberNames.AccountPasswordData_Account.toString(), null);
@@ -273,7 +267,7 @@ public class AccountPasswordData
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return accountPasswordDataMendixObject;
 	}
@@ -281,7 +275,7 @@ public class AccountPasswordData
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -309,7 +303,7 @@ public class AccountPasswordData
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "Administration.AccountPasswordData";
 	}
@@ -319,7 +313,7 @@ public class AccountPasswordData
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

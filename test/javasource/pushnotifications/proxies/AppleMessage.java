@@ -4,12 +4,6 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.AppleMessage";
+	public static final java.lang.String entityName = "PushNotifications.AppleMessage";
 
 	/**
 	 * Enum describing members of this entity
@@ -41,37 +35,37 @@ public class AppleMessage extends pushnotifications.proxies.Message
 		NextTry("NextTry"),
 		Queued("Queued");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public AppleMessage(IContext context)
+	public AppleMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.AppleMessage"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.AppleMessage"));
 	}
 
-	protected AppleMessage(IContext context, IMendixObject appleMessageMendixObject)
+	protected AppleMessage(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject appleMessageMendixObject)
 	{
 		super(context, appleMessageMendixObject);
-		if (!Core.isSubClassOf("PushNotifications.AppleMessage", appleMessageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.AppleMessage");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.AppleMessage", appleMessageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.AppleMessage");
 	}
 
 	/**
 	 * @deprecated Use 'AppleMessage.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.AppleMessage initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.AppleMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.AppleMessage.load(context, mendixIdentifier);
 	}
@@ -80,21 +74,21 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.AppleMessage initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.AppleMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.AppleMessage(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.AppleMessage load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.AppleMessage load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.AppleMessage.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.AppleMessage> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.AppleMessage> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.AppleMessage> result = new java.util.ArrayList<pushnotifications.proxies.AppleMessage>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.AppleMessage" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.AppleMessage" + xpathConstraint))
 			result.add(pushnotifications.proxies.AppleMessage.initialize(context, obj));
 		return result;
 	}
@@ -111,7 +105,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of Sound
 	 */
-	public final String getSound(IContext context)
+	public final String getSound(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Sound.toString());
 	}
@@ -130,7 +124,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param sound
 	 */
-	public final void setSound(IContext context, String sound)
+	public final void setSound(com.mendix.systemwideinterfaces.core.IContext context, String sound)
 	{
 		getMendixObject().setValue(context, MemberNames.Sound.toString(), sound);
 	}
@@ -147,7 +141,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of Badge
 	 */
-	public final Integer getBadge(IContext context)
+	public final Integer getBadge(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.Badge.toString());
 	}
@@ -166,7 +160,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param badge
 	 */
-	public final void setBadge(IContext context, Integer badge)
+	public final void setBadge(com.mendix.systemwideinterfaces.core.IContext context, Integer badge)
 	{
 		getMendixObject().setValue(context, MemberNames.Badge.toString(), badge);
 	}
@@ -183,7 +177,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of ActionKey
 	 */
-	public final String getActionKey(IContext context)
+	public final String getActionKey(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.ActionKey.toString());
 	}
@@ -202,7 +196,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param actionkey
 	 */
-	public final void setActionKey(IContext context, String actionkey)
+	public final void setActionKey(com.mendix.systemwideinterfaces.core.IContext context, String actionkey)
 	{
 		getMendixObject().setValue(context, MemberNames.ActionKey.toString(), actionkey);
 	}
@@ -219,7 +213,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of LaunchImage
 	 */
-	public final String getLaunchImage(IContext context)
+	public final String getLaunchImage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.LaunchImage.toString());
 	}
@@ -238,7 +232,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param launchimage
 	 */
-	public final void setLaunchImage(IContext context, String launchimage)
+	public final void setLaunchImage(com.mendix.systemwideinterfaces.core.IContext context, String launchimage)
 	{
 		getMendixObject().setValue(context, MemberNames.LaunchImage.toString(), launchimage);
 	}
@@ -255,7 +249,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of LocalizedKey
 	 */
-	public final String getLocalizedKey(IContext context)
+	public final String getLocalizedKey(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.LocalizedKey.toString());
 	}
@@ -274,7 +268,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param localizedkey
 	 */
-	public final void setLocalizedKey(IContext context, String localizedkey)
+	public final void setLocalizedKey(com.mendix.systemwideinterfaces.core.IContext context, String localizedkey)
 	{
 		getMendixObject().setValue(context, MemberNames.LocalizedKey.toString(), localizedkey);
 	}
@@ -291,7 +285,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of ResizeAlertBodyPostfix
 	 */
-	public final String getResizeAlertBodyPostfix(IContext context)
+	public final String getResizeAlertBodyPostfix(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.ResizeAlertBodyPostfix.toString());
 	}
@@ -310,7 +304,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param resizealertbodypostfix
 	 */
-	public final void setResizeAlertBodyPostfix(IContext context, String resizealertbodypostfix)
+	public final void setResizeAlertBodyPostfix(com.mendix.systemwideinterfaces.core.IContext context, String resizealertbodypostfix)
 	{
 		getMendixObject().setValue(context, MemberNames.ResizeAlertBodyPostfix.toString(), resizealertbodypostfix);
 	}
@@ -338,7 +332,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.AppleMessage";
 	}
@@ -349,7 +343,7 @@ public class AppleMessage extends pushnotifications.proxies.Message
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

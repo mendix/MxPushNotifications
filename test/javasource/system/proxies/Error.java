@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class Error
 {
-	private final IMendixObject errorMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject errorMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.Error";
+	public static final java.lang.String entityName = "System.Error";
 
 	/**
 	 * Enum describing members of this entity
@@ -33,31 +27,31 @@ public class Error
 		Message("Message"),
 		Stacktrace("Stacktrace");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Error(IContext context)
+	public Error(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.Error"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.Error"));
 	}
 
-	protected Error(IContext context, IMendixObject errorMendixObject)
+	protected Error(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject errorMendixObject)
 	{
 		if (errorMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.Error", errorMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.Error");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.Error", errorMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.Error");
 
 		this.errorMendixObject = errorMendixObject;
 		this.context = context;
@@ -67,7 +61,7 @@ public class Error
 	 * @deprecated Use 'Error.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.Error initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Error initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.Error.load(context, mendixIdentifier);
 	}
@@ -76,34 +70,34 @@ public class Error
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.Error initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.Error initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
-		if (Core.isSubClassOf("System.SoapFault", mendixObject.getType()))
+		if (com.mendix.core.Core.isSubClassOf("System.SoapFault", mendixObject.getType()))
 			return system.proxies.SoapFault.initialize(context, mendixObject);
 
 		return new system.proxies.Error(context, mendixObject);
 	}
 
-	public static system.proxies.Error load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Error load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.Error.initialize(context, mendixObject);
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -111,15 +105,15 @@ public class Error
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of ErrorType
@@ -133,7 +127,7 @@ public class Error
 	 * @param context
 	 * @return value of ErrorType
 	 */
-	public final String getErrorType(IContext context)
+	public final String getErrorType(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.ErrorType.toString());
 	}
@@ -152,7 +146,7 @@ public class Error
 	 * @param context
 	 * @param errortype
 	 */
-	public final void setErrorType(IContext context, String errortype)
+	public final void setErrorType(com.mendix.systemwideinterfaces.core.IContext context, String errortype)
 	{
 		getMendixObject().setValue(context, MemberNames.ErrorType.toString(), errortype);
 	}
@@ -169,7 +163,7 @@ public class Error
 	 * @param context
 	 * @return value of Message
 	 */
-	public final String getMessage(IContext context)
+	public final String getMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Message.toString());
 	}
@@ -188,7 +182,7 @@ public class Error
 	 * @param context
 	 * @param message
 	 */
-	public final void setMessage(IContext context, String message)
+	public final void setMessage(com.mendix.systemwideinterfaces.core.IContext context, String message)
 	{
 		getMendixObject().setValue(context, MemberNames.Message.toString(), message);
 	}
@@ -205,7 +199,7 @@ public class Error
 	 * @param context
 	 * @return value of Stacktrace
 	 */
-	public final String getStacktrace(IContext context)
+	public final String getStacktrace(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Stacktrace.toString());
 	}
@@ -224,7 +218,7 @@ public class Error
 	 * @param context
 	 * @param stacktrace
 	 */
-	public final void setStacktrace(IContext context, String stacktrace)
+	public final void setStacktrace(com.mendix.systemwideinterfaces.core.IContext context, String stacktrace)
 	{
 		getMendixObject().setValue(context, MemberNames.Stacktrace.toString(), stacktrace);
 	}
@@ -232,7 +226,7 @@ public class Error
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return errorMendixObject;
 	}
@@ -240,7 +234,7 @@ public class Error
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -268,7 +262,7 @@ public class Error
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.Error";
 	}
@@ -278,7 +272,7 @@ public class Error
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

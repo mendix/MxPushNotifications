@@ -4,25 +4,19 @@
 
 package profileservice.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class GetDisplayNameResponse
 {
-	private final IMendixObject getDisplayNameResponseMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject getDisplayNameResponseMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "ProfileService.GetDisplayNameResponse";
+	public static final java.lang.String entityName = "ProfileService.GetDisplayNameResponse";
 
 	/**
 	 * Enum describing members of this entity
@@ -31,31 +25,31 @@ public class GetDisplayNameResponse
 	{
 		Result("Result");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public GetDisplayNameResponse(IContext context)
+	public GetDisplayNameResponse(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "ProfileService.GetDisplayNameResponse"));
+		this(context, com.mendix.core.Core.instantiate(context, "ProfileService.GetDisplayNameResponse"));
 	}
 
-	protected GetDisplayNameResponse(IContext context, IMendixObject getDisplayNameResponseMendixObject)
+	protected GetDisplayNameResponse(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject getDisplayNameResponseMendixObject)
 	{
 		if (getDisplayNameResponseMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("ProfileService.GetDisplayNameResponse", getDisplayNameResponseMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a ProfileService.GetDisplayNameResponse");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("ProfileService.GetDisplayNameResponse", getDisplayNameResponseMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a ProfileService.GetDisplayNameResponse");
 
 		this.getDisplayNameResponseMendixObject = getDisplayNameResponseMendixObject;
 		this.context = context;
@@ -65,7 +59,7 @@ public class GetDisplayNameResponse
 	 * @deprecated Use 'GetDisplayNameResponse.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static profileservice.proxies.GetDisplayNameResponse initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static profileservice.proxies.GetDisplayNameResponse initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return profileservice.proxies.GetDisplayNameResponse.load(context, mendixIdentifier);
 	}
@@ -74,31 +68,31 @@ public class GetDisplayNameResponse
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static profileservice.proxies.GetDisplayNameResponse initialize(IContext context, IMendixObject mendixObject)
+	public static profileservice.proxies.GetDisplayNameResponse initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new profileservice.proxies.GetDisplayNameResponse(context, mendixObject);
 	}
 
-	public static profileservice.proxies.GetDisplayNameResponse load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static profileservice.proxies.GetDisplayNameResponse load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return profileservice.proxies.GetDisplayNameResponse.initialize(context, mendixObject);
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -106,15 +100,15 @@ public class GetDisplayNameResponse
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Result
@@ -128,7 +122,7 @@ public class GetDisplayNameResponse
 	 * @param context
 	 * @return value of Result
 	 */
-	public final String getResult(IContext context)
+	public final String getResult(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Result.toString());
 	}
@@ -147,7 +141,7 @@ public class GetDisplayNameResponse
 	 * @param context
 	 * @param result
 	 */
-	public final void setResult(IContext context, String result)
+	public final void setResult(com.mendix.systemwideinterfaces.core.IContext context, String result)
 	{
 		getMendixObject().setValue(context, MemberNames.Result.toString(), result);
 	}
@@ -155,7 +149,7 @@ public class GetDisplayNameResponse
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return getDisplayNameResponseMendixObject;
 	}
@@ -163,7 +157,7 @@ public class GetDisplayNameResponse
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -191,7 +185,7 @@ public class GetDisplayNameResponse
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "ProfileService.GetDisplayNameResponse";
 	}
@@ -201,7 +195,7 @@ public class GetDisplayNameResponse
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

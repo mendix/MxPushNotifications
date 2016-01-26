@@ -4,12 +4,6 @@
 
 package administration.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class Account extends system.proxies.User
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "Administration.Account";
+	public static final java.lang.String entityName = "Administration.Account";
 
 	/**
 	 * Enum describing members of this entity
@@ -40,37 +34,37 @@ public class Account extends system.proxies.User
 		User_Language("System.User_Language"),
 		User_TimeZone("System.User_TimeZone");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Account(IContext context)
+	public Account(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "Administration.Account"));
+		this(context, com.mendix.core.Core.instantiate(context, "Administration.Account"));
 	}
 
-	protected Account(IContext context, IMendixObject accountMendixObject)
+	protected Account(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject accountMendixObject)
 	{
 		super(context, accountMendixObject);
-		if (!Core.isSubClassOf("Administration.Account", accountMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a Administration.Account");
+		if (!com.mendix.core.Core.isSubClassOf("Administration.Account", accountMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a Administration.Account");
 	}
 
 	/**
 	 * @deprecated Use 'Account.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static administration.proxies.Account initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.Account initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return administration.proxies.Account.load(context, mendixIdentifier);
 	}
@@ -79,21 +73,21 @@ public class Account extends system.proxies.User
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static administration.proxies.Account initialize(IContext context, IMendixObject mendixObject)
+	public static administration.proxies.Account initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new administration.proxies.Account(context, mendixObject);
 	}
 
-	public static administration.proxies.Account load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static administration.proxies.Account load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return administration.proxies.Account.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<administration.proxies.Account> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<administration.proxies.Account> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<administration.proxies.Account> result = new java.util.ArrayList<administration.proxies.Account>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//Administration.Account" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//Administration.Account" + xpathConstraint))
 			result.add(administration.proxies.Account.initialize(context, obj));
 		return result;
 	}
@@ -110,7 +104,7 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @return value of FullName
 	 */
-	public final String getFullName(IContext context)
+	public final String getFullName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.FullName.toString());
 	}
@@ -129,7 +123,7 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @param fullname
 	 */
-	public final void setFullName(IContext context, String fullname)
+	public final void setFullName(com.mendix.systemwideinterfaces.core.IContext context, String fullname)
 	{
 		getMendixObject().setValue(context, MemberNames.FullName.toString(), fullname);
 	}
@@ -146,7 +140,7 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @return value of IsLocalUser
 	 */
-	public final Boolean getIsLocalUser(IContext context)
+	public final Boolean getIsLocalUser(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.IsLocalUser.toString());
 	}
@@ -165,7 +159,7 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @param islocaluser
 	 */
-	public final void setIsLocalUser(IContext context, Boolean islocaluser)
+	public final void setIsLocalUser(com.mendix.systemwideinterfaces.core.IContext context, Boolean islocaluser)
 	{
 		getMendixObject().setValue(context, MemberNames.IsLocalUser.toString(), islocaluser);
 	}
@@ -173,7 +167,7 @@ public class Account extends system.proxies.User
 	/**
 	 * @return value of Device_Account
 	 */
-	public final pushnotifications.proxies.Device getDevice_Account() throws CoreException
+	public final pushnotifications.proxies.Device getDevice_Account() throws com.mendix.core.CoreException
 	{
 		return getDevice_Account(getContext());
 	}
@@ -182,10 +176,10 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @return value of Device_Account
 	 */
-	public final pushnotifications.proxies.Device getDevice_Account(IContext context) throws CoreException
+	public final pushnotifications.proxies.Device getDevice_Account(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		pushnotifications.proxies.Device result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
 		if (identifier != null)
 			result = pushnotifications.proxies.Device.load(context, identifier);
 		return result;
@@ -205,7 +199,7 @@ public class Account extends system.proxies.User
 	 * @param context
 	 * @param device_account
 	 */
-	public final void setDevice_Account(IContext context, pushnotifications.proxies.Device device_account)
+	public final void setDevice_Account(com.mendix.systemwideinterfaces.core.IContext context, pushnotifications.proxies.Device device_account)
 	{
 		if (device_account == null)
 			getMendixObject().setValue(context, MemberNames.Device_Account.toString(), null);
@@ -236,7 +230,7 @@ public class Account extends system.proxies.User
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "Administration.Account";
 	}
@@ -247,7 +241,7 @@ public class Account extends system.proxies.User
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

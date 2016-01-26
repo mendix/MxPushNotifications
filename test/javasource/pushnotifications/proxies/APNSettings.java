@@ -4,25 +4,19 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class APNSettings
 {
-	private final IMendixObject aPNSettingsMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject aPNSettingsMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.APNSettings";
+	public static final java.lang.String entityName = "PushNotifications.APNSettings";
 
 	/**
 	 * Enum describing members of this entity
@@ -38,31 +32,31 @@ public class APNSettings
 		DTAPMode("DTAPMode"),
 		APNSettings_APNCertificate("PushNotifications.APNSettings_APNCertificate");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public APNSettings(IContext context)
+	public APNSettings(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.APNSettings"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.APNSettings"));
 	}
 
-	protected APNSettings(IContext context, IMendixObject aPNSettingsMendixObject)
+	protected APNSettings(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject aPNSettingsMendixObject)
 	{
 		if (aPNSettingsMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PushNotifications.APNSettings", aPNSettingsMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.APNSettings");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.APNSettings", aPNSettingsMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.APNSettings");
 
 		this.aPNSettingsMendixObject = aPNSettingsMendixObject;
 		this.context = context;
@@ -72,7 +66,7 @@ public class APNSettings
 	 * @deprecated Use 'APNSettings.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.APNSettings initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.APNSettings initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.APNSettings.load(context, mendixIdentifier);
 	}
@@ -81,21 +75,21 @@ public class APNSettings
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.APNSettings initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.APNSettings initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.APNSettings(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.APNSettings load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.APNSettings load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.APNSettings.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.APNSettings> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.APNSettings> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.APNSettings> result = new java.util.ArrayList<pushnotifications.proxies.APNSettings>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.APNSettings" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.APNSettings" + xpathConstraint))
 			result.add(pushnotifications.proxies.APNSettings.initialize(context, obj));
 		return result;
 	}
@@ -103,17 +97,17 @@ public class APNSettings
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -121,15 +115,15 @@ public class APNSettings
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Enabled
@@ -143,7 +137,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of Enabled
 	 */
-	public final Boolean getEnabled(IContext context)
+	public final Boolean getEnabled(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Enabled.toString());
 	}
@@ -162,7 +156,7 @@ public class APNSettings
 	 * @param context
 	 * @param enabled
 	 */
-	public final void setEnabled(IContext context, Boolean enabled)
+	public final void setEnabled(com.mendix.systemwideinterfaces.core.IContext context, Boolean enabled)
 	{
 		getMendixObject().setValue(context, MemberNames.Enabled.toString(), enabled);
 	}
@@ -179,7 +173,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of Server
 	 */
-	public final String getServer(IContext context)
+	public final String getServer(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Server.toString());
 	}
@@ -198,7 +192,7 @@ public class APNSettings
 	 * @param context
 	 * @param server
 	 */
-	public final void setServer(IContext context, String server)
+	public final void setServer(com.mendix.systemwideinterfaces.core.IContext context, String server)
 	{
 		getMendixObject().setValue(context, MemberNames.Server.toString(), server);
 	}
@@ -215,7 +209,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of Port
 	 */
-	public final Integer getPort(IContext context)
+	public final Integer getPort(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.Port.toString());
 	}
@@ -234,7 +228,7 @@ public class APNSettings
 	 * @param context
 	 * @param port
 	 */
-	public final void setPort(IContext context, Integer port)
+	public final void setPort(com.mendix.systemwideinterfaces.core.IContext context, Integer port)
 	{
 		getMendixObject().setValue(context, MemberNames.Port.toString(), port);
 	}
@@ -251,7 +245,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of FeedbackServer
 	 */
-	public final String getFeedbackServer(IContext context)
+	public final String getFeedbackServer(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.FeedbackServer.toString());
 	}
@@ -270,7 +264,7 @@ public class APNSettings
 	 * @param context
 	 * @param feedbackserver
 	 */
-	public final void setFeedbackServer(IContext context, String feedbackserver)
+	public final void setFeedbackServer(com.mendix.systemwideinterfaces.core.IContext context, String feedbackserver)
 	{
 		getMendixObject().setValue(context, MemberNames.FeedbackServer.toString(), feedbackserver);
 	}
@@ -287,7 +281,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of FeedbackPort
 	 */
-	public final Integer getFeedbackPort(IContext context)
+	public final Integer getFeedbackPort(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.FeedbackPort.toString());
 	}
@@ -306,7 +300,7 @@ public class APNSettings
 	 * @param context
 	 * @param feedbackport
 	 */
-	public final void setFeedbackPort(IContext context, Integer feedbackport)
+	public final void setFeedbackPort(com.mendix.systemwideinterfaces.core.IContext context, Integer feedbackport)
 	{
 		getMendixObject().setValue(context, MemberNames.FeedbackPort.toString(), feedbackport);
 	}
@@ -323,7 +317,7 @@ public class APNSettings
 	 * @param context
 	 * @return value of Started
 	 */
-	public final Boolean getStarted(IContext context)
+	public final Boolean getStarted(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Started.toString());
 	}
@@ -342,7 +336,7 @@ public class APNSettings
 	 * @param context
 	 * @param started
 	 */
-	public final void setStarted(IContext context, Boolean started)
+	public final void setStarted(com.mendix.systemwideinterfaces.core.IContext context, Boolean started)
 	{
 		getMendixObject().setValue(context, MemberNames.Started.toString(), started);
 	}
@@ -360,13 +354,13 @@ public class APNSettings
 	 * @param context
 	 * @return value of DTAPMode
 	 */
-	public final communitycommons.proxies.DTAPMode getDTAPMode(IContext context)
+	public final communitycommons.proxies.DTAPMode getDTAPMode(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.DTAPMode.toString());
 		if (obj == null)
 			return null;
 
-		return communitycommons.proxies.DTAPMode.valueOf((String) obj);
+		return communitycommons.proxies.DTAPMode.valueOf((java.lang.String) obj);
 	}
 
 	/**
@@ -383,7 +377,7 @@ public class APNSettings
 	 * @param context
 	 * @param dtapmode
 	 */
-	public final void setDTAPMode(IContext context, communitycommons.proxies.DTAPMode dtapmode)
+	public final void setDTAPMode(com.mendix.systemwideinterfaces.core.IContext context, communitycommons.proxies.DTAPMode dtapmode)
 	{
 		if (dtapmode != null)
 			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), dtapmode.toString());
@@ -394,7 +388,7 @@ public class APNSettings
 	/**
 	 * @return value of APNSettings_APNCertificate
 	 */
-	public final pushnotifications.proxies.APNCertificate getAPNSettings_APNCertificate() throws CoreException
+	public final pushnotifications.proxies.APNCertificate getAPNSettings_APNCertificate() throws com.mendix.core.CoreException
 	{
 		return getAPNSettings_APNCertificate(getContext());
 	}
@@ -403,10 +397,10 @@ public class APNSettings
 	 * @param context
 	 * @return value of APNSettings_APNCertificate
 	 */
-	public final pushnotifications.proxies.APNCertificate getAPNSettings_APNCertificate(IContext context) throws CoreException
+	public final pushnotifications.proxies.APNCertificate getAPNSettings_APNCertificate(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		pushnotifications.proxies.APNCertificate result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.APNSettings_APNCertificate.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.APNSettings_APNCertificate.toString());
 		if (identifier != null)
 			result = pushnotifications.proxies.APNCertificate.load(context, identifier);
 		return result;
@@ -426,7 +420,7 @@ public class APNSettings
 	 * @param context
 	 * @param apnsettings_apncertificate
 	 */
-	public final void setAPNSettings_APNCertificate(IContext context, pushnotifications.proxies.APNCertificate apnsettings_apncertificate)
+	public final void setAPNSettings_APNCertificate(com.mendix.systemwideinterfaces.core.IContext context, pushnotifications.proxies.APNCertificate apnsettings_apncertificate)
 	{
 		if (apnsettings_apncertificate == null)
 			getMendixObject().setValue(context, MemberNames.APNSettings_APNCertificate.toString(), null);
@@ -437,7 +431,7 @@ public class APNSettings
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return aPNSettingsMendixObject;
 	}
@@ -445,7 +439,7 @@ public class APNSettings
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -473,7 +467,7 @@ public class APNSettings
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.APNSettings";
 	}
@@ -483,7 +477,7 @@ public class APNSettings
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

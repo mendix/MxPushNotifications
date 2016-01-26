@@ -4,12 +4,6 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class Image extends system.proxies.FileDocument
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.Image";
+	public static final java.lang.String entityName = "System.Image";
 
 	/**
 	 * Enum describing members of this entity
@@ -32,37 +26,37 @@ public class Image extends system.proxies.FileDocument
 		Contents("Contents"),
 		HasContents("HasContents");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Image(IContext context)
+	public Image(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.Image"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.Image"));
 	}
 
-	protected Image(IContext context, IMendixObject imageMendixObject)
+	protected Image(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject imageMendixObject)
 	{
 		super(context, imageMendixObject);
-		if (!Core.isSubClassOf("System.Image", imageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.Image");
+		if (!com.mendix.core.Core.isSubClassOf("System.Image", imageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.Image");
 	}
 
 	/**
 	 * @deprecated Use 'Image.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.Image initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Image initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.Image.load(context, mendixIdentifier);
 	}
@@ -71,21 +65,21 @@ public class Image extends system.proxies.FileDocument
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.Image initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.Image initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new system.proxies.Image(context, mendixObject);
 	}
 
-	public static system.proxies.Image load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Image load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.Image.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<system.proxies.Image> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<system.proxies.Image> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.Image> result = new java.util.ArrayList<system.proxies.Image>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.Image" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.Image" + xpathConstraint))
 			result.add(system.proxies.Image.initialize(context, obj));
 		return result;
 	}
@@ -102,7 +96,7 @@ public class Image extends system.proxies.FileDocument
 	 * @param context
 	 * @return value of PublicThumbnailPath
 	 */
-	public final String getPublicThumbnailPath(IContext context)
+	public final String getPublicThumbnailPath(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.PublicThumbnailPath.toString());
 	}
@@ -121,7 +115,7 @@ public class Image extends system.proxies.FileDocument
 	 * @param context
 	 * @param publicthumbnailpath
 	 */
-	public final void setPublicThumbnailPath(IContext context, String publicthumbnailpath)
+	public final void setPublicThumbnailPath(com.mendix.systemwideinterfaces.core.IContext context, String publicthumbnailpath)
 	{
 		getMendixObject().setValue(context, MemberNames.PublicThumbnailPath.toString(), publicthumbnailpath);
 	}
@@ -149,7 +143,7 @@ public class Image extends system.proxies.FileDocument
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.Image";
 	}
@@ -160,7 +154,7 @@ public class Image extends system.proxies.FileDocument
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

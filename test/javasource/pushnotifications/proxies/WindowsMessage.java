@@ -4,12 +4,6 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.WindowsMessage";
+	public static final java.lang.String entityName = "PushNotifications.WindowsMessage";
 
 	/**
 	 * Enum describing members of this entity
@@ -37,37 +31,37 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 		NextTry("NextTry"),
 		Queued("Queued");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public WindowsMessage(IContext context)
+	public WindowsMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.WindowsMessage"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.WindowsMessage"));
 	}
 
-	protected WindowsMessage(IContext context, IMendixObject windowsMessageMendixObject)
+	protected WindowsMessage(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject windowsMessageMendixObject)
 	{
 		super(context, windowsMessageMendixObject);
-		if (!Core.isSubClassOf("PushNotifications.WindowsMessage", windowsMessageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.WindowsMessage");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.WindowsMessage", windowsMessageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.WindowsMessage");
 	}
 
 	/**
 	 * @deprecated Use 'WindowsMessage.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.WindowsMessage initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.WindowsMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.WindowsMessage.load(context, mendixIdentifier);
 	}
@@ -76,21 +70,21 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.WindowsMessage initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.WindowsMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.WindowsMessage(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.WindowsMessage load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.WindowsMessage load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.WindowsMessage.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.WindowsMessage> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.WindowsMessage> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.WindowsMessage> result = new java.util.ArrayList<pushnotifications.proxies.WindowsMessage>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.WindowsMessage" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.WindowsMessage" + xpathConstraint))
 			result.add(pushnotifications.proxies.WindowsMessage.initialize(context, obj));
 		return result;
 	}
@@ -107,7 +101,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of Title
 	 */
-	public final String getTitle(IContext context)
+	public final String getTitle(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Title.toString());
 	}
@@ -126,7 +120,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param title
 	 */
-	public final void setTitle(IContext context, String title)
+	public final void setTitle(com.mendix.systemwideinterfaces.core.IContext context, String title)
 	{
 		getMendixObject().setValue(context, MemberNames.Title.toString(), title);
 	}
@@ -143,7 +137,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @return value of URL
 	 */
-	public final String getURL(IContext context)
+	public final String getURL(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.URL.toString());
 	}
@@ -162,7 +156,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 * @param context
 	 * @param url
 	 */
-	public final void setURL(IContext context, String url)
+	public final void setURL(com.mendix.systemwideinterfaces.core.IContext context, String url)
 	{
 		getMendixObject().setValue(context, MemberNames.URL.toString(), url);
 	}
@@ -190,7 +184,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.WindowsMessage";
 	}
@@ -201,7 +195,7 @@ public class WindowsMessage extends pushnotifications.proxies.Message
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

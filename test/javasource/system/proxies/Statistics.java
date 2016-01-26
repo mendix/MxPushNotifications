@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class Statistics
 {
-	private final IMendixObject statisticsMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject statisticsMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.Statistics";
+	public static final java.lang.String entityName = "System.Statistics";
 
 	/**
 	 * Enum describing members of this entity
@@ -35,31 +29,31 @@ public class Statistics
 		LastUpdate("LastUpdate"),
 		ClusterManager("System.ClusterManager");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Statistics(IContext context)
+	public Statistics(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.Statistics"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.Statistics"));
 	}
 
-	protected Statistics(IContext context, IMendixObject statisticsMendixObject)
+	protected Statistics(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject statisticsMendixObject)
 	{
 		if (statisticsMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.Statistics", statisticsMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.Statistics");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.Statistics", statisticsMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.Statistics");
 
 		this.statisticsMendixObject = statisticsMendixObject;
 		this.context = context;
@@ -69,7 +63,7 @@ public class Statistics
 	 * @deprecated Use 'Statistics.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.Statistics initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Statistics initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.Statistics.load(context, mendixIdentifier);
 	}
@@ -78,21 +72,21 @@ public class Statistics
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.Statistics initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.Statistics initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new system.proxies.Statistics(context, mendixObject);
 	}
 
-	public static system.proxies.Statistics load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.Statistics load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.Statistics.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<system.proxies.Statistics> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<system.proxies.Statistics> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.Statistics> result = new java.util.ArrayList<system.proxies.Statistics>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.Statistics" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.Statistics" + xpathConstraint))
 			result.add(system.proxies.Statistics.initialize(context, obj));
 		return result;
 	}
@@ -100,17 +94,17 @@ public class Statistics
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -118,15 +112,15 @@ public class Statistics
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of MaxNumberOfConcurrentUsers
@@ -140,7 +134,7 @@ public class Statistics
 	 * @param context
 	 * @return value of MaxNumberOfConcurrentUsers
 	 */
-	public final Integer getMaxNumberOfConcurrentUsers(IContext context)
+	public final Integer getMaxNumberOfConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.MaxNumberOfConcurrentUsers.toString());
 	}
@@ -159,7 +153,7 @@ public class Statistics
 	 * @param context
 	 * @param maxnumberofconcurrentusers
 	 */
-	public final void setMaxNumberOfConcurrentUsers(IContext context, Integer maxnumberofconcurrentusers)
+	public final void setMaxNumberOfConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context, Integer maxnumberofconcurrentusers)
 	{
 		getMendixObject().setValue(context, MemberNames.MaxNumberOfConcurrentUsers.toString(), maxnumberofconcurrentusers);
 	}
@@ -176,7 +170,7 @@ public class Statistics
 	 * @param context
 	 * @return value of MaxNumberOfAnonymousConcurrentUsers
 	 */
-	public final Integer getMaxNumberOfAnonymousConcurrentUsers(IContext context)
+	public final Integer getMaxNumberOfAnonymousConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.MaxNumberOfAnonymousConcurrentUsers.toString());
 	}
@@ -195,7 +189,7 @@ public class Statistics
 	 * @param context
 	 * @param maxnumberofanonymousconcurrentusers
 	 */
-	public final void setMaxNumberOfAnonymousConcurrentUsers(IContext context, Integer maxnumberofanonymousconcurrentusers)
+	public final void setMaxNumberOfAnonymousConcurrentUsers(com.mendix.systemwideinterfaces.core.IContext context, Integer maxnumberofanonymousconcurrentusers)
 	{
 		getMendixObject().setValue(context, MemberNames.MaxNumberOfAnonymousConcurrentUsers.toString(), maxnumberofanonymousconcurrentusers);
 	}
@@ -212,7 +206,7 @@ public class Statistics
 	 * @param context
 	 * @return value of MaxNumberOfNamedUsers
 	 */
-	public final Integer getMaxNumberOfNamedUsers(IContext context)
+	public final Integer getMaxNumberOfNamedUsers(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.MaxNumberOfNamedUsers.toString());
 	}
@@ -231,7 +225,7 @@ public class Statistics
 	 * @param context
 	 * @param maxnumberofnamedusers
 	 */
-	public final void setMaxNumberOfNamedUsers(IContext context, Integer maxnumberofnamedusers)
+	public final void setMaxNumberOfNamedUsers(com.mendix.systemwideinterfaces.core.IContext context, Integer maxnumberofnamedusers)
 	{
 		getMendixObject().setValue(context, MemberNames.MaxNumberOfNamedUsers.toString(), maxnumberofnamedusers);
 	}
@@ -248,7 +242,7 @@ public class Statistics
 	 * @param context
 	 * @return value of LastUpdate
 	 */
-	public final java.util.Date getLastUpdate(IContext context)
+	public final java.util.Date getLastUpdate(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (java.util.Date) getMendixObject().getValue(context, MemberNames.LastUpdate.toString());
 	}
@@ -267,7 +261,7 @@ public class Statistics
 	 * @param context
 	 * @param lastupdate
 	 */
-	public final void setLastUpdate(IContext context, java.util.Date lastupdate)
+	public final void setLastUpdate(com.mendix.systemwideinterfaces.core.IContext context, java.util.Date lastupdate)
 	{
 		getMendixObject().setValue(context, MemberNames.LastUpdate.toString(), lastupdate);
 	}
@@ -275,7 +269,7 @@ public class Statistics
 	/**
 	 * @return value of ClusterManager
 	 */
-	public final system.proxies.XASInstance getClusterManager() throws CoreException
+	public final system.proxies.XASInstance getClusterManager() throws com.mendix.core.CoreException
 	{
 		return getClusterManager(getContext());
 	}
@@ -284,10 +278,10 @@ public class Statistics
 	 * @param context
 	 * @return value of ClusterManager
 	 */
-	public final system.proxies.XASInstance getClusterManager(IContext context) throws CoreException
+	public final system.proxies.XASInstance getClusterManager(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		system.proxies.XASInstance result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.ClusterManager.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.ClusterManager.toString());
 		if (identifier != null)
 			result = system.proxies.XASInstance.load(context, identifier);
 		return result;
@@ -307,7 +301,7 @@ public class Statistics
 	 * @param context
 	 * @param clustermanager
 	 */
-	public final void setClusterManager(IContext context, system.proxies.XASInstance clustermanager)
+	public final void setClusterManager(com.mendix.systemwideinterfaces.core.IContext context, system.proxies.XASInstance clustermanager)
 	{
 		if (clustermanager == null)
 			getMendixObject().setValue(context, MemberNames.ClusterManager.toString(), null);
@@ -318,7 +312,7 @@ public class Statistics
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return statisticsMendixObject;
 	}
@@ -326,7 +320,7 @@ public class Statistics
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -354,7 +348,7 @@ public class Statistics
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.Statistics";
 	}
@@ -364,7 +358,7 @@ public class Statistics
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

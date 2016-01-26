@@ -4,25 +4,19 @@
 
 package encryption.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class PasswordData
 {
-	private final IMendixObject passwordDataMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject passwordDataMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "Encryption.PasswordData";
+	public static final java.lang.String entityName = "Encryption.PasswordData";
 
 	/**
 	 * Enum describing members of this entity
@@ -33,31 +27,31 @@ public class PasswordData
 		ConfirmPassword("ConfirmPassword"),
 		PasswordData_ExampleConfiguration("Encryption.PasswordData_ExampleConfiguration");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public PasswordData(IContext context)
+	public PasswordData(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "Encryption.PasswordData"));
+		this(context, com.mendix.core.Core.instantiate(context, "Encryption.PasswordData"));
 	}
 
-	protected PasswordData(IContext context, IMendixObject passwordDataMendixObject)
+	protected PasswordData(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject passwordDataMendixObject)
 	{
 		if (passwordDataMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("Encryption.PasswordData", passwordDataMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a Encryption.PasswordData");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("Encryption.PasswordData", passwordDataMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a Encryption.PasswordData");
 
 		this.passwordDataMendixObject = passwordDataMendixObject;
 		this.context = context;
@@ -67,7 +61,7 @@ public class PasswordData
 	 * @deprecated Use 'PasswordData.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static encryption.proxies.PasswordData initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static encryption.proxies.PasswordData initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return encryption.proxies.PasswordData.load(context, mendixIdentifier);
 	}
@@ -76,31 +70,31 @@ public class PasswordData
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static encryption.proxies.PasswordData initialize(IContext context, IMendixObject mendixObject)
+	public static encryption.proxies.PasswordData initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new encryption.proxies.PasswordData(context, mendixObject);
 	}
 
-	public static encryption.proxies.PasswordData load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static encryption.proxies.PasswordData load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return encryption.proxies.PasswordData.initialize(context, mendixObject);
 	}
 
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -108,15 +102,15 @@ public class PasswordData
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of NewPassword
@@ -130,7 +124,7 @@ public class PasswordData
 	 * @param context
 	 * @return value of NewPassword
 	 */
-	public final String getNewPassword(IContext context)
+	public final String getNewPassword(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.NewPassword.toString());
 	}
@@ -149,7 +143,7 @@ public class PasswordData
 	 * @param context
 	 * @param newpassword
 	 */
-	public final void setNewPassword(IContext context, String newpassword)
+	public final void setNewPassword(com.mendix.systemwideinterfaces.core.IContext context, String newpassword)
 	{
 		getMendixObject().setValue(context, MemberNames.NewPassword.toString(), newpassword);
 	}
@@ -166,7 +160,7 @@ public class PasswordData
 	 * @param context
 	 * @return value of ConfirmPassword
 	 */
-	public final String getConfirmPassword(IContext context)
+	public final String getConfirmPassword(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.ConfirmPassword.toString());
 	}
@@ -185,7 +179,7 @@ public class PasswordData
 	 * @param context
 	 * @param confirmpassword
 	 */
-	public final void setConfirmPassword(IContext context, String confirmpassword)
+	public final void setConfirmPassword(com.mendix.systemwideinterfaces.core.IContext context, String confirmpassword)
 	{
 		getMendixObject().setValue(context, MemberNames.ConfirmPassword.toString(), confirmpassword);
 	}
@@ -193,7 +187,7 @@ public class PasswordData
 	/**
 	 * @return value of PasswordData_ExampleConfiguration
 	 */
-	public final encryption.proxies.ExampleConfiguration getPasswordData_ExampleConfiguration() throws CoreException
+	public final encryption.proxies.ExampleConfiguration getPasswordData_ExampleConfiguration() throws com.mendix.core.CoreException
 	{
 		return getPasswordData_ExampleConfiguration(getContext());
 	}
@@ -202,10 +196,10 @@ public class PasswordData
 	 * @param context
 	 * @return value of PasswordData_ExampleConfiguration
 	 */
-	public final encryption.proxies.ExampleConfiguration getPasswordData_ExampleConfiguration(IContext context) throws CoreException
+	public final encryption.proxies.ExampleConfiguration getPasswordData_ExampleConfiguration(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		encryption.proxies.ExampleConfiguration result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.PasswordData_ExampleConfiguration.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.PasswordData_ExampleConfiguration.toString());
 		if (identifier != null)
 			result = encryption.proxies.ExampleConfiguration.load(context, identifier);
 		return result;
@@ -225,7 +219,7 @@ public class PasswordData
 	 * @param context
 	 * @param passworddata_exampleconfiguration
 	 */
-	public final void setPasswordData_ExampleConfiguration(IContext context, encryption.proxies.ExampleConfiguration passworddata_exampleconfiguration)
+	public final void setPasswordData_ExampleConfiguration(com.mendix.systemwideinterfaces.core.IContext context, encryption.proxies.ExampleConfiguration passworddata_exampleconfiguration)
 	{
 		if (passworddata_exampleconfiguration == null)
 			getMendixObject().setValue(context, MemberNames.PasswordData_ExampleConfiguration.toString(), null);
@@ -236,7 +230,7 @@ public class PasswordData
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return passwordDataMendixObject;
 	}
@@ -244,7 +238,7 @@ public class PasswordData
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -272,7 +266,7 @@ public class PasswordData
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "Encryption.PasswordData";
 	}
@@ -282,7 +276,7 @@ public class PasswordData
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

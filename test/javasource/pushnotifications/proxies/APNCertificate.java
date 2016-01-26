@@ -4,12 +4,6 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
@@ -18,7 +12,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.APNCertificate";
+	public static final java.lang.String entityName = "PushNotifications.APNCertificate";
 
 	/**
 	 * Enum describing members of this entity
@@ -33,37 +27,37 @@ public class APNCertificate extends system.proxies.FileDocument
 		HasContents("HasContents"),
 		APNSettings_APNCertificate("PushNotifications.APNSettings_APNCertificate");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public APNCertificate(IContext context)
+	public APNCertificate(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.APNCertificate"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.APNCertificate"));
 	}
 
-	protected APNCertificate(IContext context, IMendixObject aPNCertificateMendixObject)
+	protected APNCertificate(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject aPNCertificateMendixObject)
 	{
 		super(context, aPNCertificateMendixObject);
-		if (!Core.isSubClassOf("PushNotifications.APNCertificate", aPNCertificateMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.APNCertificate");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.APNCertificate", aPNCertificateMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.APNCertificate");
 	}
 
 	/**
 	 * @deprecated Use 'APNCertificate.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.APNCertificate initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.APNCertificate initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.APNCertificate.load(context, mendixIdentifier);
 	}
@@ -72,21 +66,21 @@ public class APNCertificate extends system.proxies.FileDocument
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.APNCertificate initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.APNCertificate initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.APNCertificate(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.APNCertificate load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.APNCertificate load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.APNCertificate.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.APNCertificate> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.APNCertificate> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.APNCertificate> result = new java.util.ArrayList<pushnotifications.proxies.APNCertificate>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.APNCertificate" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.APNCertificate" + xpathConstraint))
 			result.add(pushnotifications.proxies.APNCertificate.initialize(context, obj));
 		return result;
 	}
@@ -103,7 +97,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	 * @param context
 	 * @return value of PassCode
 	 */
-	public final String getPassCode(IContext context)
+	public final String getPassCode(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.PassCode.toString());
 	}
@@ -122,7 +116,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	 * @param context
 	 * @param passcode
 	 */
-	public final void setPassCode(IContext context, String passcode)
+	public final void setPassCode(com.mendix.systemwideinterfaces.core.IContext context, String passcode)
 	{
 		getMendixObject().setValue(context, MemberNames.PassCode.toString(), passcode);
 	}
@@ -130,7 +124,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	/**
 	 * @return value of APNSettings_APNCertificate
 	 */
-	public final pushnotifications.proxies.APNSettings getAPNSettings_APNCertificate() throws CoreException
+	public final pushnotifications.proxies.APNSettings getAPNSettings_APNCertificate() throws com.mendix.core.CoreException
 	{
 		return getAPNSettings_APNCertificate(getContext());
 	}
@@ -139,10 +133,10 @@ public class APNCertificate extends system.proxies.FileDocument
 	 * @param context
 	 * @return value of APNSettings_APNCertificate
 	 */
-	public final pushnotifications.proxies.APNSettings getAPNSettings_APNCertificate(IContext context) throws CoreException
+	public final pushnotifications.proxies.APNSettings getAPNSettings_APNCertificate(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		pushnotifications.proxies.APNSettings result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.APNSettings_APNCertificate.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.APNSettings_APNCertificate.toString());
 		if (identifier != null)
 			result = pushnotifications.proxies.APNSettings.load(context, identifier);
 		return result;
@@ -162,7 +156,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	 * @param context
 	 * @param apnsettings_apncertificate
 	 */
-	public final void setAPNSettings_APNCertificate(IContext context, pushnotifications.proxies.APNSettings apnsettings_apncertificate)
+	public final void setAPNSettings_APNCertificate(com.mendix.systemwideinterfaces.core.IContext context, pushnotifications.proxies.APNSettings apnsettings_apncertificate)
 	{
 		if (apnsettings_apncertificate == null)
 			getMendixObject().setValue(context, MemberNames.APNSettings_APNCertificate.toString(), null);
@@ -193,7 +187,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.APNCertificate";
 	}
@@ -204,7 +198,7 @@ public class APNCertificate extends system.proxies.FileDocument
 	 */
 	@Override
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

@@ -4,25 +4,19 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class Device
 {
-	private final IMendixObject deviceMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject deviceMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.Device";
+	public static final java.lang.String entityName = "PushNotifications.Device";
 
 	/**
 	 * Enum describing members of this entity
@@ -33,31 +27,31 @@ public class Device
 		DeviceType("DeviceType"),
 		Device_Account("PushNotifications.Device_Account");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Device(IContext context)
+	public Device(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.Device"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.Device"));
 	}
 
-	protected Device(IContext context, IMendixObject deviceMendixObject)
+	protected Device(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject deviceMendixObject)
 	{
 		if (deviceMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PushNotifications.Device", deviceMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.Device");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.Device", deviceMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.Device");
 
 		this.deviceMendixObject = deviceMendixObject;
 		this.context = context;
@@ -67,7 +61,7 @@ public class Device
 	 * @deprecated Use 'Device.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.Device initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.Device initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.Device.load(context, mendixIdentifier);
 	}
@@ -76,21 +70,21 @@ public class Device
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.Device initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.Device initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.Device(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.Device load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.Device load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.Device.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.Device> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.Device> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.Device> result = new java.util.ArrayList<pushnotifications.proxies.Device>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.Device" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.Device" + xpathConstraint))
 			result.add(pushnotifications.proxies.Device.initialize(context, obj));
 		return result;
 	}
@@ -98,17 +92,17 @@ public class Device
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -116,15 +110,15 @@ public class Device
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of RegistrationID
@@ -138,7 +132,7 @@ public class Device
 	 * @param context
 	 * @return value of RegistrationID
 	 */
-	public final String getRegistrationID(IContext context)
+	public final String getRegistrationID(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.RegistrationID.toString());
 	}
@@ -157,7 +151,7 @@ public class Device
 	 * @param context
 	 * @param registrationid
 	 */
-	public final void setRegistrationID(IContext context, String registrationid)
+	public final void setRegistrationID(com.mendix.systemwideinterfaces.core.IContext context, String registrationid)
 	{
 		getMendixObject().setValue(context, MemberNames.RegistrationID.toString(), registrationid);
 	}
@@ -175,13 +169,13 @@ public class Device
 	 * @param context
 	 * @return value of DeviceType
 	 */
-	public final pushnotifications.proxies.DeviceType getDeviceType(IContext context)
+	public final pushnotifications.proxies.DeviceType getDeviceType(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.DeviceType.toString());
 		if (obj == null)
 			return null;
 
-		return pushnotifications.proxies.DeviceType.valueOf((String) obj);
+		return pushnotifications.proxies.DeviceType.valueOf((java.lang.String) obj);
 	}
 
 	/**
@@ -198,7 +192,7 @@ public class Device
 	 * @param context
 	 * @param devicetype
 	 */
-	public final void setDeviceType(IContext context, pushnotifications.proxies.DeviceType devicetype)
+	public final void setDeviceType(com.mendix.systemwideinterfaces.core.IContext context, pushnotifications.proxies.DeviceType devicetype)
 	{
 		if (devicetype != null)
 			getMendixObject().setValue(context, MemberNames.DeviceType.toString(), devicetype.toString());
@@ -209,7 +203,7 @@ public class Device
 	/**
 	 * @return value of Device_Account
 	 */
-	public final administration.proxies.Account getDevice_Account() throws CoreException
+	public final administration.proxies.Account getDevice_Account() throws com.mendix.core.CoreException
 	{
 		return getDevice_Account(getContext());
 	}
@@ -218,10 +212,10 @@ public class Device
 	 * @param context
 	 * @return value of Device_Account
 	 */
-	public final administration.proxies.Account getDevice_Account(IContext context) throws CoreException
+	public final administration.proxies.Account getDevice_Account(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
 		administration.proxies.Account result = null;
-		IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
+		com.mendix.systemwideinterfaces.core.IMendixIdentifier identifier = getMendixObject().getValue(context, MemberNames.Device_Account.toString());
 		if (identifier != null)
 			result = administration.proxies.Account.load(context, identifier);
 		return result;
@@ -241,7 +235,7 @@ public class Device
 	 * @param context
 	 * @param device_account
 	 */
-	public final void setDevice_Account(IContext context, administration.proxies.Account device_account)
+	public final void setDevice_Account(com.mendix.systemwideinterfaces.core.IContext context, administration.proxies.Account device_account)
 	{
 		if (device_account == null)
 			getMendixObject().setValue(context, MemberNames.Device_Account.toString(), null);
@@ -252,7 +246,7 @@ public class Device
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return deviceMendixObject;
 	}
@@ -260,7 +254,7 @@ public class Device
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -288,7 +282,7 @@ public class Device
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.Device";
 	}
@@ -298,7 +292,7 @@ public class Device
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

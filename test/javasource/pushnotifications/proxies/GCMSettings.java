@@ -4,25 +4,19 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * Google implementation.
  */
 public class GCMSettings
 {
-	private final IMendixObject gCMSettingsMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject gCMSettingsMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.GCMSettings";
+	public static final java.lang.String entityName = "PushNotifications.GCMSettings";
 
 	/**
 	 * Enum describing members of this entity
@@ -36,31 +30,31 @@ public class GCMSettings
 		APIKey("APIKey"),
 		DTAPMode("DTAPMode");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public GCMSettings(IContext context)
+	public GCMSettings(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.GCMSettings"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.GCMSettings"));
 	}
 
-	protected GCMSettings(IContext context, IMendixObject gCMSettingsMendixObject)
+	protected GCMSettings(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject gCMSettingsMendixObject)
 	{
 		if (gCMSettingsMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PushNotifications.GCMSettings", gCMSettingsMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.GCMSettings");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.GCMSettings", gCMSettingsMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.GCMSettings");
 
 		this.gCMSettingsMendixObject = gCMSettingsMendixObject;
 		this.context = context;
@@ -70,7 +64,7 @@ public class GCMSettings
 	 * @deprecated Use 'GCMSettings.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.GCMSettings initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.GCMSettings initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.GCMSettings.load(context, mendixIdentifier);
 	}
@@ -79,21 +73,21 @@ public class GCMSettings
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.GCMSettings initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.GCMSettings initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new pushnotifications.proxies.GCMSettings(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.GCMSettings load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.GCMSettings load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.GCMSettings.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<pushnotifications.proxies.GCMSettings> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<pushnotifications.proxies.GCMSettings> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.GCMSettings> result = new java.util.ArrayList<pushnotifications.proxies.GCMSettings>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.GCMSettings" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.GCMSettings" + xpathConstraint))
 			result.add(pushnotifications.proxies.GCMSettings.initialize(context, obj));
 		return result;
 	}
@@ -101,17 +95,17 @@ public class GCMSettings
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -119,15 +113,15 @@ public class GCMSettings
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Enabled
@@ -141,7 +135,7 @@ public class GCMSettings
 	 * @param context
 	 * @return value of Enabled
 	 */
-	public final Boolean getEnabled(IContext context)
+	public final Boolean getEnabled(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Enabled.toString());
 	}
@@ -160,7 +154,7 @@ public class GCMSettings
 	 * @param context
 	 * @param enabled
 	 */
-	public final void setEnabled(IContext context, Boolean enabled)
+	public final void setEnabled(com.mendix.systemwideinterfaces.core.IContext context, Boolean enabled)
 	{
 		getMendixObject().setValue(context, MemberNames.Enabled.toString(), enabled);
 	}
@@ -177,7 +171,7 @@ public class GCMSettings
 	 * @param context
 	 * @return value of XMPPServer
 	 */
-	public final String getXMPPServer(IContext context)
+	public final String getXMPPServer(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.XMPPServer.toString());
 	}
@@ -196,7 +190,7 @@ public class GCMSettings
 	 * @param context
 	 * @param xmppserver
 	 */
-	public final void setXMPPServer(IContext context, String xmppserver)
+	public final void setXMPPServer(com.mendix.systemwideinterfaces.core.IContext context, String xmppserver)
 	{
 		getMendixObject().setValue(context, MemberNames.XMPPServer.toString(), xmppserver);
 	}
@@ -213,7 +207,7 @@ public class GCMSettings
 	 * @param context
 	 * @return value of XMPPPort
 	 */
-	public final Integer getXMPPPort(IContext context)
+	public final Integer getXMPPPort(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.XMPPPort.toString());
 	}
@@ -232,7 +226,7 @@ public class GCMSettings
 	 * @param context
 	 * @param xmppport
 	 */
-	public final void setXMPPPort(IContext context, Integer xmppport)
+	public final void setXMPPPort(com.mendix.systemwideinterfaces.core.IContext context, Integer xmppport)
 	{
 		getMendixObject().setValue(context, MemberNames.XMPPPort.toString(), xmppport);
 	}
@@ -249,7 +243,7 @@ public class GCMSettings
 	 * @param context
 	 * @return value of SenderId
 	 */
-	public final Long getSenderId(IContext context)
+	public final Long getSenderId(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Long) getMendixObject().getValue(context, MemberNames.SenderId.toString());
 	}
@@ -268,7 +262,7 @@ public class GCMSettings
 	 * @param context
 	 * @param senderid
 	 */
-	public final void setSenderId(IContext context, Long senderid)
+	public final void setSenderId(com.mendix.systemwideinterfaces.core.IContext context, Long senderid)
 	{
 		getMendixObject().setValue(context, MemberNames.SenderId.toString(), senderid);
 	}
@@ -285,7 +279,7 @@ public class GCMSettings
 	 * @param context
 	 * @return value of APIKey
 	 */
-	public final String getAPIKey(IContext context)
+	public final String getAPIKey(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.APIKey.toString());
 	}
@@ -304,7 +298,7 @@ public class GCMSettings
 	 * @param context
 	 * @param apikey
 	 */
-	public final void setAPIKey(IContext context, String apikey)
+	public final void setAPIKey(com.mendix.systemwideinterfaces.core.IContext context, String apikey)
 	{
 		getMendixObject().setValue(context, MemberNames.APIKey.toString(), apikey);
 	}
@@ -322,13 +316,13 @@ public class GCMSettings
 	 * @param context
 	 * @return value of DTAPMode
 	 */
-	public final communitycommons.proxies.DTAPMode getDTAPMode(IContext context)
+	public final communitycommons.proxies.DTAPMode getDTAPMode(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.DTAPMode.toString());
 		if (obj == null)
 			return null;
 
-		return communitycommons.proxies.DTAPMode.valueOf((String) obj);
+		return communitycommons.proxies.DTAPMode.valueOf((java.lang.String) obj);
 	}
 
 	/**
@@ -345,7 +339,7 @@ public class GCMSettings
 	 * @param context
 	 * @param dtapmode
 	 */
-	public final void setDTAPMode(IContext context, communitycommons.proxies.DTAPMode dtapmode)
+	public final void setDTAPMode(com.mendix.systemwideinterfaces.core.IContext context, communitycommons.proxies.DTAPMode dtapmode)
 	{
 		if (dtapmode != null)
 			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), dtapmode.toString());
@@ -356,7 +350,7 @@ public class GCMSettings
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return gCMSettingsMendixObject;
 	}
@@ -364,7 +358,7 @@ public class GCMSettings
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -392,7 +386,7 @@ public class GCMSettings
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.GCMSettings";
 	}
@@ -402,7 +396,7 @@ public class GCMSettings
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

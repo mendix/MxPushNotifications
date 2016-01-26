@@ -4,25 +4,19 @@
 
 package pushnotifications.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class Message
 {
-	private final IMendixObject messageMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject messageMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "PushNotifications.Message";
+	public static final java.lang.String entityName = "PushNotifications.Message";
 
 	/**
 	 * Enum describing members of this entity
@@ -39,31 +33,31 @@ public class Message
 		NextTry("NextTry"),
 		Queued("Queued");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public Message(IContext context)
+	public Message(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "PushNotifications.Message"));
+		this(context, com.mendix.core.Core.instantiate(context, "PushNotifications.Message"));
 	}
 
-	protected Message(IContext context, IMendixObject messageMendixObject)
+	protected Message(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject messageMendixObject)
 	{
 		if (messageMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("PushNotifications.Message", messageMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a PushNotifications.Message");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.Message", messageMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.Message");
 
 		this.messageMendixObject = messageMendixObject;
 		this.context = context;
@@ -73,7 +67,7 @@ public class Message
 	 * @deprecated Use 'Message.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static pushnotifications.proxies.Message initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.Message initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return pushnotifications.proxies.Message.load(context, mendixIdentifier);
 	}
@@ -82,30 +76,30 @@ public class Message
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static pushnotifications.proxies.Message initialize(IContext context, IMendixObject mendixObject)
+	public static pushnotifications.proxies.Message initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
-		if (Core.isSubClassOf("PushNotifications.AppleMessage", mendixObject.getType()))
+		if (com.mendix.core.Core.isSubClassOf("PushNotifications.AppleMessage", mendixObject.getType()))
 			return pushnotifications.proxies.AppleMessage.initialize(context, mendixObject);
 
-		if (Core.isSubClassOf("PushNotifications.GoogleMessage", mendixObject.getType()))
+		if (com.mendix.core.Core.isSubClassOf("PushNotifications.GoogleMessage", mendixObject.getType()))
 			return pushnotifications.proxies.GoogleMessage.initialize(context, mendixObject);
 
-		if (Core.isSubClassOf("PushNotifications.WindowsMessage", mendixObject.getType()))
+		if (com.mendix.core.Core.isSubClassOf("PushNotifications.WindowsMessage", mendixObject.getType()))
 			return pushnotifications.proxies.WindowsMessage.initialize(context, mendixObject);
 
 		return new pushnotifications.proxies.Message(context, mendixObject);
 	}
 
-	public static pushnotifications.proxies.Message load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static pushnotifications.proxies.Message load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return pushnotifications.proxies.Message.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<? extends pushnotifications.proxies.Message> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<? extends pushnotifications.proxies.Message> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<pushnotifications.proxies.Message> result = new java.util.ArrayList<pushnotifications.proxies.Message>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//PushNotifications.Message" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.Message" + xpathConstraint))
 			result.add(pushnotifications.proxies.Message.initialize(context, obj));
 		return result;
 	}
@@ -113,17 +107,17 @@ public class Message
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -131,15 +125,15 @@ public class Message
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * Set value of DeviceType
@@ -154,13 +148,13 @@ public class Message
 	 * @param context
 	 * @return value of DeviceType
 	 */
-	public final pushnotifications.proxies.DeviceType getDeviceType(IContext context)
+	public final pushnotifications.proxies.DeviceType getDeviceType(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.DeviceType.toString());
 		if (obj == null)
 			return null;
 
-		return pushnotifications.proxies.DeviceType.valueOf((String) obj);
+		return pushnotifications.proxies.DeviceType.valueOf((java.lang.String) obj);
 	}
 
 	/**
@@ -177,7 +171,7 @@ public class Message
 	 * @param context
 	 * @param devicetype
 	 */
-	public final void setDeviceType(IContext context, pushnotifications.proxies.DeviceType devicetype)
+	public final void setDeviceType(com.mendix.systemwideinterfaces.core.IContext context, pushnotifications.proxies.DeviceType devicetype)
 	{
 		if (devicetype != null)
 			getMendixObject().setValue(context, MemberNames.DeviceType.toString(), devicetype.toString());
@@ -197,7 +191,7 @@ public class Message
 	 * @param context
 	 * @return value of To
 	 */
-	public final String getTo(IContext context)
+	public final String getTo(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.To.toString());
 	}
@@ -216,7 +210,7 @@ public class Message
 	 * @param context
 	 * @param to
 	 */
-	public final void setTo(IContext context, String to)
+	public final void setTo(com.mendix.systemwideinterfaces.core.IContext context, String to)
 	{
 		getMendixObject().setValue(context, MemberNames.To.toString(), to);
 	}
@@ -233,7 +227,7 @@ public class Message
 	 * @param context
 	 * @return value of MessageId
 	 */
-	public final String getMessageId(IContext context)
+	public final String getMessageId(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.MessageId.toString());
 	}
@@ -252,7 +246,7 @@ public class Message
 	 * @param context
 	 * @param messageid
 	 */
-	public final void setMessageId(IContext context, String messageid)
+	public final void setMessageId(com.mendix.systemwideinterfaces.core.IContext context, String messageid)
 	{
 		getMendixObject().setValue(context, MemberNames.MessageId.toString(), messageid);
 	}
@@ -269,7 +263,7 @@ public class Message
 	 * @param context
 	 * @return value of Message
 	 */
-	public final String getMessage(IContext context)
+	public final String getMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Message.toString());
 	}
@@ -288,7 +282,7 @@ public class Message
 	 * @param context
 	 * @param message
 	 */
-	public final void setMessage(IContext context, String message)
+	public final void setMessage(com.mendix.systemwideinterfaces.core.IContext context, String message)
 	{
 		getMendixObject().setValue(context, MemberNames.Message.toString(), message);
 	}
@@ -305,7 +299,7 @@ public class Message
 	 * @param context
 	 * @return value of Failed
 	 */
-	public final Boolean getFailed(IContext context)
+	public final Boolean getFailed(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Failed.toString());
 	}
@@ -324,7 +318,7 @@ public class Message
 	 * @param context
 	 * @param failed
 	 */
-	public final void setFailed(IContext context, Boolean failed)
+	public final void setFailed(com.mendix.systemwideinterfaces.core.IContext context, Boolean failed)
 	{
 		getMendixObject().setValue(context, MemberNames.Failed.toString(), failed);
 	}
@@ -341,7 +335,7 @@ public class Message
 	 * @param context
 	 * @return value of FailedReason
 	 */
-	public final String getFailedReason(IContext context)
+	public final String getFailedReason(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.FailedReason.toString());
 	}
@@ -360,7 +354,7 @@ public class Message
 	 * @param context
 	 * @param failedreason
 	 */
-	public final void setFailedReason(IContext context, String failedreason)
+	public final void setFailedReason(com.mendix.systemwideinterfaces.core.IContext context, String failedreason)
 	{
 		getMendixObject().setValue(context, MemberNames.FailedReason.toString(), failedreason);
 	}
@@ -377,7 +371,7 @@ public class Message
 	 * @param context
 	 * @return value of FailedCount
 	 */
-	public final Integer getFailedCount(IContext context)
+	public final Integer getFailedCount(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.FailedCount.toString());
 	}
@@ -396,7 +390,7 @@ public class Message
 	 * @param context
 	 * @param failedcount
 	 */
-	public final void setFailedCount(IContext context, Integer failedcount)
+	public final void setFailedCount(com.mendix.systemwideinterfaces.core.IContext context, Integer failedcount)
 	{
 		getMendixObject().setValue(context, MemberNames.FailedCount.toString(), failedcount);
 	}
@@ -413,7 +407,7 @@ public class Message
 	 * @param context
 	 * @return value of NextTry
 	 */
-	public final java.util.Date getNextTry(IContext context)
+	public final java.util.Date getNextTry(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (java.util.Date) getMendixObject().getValue(context, MemberNames.NextTry.toString());
 	}
@@ -432,7 +426,7 @@ public class Message
 	 * @param context
 	 * @param nexttry
 	 */
-	public final void setNextTry(IContext context, java.util.Date nexttry)
+	public final void setNextTry(com.mendix.systemwideinterfaces.core.IContext context, java.util.Date nexttry)
 	{
 		getMendixObject().setValue(context, MemberNames.NextTry.toString(), nexttry);
 	}
@@ -449,7 +443,7 @@ public class Message
 	 * @param context
 	 * @return value of Queued
 	 */
-	public final Boolean getQueued(IContext context)
+	public final Boolean getQueued(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Boolean) getMendixObject().getValue(context, MemberNames.Queued.toString());
 	}
@@ -468,7 +462,7 @@ public class Message
 	 * @param context
 	 * @param queued
 	 */
-	public final void setQueued(IContext context, Boolean queued)
+	public final void setQueued(com.mendix.systemwideinterfaces.core.IContext context, Boolean queued)
 	{
 		getMendixObject().setValue(context, MemberNames.Queued.toString(), queued);
 	}
@@ -476,7 +470,7 @@ public class Message
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return messageMendixObject;
 	}
@@ -484,7 +478,7 @@ public class Message
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -512,7 +506,7 @@ public class Message
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "PushNotifications.Message";
 	}
@@ -522,7 +516,7 @@ public class Message
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}

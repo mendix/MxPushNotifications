@@ -4,25 +4,19 @@
 
 package system.proxies;
 
-import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixIdentifier;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
-
 /**
  * 
  */
 public class TimeZone
 {
-	private final IMendixObject timeZoneMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject timeZoneMendixObject;
 
-	private final IContext context;
+	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final String entityName = "System.TimeZone";
+	public static final java.lang.String entityName = "System.TimeZone";
 
 	/**
 	 * Enum describing members of this entity
@@ -33,31 +27,31 @@ public class TimeZone
 		Description("Description"),
 		RawOffset("RawOffset");
 
-		private String metaName;
+		private java.lang.String metaName;
 
-		MemberNames(String s)
+		MemberNames(java.lang.String s)
 		{
 			metaName = s;
 		}
 
 		@Override
-		public String toString()
+		public java.lang.String toString()
 		{
 			return metaName;
 		}
 	}
 
-	public TimeZone(IContext context)
+	public TimeZone(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, Core.instantiate(context, "System.TimeZone"));
+		this(context, com.mendix.core.Core.instantiate(context, "System.TimeZone"));
 	}
 
-	protected TimeZone(IContext context, IMendixObject timeZoneMendixObject)
+	protected TimeZone(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject timeZoneMendixObject)
 	{
 		if (timeZoneMendixObject == null)
-			throw new IllegalArgumentException("The given object cannot be null.");
-		if (!Core.isSubClassOf("System.TimeZone", timeZoneMendixObject.getType()))
-			throw new IllegalArgumentException("The given object is not a System.TimeZone");
+			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		if (!com.mendix.core.Core.isSubClassOf("System.TimeZone", timeZoneMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a System.TimeZone");
 
 		this.timeZoneMendixObject = timeZoneMendixObject;
 		this.context = context;
@@ -67,7 +61,7 @@ public class TimeZone
 	 * @deprecated Use 'TimeZone.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static system.proxies.TimeZone initialize(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.TimeZone initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		return system.proxies.TimeZone.load(context, mendixIdentifier);
 	}
@@ -76,21 +70,21 @@ public class TimeZone
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static system.proxies.TimeZone initialize(IContext context, IMendixObject mendixObject)
+	public static system.proxies.TimeZone initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
 		return new system.proxies.TimeZone(context, mendixObject);
 	}
 
-	public static system.proxies.TimeZone load(IContext context, IMendixIdentifier mendixIdentifier) throws CoreException
+	public static system.proxies.TimeZone load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		IMendixObject mendixObject = Core.retrieveId(context, mendixIdentifier);
+		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
 		return system.proxies.TimeZone.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<system.proxies.TimeZone> load(IContext context, String xpathConstraint) throws CoreException
+	public static java.util.List<system.proxies.TimeZone> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
 		java.util.List<system.proxies.TimeZone> result = new java.util.ArrayList<system.proxies.TimeZone>();
-		for (IMendixObject obj : Core.retrieveXPathQuery(context, "//System.TimeZone" + xpathConstraint))
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//System.TimeZone" + xpathConstraint))
 			result.add(system.proxies.TimeZone.initialize(context, obj));
 		return result;
 	}
@@ -98,17 +92,17 @@ public class TimeZone
 	/**
 	 * Commit the changes made on this proxy object.
 	 */
-	public final void commit() throws CoreException
+	public final void commit() throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
 	 */
-	public final void commit(IContext context) throws CoreException
+	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
-		Core.commit(context, getMendixObject());
+		com.mendix.core.Core.commit(context, getMendixObject());
 	}
 
 	/**
@@ -116,15 +110,15 @@ public class TimeZone
 	 */
 	public final void delete()
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 
 	/**
 	 * Delete the object using the specified context.
 	 */
-	public final void delete(IContext context)
+	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		Core.delete(context, getMendixObject());
+		com.mendix.core.Core.delete(context, getMendixObject());
 	}
 	/**
 	 * @return value of Code
@@ -138,7 +132,7 @@ public class TimeZone
 	 * @param context
 	 * @return value of Code
 	 */
-	public final String getCode(IContext context)
+	public final String getCode(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Code.toString());
 	}
@@ -157,7 +151,7 @@ public class TimeZone
 	 * @param context
 	 * @param code
 	 */
-	public final void setCode(IContext context, String code)
+	public final void setCode(com.mendix.systemwideinterfaces.core.IContext context, String code)
 	{
 		getMendixObject().setValue(context, MemberNames.Code.toString(), code);
 	}
@@ -174,7 +168,7 @@ public class TimeZone
 	 * @param context
 	 * @return value of Description
 	 */
-	public final String getDescription(IContext context)
+	public final String getDescription(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (String) getMendixObject().getValue(context, MemberNames.Description.toString());
 	}
@@ -193,7 +187,7 @@ public class TimeZone
 	 * @param context
 	 * @param description
 	 */
-	public final void setDescription(IContext context, String description)
+	public final void setDescription(com.mendix.systemwideinterfaces.core.IContext context, String description)
 	{
 		getMendixObject().setValue(context, MemberNames.Description.toString(), description);
 	}
@@ -210,7 +204,7 @@ public class TimeZone
 	 * @param context
 	 * @return value of RawOffset
 	 */
-	public final Integer getRawOffset(IContext context)
+	public final Integer getRawOffset(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		return (Integer) getMendixObject().getValue(context, MemberNames.RawOffset.toString());
 	}
@@ -229,7 +223,7 @@ public class TimeZone
 	 * @param context
 	 * @param rawoffset
 	 */
-	public final void setRawOffset(IContext context, Integer rawoffset)
+	public final void setRawOffset(com.mendix.systemwideinterfaces.core.IContext context, Integer rawoffset)
 	{
 		getMendixObject().setValue(context, MemberNames.RawOffset.toString(), rawoffset);
 	}
@@ -237,7 +231,7 @@ public class TimeZone
 	/**
 	 * @return the IMendixObject instance of this proxy for use in the Core interface.
 	 */
-	public final IMendixObject getMendixObject()
+	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
 		return timeZoneMendixObject;
 	}
@@ -245,7 +239,7 @@ public class TimeZone
 	/**
 	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
 	 */
-	public final IContext getContext()
+	public final com.mendix.systemwideinterfaces.core.IContext getContext()
 	{
 		return context;
 	}
@@ -273,7 +267,7 @@ public class TimeZone
 	/**
 	 * @return String name of this class
 	 */
-	public static String getType()
+	public static java.lang.String getType()
 	{
 		return "System.TimeZone";
 	}
@@ -283,7 +277,7 @@ public class TimeZone
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
 	@Deprecated
-	public String getGUID()
+	public java.lang.String getGUID()
 	{
 		return "ID_" + getMendixObject().getId().toLong();
 	}
