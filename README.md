@@ -39,9 +39,15 @@ The application included in the test project can be used as reference.
 
 ## Components.json
 All mendix applications that want to utilise phonegap require a components file. The components file describes all the javascript and css files that need to be loaded when the application is loaded on the device. Bellow is an example of the components file that would be required for this module.
-
-`{"files":{"css":["lib/bootstrap/css/bootstrap.min.css","mxclientsystem/mxui/ui/mxui.css","css/theme.css"],"js":["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]},"cachebust":"635621064987856279"}`
-
+```
+{
+    "files": {
+        "css": ["lib/bootstrap/css/bootstrap.min.css", "mxclientsystem/mxui/ui/mxui.css", "css/theme.css"],
+        "js": ["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]
+    },
+    "cachebust": "{{cachebust}}"
+}
+```
 For more information on components file please read this documentation:
 [Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
 
