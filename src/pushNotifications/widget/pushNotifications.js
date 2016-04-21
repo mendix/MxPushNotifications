@@ -1,4 +1,4 @@
-/*global logger*/
+/*global logger, cordova, mx, mxui, device*/
 /*
     pushNotifications
     ========================
@@ -20,23 +20,11 @@ define([
     "dojo/_base/declare",
     "mxui/widget/_WidgetBase",
     "dijit/_TemplatedMixin",
-
-    "mxui/dom",
-    "dojo/dom",
-    "dojo/dom-prop",
-    "dojo/dom-geometry",
-    "dojo/dom-class",
-    "dojo/dom-style",
-    "dojo/dom-construct",
-    "dojo/_base/array",
     "dojo/_base/lang",
-    "dojo/text",
-    "dojo/html",
-    "dojo/_base/event",
 
 	"pushNotifications/lib/jquery-1.11.2",
     "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, _jQuery, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, dojoLang,  _jQuery, widgetTemplate) {
     "use strict";
 	
 	var $ = _jQuery.noConflict(true);
@@ -80,7 +68,7 @@ define([
             this._contextGuid = obj;
             mx.data.get({
                 guids    : [obj],
-                callback : lang.hitch(this, function (objArr) {
+                callback : dojoLang.hitch(this, function (objArr) {
                     if (objArr.length === 1){
                         this._loadData(objArr[0]);
                     }
