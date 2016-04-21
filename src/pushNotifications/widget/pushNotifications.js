@@ -51,15 +51,15 @@ define([
         },
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
-            logger.debug(this.id + ".postCreate");
+            logger.debug(".postCreate");
             this.domNode.innerHTML = this.templateString;
         },
         alertDismissed: function () {
-            logger.debug(this.id + ".alertDismissed");
+            logger.debug( ".alertDismissed");
         },
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
         update: function (obj, callback) {
-            logger.debug(this.id + ".update");
+            logger.debug(".update");
             if (cordova !== undefined) {
                 if (window.plugins.pushNotification !== undefined) {
                     if (typeof obj === "string") {
@@ -91,13 +91,13 @@ define([
         },
         // Loading data
         _loadData: function (obj) {
-            logger.debug(this.id + "._loadData");
+            logger.debug("._loadData");
             this._contextObj = obj;
             this._initGCMSettings();
             this._storeMf();
         },
         _initGCMSettings: function () {
-            logger.debug(this.id + "._initGCMSettings");
+            logger.debug("._initGCMSettings");
             var xpathString = "//" + this.settingsEntity + this.settingsXpathConstraint;
             mx.data.get({
                 xpath: xpathString,
@@ -105,7 +105,7 @@ define([
             }, this);
         },
         _registerDevice: function (settings) {
-            logger.debug(this.id + "._registerDevice");
+            logger.debug("._registerDevice");
             if (settings.length === 1) {
                 this._gcmSettings = settings[0];
                 this._gcmSenderID = this._gcmSettings.get(this.senderId);
@@ -163,15 +163,15 @@ define([
             logger.debug("_setupEvents");
         },
         _storeMf: function () {
-            logger.debug(this.id + "._storeMf");
+            logger.debug("._storeMf");
             window.androidID = this._androidId;
         },
         _closeNot: function () {
-            logger.debug(this.id + "._closeNot");
+            logger.debug("._closeNot");
             $(".notification").fadeOut();
         },
         _iosTokenHandler: function (result) {
-            logger.debug(this.id + "._iosTokenHandler");
+            logger.debug("._iosTokenHandler");
             // Your iOS push server needs to know the token before it can push to this device
             // here is where you might want to send it the token for later use.
             window.mObject.set("RegistrationID", result);

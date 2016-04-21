@@ -101,14 +101,14 @@ module.exports = function (grunt) {
                 options: {
                     import: 2
                },
-               src: ["src/pushNotifications/widget/ui/*.css"]
+               src: ["src/" + pkg.version + "/widget/ui/*.css"]
             }
         },
         jshint: {
             options:{
                 jshintrc: true
             },
-            all: ["src/pushNotifications/widget/**/*.js"]
+            all: ["src/" + pkg.version + "/widget/**/*.js"]
           }
     });
 

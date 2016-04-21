@@ -1,5 +1,5 @@
 {
-  "name": "MxPushNotifications",
+  "name": "pushNotifications",
   "version": "2.0.1",
   "description": "Phonegap widget for notifications",
   "license": "MIT",
