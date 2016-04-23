@@ -1,7 +1,7 @@
 /****inApp notification*****/
 .notification {
   background: #fa8100;
-  border-radius: 0px;
+  border-radius: 0;
   color: #fff;
   margin: 0;
   padding: 10px;
@@ -9,7 +9,7 @@
   z-index: 1000;
   width: 100%;
   display: none;
-  top: 0px;
+  top: 0;
 }
 
 
