@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class Language
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject languageMendixObject;

@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class Image extends system.proxies.FileDocument
 {
 	/**

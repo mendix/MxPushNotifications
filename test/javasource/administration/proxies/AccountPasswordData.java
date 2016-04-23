@@ -4,9 +4,6 @@
 
 package administration.proxies;
 
-/**
- * 
- */
 public class AccountPasswordData
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject accountPasswordDataMendixObject;

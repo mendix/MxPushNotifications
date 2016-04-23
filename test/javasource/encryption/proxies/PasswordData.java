@@ -4,9 +4,6 @@
 
 package encryption.proxies;
 
-/**
- * 
- */
 public class PasswordData
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject passwordDataMendixObject;

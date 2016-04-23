@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class User
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject userMendixObject;

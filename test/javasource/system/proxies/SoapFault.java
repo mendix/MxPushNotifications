@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class SoapFault extends system.proxies.Error
 {
 	/**

@@ -14,7 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 public class Microflows
 {
 	// These are the microflows for the Encryption module
-
 	public static String decrypt(IContext context, String _encrypted)
 	{
 		try
@@ -28,7 +27,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static String encrypt(IContext context, String _plain)
 	{
 		try
@@ -42,7 +40,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_ChangePassword(IContext context, encryption.proxies.ExampleConfiguration _exampleConfiguration)
 	{
 		try
@@ -56,7 +53,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_ChangePasswordSave(IContext context, encryption.proxies.PasswordData _passwordData)
 	{
 		try

@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class Message
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject messageMendixObject;

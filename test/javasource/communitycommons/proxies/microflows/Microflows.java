@@ -14,7 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 public class Microflows
 {
 	// These are the microflows for the CommunityCommons module
-
 	public static void assertTrue(IContext context, boolean _valueToAssert)
 	{
 		try
@@ -28,7 +27,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void assertTrue_2(IContext context, boolean _valueToAssert, String _message)
 	{
 		try
@@ -43,7 +41,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void createUserIfNotExists(IContext context, String _username, String _role, String _password, boolean _webserviceUser)
 	{
 		try
@@ -60,7 +57,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void releaseOldLocksSE(IContext context)
 	{
 		try
@@ -73,7 +69,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void updateUserHelper(IContext context, String _username, String _role, String _password, boolean _webserviceUser, system.proxies.User _user)
 	{
 		try

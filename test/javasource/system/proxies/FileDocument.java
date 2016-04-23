@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class FileDocument
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject fileDocumentMendixObject;

@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class TimeZone
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject timeZoneMendixObject;

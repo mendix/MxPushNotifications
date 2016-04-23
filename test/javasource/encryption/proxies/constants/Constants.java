@@ -10,16 +10,27 @@ public class Constants
 {
 	// These are the constants for the Encryption module
 
+	/**
+	* This key will be used to encrypt and decrypt values.
+	* The length of this key must be 16 characters.
+	*/
 	public static String getEncryptionKey()
 	{
 		return (String)Core.getConfiguration().getConstantValue("Encryption.EncryptionKey");
 	}
 
+	/**
+	* Prefix for stored encrypted values.
+	* This value is used to determine whether the value has been already encrypted.
+	*/
 	public static String getEncryptionPrefix()
 	{
 		return (String)Core.getConfiguration().getConstantValue("Encryption.EncryptionPrefix");
 	}
 
+	/**
+	* Node which appears in log messages for this module.
+	*/
 	public static String getLogNode()
 	{
 		return (String)Core.getConfiguration().getConstantValue("Encryption.LogNode");

@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class Session
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject sessionMendixObject;

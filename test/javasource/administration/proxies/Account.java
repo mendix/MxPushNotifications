@@ -4,9 +4,6 @@
 
 package administration.proxies;
 
-/**
- * 
- */
 public class Account extends system.proxies.User
 {
 	/**

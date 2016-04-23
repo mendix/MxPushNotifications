@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class WindowsMessage extends pushnotifications.proxies.Message
 {
 	/**

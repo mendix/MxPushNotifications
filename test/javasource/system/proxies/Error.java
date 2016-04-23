@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class Error
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject errorMendixObject;

@@ -13,9 +13,6 @@ import pushnotifications.implementation.apn.APNConnection;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
-/**
- * 
- */
 public class PollFeedbackService extends CustomJavaAction<Boolean>
 {
 	public PollFeedbackService(IContext context)

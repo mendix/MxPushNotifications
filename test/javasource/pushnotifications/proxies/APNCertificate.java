@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class APNCertificate extends system.proxies.FileDocument
 {
 	/**

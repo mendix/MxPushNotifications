@@ -15,7 +15,6 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the PushNotifications module
-
 	public static void aC_Device(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
@@ -29,7 +28,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void aC_SetMessageType(IContext context, pushnotifications.proxies.Message _message)
 	{
 		try
@@ -43,7 +41,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static boolean afterStartup_PushNotifications(IContext context)
 	{
 		try
@@ -56,7 +53,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void appleAdministration_New(IContext context)
 	{
 		try
@@ -69,7 +65,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void background_SendAppleMessages(IContext context, java.util.List<pushnotifications.proxies.AppleMessage> _appleMessageList)
 	{
 		try
@@ -90,7 +85,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void background_SendGoogleMessages(IContext context, java.util.List<pushnotifications.proxies.GoogleMessage> _googleMessageList)
 	{
 		try
@@ -111,7 +105,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void background_SendWindowsMessage(IContext context, java.util.List<pushnotifications.proxies.WindowsMessage> _windowsMessageList)
 	{
 		try
@@ -132,7 +125,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.AppleMessage dS_CreateAppleMessage(IContext context)
 	{
 		try
@@ -146,7 +138,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.AppleMessage dS_CreateAppleMessageForDevice(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
@@ -161,7 +152,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.GoogleMessage dS_CreateGoogleMessage(IContext context)
 	{
 		try
@@ -175,7 +165,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.GoogleMessage dS_CreateGoogleMessageForDevice(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
@@ -190,7 +179,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.WindowsMessage dS_CreateWindowsMessage(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
@@ -205,7 +193,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.Device ds_device(IContext context)
 	{
 		try
@@ -219,7 +206,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.APNSettings dS_GetAPNSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
 	{
 		try
@@ -234,7 +220,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.GCMSettings dS_GetGCMSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
 	{
 		try
@@ -249,7 +234,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.DTAPMode dTAPMode(IContext context)
 	{
 		try
@@ -265,7 +249,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_DetailsMessage(IContext context, java.util.List<pushnotifications.proxies.Message> _messageList)
 	{
 		try
@@ -286,7 +269,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_RestartAPN(IContext context, pushnotifications.proxies.APNSettings _aPNSettings)
 	{
 		try
@@ -300,7 +282,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_RestartGCM(IContext context, pushnotifications.proxies.GCMSettings _gCMSettings)
 	{
 		try
@@ -314,7 +295,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_SaveAPNSettings(IContext context, pushnotifications.proxies.APNSettings _aPNSettings)
 	{
 		try
@@ -328,7 +308,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_Send(IContext context, pushnotifications.proxies.GoogleMessage _googleMessage)
 	{
 		try
@@ -342,7 +321,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_SendMessage(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
@@ -356,7 +334,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static pushnotifications.proxies.Message messageFactory(IContext context, pushnotifications.proxies.Device _device, String _message, String _title, Long _badge, String _launchImage, String _sound)
 	{
 		try
@@ -376,7 +353,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sE_FeedbackService(IContext context)
 	{
 		try
@@ -389,7 +365,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sE_Queue(IContext context)
 	{
 		try
@@ -402,7 +377,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sendMessageImmediately(IContext context, pushnotifications.proxies.Message _message)
 	{
 		try
@@ -416,7 +390,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sendMessageQueued(IContext context, pushnotifications.proxies.Message _message)
 	{
 		try
@@ -430,7 +403,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sendMessagesImmediately(IContext context, java.util.List<pushnotifications.proxies.Message> _messageList)
 	{
 		try
@@ -451,7 +423,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void sendMessagesQueued(IContext context, java.util.List<pushnotifications.proxies.Message> _messageList)
 	{
 		try

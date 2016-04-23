@@ -4,9 +4,6 @@
 
 package encryption.proxies;
 
-/**
- * 
- */
 public class ExampleConfiguration
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject exampleConfigurationMendixObject;

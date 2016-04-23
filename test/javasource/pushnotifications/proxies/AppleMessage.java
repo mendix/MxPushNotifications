@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class AppleMessage extends pushnotifications.proxies.Message
 {
 	/**

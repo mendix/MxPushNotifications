@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class XASInstance
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject xASInstanceMendixObject;

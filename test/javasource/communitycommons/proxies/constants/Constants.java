@@ -10,6 +10,9 @@ public class Constants
 {
 	// These are the constants for the CommunityCommons module
 
+	/**
+	* If this constant is set to 'true', old locks will be released automatically. Set this constant to 'false' if community commons locking is not used. Use true in all other cases. 
+	*/
 	public static boolean getenableReleaseLockEvent()
 	{
 		return (Boolean)Core.getConfiguration().getConstantValue("CommunityCommons.enableReleaseLockEvent");

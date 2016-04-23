@@ -15,9 +15,6 @@ import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import communitycommons.Misc;
 
-/**
- * 
- */
 public class StartAPN extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __settings;

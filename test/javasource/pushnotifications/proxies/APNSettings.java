@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class APNSettings
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject aPNSettingsMendixObject;

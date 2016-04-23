@@ -15,7 +15,6 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the Administration module
-
 	public static void changeMyPassword(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
@@ -29,7 +28,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void changePassword(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
@@ -43,7 +41,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void iVK_RetrieveAppCloudUserAccountData(IContext context, administration.proxies.Account _account)
 	{
 		try
@@ -57,7 +54,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void manageMyAccount(IContext context)
 	{
 		try
@@ -70,7 +66,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void newAccount(IContext context)
 	{
 		try
@@ -83,7 +78,10 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
+	/**
+	 * Create a new user object and change the default attribute values so the user will be handled as a webservice user.
+	 * Finally open the User_NewEdit form so all remaing user information can be set.
+	 */
 	public static void newWebServiceAccount(IContext context)
 	{
 		try
@@ -96,7 +94,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void onFirstLoginAppCloudUser(IContext context, String _userIdentity)
 	{
 		try
@@ -110,7 +107,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static java.util.List<system.proxies.TimeZone> retrieveTimeZones(IContext context)
 	{
 		try
@@ -131,7 +127,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void saveNewAccount(IContext context, administration.proxies.AccountPasswordData _accountPasswordData)
 	{
 		try
@@ -145,7 +140,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void showMyPasswordForm(IContext context, administration.proxies.Account _account)
 	{
 		try
@@ -159,7 +153,6 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-
 	public static void showPasswordForm(IContext context, administration.proxies.Account _account)
 	{
 		try

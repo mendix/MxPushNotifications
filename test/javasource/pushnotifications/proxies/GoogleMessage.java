@@ -4,9 +4,6 @@
 
 package pushnotifications.proxies;
 
-/**
- * 
- */
 public class GoogleMessage extends pushnotifications.proxies.Message
 {
 	/**

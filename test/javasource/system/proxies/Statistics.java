@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class Statistics
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject statisticsMendixObject;

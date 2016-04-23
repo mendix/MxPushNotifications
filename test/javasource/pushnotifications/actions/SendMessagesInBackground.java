@@ -22,9 +22,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 
-/**
- * 
- */
 public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 {
 	private java.util.List<IMendixObject> __messages;

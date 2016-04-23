@@ -4,9 +4,6 @@
 
 package system.proxies;
 
-/**
- * 
- */
 public class ScheduledEventInformation
 {
 	private final com.mendix.systemwideinterfaces.core.IMendixObject scheduledEventInformationMendixObject;
