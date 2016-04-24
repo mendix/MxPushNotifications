@@ -195,10 +195,16 @@ Once the phonegap.zip is downloaded, unzip it into a folder and open up the conf
 
 The code you will need to include is:
 `<gap:plugin name="phonegap-plugin-push" source="npm">
-		<param name="SENDER_ID" value="628727542087" />
+		<param name="SENDER_ID" value="" />
 	</gap:plugin>`
 
-Change the SENDER_ID for you android sender ID, which you will get when setting up the GCM.
+Change the SENDER_ID value to your android sender ID, which you will get when setting up the GCM.
+
+Because the push notifications plugin requires a newer version of phonegap build you need to change the config.xml to a newer build cli.
+`<preference name="phonegap-version" value="cli-6.0.0" />`
+
+You will also need to update plugins by removing the version number from each of the plugins. This will ensure that the other plugins will work the phonegap version.
+
 
 <img src="assets/images/config.png"/>
 
