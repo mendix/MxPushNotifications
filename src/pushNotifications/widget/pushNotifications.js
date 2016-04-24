@@ -103,6 +103,7 @@ define([
         _registerDevice: function (settings) {
             logger.debug("._registerDevice");
             window.mObject = this._contextObj;
+            window.pushWidget = this;
             if (settings.length === 1) {
                 this._gcmSettings = settings[0];
                 this._gcmSenderID = this._gcmSettings.get(this.senderId);
@@ -141,9 +142,13 @@ define([
                     console.log("notification event");
                     var cards = document.getElementById("cards");
                     var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
-                        '<button type="button" class="close" data-dismiss="alert" onclick="function(btn){var child = btn.parentNode; var parent = btn.parentNode.parentNode; parent.removeChild(child);}" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget._removeAlert(this);"><span aria-hidden="true">&times;</span></button>' +
                         data.message +
-                        '</div>'
+                        '</div>';
+                    var cardList = cards.childNodes;
+                    for(var i = 0; i < cardList.length; i++){
+                        cardList[i].className = "alert alert-info alert-dismissible";
+                    }
                     cards.innerHTML += card;
                     push.finish(function () {
                         console.log('finish successfully called');
@@ -156,6 +161,9 @@ define([
             } else {
                 console.warn("unable to retrieve settings");
             }
+        },
+        _removeAlert: function (e){
+            e.parentNode.parentNode.removeChild(e.parentNode);
         }
     });
 });
