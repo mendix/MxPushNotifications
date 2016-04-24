@@ -194,7 +194,11 @@ Press the button publish to appstore and you will be asked whether you want to b
 Once the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
 
 The code you will need to include is:
-`<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />`
+`<gap:plugin name="phonegap-plugin-push" source="npm">
+		<param name="SENDER_ID" value="628727542087" />
+	</gap:plugin>`
+
+Change the SENDER_ID for you android sender ID, which you will get when setting up the GCM.
 
 <img src="assets/images/step4.png"/>
 
