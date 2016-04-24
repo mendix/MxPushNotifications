@@ -24,10 +24,6 @@ This project gives you all the necessary widgets, javascript, java and modules n
 In order for the push notifications to work in Mendix you must have a few things set up.
 - Import module into a 5.14.1 or higher project.
 - The microflow AfterStartup_PushNotifications must be included in your after startup flow
-- The index.html and components.json must include a reference to a jquery library.
-`<script type="text/javascript" src="js/jquerymin.js"></script>`
-- The index.html and the components.json file must include the following reference to this javascript library
-`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
 - The push notification snippet must be included on all layouts for mobile and tablet.
 - The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
 - You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
@@ -43,7 +39,7 @@ All mendix applications that want to utilise phonegap require a components file.
 {
     "files": {
         "css": ["lib/bootstrap/css/bootstrap.min.css", "mxclientsystem/mxui/ui/mxui.css", "css/theme.css"],
-        "js": ["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]
+        "js": ["mxclientsystem/mxui/mxui.js"]
     },
     "cachebust": "{{cachebust}}"
 }
@@ -52,6 +48,8 @@ For more information on components file please read this documentation:
 [Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
 
 The components file should be included in the theme folder of your application.
+
+In the latest version of MxPushNotifications no additional Javascript is required. So you only need to have a standard components file.
 
 
 ## Sending push notifications
