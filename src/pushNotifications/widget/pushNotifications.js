@@ -79,7 +79,7 @@ define([
                         this._loadData(obj);
                     }
                 } else {
-                    console.warn("plugins pushNotification not availble, should be included during the build.");
+                    console.warn("plugins pushNotification not available, should be included during the build.");
                 }
             }
             if (callback) {
@@ -121,7 +121,7 @@ define([
                     if (platform === "Android") {
                         window.mObject.set("DeviceType", "Android");
                     } else if (platform === "iOS") {
-                        window.mObject.set("DeviceType", "IOS");
+                        window.mObject.set("DeviceType", "iOS");
                     } else if (platform === "Windows 8") {
                         window.mObject.set("DeviceType", "Windows");
                     }
