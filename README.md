@@ -200,7 +200,7 @@ The code you will need to include is:
 
 Change the SENDER_ID for you android sender ID, which you will get when setting up the GCM.
 
-<img src="assets/images/step4.png"/>
+<img src="assets/images/config.png"/>
 
 ### Step 5 - Configure xml
 Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
