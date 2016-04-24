@@ -140,8 +140,8 @@ define([
                 push.on('notification', function (data) {
                     console.log("notification event");
                     var cards = document.getElementById("cards");
-                    var card = '<div class="alert alert-info alert-dismissible" role="alert">' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
+                    var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
+                        '<button type="button" class="close" data-dismiss="alert" onclick="function(btn){var child = btn.parentNode; var parent = btn.parentNode.parentNode; parent.removeChild(child);}" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
                         data.message +
                         '</div>'
                     cards.innerHTML += card;
