@@ -24,7 +24,7 @@ define([
     "dojo/_base/lang",
     "pushNotifications/lib/jquery-1.11.2",
     "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function (declare, _WidgetBase, _TemplatedMixin, dojoLang, _jQuery, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, dojoLang, _jQuery, widgetTemplate) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -45,28 +45,28 @@ define([
         _gcmSettings: null,
         _gcmSenderID: null,
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
-        constructor: function () {
+        constructor: function() {
             window.logger.level(window.logger.ALL);
             this._objProperty = {};
         },
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
-        postCreate: function () {
+        postCreate: function() {
             logger.debug(".postCreate");
             this.domNode.innerHTML = this.templateString;
         },
-        alertDismissed: function () {
-            logger.debug( ".alertDismissed");
+        alertDismissed: function() {
+            logger.debug(".alertDismissed");
         },
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
-        update: function (obj, callback) {
+        update: function(obj, callback) {
             logger.debug(".update");
-            if (typeof cordova  !== undefined) {
-                if (typeof window.plugins.pushNotification !== undefined) {
+            if (typeof cordova !== "undefined") {
+                if (typeof window.plugins.pushNotification !== "undefined") {
                     if (typeof obj === "string") {
                         this._contextGuid = obj;
                         mx.data.get({
                             guids: [obj],
-                            callback: dojoLang.hitch(this, function (objArr) {
+                            callback: dojoLang.hitch(this, function(objArr) {
                                 if (objArr.length === 1) {
                                     this._loadData(objArr[0]);
                                 } else {
@@ -90,13 +90,13 @@ define([
             }
         },
         // Loading data
-        _loadData: function (obj) {
+        _loadData: function(obj) {
             logger.debug("._loadData");
             this._contextObj = obj;
             this._initGCMSettings();
             this._storeMf();
         },
-        _initGCMSettings: function () {
+        _initGCMSettings: function() {
             logger.debug("._initGCMSettings");
             var xpathString = "//" + this.settingsEntity + this.settingsXpathConstraint;
             mx.data.get({
@@ -104,7 +104,7 @@ define([
                 callback: this._registerDevice
             }, this);
         },
-        _registerDevice: function (settings) {
+        _registerDevice: function(settings) {
             logger.debug("._registerDevice");
             if (settings.length === 1) {
                 this._gcmSettings = settings[0];
@@ -127,7 +127,7 @@ define([
                     // if (typeof console !== "undefined") {
                     logger.debug("[PUSHNOTIFY] - WP8 - Registering Windows device.");
                     logger.debug(JSON.stringify(window.plugins));
-                    logger.debug("[PUSHNOTIFY] - WP8 - Device UUID - " + device.uuid);
+                    logger.debug("[PUSHNOTIFY] - WP8 - Device UUID");
                     //}
                     window.mObject.set("DeviceType", "Windows");
                     window.mObject.set("WindowsUUID", device.uuid);
@@ -159,53 +159,53 @@ define([
                 console.warn("unable to retrieve settings");
             }
         },
-        _setupEvents: function () {
+        _setupEvents: function() {
             logger.debug("_setupEvents");
         },
-        _storeMf: function () {
+        _storeMf: function() {
             logger.debug("._storeMf");
             window.androidID = this._androidId;
         },
-        _closeNot: function () {
+        _closeNot: function() {
             logger.debug("._closeNot");
             $(".notification").fadeOut();
         },
-        _iosTokenHandler: function (result) {
+        _iosTokenHandler: function(result) {
             logger.debug("._iosTokenHandler");
             // Your iOS push server needs to know the token before it can push to this device
             // here is where you might want to send it the token for later use.
             window.mObject.set("RegistrationID", result);
             mx.data.commit({
                 mxobj: window.mObject,
-                callback: function () {
+                callback: function() {
                     console.log("[PUSHNOTIFY] - iOS - Object committed");
                 },
-                error: function (e) {
+                error: function(e) {
                     console.error("[PUSHNOTIFY] - iOS - Error occurred attempting to commit: " + e);
                 }
             });
         },
-        _iosErrorHandler: function () {
+        _iosErrorHandler: function() {
             console.warn("[PUSHNOTIFY] - iOS - could not register device");
         },
         // Windows Phone 8
-        _wp8ChannelHandler: function (event) {
-            logger.debug("[PUSHNOTIFY] ChannelHandler - " + event.uri);
+        _wp8ChannelHandler: function(event) {
+            logger.debug("[PUSHNOTIFY] ChannelHandler");
             if (event.uri) {
                 window.mObject.set("RegistrationID", event.uri);
                 mx.data.commit({
                     mxobj: window.mObject,
-                    callback: function () {
+                    callback: function() {
                         console.log("[PUSHNOTIFY] - wp8 - Object committed");
                     },
-                    error: function (e) {
+                    error: function(e) {
                         console.error("[PUSHNOTIFY] - wp8 - Error occurred attempting to commit: " + JSON.stringify(e));
                     }
                 });
             }
         },
-        _wp8SuccessHandler: function (e) {
-            logger.debug("[PUSHNOTIFY] - wp8 - Result Notification - " + JSON.stringify(e));
+        _wp8SuccessHandler: function(e) {
+            logger.debug("[PUSHNOTIFY] - wp8 - Result Notification - ");
             if (e.type === "toast" && e.jsonContent) {
                 window.plugins.pushNotification.showToastNotification(
                     this._wp8ToastSuccessHandler,
@@ -221,66 +221,64 @@ define([
                 alert(e.jsonContent.Body);
             }
         },
-        _wp8ToastSuccessHandler: function (event) {
+        _wp8ToastSuccessHandler: function(event) {
             logger.debug("_wp8ToastSuccessHandler called");
         },
-        _wp8ErrorHandler: function (event) {
+        _wp8ErrorHandler: function(event) {
             logger.error("[PUSHNOTIFY] - wp8 - Error - " + JSON.stringify(event));
         },
         // Android
-        _androidCallBack: function (e) {
+        _androidCallBack: function(e) {
             switch (e.event) {
-            case "registered":
-                if (e.regid.length > 0) {
-                    window.mObject.set("RegistrationID", e.regid);
-                    mx.data.commit({
-                        mxobj: window.mObject,
-                        callback: function () {
-                            logger.debug("[PUSHNOTIFY] Object committed");
-                        },
-                        error: function (e) {
-                            console.error("[PUSHNOTIFY] Error occurred attempting to commit: " + e);
-                        }
-                    });
-                }
-                break;
+                case "registered":
+                    if (e.regid.length > 0) {
+                        window.mObject.set("RegistrationID", e.regid);
+                        mx.data.commit({
+                            mxobj: window.mObject,
+                            callback: function() {
+                                logger.debug("[PUSHNOTIFY] Object committed");
+                            },
+                            error: function(e) {
+                                console.error("[PUSHNOTIFY] Error occurred attempting to commit: " + e);
+                            }
+                        });
+                    }
+                    break;
 
-            case "message":
-                // if this flag is set, this notification happened while we were in the foreground.
-                // you might want to play a sound to get the user"s attention, throw up a dialog, etc.
-                if (e.foreground && typeof Media !== "undefined") {
-                    // on Android soundname is outside the payload.
-                    // On Amazon FireOS all custom attributes are contained within payload
-                     // if the notification contains a soundname, play it.
-                    var soundfile = e.soundname || e.payload.sound,
-                        my_media = new Media("/android_asset/www/" + soundfile);
-                    my_media.play();
-                }
-                $(".notification p").text(e.payload.message);
-                $(".notification").fadeIn();
-                break;
+                case "message":
+                    // if this flag is set, this notification happened while we were in the foreground.
+                    // you might want to play a sound to get the user"s attention, throw up a dialog, etc.
+                    if (e.foreground && typeof Media !== "undefined") {
+                        // on Android soundname is outside the payload.
+                        // On Amazon FireOS all custom attributes are contained within payload
+                        // if the notification contains a soundname, play it.
+                        var soundfile = e.soundname || e.payload.sound,
+                            my_media = new Media("/android_asset/www/" + soundfile);
+                        my_media.play();
+                    }
+                    $(".notification p").text(e.payload.message);
+                    $(".notification").fadeIn();
+                    break;
 
-            case "error":
-                $(".notification p").text(e.msg);
-                $(".notification").fadeIn();
-                break;
+                case "error":
+                    $(".notification p").text(e.msg);
+                    $(".notification").fadeIn();
+                    break;
 
-            default:
-                logger.debug("An unknown GCM event has occurred");
-                break;
+                default:
+                    logger.debug("An unknown GCM event has occurred");
+                    break;
             }
         },
-        _androidSuccessHandler: function (result) {
-            logger.debug("[PUSHNOTIFY] - Android - Result - ");
-            logger.debug(result);
+        _androidSuccessHandler: function(result) {
+            logger.debug("[PUSHNOTIFY] - Android - SuccessHandler");
         },
-        _androidErrorHandler: function () {
+        _androidErrorHandler: function() {
             console.error("[PUSHNOTIFY] - Android - could not register device");
         },
-        // iOS
-        _iosCallBack: function (event) {
+        _iosCallBack: function(event) {
             /*ios event*/
-            logger.debug("._iosCallBack", event);
+            logger.debug("._iosCallBack");
             if (event.alert) {
                 $(".notification p").text(event.alert);
                 $(".notification").fadeIn();
@@ -295,9 +293,8 @@ define([
                 window.plugins.pushNotification.setApplicationIconBadgeNumber(this._iosSuccessHandler, this._iosErrorHandler, event.badge);
             }
         },
-        _iosSuccessHandler: function (result) {
-            logger.debug("[PUSHNOTIFY] - iOS - Result - ");
-            logger.debug(result);
+        _iosSuccessHandler: function(result) {
+            logger.debug("[PUSHNOTIFY] - iOS - SuccessHandler");
         }
     });
 });
