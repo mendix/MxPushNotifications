@@ -1,16 +1,16 @@
 # Mendix Push notifications
 
-This module and widget should be used to implement push notifications for android, ios and windows tablets/mobiles. This module/widget has been tested to work on Mendix 5.14.1 and up. 
+This module and widget should be used to implement push notifications for Android, iOS and Windows mobile devices. They have been tested to work on Mendix 5.14.1 and up. 
 
 The project contains:
 
 - Directory structure.
 - Readme.md file.
 - Javascript source.
-- XSD for package.xml, to configure properties of the widget, visible inside the Mendix business modeler.
+- XSD for package.xml, to configure properties of the widget, visible inside the Mendix Business Modeler.
 - Example project
 - Module for sending push notifications
-- Custom css file to style the push notification html
+- Custom CSS file to style the push notification html
 
 ## Contributing
 
@@ -18,27 +18,27 @@ For more information on contributing to this repository visit [Contributing to a
  
 ## Description
 
-This project gives you all the necessary widgets, javascript, java and modules necessary for you to both send and receive push notifications. In order to find information on how to build your Mendix apps into phonegap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
+This project provides all the necessary widgets, Javascript, Java and modules necessary to both send and receive push notifications in a Mendix application. For information on how to build your Mendix apps into PhoneGap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
 
-## Mendix setup
+## Implementation
 In order for the push notifications to work in Mendix you must have a few things set up.
 - Import module into a 5.14.1 or higher project.
 - The microflow AfterStartup_PushNotifications must be included in your after startup flow
-- The index.html and components.json must include a reference to a jquery library.
+- The index.html and components.json must include a reference to a jQuery library.
 `<script type="text/javascript" src="js/jquerymin.js"></script>`
-- The index.html and the components.json file must include the following reference to this javascript library
+- The index.html and the components.json file must include the following reference to this Javascript library
 `<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-- The push notification snippet must be included on all layouts for mobile and tablet.
-- The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
-- You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
-- The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-- The widget is connected up to the google settings object. 
-- Encryption module from the appstore must be added to the project.
+- The push notification snippet must be included in all layouts for mobile and tablet.
+- The pages AppleAdministration, GoogleAdministration and Device_Overview should be added to the navigation.
+- You must set up the [Apple server](#setting-up-apple-push-notification-server) and [Google server](#setting-up-google-cloud-messaging-server) using the documentation below
+- The PhoneGap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
+- The widget is connected up to the Google settings object. 
+- Encryption module from the App Store must be added to the project.
 
 The application included in the test project can be used as reference.
 
 ## Components.json
-All mendix applications that want to utilise phonegap require a components file. The components file describes all the javascript and css files that need to be loaded when the application is loaded on the device. Bellow is an example of the components file that would be required for this module.
+All Mendix applications that want to utilise PhoneGap require a components file. The components file describes all the Javascript and CSS files that need to be loaded when the application is loaded on the device. Below is an example of the components file that would be required for this module.
 ```
 {
     "files": {
@@ -51,22 +51,22 @@ All mendix applications that want to utilise phonegap require a components file.
 For more information on components file please read this documentation:
 [Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
 
-The components file should be included in the theme folder of your application.
+The components.json file should be included in the theme folder of your application.
 
 
 ## Sending push notifications
 
-In the module there are two operations to send messages. One which will queue the messages and the other to send immediately. If you are planning to send several push notifications to different devices at once, then I would suggest using the queued method. If however you simply want to test the sending of messages then just use the send immediate microflow.
+In the module there are two operations to send messages. One which these queue the notifications whereas the other will send them immediately. If you are planning to send several push notifications to different devices at once, then it would be most suitable to use the queued method. If you however simply want to test the sending of messages then just use the send immediate microflow.
 
-In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
+In the module there is a device overview page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and send a message.
 
 To send a message without using the devices page, simply create a microflow that retrieves the device from a user account and create a message object with the attributes filled. Then simply pass this message to one of the microflows in the use me folder that sends either a message or a list of messages.  
 
 ## Setting up Apple Push Notification Server
-In order to send push notifications for apple devices from this module you will need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
+In order to send push notifications for Apple devices from this module you will need to correctly set up and acquire a certificate from Apple, then add this to the Mendix settings pages.
 
 ### Step 1 - Login to members center
-Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an apple developers license you will need to purchase this from apple. When logged in to members center click on "Certificates, Identifiers & Profiles". 
+Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an Apple developers license you will need to purchase it from Apple. When logged in to members center click on "Certificates, Identifiers & Profiles". 
 
 This will take you to a screen like this:
 <img src="assets/images/apn-step1.PNG"/>
@@ -77,8 +77,8 @@ Click on Identifiers and then click on App IDs.
 On the top right there will be a plus button, press this and a dialog like this should appear:
 <img src="assets/images/apn-step2.PNG"/>
 
-Enter your app ID name and select Explicit App ID. You must select Explicit App ID inorder to be able to perform push notifications.
-Enter a Bundle ID, this bundle ID must match the bundle ID that you entered during the phonegap build phase.
+Enter your app ID name and select Explicit App ID. You must select Explicit App ID in order to be able to perform push notifications.
+Enter a Bundle ID, this bundle ID must match the bundle ID that you entered during the PhoneGap build phase.
 <img src="assets/images/apn-step2-1.PNG"/>
 Tick the options push notifications and then click continue.
 
@@ -105,15 +105,15 @@ Upload the CSR and then click generate. You will be presented by a screen saying
 Click done and then click on your certificate from the list and click Download.
 
 ### Step 6 - Converting Certificate
-Now that we have the certificate from apple we now need to convert this into p12 format so that we can get it to work with our Mendix application.
+Now that we have the certificate from Apple we now need to convert this into p12 format so that we can get it to work with our Mendix application.
 This documentation should be helpful for getting your certificate converted:
 
 [Converting Cer to p12](http://docs.build.phonegap.com/en_US/signing_signing-ios.md.html)
 
 ### Step 7 - Setting up Mendix APNS
-Once you have the p12 certificate you can set up the apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
+Once you have the p12 certificate you can set up the Apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the Apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
 
-Click on the enabled checkbox and then click Save. Once saved click the restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
+Click on the enabled checkbox and then click Save. Once saved click the restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send Apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
 
 <img src="assets/images/apn-step7.PNG"/>
 
@@ -123,7 +123,7 @@ In order to send google push notifications from this module you need to have set
 To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
 
 ### Step 1 - Login to developers console
-Open up the google [developers console] (https://console.developers.google.com) and login with your google id.
+Open up the Google [developers console] (https://console.developers.google.com) and login with your Google id.
 <img src="assets/images/gcm-step1.PNG"/>
 
 ### Step 2 - Create project
@@ -171,7 +171,7 @@ Using the "Windows Phone Application Deployment" program you can deploy the XAP 
 <img src="assets/images/apploader.PNG"/>
 
 ## Creating PhoneGap app
-In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
+In order to build a Mendix PhoneGap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
 
 ### Step 1 - Login to Mendix home
 Open up home.mendix.com and navigate to the project that you wish to build the app for. Once on the project wall for your application click on the publish section.
