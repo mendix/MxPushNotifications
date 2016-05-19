@@ -1,6 +1,6 @@
 # Mendix Push notifications
 
-This module and widget should be used to implement push notifications for Android, iOS and Windows mobile devices. They have been tested to work on Mendix 5.14.1 and up. 
+This module and widget should be used to implement push notifications for Android, iOS and Windows mobile devices. They have been tested to work on Mendix 5.14.1 and up.
 
 The project contains:
 
@@ -15,7 +15,7 @@ The project contains:
 ## Contributing
 
 For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
- 
+
 ## Description
 
 This project provides all the necessary widgets, Javascript, Java and modules necessary to both send and receive push notifications in a Mendix application. For information on how to build your Mendix apps into PhoneGap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
@@ -32,7 +32,7 @@ In order for the push notifications to work in Mendix you must have a few things
 - The pages AppleAdministration, GoogleAdministration and Device_Overview should be added to the navigation.
 - You must set up the [Apple server](#setting-up-apple-push-notification-server) and [Google server](#setting-up-google-cloud-messaging-server) using the documentation below
 - The PhoneGap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-- The widget is connected up to the Google settings object. 
+- The widget is connected up to the Google settings object.
 - Encryption module from the App Store must be added to the project.
 
 The application included in the test project can be used as reference.
@@ -66,7 +66,7 @@ To send a message without using the devices page, simply create a microflow that
 In order to send push notifications for Apple devices from this module you will need to correctly set up and acquire a certificate from Apple, then add this to the Mendix settings pages.
 
 ### Step 1 - Login to members center
-Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an Apple developers license you will need to purchase it from Apple. When logged in to members center click on "Certificates, Identifiers & Profiles". 
+Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an Apple developers license you will need to purchase it from Apple. When logged in to members center click on "Certificates, Identifiers & Profiles".
 
 This will take you to a screen like this:
 <img src="assets/images/apn-step1.PNG"/>
@@ -93,7 +93,7 @@ Locate your created App ID and click on it. This will expand it out.
 Click on Edit and scroll down to the push notifications section. You will see that there are two options one to generate a certificate for development purposes and one for production. For the purpose of this documentation we will generate a development certificate, so we will click on the development create certificate button.
 <img src="assets/images/apn-step4-1.PNG"/>
 
-### Step 5 - Generating Certificate 
+### Step 5 - Generating Certificate
 Click continue
 <img src="assets/images/apn-step5.PNG"/>
 
@@ -127,29 +127,34 @@ Open up the Google [developers console] (https://console.developers.google.com) 
 <img src="assets/images/gcm-step1.PNG"/>
 
 ### Step 2 - Create project
-Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID. 
-<img src="assets/images/gcm-step2.PNG"/>
+Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID.
+<img src="assets/images/gcm-step2.png"/>
 
-### Step 3 - Enable an API
-Once created click on the button enable an API. 
-<img src="assets/images/gcm-step3.PNG"/>
+### Step 3 - Enable Google Cloud Messaging
+Once created, click the link to the Google Cloud Messaging API and click the Enable button.
+<img src="assets/images/gcm-step3.png"/>
 
-### Step 4 - Enable Google Cloud Messaging
-Locate the Google Cloud Messaging for Android and click the off button to turn on the API.
-<img src="assets/images/gcm-step4.PNG"/>
+### Step 4 - Adding credentials
+Click on the menu option credentials, located on the left hand side under the API Manager section.
+<img src="assets/images/gcm-step4.png"/>
+For the question **Which API are you using?**, select "Google Cloud Messaging".
+The next question, **Where will you be calling the API from?**, answer "Web server".
+<img src="assets/images/gcm-step4b.png/>"
 
-### Step 5 - Create server keys
-Click on the menu option credentials, located on the left hand side under the APIs & Auth section. Then click on the button under the public API Access that says create new key. When the popup appears press the Server key button and then press create on the next screen. Take note of the API Key because you will need this when we set up the push notifcation in Mendix.
+### Step 5 - Create API key
+Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
+Then, press the "Create API key" button.
 <img src="assets/images/gcm-step5.PNG"/>
 
 ### Step 6 - Setup Mendix app
-Open up your application in Mendix and login as an Admin, so that you can see the menu option google admin.
-Enter the project ID into the sender ID field and the API key into the API field. 
+Open up your application in Mendix and login as an Admin, so that you can see the menu option "Google admin".
+Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Settings pane.
 <img src="assets/images/gcm-step6.PNG"/>
+<img src="assets/images/gcm-step6b.PNG"/>
 
-Once entered tick the checkbox enabled and press restart. From now on your application will always start the gcm push notification system for you.
+Once entered tick the checkbox "Enabled" and press the Restart button. From now on your application will always start the GCM push notification system for you.
 
-For more information on setting up your google API then please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
+For more information on setting up your Google API please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
 
 
 ## Setting up Windows
@@ -158,11 +163,11 @@ The notifications for Windows work using a web service, the widget within your a
 
 
 ## Installing a Windows App
-In order to test and publish your Windows 8 applications you will need a Windows developer account that can be obtained from: 
+In order to test and publish your Windows 8 applications you will need a Windows developer account that can be obtained from:
 
-[Windows Dev Center](https://dev.windows.com/en-us) 
+[Windows Dev Center](https://dev.windows.com/en-us)
 
-Upon doing so you will receive a Publisher GUID (this can be located under Dashboard > Windows Phone Store > Account). This GUID is needed by PhoneGap in order to sign your applications. 
+Upon doing so you will receive a Publisher GUID (this can be located under Dashboard > Windows Phone Store > Account). This GUID is needed by PhoneGap in order to sign your applications.
 
 You can download the SDK as well as development tools from [here](https://dev.windows.com/en-us/develop/download-phone-sdk)
 
@@ -184,7 +189,7 @@ Once in the publish section you must enter an app identifier for your applicatio
 <img src="assets/images/step2.png"/>
 
 ### Step 3 - Select Devices
-Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected. 
+Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected.
 
 Press the button publish to appstore and you will be asked whether you want to build in the cloud or do it yourself. Choose do it yourself and press the Download Phonegap Build Package.
 
@@ -204,5 +209,3 @@ The code you will need to include is:
 Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
 
 <img src="assets/images/step5.png"/>
-
-
