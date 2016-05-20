@@ -20,39 +20,95 @@ For more information on contributing to this repository visit [Contributing to a
 
 This project provides all the necessary widgets, Javascript, Java and modules necessary to both send and receive push notifications in a Mendix application. For information on how to build your Mendix apps into PhoneGap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
 
-## Implementation
-In order for the push notifications to work in Mendix you must have a few things set up.
-- Import module into a 5.14.1 or higher project.
-- The microflow AfterStartup_PushNotifications must be included in your after startup flow
-- The index.html and components.json must include a reference to a jQuery library.
-`<script type="text/javascript" src="js/jquerymin.js"></script>`
-- The index.html and the components.json file must include the following reference to this Javascript library
-`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-- The push notification snippet must be included in all layouts for mobile and tablet.
-- The pages AppleAdministration, GoogleAdministration and Device_Overview should be added to the navigation.
-- You must set up the [Apple server](#setting-up-apple-push-notification-server) and [Google server](#setting-up-google-cloud-messaging-server) using the documentation below
-- The PhoneGap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-- The widget is connected up to the Google settings object.
-- Encryption module from the App Store must be added to the project.
+## Implementation Guide
 
-The application included in the test project can be used as reference.
+### Step 1 - Create an mpk of PushNotifications module
 
-## Components.json
-All Mendix applications that want to utilise PhoneGap require a components file. The components file describes all the Javascript and CSS files that need to be loaded when the application is loaded on the device. Below is an example of the components file that would be required for this module.
+We need to extract the module from this project before starting with the implementation. Walk through these following steps:
+
+1. Clone this project or download it as ZIP and extract it.
+2. Open the `PushNotifications.mpr` which is located in the `test` directory in the root of the project with a Mendix Modeler.
+3. Right-click on the `PushNotifications` module (inside Project Explorer pane), select `Export module package...` and save the mpk file.
+
+### Step 2 - Install module dependencies
+
+First, open your existing Mendix project (or create a new one). The Push Notification module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading it from the AppStore.
+
+Note: importing Encryption module will trigger errors because it contains reference to a non-existant layout, fix it by assigning a master layout of `Encryption.ResponsiveLayout_Certificate` page to some other layout (in this specific use case it is not really important which layout is used).
+
+<screenshot here>
+
+### Step 3 - Import the PushNotification module
+
+Import the created mpk file from the Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
+
+<screenshot>
+
+### Step 4 - Update component.json file
+
+Make an update to `theme\components.json`. This file contains (among others) the dependencies of the to-be-created mobile hybrid application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of `js` array so it would look like this:
+
 ```
-{
-    "files": {
-        "css": ["lib/bootstrap/css/bootstrap.min.css", "mxclientsystem/mxui/ui/mxui.css", "css/theme.css"],
-        "js": ["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]
-    },
-    "cachebust": "{{cachebust}}"
+{  
+   "files":{  
+      "css":[  
+         "lib/bootstrap/css/bootstrap.min.css",
+         "mxclientsystem/mxui/ui/mxui.css",
+         "styles/css/lib/lib.css",
+         "styles/css/custom/custom.css"
+      ],
+      "js":[  
+         "mxclientsystem/mxui/mxui.js",
+         "widgets/pushNotifications/lib/PushNotification.js"
+      ]
+   },
+   "cachebust":"635689412670032000"
 }
 ```
-For more information on components file please read this documentation:
-[Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
 
-The components.json file should be included in the theme folder of your application.
+### Step 5 - Update index.html file
 
+Update `theme/index.html`to include the following reference to this javascript library:
+
+```
+<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>
+```
+
+<screenshot>
+
+### Step 6 - Include Push Notification Snippet in the layouts
+
+Include push notification snippet on mobile and tablet layouts.
+
+<screenshot>
+
+### Step 7 - Set up the administration pages
+
+Add `Apple Administration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page is useful for testing purpose.
+
+Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
+
+<screenshot>
+
+At this moment you can deploy your application to the cloud. If you are using Free App, simply click the `Run` button.
+
+### Step 8 - Set up access to APNs and GCM
+
+Set up access to APNs and GCM and configure them in your application.
+
+(TODO: link to separate documentation)
+
+### Step 9 - Build the hybrid mobile application
+
+You will need to build the hybrid mobile application. Refer to [this documentation] (https://world.mendix.com/display/howto50/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do it. Note that you should opt to download the app instead of directly publishing it. It is necessary because we need to include a phonegap plugin which is used by this module into the mobile hybrid application.
+
+Once you have the mobile hybrid project file downloaded, extract it and include the required phonegap plugin by adding this line to the `config.xml` file:
+
+```
+<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
+```
+
+You can proceed by repackaging the project into a zip file and use PhoneGap Build to generate the files for Android and iOS.
 
 ## Sending push notifications
 
