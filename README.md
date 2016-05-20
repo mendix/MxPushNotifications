@@ -36,9 +36,8 @@ We need to extract the module from this project before starting with the impleme
 
 First, open your existing Mendix project (or create a new one). The Push Notification module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading it from the AppStore.
 
-Note: importing Encryption module will trigger errors because it contains reference to a non-existant layout, fix it by assigning a master layout of `Encryption.ResponsiveLayout_Certificate` page to some other layout (in this specific use case it is not really important which layout is used).
-
-<img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
+> Note: importing Encryption module will trigger errors because it contains reference to a non-existant layout, fix it by assigning a master layout of `Encryption.ResponsiveLayout_Certificate` page to some other layout (in this specific use case it is not really important which layout is used).
+> <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
 ### Step 3 - Import the PushNotification module
 
@@ -90,9 +89,8 @@ Include push notification snippet on mobile and tablet layouts.
 
 Add `Apple Administration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page is useful for testing purpose.
 
-Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
-
-<img src="assets/images/implementation guide/Project security.JPG"/>
+> Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
+> <img src="assets/images/implementation guide/Project security.JPG"/>
 
 At this moment you can deploy your application to the cloud. If you are using Free App, simply click the `Run` button.
 
