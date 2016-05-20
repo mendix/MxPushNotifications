@@ -88,7 +88,7 @@ Include push notification snippet on mobile and tablet layouts.
 
 ### Step 7 - Set up the administration pages
 
-Add `Apple Administration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page is useful for testing purpose.
+Add `AppleAdministration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page is useful for testing purpose.
 
 > Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
 >
@@ -123,79 +123,79 @@ In the module there is a device overview page. This will list all of the devices
 To send a message without using the devices page, simply create a microflow that retrieves the device from a user account and create a message object with the attributes filled. Then simply pass this message to one of the microflows in the use me folder that sends either a message or a list of messages.  
 
 ## Setting up Apple Push Notification Server
-In order to send push notifications for Apple devices from this module you will need to correctly set up and acquire a certificate from Apple, then add this to the Mendix settings pages.
 
-### Step 1 - Login to members center
-Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an Apple developers license you will need to purchase it from Apple. When logged in to members center click on "Certificates, Identifiers & Profiles".
+In order to proceed you need an apple developer license and device with Mac OS X.
 
-This will take you to a screen like this:
-<img src="assets/images/apn-step1.PNG"/>
+We assume that you already have the app signing key with provisioning profile and can freely build and install your mobile app (if not, please refer to [this page] (https://world.mendix.com/display/howto50/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores#PublishingaMendixHybridMobileAppinMobileAppStores-3.SettingupAppSigningKeys)). Take into account that your App ID should use Explicit App ID and have Push Notification turned on so you could receive push notifications with your app.
 
-### Step 2 - Create APP ID
+<img src="assets/images/apns/AppID.png"/>
 
-Click on Identifiers and then click on App IDs.
-On the top right there will be a plus button, press this and a dialog like this should appear:
-<img src="assets/images/apn-step2.PNG"/>
+If it is not the case, you need to create new App ID with Explicit App ID and Push Notification turned on. After that you need to receive the new provisioning profile with this App ID and rebuild a mobile app.
 
-Enter your app ID name and select Explicit App ID. You must select Explicit App ID in order to be able to perform push notifications.
-Enter a Bundle ID, this bundle ID must match the bundle ID that you entered during the PhoneGap build phase.
-<img src="assets/images/apn-step2-1.PNG"/>
-Tick the options push notifications and then click continue.
+If everything is set up and you can build and deploy your application, you can proceed with push notifications server.
 
-### Step 3 - Confirm
-Click submit
-<img src="assets/images/apn-step3.PNG"/>
+To establish connectivity between your notification server and the Apple Push Notification service you will need Apple Push Notification service SSL certificate in `.p12` format.
 
-### Step 4 - Creating APS Certificate
-Locate your created App ID and click on it. This will expand it out.
-<img src="assets/images/apn-step4.PNG"/>
+Follow this steps to obtain Apple Push Notification service SSL certificate from Apple.
 
-Click on Edit and scroll down to the push notifications section. You will see that there are two options one to generate a certificate for development purposes and one for production. For the purpose of this documentation we will generate a development certificate, so we will click on the development create certificate button.
-<img src="assets/images/apn-step4-1.PNG"/>
+### Step 1 - Login to Apple Developer center
 
-### Step 5 - Generating Certificate
-Click continue
-<img src="assets/images/apn-step5.PNG"/>
+Login to Apple Developer and go to https://developer.apple.com/account/ios/certificate/create
 
-You will then be asked to upload a certificate signing request file. In order to create this file please read the following documentation:
+<img src="assets/images/apns/Cert-1.png"/>
 
-[Creating CSR](https://world.mendix.com/display/refguide5/Managing+App+Signing+Keys)
+### Step 2 - Choose certificate's type
 
-Upload the CSR and then click generate. You will be presented by a screen saying your certificate is ready.
-Click done and then click on your certificate from the list and click Download.
+Choose Push Notification service certificate. As you may see, there are development type and production type certificate. Note that for development type certificate can only work with the sandbox environment. More about this explained in the later part of this guide.
 
-### Step 6 - Converting Certificate
-Now that we have the certificate from Apple we now need to convert this into p12 format so that we can get it to work with our Mendix application.
-This documentation should be helpful for getting your certificate converted:
+<img src="assets/images/apns/Cert-2.png"/>
 
-[Converting Cer to p12](http://docs.build.phonegap.com/en_US/signing_signing-ios.md.html)
+### Step 3 - Select App ID
 
-### Step 7 - Setting up Mendix APNS
-Once you have the p12 certificate you can set up the Apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the Apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
+Pick your App ID from the dropdown list. If your app is not on the list, then you need to check your App ID entity, most likely the push notification service is not turned on for the app.
 
-Click on the enabled checkbox and then click Save. Once saved click the restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send Apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
+### Step 4 - CSR file
 
-<img src="assets/images/apn-step7.PNG"/>
+You should be asked for your CSR file (Certificate Signing Request). You may use the same CSR that you used to create app signing certificate. Please follow the instruction within the step description if you don’t have one.
 
+### Step 5 - Download the certificate
+
+Download your Apple Push Notification service SSL certificate and add it to your Keychain.
+
+This certificate needs to be converted into `.p12` format. If you don’t know how to do it, please refer to this page (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html).
+
+### Step 6 - Configure APNS on your application
+
+For the last step you need to configure APNS setting within your application. This can be done by login into your application as an administrator role and open the Apple Administration page that was set up in step 7 of Implementation Guide.
+
+For this purpose you need to:
+-	Add your Apple Push Notification service SSL certificate in `.p12` format
+-	Add server url and port. For sandbox it is `gateway.sandbox.push.apple.com:2195` and `gateway.push.apple.com:2195` for production.
+-	Add feedback url and port. For sandbox it is `feedback.sandbox.push.apple.com:2196` and `feedback.push.apple.com:2196` for production.
 
 ## Setting up Google Cloud Messaging Server
+
 In order to send google push notifications from this module you need to have set up a google account with google cloud messaging enabled.
 To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
 
 ### Step 1 - Login to developers console
+
 Open up the Google [developers console] (https://console.developers.google.com) and login with your Google id.
 <img src="assets/images/gcm-step1.PNG"/>
 
 ### Step 2 - Create project
+
 Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID.
 
 <img src="assets/images/gcm-step2.png"/>
 
 ### Step 3 - Enable Google Cloud Messaging
+
 Once created, click the link to the Google Cloud Messaging API and click the Enable button.
 <img src="assets/images/gcm-step3.png"/>
 
 ### Step 4 - Adding credentials
+
 Click on the menu option credentials, located on the left hand side under the API Manager section.
 <img src="assets/images/gcm-step4.png"/>
 
@@ -205,11 +205,13 @@ The next question, **Where will you be calling the API from?**, answer "Web serv
 <img src="assets/images/gcm-step4b.png"/>
 
 ### Step 5 - Create API key
+
 Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
 Then, press the "Create API key" button.
 <img src="assets/images/gcm-step5.png"/>
 
 ### Step 6 - Setup Mendix app
+
 Open up your application in Mendix and login as an Admin, so that you can see the menu option "Google admin".
 Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Settings pane.
 <img src="assets/images/gcm-step6.PNG"/>
