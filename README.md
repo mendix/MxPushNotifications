@@ -30,19 +30,23 @@ We need to extract the module from this project before starting with the impleme
 2. Open the `PushNotifications.mpr` which is located in the `test` directory in the root of the project with a Mendix Modeler.
 3. Right-click on the `PushNotifications` module (inside Project Explorer pane), select `Export module package...` and save the mpk file.
 
+<img src="assets/images/implementation guide/Preparation export Push Notification module.JPG"/>
+
 ### Step 2 - Install module dependencies
 
 First, open your existing Mendix project (or create a new one). The Push Notification module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading it from the AppStore.
 
 Note: importing Encryption module will trigger errors because it contains reference to a non-existant layout, fix it by assigning a master layout of `Encryption.ResponsiveLayout_Certificate` page to some other layout (in this specific use case it is not really important which layout is used).
 
-<screenshot here>
+<img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
 ### Step 3 - Import the PushNotification module
 
 Import the created mpk file from the Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
 
-<screenshot>
+<img src="assets/images/implementation guide/Import Push Notification module.JPG"/>
+
+<img src="assets/images/implementation guide/Import Push Notification module as a new module.JPG"/>
 
 ### Step 4 - Update component.json file
 
@@ -74,13 +78,13 @@ Update `theme/index.html`to include the following reference to this javascript l
 <script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>
 ```
 
-<screenshot>
+<img src="assets/images/implementation guide/Update index html file.JPG"/>
 
 ### Step 6 - Include Push Notification Snippet in the layouts
 
 Include push notification snippet on mobile and tablet layouts.
 
-<screenshot>
+<img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
 ### Step 7 - Set up the administration pages
 
@@ -88,7 +92,7 @@ Add `Apple Administration`, `GoogleAdministration`, and `Device_Overview` pages 
 
 Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
 
-<screenshot>
+<img src="assets/images/implementation guide/Project security.JPG"/>
 
 At this moment you can deploy your application to the cloud. If you are using Free App, simply click the `Run` button.
 
@@ -96,7 +100,7 @@ At this moment you can deploy your application to the cloud. If you are using Fr
 
 Set up access to APNs and GCM and configure them in your application.
 
-(TODO: link to separate documentation)
+<TODO: link to separate documentation>
 
 ### Step 9 - Build the hybrid mobile application
 
