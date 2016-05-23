@@ -117,7 +117,7 @@ You can proceed by repackaging the project into a zip file and use PhoneGap Buil
 
 ## Testing The Implementation
 
-Once you finished implementing the steps described in the previous steps, you might want to test whether everything is already in place. This can be done easily by making use of the administration pages that should have been included into your application. Follow these steps to send a push notification to a device:
+Once you finished implementing the steps described previously, you might want to test whether everything is already in place. This can be done easily by making use of the administration pages that should have been included into your application. Follow these steps to send a push notification to a device:
 
 ### Step 1 - Login to your hybrid mobile application
 
@@ -138,6 +138,20 @@ Navigate to the `Device Overview` page. Here you should see that one device has 
 Fill in the title and the message on the form and press `Send immediate` button. You should see a new notification coming in your device. By default, if your hybrid mobile app is currently active, the message will be displayed in the app. Otherwise, it will be shown as a standard push notification.
 
 <img src="assets/images/testing/send message.JPG"/>
+
+## APIs
+
+This is a list of microflows that can be called from within your application. They are located in the `_USE ME/Microflows` folder.
+
+|Microflow name         |Description                                                    |
+|-----------------------|---------------------------------------------------------------|
+|MessageFactory         |A microflow to create a `Message` object                       |
+|SendMessageImmediately |A microflow to send a message to GCM/APNs immediately          |
+|SendMessageQueued      |A microflow to send a message to GCM/APNs using a queue        |
+|SendMessagesImmediately|A microflow to send multiple messages to GCM/APNs immediately  |
+|SendMessagesQueued     |A microflow to send multiple messages to GCM/APNs using a queue|
+
+Note: for sending message(s) queue to work properly, you need to ensure that the scheduled event `PushQueue` is active. In a sandbox/free app this does not require any extra step, but in a TAP environments you will need to explicitly set the scheduled event to be activated.
 
 ## Setting up Apple Push Notification Server
 
