@@ -101,7 +101,7 @@ At this moment you can deploy your application to the cloud. If you are using Fr
 
 Set up access to APNs and GCM and configure them in your application.
 
-> TODO: link to separate documentation
+See [Setting up Apple Push Notification Server](#setting-up-apple-push-notification-server) and [Setting up Google Cloud Messaging Server](#setting-up-google-cloud-messaging-server) for the details.
 
 ### Step 9 - Build the hybrid mobile application
 
