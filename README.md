@@ -1,6 +1,6 @@
 # Mendix Push Notifications
 
-Push notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available for developers by their service offering, respectively named Google Cloud Messaging (GCM) and Apple Push Notification service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
+Push notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available via Google Cloud Messaging (GCM) and Apple Push Notifications service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
 
 ## Overview
 
@@ -79,11 +79,11 @@ Update `theme/index.html`to include the following reference to this javascript l
 <script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>
 ```
 
-<img src="assets/images/implementation guide/Update index html file.JPG"/>
+<img src="assets/images/implementation guide/Update index html file.PNG"/>
 
 ### Step 6 - Include Push Notification Snippet in the layouts
 
-Include a push notification snippet on mobile and tablet layouts.
+Include a push notification snippet on mobile and tablet layouts. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME/Snippets` folder in PushNotifications module) to your layout.
 
 <img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
@@ -114,6 +114,8 @@ Once you have the mobile hybrid project file downloaded, extract it and include 
 ```
 
 You can proceed by repackaging the project into a zip file and use PhoneGap Build to generate the files for Android and iOS.
+
+For more information about PhoneGap Build, you can refere to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
 
 ## Testing The Implementation
 
