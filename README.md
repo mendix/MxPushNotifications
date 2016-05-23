@@ -115,13 +115,29 @@ Once you have the mobile hybrid project file downloaded, extract it and include 
 
 You can proceed by repackaging the project into a zip file and use PhoneGap Build to generate the files for Android and iOS.
 
-## Sending push notifications
+## Testing The Implementation
 
-In the module there are two operations to send messages. One which these queue the notifications whereas the other will send them immediately. If you are planning to send several push notifications to different devices at once, then it would be most suitable to use the queued method. If, however, you simply want to test the sending of messages then just use the send immediate microflow.
+Once you finished implementing the steps described in the previous steps, you might want to test whether everything is already in place. This can be done easily by making use of the administration pages that should have been included into your application. Follow these steps to send a push notification to a device:
 
-In the module there is a device overview page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and send a message.
+### Step 1 - Login to your hybrid mobile application
 
-To send a message without using the devices page, simply create a microflow that retrieves the device from a user account and create a message object with the attributes filled. Then simply pass this message to one of the microflows in the use me folder that sends either a message or a list of messages.  
+Open your hybrid mobile app and login to it.
+
+### Step 2 - Login as administrator to the web (desktop) application
+
+Open your application in the browser and login as administrator.
+
+### Step 3 - Open the "Device Overview" page
+
+Navigate to the `Device Overview` page. Here you should see that one device has already been registered, which is the device that you use to login to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+
+<img src="assets/images/testing/device overview.JPG"/>
+
+### Step 4 - Send a message
+
+Fill in the title and the message on the form and press `Send immediate` button. You should see a new notification coming in your device. By default, if your hybrid mobile app is currently active, the message will be displayed in the app. Otherwise, it will be shown as a standard push notification.
+
+<img src="assets/images/testing/send message.JPG"/>
 
 ## Setting up Apple Push Notification Server
 
@@ -257,7 +273,6 @@ Once in the publish section you must enter an app identifier for your applicatio
 Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected.
 
 Press the button publish to appstore and you will be asked whether you want to build in the cloud or do it yourself. Choose do it yourself and press the Download Phonegap Build Package.
-
 
 <img src="assets/images/step3.png"/>
 
