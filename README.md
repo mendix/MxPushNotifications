@@ -158,19 +158,21 @@ Follow these steps to obtain Apple Push Notification service SSL certificate fro
 
 Login to Apple Developer and go to https://developer.apple.com/account/ios/certificate/create
 
-<img src="assets/images/apns/Cert-1.png"/>
-
 ### Step 2 - Choose certificate's type
+
+<img src="assets/images/apns/Cert-1.png"/>
 
 Choose Push Notification service certificate. As you may see, there are two types of certificates: _development_ and _production_. Note that the development type certificate can only work with the sandbox environment. More about this explained later on in this guide.
 
-<img src="assets/images/apns/Cert-2.png"/>
-
 ### Step 3 - Select App ID
+
+<img src="assets/images/apns/Cert-2.png"/>
 
 Pick your App ID from the dropdown list. If your app is not on the list, then you need to check your App ID entity. Most likely the push notification service is not turned on for the app.
 
 ### Step 4 - CSR file
+
+<img src="assets/images/apns/Cert-3.png"/>
 
 You should be asked for your CSR file (Certificate Signing Request). You may use the same CSR that you used to create app signing certificate. Please follow the instruction within the step description if you don’t have one.
 
