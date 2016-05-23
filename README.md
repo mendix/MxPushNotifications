@@ -243,13 +243,14 @@ Choose a name for your key and, optionally, restrict the IP addresses that can c
 <img src="assets/images/gcm-step5.png"/>
 
 Then, press the "Create API key" button.
+
 <img src="assets/images/gcm-step5b.png"/>
 
 
 ### Step 6 - Setup Mendix app
 
 Open up your application in Mendix and login as an Admin, so that you can see the menu option "Google admin".
-Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Project Information pane ( ⁝ utilities menu).
+Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Project Information pane ( ⁝ utilities menu on the top right).
 
 <img src="assets/images/gcm-step6.PNG"/>
 <img src="assets/images/gcm-step6b.png"/>
