@@ -110,7 +110,7 @@ You will need to build the hybrid mobile application. Refer to the [Publishing a
 Once you have the mobile hybrid project file downloaded, extract it and include the required phonegap plugin by adding this line to the `config.xml` file:
 
 ```
-<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
+<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.5.0" />
 ```
 
 You can proceed by repackaging the project into a zip file and use PhoneGap Build to generate the files for Android and iOS.
