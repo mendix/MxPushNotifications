@@ -215,17 +215,17 @@ To do so follow these steps to get registered for Google cloud messaging and ent
 ### Step 1 - Login to developers console
 
 Open up the Google [developers console] (https://console.developers.google.com) and login with your Google id.
-<img src="assets/images/gcm-step1.PNG"/>
+<img src="assets/images/gcm-step1.png"/>
 
 ### Step 2 - Create project
 
-Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID.
+From the "Go to project" menu, click "Create a project" and fill in the project name and project ID for your application. Then click Create.
 
 <img src="assets/images/gcm-step2.png"/>
 
 ### Step 3 - Enable Google Cloud Messaging
 
-Once created, click the link to the Google Cloud Messaging API and click the Enable button.
+Once created, click the link to the Google Cloud Messaging API (section `Mobile APIs`) and click the Enable button.
 <img src="assets/images/gcm-step3.png"/>
 
 ### Step 4 - Adding credentials
@@ -233,21 +233,24 @@ Once created, click the link to the Google Cloud Messaging API and click the Ena
 Click on the menu option credentials, located on the left hand side under the API Manager section.
 <img src="assets/images/gcm-step4.png"/>
 
-For the question **Which API are you using?**, select "Google Cloud Messaging".
-The next question, **Where will you be calling the API from?**, answer "Web server".
+Click on the `Create credentials` button. You'll want to choose an API key of type `Server`.
 
 <img src="assets/images/gcm-step4b.png"/>
 
 ### Step 5 - Create API key
 
 Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
-Then, press the "Create API key" button.
 <img src="assets/images/gcm-step5.png"/>
+
+Then, press the "Create API key" button.
+<img src="assets/images/gcm-step5b.png"/>
+
 
 ### Step 6 - Setup Mendix app
 
 Open up your application in Mendix and login as an Admin, so that you can see the menu option "Google admin".
-Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Settings pane.
+Enter the **project number** into the sender ID field and the API key into the API field. You can find it in your Google project's Project Information pane ( ⁝ utilities menu).
+
 <img src="assets/images/gcm-step6.PNG"/>
 <img src="assets/images/gcm-step6b.png"/>
 
