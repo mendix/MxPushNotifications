@@ -1,24 +1,25 @@
-# Mendix Push notifications
+# Mendix Push Notifications
 
-This module and widget should be used to implement push notifications for Android, iOS and Windows mobile devices. They have been tested to work on Mendix 5.14.1 and up.
+Push notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available for developers by their service offering, respectively named Google Cloud Messaging (GSM) and Apple Push Notification service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
 
-The project contains:
+## Overview
 
-- Directory structure.
-- Readme.md file.
-- Javascript source.
-- XSD for package.xml, to configure properties of the widget, visible inside the Mendix Business Modeler.
-- Example project
-- Module for sending push notifications
-- Custom CSS file to style the push notification html
+<img src="assets/images/overview/architecture.PNG"/>
+
+In general, Mendix Push Notifications solution consists of two parts: Push Notifications module and Push Notification widget. The module is the "server-side" and responsible of sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (phonegap) app. In general, it has two responsibilities: to let GCM/APNs aware about the particular devices they run in, and to be able to handle push notifications coming from GCM/APNs.
+
+## Limitation
+
+This project assumes that the mobile app and the "backend" part would co-locate in the same application.
+
+At this moment this project does not support:
+- Offline hybrid mobile
+- Anonymous access
+- Multiple devices per user
 
 ## Contributing
 
 For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
-
-## Description
-
-This project provides all the necessary widgets, Javascript, Java and modules necessary to both send and receive push notifications in a Mendix application. For information on how to build your Mendix apps into PhoneGap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
 
 ## Implementation Guide
 
