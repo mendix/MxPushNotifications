@@ -4,9 +4,9 @@ Push Notifications let your application notify a user of events even when the us
 
 ## Overview
 
-<img src="assets/images/overview/architecture.png"/>
+In general, a Mendix Push Notifications solution consists of two parts: the MxPushNotifications module and the Push Notification widget (depicted in the picture as "Custom widget"). The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs (via a PhoneGap Push Plugin); both registering the devices with these services and handling push notifications received from them.
 
-In general, a Mendix Push Notifications solution consists of two parts: the MxPushNotifications module and the Push Notification widget. The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs; both registering the devices with these services and handling push notifications received from them.
+<img src="assets/images/overview/architecture.png"/>
 
 ## Limitations
 
