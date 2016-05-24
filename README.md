@@ -198,7 +198,7 @@ Download your Apple Push Notification service SSL certificate and add it to your
 
 This certificate needs to be converted into `.p12` format. If you don’t know how to do it, please refer to [this page]  (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html).
 
-### Step 6 - Configure APNS on your application
+### Step 6 - Configure APNs on your application
 
 For the last step you need to configure the APNs setting within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in step 7 of the Implementation Guide.
 
@@ -219,7 +219,7 @@ Open up the Google [developers console] (https://console.developers.google.com) 
 
 ### Step 2 - Create project
 
-From the "Go to project" menu, click "Create a project" and fill in the project name and project ID for your application. Then click Create.
+From the `Go to project` menu, click `Create a project` and fill in the project name and project ID for your application. Then click `Create`.
 
 <img src="assets/images/gcm-step2.png"/>
 
@@ -233,7 +233,7 @@ Once created, click the link to the Google Cloud Messaging API (section `Mobile 
 Click on the menu option credentials, located on the left hand side under the API Manager section.
 <img src="assets/images/gcm-step4.png"/>
 
-Click on the `Create credentials` button. You'll want to choose an API key of type `Server`.
+Click on the `Create credentials` button. You would want to choose an API key of type `Server`.
 
 <img src="assets/images/gcm-step4b.png"/>
 
@@ -242,7 +242,7 @@ Click on the `Create credentials` button. You'll want to choose an API key of ty
 Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
 <img src="assets/images/gcm-step5.png"/>
 
-Then, press the "Create API key" button.
+Then, press the `Create API key` button.
 
 <img src="assets/images/gcm-step5b.png"/>
 
@@ -252,11 +252,11 @@ For the next step, you'll need to look up the **project number**. You can find i
 
 ### Step 6 - Setup Mendix app
 
-Open up your application in Mendix and login as an Admin, so that you can see the menu option "Google admin".
+Open up your application in Mendix and login as an Admin, so that you can see the menu option `Google admin`.
 Enter the **project number** into the sender ID field and the API key into the API field.
 
 <img src="assets/images/gcm-step6.PNG"/>
 
-Once entered tick the checkbox "Enabled" and press the Restart button. From now on your application will always start the GCM push notification system for you.
+Once entered tick the checkbox `Enabled` and press the Restart button. From now on your application will always start the GCM push notification system for you.
 
-For more information on setting up your Google API please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
+For more information on setting up your Google API please refer to this article: [Google API Setup] (http://developer.android.com/google/gcm/gs.html).
