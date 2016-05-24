@@ -1,19 +1,19 @@
 # Mendix Push Notifications
 
-Push notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available via Google Cloud Messaging (GCM) and Apple Push Notifications service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
+Push Notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available via Google Cloud Messaging (GCM) and Apple Push Notifications service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
 
 ## Overview
 
 <img src="assets/images/overview/architecture.png"/>
 
-In general, a Mendix Push Notifications solution consists of two parts: the MxPushNotifications module and the Push Notification widget. The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (phonegap) app. In general, it has two responsibilities: to make GCM/APNs aware about the particular devices they run in, and to be able to handle push notifications coming from GCM/APNs.
+In general, a Mendix Push Notifications solution consists of two parts: the MxPushNotifications module and the Push Notification widget. The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs; both registering the devices with these services and handling push notifications received from them.
 
-## Limitation
+## Limitations
 
 This project assumes that the mobile app and the "back-end" part will be co-located in the same application.
 
 At this moment this project does not support:
-- Off-line hybrid mobile
+- Offline hybrid mobile
 - Anonymous access
 - Multiple devices per user
 
