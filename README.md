@@ -4,7 +4,7 @@ Push Notifications let your application notify a user of events even when the us
 
 ## Overview
 
-In general, a Mendix Push Notifications solution consists of two parts: the MxPushNotifications module and the Push Notification widget (depicted in the picture as "Custom widget"). The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs (via a PhoneGap Push Plugin); both registering the devices with these services and handling push notifications received from them.
+In general, a Mendix Push Notifications solution consists of two parts: the `PushNotifications` module and the `PushNotifications` widget (depicted in the picture as "Custom widget"). The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs (via a PhoneGap Push Plugin); both registering the devices with these services and handling push notifications received from them.
 
 <img src="assets/images/overview/architecture.png"/>
 
@@ -23,9 +23,9 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Implementation Guide
 
-### Step 1 - Create an mpk of the PushNotifications module
+### Step 1 - Create an mpk of the `PushNotifications` module
 
-We need to extract the module from this project before starting with the implementation. Walk through these following steps:
+We need to extract the module from this project before starting with the implementation. Walk through the following steps:
 
 1. Clone this project or download it as ZIP and extract it.
 2. Open the `PushNotifications.mpr` which is located in the `test` directory in the root of the project with a Mendix Modeler.
@@ -35,15 +35,15 @@ We need to extract the module from this project before starting with the impleme
 
 ### Step 2 - Install module dependencies
 
-First, open your existing Mendix project (or create a new one). The Push Notification module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading it from the AppStore.
+First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the AppStore.
 
-> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existant layout. Fix it by assigning a master layout of `Encryption.ResponsiveLayout_Certificate` page to some other layout (in this specific use case it is not really important which layout is used).
+> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
 >
 > <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
-### Step 3 - Import the PushNotification module
+### Step 3 - Import the `PushNotifications` module
 
-Import the created mpk file from Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
+Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
 
 <img src="assets/images/implementation guide/Import Push Notification module.JPG"/>
 
@@ -51,7 +51,7 @@ Import the created mpk file from Step 1 into your Mendix project. To do this, ri
 
 ### Step 4 - Update component.json file
 
-Find the `theme\components.json` file in your project. This file contains (among others) the dependencies of the to-be-created mobile hybrid application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
+Find the `theme\components.json` file in your project. This file contains (among others) the dependencies of the to-be-created hybrid mobile application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
 
 ```
 {  
@@ -67,13 +67,13 @@ Find the `theme\components.json` file in your project. This file contains (among
          "widgets/pushNotifications/lib/PushNotification.js"
       ]
    },
-   "cachebust":"635689412670032000"
+   "cachebust":"{{cachebust}}"
 }
 ```
 
 ### Step 5 - Update index.html file
 
-Update `theme/index.html`to include the following reference to this javascript library:
+Update `theme/index.html` to include the following reference to this JavaScript library:
 
 ```
 <script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>
@@ -81,21 +81,21 @@ Update `theme/index.html`to include the following reference to this javascript l
 
 <img src="assets/images/implementation guide/Update index html file.PNG"/>
 
-### Step 6 - Include Push Notification Snippet in the layouts
+### Step 6 - Include the push notifications snippet in the application's layouts
 
-Include a push notification snippet on mobile and tablet layouts. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME/Snippets` folder in PushNotifications module) to your layout.
+Include the push notifications snippet in mobile and tablet layouts. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME/Snippets` folder in the `PushNotifications` module) to your layout.
 
 <img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
 ### Step 7 - Set up the administration pages
 
-Add `AppleAdministration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page is useful for testing purpose.
+Add the `AppleAdministration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page contains a list of all devices registered with the application and is useful for testing purposes.
 
-> Note: don't forget to set the `Project security` -> `User roles` to include `PushNotifications.Administrator` role as part as the main `Administrator` role and `PushNotifications.User` role as part of the main `User` role.
+> Note: don't forget to set the `Project security` -> `User roles` to include the `PushNotifications.Administrator` role as part of the main `Administrator` role and the `PushNotifications.User` role as part of the main `User` role.
 >
 > <img src="assets/images/implementation guide/Project security.JPG"/>
 
-At this moment you can deploy your application to the cloud. If you are using Free App, simply click the `Run` button.
+At this point you can deploy your application to the Mendix cloud. If you are using a Free App, simply click the `Run` button.
 
 ### Step 8 - Set up access to APNs and GCM
 
@@ -105,45 +105,45 @@ See [Setting up Apple Push Notification Server](#setting-up-apple-push-notificat
 
 ### Step 9 - Build the hybrid mobile application
 
-You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App howto] (https://world.mendix.com/display/howto50/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do that. Note that you should opt to download the app instead of directly publishing it. This is necessary because we need to include a phonegap plugin which is used by this module into the mobile hybrid application.
+You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the app instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
 
-Once you have the mobile hybrid project file downloaded, extract it and include the required phonegap plugin by adding this line to the `config.xml` file:
+Once you have downloaded the hybrid mobile project file, extract it and include the required PhoneGap plugin by adding the following line to the `config.xml` file:
 
 ```
 <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.5.0" />
 ```
 
-You can proceed by repackaging the project into a zip file and use PhoneGap Build to generate the files for Android and iOS.
+You can proceed by repackaging the project into a zip file and using PhoneGap Build to generate the files for Android and iOS.
 
-For more information about PhoneGap Build, you can refere to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
+For more information about PhoneGap Build, you can refer to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
 
 ## Testing The Implementation
 
-Once you finished implementing the steps described previously, you might want to test whether everything is already in place. This can be done easily by making use of the administration pages that should have been included into your application. Follow these steps to send a push notification to a device:
+Once you finish implementing the steps described previously, you will want to test whether everything works correctly. This can be done easily using the administration pages that should have been included in your application during [step 7](#step-7-set-up-the-administration-pages) of the implementation guide. Follow these steps to send a push notification to a device:
 
-### Step 1 - Login to your hybrid mobile application
+### Step 1 - Log in to your hybrid mobile application
 
-Open your hybrid mobile app and login to it.
+Open your hybrid mobile app and log in to it.
 
-### Step 2 - Login as administrator to the web (desktop) application
+### Step 2 - Log in as administrator to the web (desktop) application
 
-Open your application in the browser and login as administrator.
+Open your application in the browser and log in as administrator.
 
 ### Step 3 - Open the "Device Overview" page
 
-Navigate to the `Device Overview` page. Here you should see that one device has already been registered, which is the device that you use to login to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+Navigate to the `Device Overview` page. Here you should see one device already having been registered; the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
 
 <img src="assets/images/testing/device overview.JPG"/>
 
 ### Step 4 - Send a message
 
-Fill in the title and the message on the form and press `Send immediate` button. You should see a new notification coming in your device. By default, if your hybrid mobile app is currently active, the message will be displayed in the app. Otherwise, it will be shown as a standard push notification.
+Fill in the title and the message in the form and press `Send immediate` button. Your device should receive a new push notification. If your hybrid mobile app is currently running in the foreground, the notification will be displayed in the app. Otherwise, it will be shown as a standard push notification.
 
 <img src="assets/images/testing/send message.JPG"/>
 
 ## APIs
 
-This is a list of microflows that can be called from within your application. They are located in the `_USE ME/Microflows` folder.
+This is a list of microflows that can be called by your application to send push notifications. They are located in the `_USE ME/Microflows` folder.
 
 |Microflow name         |Description                                                    |
 |-----------------------|---------------------------------------------------------------|
@@ -153,42 +153,42 @@ This is a list of microflows that can be called from within your application. Th
 |SendMessagesImmediately|A microflow to send multiple messages to GCM/APNs immediately  |
 |SendMessagesQueued     |A microflow to send multiple messages to GCM/APNs using a queue|
 
-Note: for sending message(s) queue to work properly, you need to ensure that the scheduled event `PushQueue` is active. In a sandbox/free app this does not require any extra step, but in a TAP environments you will need to explicitly set the scheduled event to be activated.
+> Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. In a Free App environment this does not require an extra step, but for TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal.
 
 ## Setting up Apple Push Notification Server
 
 In order to proceed you need an Apple developer license and a device running Mac OS X.
 
-We assume that you already have the app signing key with provisioning profile and can freely build and install your mobile app (if not, please refer to [this howto] (https://world.mendix.com/display/howto50/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores#PublishingaMendixHybridMobileAppinMobileAppStores-3.SettingupAppSigningKeys)). Take into account that your App ID should use Explicit App ID and have Push Notification turned on so you could receive push notifications with your app.
+We assume that you already have the app signing key with provisioning profile and can freely build and install your mobile app (if not, please refer to [this how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores#PublishingaMendixHybridMobileAppinMobileAppStores-3.SettingupAppSigningKeys)). Take into account that your App ID should use `Explicit App ID` and have `Push Notifications` turned on so you can receive push notifications with your app.
 
 <img src="assets/images/apns/AppID.png"/>
 
-If this is not the case, you need to create new App ID with Explicit App ID and Push Notification turned on. After that, you'll need to receive the new provisioning profile with this App ID and rebuild a mobile app.
+If this is not the case, you need to create new App ID with `Explicit App ID` and `Push Notifications` turned on. After that, you'll need to download the new provisioning profile for this App ID and use it to rebuild the mobile app.
 
-If everything is set up and you can build and deploy your application, you can proceed with the push notifications server.
-To establish connectivity between your notification server and the Apple Push Notification service you will need Apple Push Notification service SSL certificate in `.p12` format.
+If everything is set up and you can build and deploy your application, you can proceed with setting up the push notifications server.
+To establish connectivity between your notification server and the Apple Push Notification service you will need an Apple Push Notification service SSL certificate in `.p12` format.
 
-Follow these steps to obtain Apple Push Notification service SSL certificate from Apple:
+Follow these steps to obtain an Apple Push Notifications service SSL certificate from Apple:
 
-### Step 1 - Login to Apple Developer center
+### Step 1 - Log in to Apple Developer center
 
-Login to Apple Developer and go to https://developer.apple.com/account/ios/certificate/create
+Log in to Apple Developer and go to https://developer.apple.com/account/ios/certificate/create
 
 ### Step 2 - Choose certificate's type
 
-Choose Push Notification service certificate. As you may see, there are two types of certificates: _development_ and _production_. Note that the development type certificate can only work with the sandbox environment. More about this explained later on in this guide.
+Choose Push Notification service certificate. As you may see, there are two types of certificates: _development_ and _production_. Note that the development type certificate can only work with the sandbox environment. More about this will be explained later on in this guide.
 
 <img src="assets/images/apns/Cert-1.png"/>
 
 ### Step 3 - Select App ID
 
-Pick your App ID from the dropdown list. If your app is not on the list, then you need to check your App ID entity. Most likely the push notification service is not turned on for the app.
+Pick your App ID from the dropdown list. If your app is not in the list, then you need to check your App ID entity. Most likely the push notification service is not turned on for the app.
 
 <img src="assets/images/apns/Cert-2.png"/>
 
 ### Step 4 - CSR file
 
-On the next step you should be asked for your CSR file (Certificate Signing Request). You may use the same CSR that you used to create app signing certificate. If you don't have one, please follow the instruction within this step description.
+During the next step you should be asked for your CSR file (Certificate Signing Request). You may use the same CSR that you used to create the app signing certificate. If you don't have one, please follow the instructions as shown below.
 
 <img src="assets/images/apns/Cert-3.png"/>
 
@@ -196,25 +196,26 @@ On the next step you should be asked for your CSR file (Certificate Signing Requ
 
 Download your Apple Push Notification service SSL certificate and add it to your Keychain.
 
-This certificate needs to be converted into `.p12` format. If you don’t know how to do it, please refer to [this page]  (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html).
+This certificate needs to be converted into the `.p12` format. If you don’t know how to do this, please refer to [this page]  (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html).
 
-### Step 6 - Configure APNs on your application
+### Step 6 - Configure APNs in your application
 
-For the last step you need to configure the APNs setting within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in step 7 of the Implementation Guide.
+For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in [step 7](#step-7-set-up-the-administration-pages) of the Implementation Guide.
 
 For this purpose you need to:
 -	Add your Apple Push Notification service SSL certificate in `.p12` format
--	Add server url and port. For sandbox it is `gateway.sandbox.push.apple.com:2195` and `gateway.push.apple.com:2195` for production.
--	Add feedback url and port. For sandbox it is `feedback.sandbox.push.apple.com:2196` and `feedback.push.apple.com:2196` for production.
+-	Add the server url and port. This is `gateway.sandbox.push.apple.com:2195` for sandbox and `gateway.push.apple.com:2195` for production.
+-	Add the feedback url and port. This is `feedback.sandbox.push.apple.com:2196` for sandbox and `feedback.push.apple.com:2196` for production.
 
 ## Setting up Google Cloud Messaging Server
 
-In order to send google push notifications from this module you need to have set up a google account with google cloud messaging enabled.
-To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
+In order to send Google push notifications from this module you need to have set up a Google account with Google Cloud Messaging enabled.
+To register for Google Cloud Messaging and configure the service in the app, you will need to perform the following steps.
 
-### Step 1 - Login to developers console
+### Step 1 - Log in to developers console
 
-Open up the Google [developers console] (https://console.developers.google.com) and login with your Google id.
+Open up the Google [developers console] (https://console.developers.google.com) and log in with your Google id.
+
 <img src="assets/images/gcm-step1.png"/>
 
 ### Step 2 - Create project
@@ -225,12 +226,14 @@ From the `Go to project` menu, click `Create a project` and fill in the project 
 
 ### Step 3 - Enable Google Cloud Messaging
 
-Once created, click the link to the Google Cloud Messaging API (section `Mobile APIs`) and click the Enable button.
+Once created, click the link to the Google Cloud Messaging API (section `Mobile APIs`) and click the `Enable` button.
+
 <img src="assets/images/gcm-step3.png"/>
 
 ### Step 4 - Adding credentials
 
-Click on the menu option credentials, located on the left hand side under the API Manager section.
+Click on the menu option `Credentials`, located on the left hand side under the `API Manager` section.
+
 <img src="assets/images/gcm-step4.png"/>
 
 Click on the `Create credentials` button. You would want to choose an API key of type `Server`.
@@ -240,23 +243,24 @@ Click on the `Create credentials` button. You would want to choose an API key of
 ### Step 5 - Create API key
 
 Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
+
 <img src="assets/images/gcm-step5.png"/>
 
 Then, press the `Create API key` button.
 
 <img src="assets/images/gcm-step5b.png"/>
 
-For the next step, you'll need to look up the **project number**. You can find it in your Google project's Project Information pane ( ⁝ utilities menu on the top right).
+For the next step, you'll need to look up the **project number**. You can find it in your Google project's `Project Information` pane ( ⁝ utilities menu on the top right).
 
 <img src="assets/images/gcm-step6b.png"/>
 
-### Step 6 - Setup Mendix app
+### Step 6 - Configure GCM in your application
 
-Open up your application in Mendix and login as an Admin, so that you can see the menu option `Google admin`.
-Enter the **project number** into the sender ID field and the API key into the API field.
+Open your Mendix application and log in as an Admin, so that you can see the menu option `Google admin`.
+Enter the **project number** into the `Sender id` field and the API key into the `API Key` field.
 
 <img src="assets/images/gcm-step6.PNG"/>
 
-Once entered tick the checkbox `Enabled` and press the Restart button. From now on your application will always start the GCM push notification system for you.
+Once entered tick the checkbox `Enabled` and press the `Restart` button. From now on your application will always connect to the GCM service on startup.
 
 For more information on setting up your Google API please refer to this article: [Google API Setup] (http://developer.android.com/google/gcm/gs.html).
