@@ -119,7 +119,7 @@ For more information about PhoneGap Build, you can refer to their [documentation
 
 ## Testing The Implementation
 
-Once you finish implementing the steps described previously, you will want to test whether everything works correctly. This can be done easily using the administration pages that should have been included in your application during [step 7](#step-7-set-up-the-administration-pages) of the implementation guide. Follow these steps to send a push notification to a device:
+Once you finish implementing the steps described previously, you will want to test whether everything works correctly. This can be done easily using the administration pages that should have been included in your application during [step 7](#step-7---set-up-the-administration-pages) of the implementation guide. Follow these steps to send a push notification to a device:
 
 ### Step 1 - Log in to your hybrid mobile application
 
@@ -200,7 +200,7 @@ This certificate needs to be converted into the `.p12` format. If you don’t kn
 
 ### Step 6 - Configure APNs in your application
 
-For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in [step 7](#step-7-set-up-the-administration-pages) of the Implementation Guide.
+For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in [step 7](#step-7---set-up-the-administration-pages) of the Implementation Guide.
 
 For this purpose you need to:
 -	Add your Apple Push Notification service SSL certificate in `.p12` format
