@@ -1,208 +1,294 @@
-# Mendix Push notifications
+# Mendix Push Notifications
 
-This module and widget should be used to implement push notifications for android, ios and windows tablets/mobiles. This module/widget has been tested to work on Mendix 5.14.1 and up. 
+> BETA  
+> This module is currently in beta; the APIs described below are subject to change.
 
-The project contains:
+Push Notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available via Google Cloud Messaging (GCM) and Apple Push Notifications service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
 
-- Directory structure.
-- Readme.md file.
-- Javascript source.
-- XSD for package.xml, to configure properties of the widget, visible inside the Mendix business modeler.
-- Example project
-- Module for sending push notifications
-- Custom css file to style the push notification html
+## Overview
+
+In general, a Mendix Push Notifications solution consists of two parts: the `PushNotifications` module and the `PushNotifications` widget (depicted in the picture as "Custom widget"). The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs (via a PhoneGap Push Plugin); both registering the devices with these services and handling push notifications received from them.
+
+<img src="assets/images/overview/architecture.png"/>
+
+## Pre-requisites
+
+- Mendix platform account (You can sign up [here](https://www.mendix.com/try-now/))
+- Mendix Modeler version 6.1.0 or newer (You can download it [here](https://appstore.home.mendix.com/link/modeler))
+- Mobile device (To get started, we recommend an Android device connected to your development machine by data cable)
+- [PhoneGap Build](https://build.phonegap.com/) account
+
+## Supported Platforms
+
+- Android 4.0 and newer
+- iOS 7.0 and newer
+
+## Limitations
+
+This project assumes that the mobile app and the "back-end" part will be co-located in the same application.
+
+At this moment this project does not support:
+- Offline hybrid mobile
+- Anonymous access
+- Multiple devices per user
 
 ## Contributing
 
-For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto50/Contributing+to+a+GitHub+repository)!
- 
-## Description
+For more information on contributing to this repository visit [Contributing to a GitHub repository](https://world.mendix.com/display/howto6/Contributing+to+a+GitHub+repository)!
 
-This project gives you all the necessary widgets, javascript, java and modules necessary for you to both send and receive push notifications. In order to find information on how to build your Mendix apps into phonegap applications please refer to this documentation: [Mendix mobile] (https://world.mendix.com/display/refguide5/Mobile)
+## Implementation Guide
 
-## Mendix setup
-In order for the push notifications to work in Mendix you must have a few things set up.
-- Import module into a 5.14.1 or higher project.
-- The microflow AfterStartup_PushNotifications must be included in your after startup flow
-- The index.html and components.json must include a reference to a jquery library.
-`<script type="text/javascript" src="js/jquerymin.js"></script>`
-- The index.html and the components.json file must include the following reference to this javascript library
-`<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>`
-- The push notification snippet must be included on all layouts for mobile and tablet.
-- The pages AppleAdministration, GoogleAdministration and Device_Overview must be connected up to the navigation.
-- You must set up the [apple server](#setting-up-apple-push-notification-server) and [google server](#setting-up-google-cloud-messaging-server) using the documentation bellow
-- The phonegap push plugin must be included in the config.xml, more information can be found [here](#creating-phonegap-app)
-- The widget is connected up to the google settings object. 
-- Encryption module from the appstore must be added to the project.
+This guide will walk you through the steps needed to implement push notifications in your application:
+- Importing the `PushNotifications` module.
+- Adding the Push Notification widget and administrator pages.
+- Updating several project files with the necessary dependencies.
+- Obtaining GCM/APNs access/credentials and configuring them to your application.
+- Building the hybrid mobile package.
 
-The application included in the test project can be used as reference.
+### Step 1 - Create an mpk of the `PushNotifications` module
 
-## Components.json
-All mendix applications that want to utilise phonegap require a components file. The components file describes all the javascript and css files that need to be loaded when the application is loaded on the device. Bellow is an example of the components file that would be required for this module.
+We need to extract the module from this project before starting with the implementation. Walk through the following steps:
+
+1. Clone this project or download it as ZIP and extract it.
+2. Open the `PushNotifications.mpr` which is located in the `test` directory in the root of the project with a Mendix Modeler.
+3. Right-click on the `PushNotifications` module (inside Project Explorer pane), select `Export module package...` and save the mpk file.
+
+<img src="assets/images/implementation guide/Preparation export Push Notification module.JPG"/>
+
+### Step 2 - Install module dependencies
+
+First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the AppStore.
+
+> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
+>
+> <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
+
+### Step 3 - Import the `PushNotifications` module
+
+Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
+
+<img src="assets/images/implementation guide/Import Push Notification module.JPG"/>
+
+<img src="assets/images/implementation guide/Import Push Notification module as a new module.JPG"/>
+
+### Step 4 - Update component.json file
+
+Find the `theme\components.json` file in your project directory. This file contains (among others) the dependencies of the to-be-created hybrid mobile application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
+
 ```
-{
-    "files": {
-        "css": ["lib/bootstrap/css/bootstrap.min.css", "mxclientsystem/mxui/ui/mxui.css", "css/theme.css"],
-        "js": ["mxclientsystem/mxui/mxui.js", "js/jquerymin.js", "widgets/pushNotifications/lib/PushNotification.js"]
-    },
-    "cachebust": "{{cachebust}}"
+{  
+   "files":{  
+      "css":[  
+         "lib/bootstrap/css/bootstrap.min.css",
+         "mxclientsystem/mxui/ui/mxui.css",
+         "styles/css/lib/lib.css",
+         "styles/css/custom/custom.css"
+      ],
+      "js":[  
+         "mxclientsystem/mxui/mxui.js",
+         "widgets/pushNotifications/lib/PushNotification.js"
+      ]
+   },
+   "cachebust":"{{cachebust}}"
 }
 ```
-For more information on components file please read this documentation:
-[Mendix Components](https://world.mendix.com/display/refguide5/Customizing+Hybrid+Mobile+Apps)
 
-The components file should be included in the theme folder of your application.
+You can find more information about the `components.json` file [here](https://world.mendix.com/display/refguide6/Customizing+Hybrid+Mobile+Apps).
 
+### Step 5 - Update index.html file
 
-## Sending push notifications
+Update `theme/index.html` to include the following reference to this JavaScript library:
 
-In the module there are two operations to send messages. One which will queue the messages and the other to send immediately. If you are planning to send several push notifications to different devices at once, then I would suggest using the queued method. If however you simply want to test the sending of messages then just use the send immediate microflow.
+```
+<script type="text/javascript" src="widgets/pushNotifications/lib/PushNotification.js"></script>
+```
 
-In the module there is a devices page. This will list all of the devices that are currently registered to the application. If you want to send a message to one of these devices you can simply select a device and click send message.
+<img src="assets/images/implementation guide/Update index html file.PNG"/>
 
-To send a message without using the devices page, simply create a microflow that retrieves the device from a user account and create a message object with the attributes filled. Then simply pass this message to one of the microflows in the use me folder that sends either a message or a list of messages.  
+### Step 6 - Include the push notifications snippet in the application's layouts
+
+Include the push notifications snippet in mobile and tablet layouts. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME/Snippets` folder in the `PushNotifications` module) to your layout.
+
+<img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
+
+### Step 7 - Set up the administration pages
+
+Add the `AppleAdministration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page contains a list of all devices registered with the application and is useful for testing purposes.
+
+> Note: don't forget to set the `Project security` -> `User roles` to include the `PushNotifications.Administrator` role as part of the main `Administrator` role and the `PushNotifications.User` role as part of the main `User` role.
+>
+> <img src="assets/images/implementation guide/Project security.JPG"/>
+
+At this point you can deploy your application to the Mendix cloud. If you are using a Free App, simply click the `Run` button.
+
+### Step 8 - Set up access to APNs and GCM
+
+Set up access to APNs and GCM and configure them in your application. Note that starting with GCM is recommended because it is significantly less complicated than setting up APNs.
+
+See [Setting up Apple Push Notification Server](#setting-up-apple-push-notification-server) and [Setting up Google Cloud Messaging Server](#setting-up-google-cloud-messaging-server) for the details.
+
+### Step 9 - Build the hybrid mobile application
+
+You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the PhoneGap Build package instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
+
+Once you have downloaded the hybrid mobile project file, extract it and include the required PhoneGap plugin by adding the following line to the `config.xml` file:
+
+```
+<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.5.0" />
+```
+
+You can proceed by repackaging the project into a zip file and using PhoneGap Build to generate the files for Android and iOS.
+
+For more information about PhoneGap Build, you can refer to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
+
+## Testing The Implementation
+
+Once you finish implementing the steps described previously, you will want to test whether everything works correctly. This can be done easily using the administration pages that should have been included in your application during [step 7](#step-7---set-up-the-administration-pages) of the implementation guide. Follow these steps to send a push notification to a device:
+
+### Step 1 - Log in as administrator to the web (desktop) application
+
+Open your application in the browser and log in as administrator (e.g. `MxAdmin`).
+
+### Step 2 - Create a user account for a mobile user
+
+To be able to log in into your hybrid mobile application, you will need to create a new user. Typically, this can be done from the administration pages of your application.
+
+### Step 3 - Log in to your hybrid mobile application
+
+Open your hybrid mobile app and log in to it.
+
+### Step 4 - Open the "Device Overview" page
+
+Back in the administrator view of your web application, navigate to the `Device Overview` page. Here you should see one device already having been registered; the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+
+<img src="assets/images/testing/device overview.JPG"/>
+
+### Step 5 - Send a message
+
+Fill in the title and the message in the form and press `Send immediate` button. Your device should receive a new push notification. If your hybrid mobile app is currently running in the foreground, the notification will be displayed in the app. Otherwise, it will be shown as a standard push notification.
+
+<img src="assets/images/testing/send message.JPG"/>
+
+## APIs
+
+This is a list of microflows that can be called by your application to send push notifications. They are located in the `_USE ME/Microflows` folder.
+
+|Microflow name         |Description                                                    |
+|-----------------------|---------------------------------------------------------------|
+|MessageFactory         |A microflow to create a `Message` object                       |
+|SendMessageImmediately |A microflow to send a message to GCM/APNs immediately          |
+|SendMessageQueued      |A microflow to send a message to GCM/APNs using a queue        |
+|SendMessagesImmediately|A microflow to send multiple messages to GCM/APNs immediately  |
+|SendMessagesQueued     |A microflow to send multiple messages to GCM/APNs using a queue|
+
+> Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. In a Free App environment this does not require an extra step, but for TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal.
 
 ## Setting up Apple Push Notification Server
-In order to send push notifications for apple devices from this module you will need to correctly set up and aquire a certificate from apple, then add this to the Mendix settings pages.
 
-### Step 1 - Login to members center
-Login to the [members center] (https://developer.apple.com/) on developer.apple.com. If you do not have an apple developers license you will need to purchase this from apple. When logged in to members center click on "Certificates, Identifiers & Profiles". 
+In order to proceed you need an Apple developer license and a device running Mac OS X.
 
-This will take you to a screen like this:
-<img src="assets/images/apn-step1.PNG"/>
+We assume that you already have the app signing key with provisioning profile and can freely build and install your mobile app (if not, please refer to [this how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores#PublishingaMendixHybridMobileAppinMobileAppStores-3.SettingupAppSigningKeys)). Take into account that your App ID should use `Explicit App ID` and have `Push Notifications` turned on so you can receive push notifications with your app.
 
-### Step 2 - Create APP ID
+<img src="assets/images/apns/AppID.png"/>
 
-Click on Identifiers and then click on App IDs.
-On the top right there will be a plus button, press this and a dialog like this should appear:
-<img src="assets/images/apn-step2.PNG"/>
+If this is not the case, you need to create new App ID with `Explicit App ID` and `Push Notifications` turned on. After that, you'll need to download the new provisioning profile for this App ID and use it to rebuild the mobile app.
 
-Enter your app ID name and select Explicit App ID. You must select Explicit App ID inorder to be able to perform push notifications.
-Enter a Bundle ID, this bundle ID must match the bundle ID that you entered during the phonegap build phase.
-<img src="assets/images/apn-step2-1.PNG"/>
-Tick the options push notifications and then click continue.
+If everything is set up and you can build and deploy your application, you can proceed with setting up the push notifications server.
+To establish connectivity between your notification server and the Apple Push Notification service you will need an Apple Push Notification service SSL certificate in `.p12` format.
 
-### Step 3 - Confirm
-Click submit
-<img src="assets/images/apn-step3.PNG"/>
+Follow these steps to obtain an Apple Push Notifications service SSL certificate from Apple:
 
-### Step 4 - Creating APS Certificate
-Locate your created App ID and click on it. This will expand it out.
-<img src="assets/images/apn-step4.PNG"/>
+### Step 1 - Log in to Apple Developer center
 
-Click on Edit and scroll down to the push notifications section. You will see that there are two options one to generate a certificate for development purposes and one for production. For the purpose of this documentation we will generate a development certificate, so we will click on the development create certificate button.
-<img src="assets/images/apn-step4-1.PNG"/>
+Log in to Apple Developer and go to https://developer.apple.com/account/ios/certificate/create
 
-### Step 5 - Generating Certificate 
-Click continue
-<img src="assets/images/apn-step5.PNG"/>
+### Step 2 - Choose certificate's type
 
-You will then be asked to upload a certificate signing request file. In order to create this file please read the following documentation:
+Choose Push Notification service certificate. As you may see, there are two types of certificates: _development_ and _production_. Note that the development type certificate can only work with the sandbox environment. More about this will be explained later on in this guide.
 
-[Creating CSR](https://world.mendix.com/display/refguide5/Managing+App+Signing+Keys)
+<img src="assets/images/apns/Cert-1.png"/>
 
-Upload the CSR and then click generate. You will be presented by a screen saying your certificate is ready.
-Click done and then click on your certificate from the list and click Download.
+### Step 3 - Select App ID
 
-### Step 6 - Converting Certificate
-Now that we have the certificate from apple we now need to convert this into p12 format so that we can get it to work with our Mendix application.
-This documentation should be helpful for getting your certificate converted:
+Pick your App ID from the dropdown list. If your app is not in the list, then you need to check your App ID entity. Most likely the push notification service is not turned on for the app.
 
-[Converting Cer to p12](http://docs.build.phonegap.com/en_US/signing_signing-ios.md.html)
+<img src="assets/images/apns/Cert-2.png"/>
 
-### Step 7 - Setting up Mendix APNS
-Once you have the p12 certificate you can set up the apple push notification system in Mendix. Login as an admin to the application and open up the apple admin. In the configuration you will need to upload the p12 file to the apple administration section. You will also need to include the passcode that you entered when you converted the file to a p12 format.
+### Step 4 - CSR file
 
-Click on the enabled checkbox and then click Save. Once saved click the restart button. The apple push notification system will start up and inform you that it has restarted. After you have done this you will be ready to send apple push notifications. Now that it is enabled the application will always start up when Mendix is started up.
+During the next step you should be asked for your CSR file (Certificate Signing Request). You may use the same CSR that you used to create the app signing certificate. If you don't have one, please follow the instructions as shown below.
 
-<img src="assets/images/apn-step7.PNG"/>
+<img src="assets/images/apns/Cert-3.png"/>
 
+### Step 5 - Download the certificate
+
+Download your Apple Push Notification service SSL certificate and add it to your Keychain.
+
+This certificate needs to be converted into the `.p12` format. If you don’t know how to do this, please refer to [this page]  (https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html).
+
+### Step 6 - Configure APNs in your application
+
+For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in [step 7](#step-7---set-up-the-administration-pages) of the Implementation Guide.
+
+For this purpose you need to:
+-	Add your Apple Push Notification service SSL certificate in `.p12` format
+-	Add the server url and port. This is `gateway.sandbox.push.apple.com:2195` for sandbox and `gateway.push.apple.com:2195` for production.
+-	Add the feedback url and port. This is `feedback.sandbox.push.apple.com:2196` for sandbox and `feedback.push.apple.com:2196` for production.
 
 ## Setting up Google Cloud Messaging Server
-In order to send google push notifications from this module you need to have set up a google account with google cloud messaging enabled.
-To do so follow these steps to get registered for Google cloud messaging and enter the details into the Mendix screens.
 
-### Step 1 - Login to developers console
-Open up the google [developers console] (https://console.developers.google.com) and login with your google id.
-<img src="assets/images/gcm-step1.PNG"/>
+In order to send Google push notifications from this module you need to have set up a Google account with Google Cloud Messaging enabled.
+To register for Google Cloud Messaging and configure the service in the app, you will need to perform the following steps.
+
+### Step 1 - Log in to developers console
+
+Open up the Google [developers console] (https://console.developers.google.com) and log in with your Google id.
+
+<img src="assets/images/gcm-step1.png"/>
 
 ### Step 2 - Create project
-Click new project and fill in the project name and project ID for your application. Then click create. Once created you will see a project number at the top of the screen next to the project ID. Take note of this ID because you will need it later on for our sender ID. 
-<img src="assets/images/gcm-step2.PNG"/>
 
-### Step 3 - Enable an API
-Once created click on the button enable an API. 
-<img src="assets/images/gcm-step3.PNG"/>
+From the `Go to project` menu, click `Create a project` and fill in the project name and project ID for your application. Then click `Create`.
 
-### Step 4 - Enable Google Cloud Messaging
-Locate the Google Cloud Messaging for Android and click the off button to turn on the API.
-<img src="assets/images/gcm-step4.PNG"/>
+<img src="assets/images/gcm-step2.png"/>
 
-### Step 5 - Create server keys
-Click on the menu option credentials, located on the left hand side under the APIs & Auth section. Then click on the button under the public API Access that says create new key. When the popup appears press the Server key button and then press create on the next screen. Take note of the API Key because you will need this when we set up the push notifcation in Mendix.
-<img src="assets/images/gcm-step5.PNG"/>
+### Step 3 - Enable Google Cloud Messaging
 
-### Step 6 - Setup Mendix app
-Open up your application in Mendix and login as an Admin, so that you can see the menu option google admin.
-Enter the project ID into the sender ID field and the API key into the API field. 
+Once created, click the link to the Google Cloud Messaging API (section `Mobile APIs`) and click the `Enable` button.
+
+<img src="assets/images/gcm-step3.png"/>
+
+### Step 4 - Adding credentials
+
+Click on the menu option `Credentials`, located on the left hand side under the `API Manager` section.
+
+<img src="assets/images/gcm-step4.png"/>
+
+Click on the `Create credentials` button. You would want to choose an API key of type `Server`.
+
+<img src="assets/images/gcm-step4b.png"/>
+
+### Step 5 - Create API key
+
+Choose a name for your key and, optionally, restrict the IP addresses that can connect to the API.
+
+<img src="assets/images/gcm-step5.png"/>
+
+Then, press the `Create API key` button.
+
+<img src="assets/images/gcm-step5b.png"/>
+
+For the next step, you'll need to look up the **project number**. You can find it in your Google project's `Project Information` pane ( ⁝ utilities menu on the top right).
+
+<img src="assets/images/gcm-step6b.png"/>
+
+### Step 6 - Configure GCM in your application
+
+Open your Mendix application and log in as an Admin, so that you can see the menu option `Google admin`.
+Enter the **project number** into the `Sender id` field and the API key into the `API Key` field.
+
 <img src="assets/images/gcm-step6.PNG"/>
 
-Once entered tick the checkbox enabled and press restart. From now on your application will always start the gcm push notification system for you.
+Once entered tick the checkbox `Enabled` and press the `Restart` button. From now on your application will always connect to the GCM service on startup.
 
-For more information on setting up your google API then please refer to this article: (Google API Setup) [http://developer.android.com/google/gcm/gs.html]
-
-
-## Setting up Windows
-Windows requires no additional configuration for push notifications to work. Simply load the application onto a Windows 8 Phone and login to the application. The user's Windows Phone credentials should appear within the device menu.
-The notifications for Windows work using a web service, the widget within your application registers the user's unique URL. With the URL the Mendix application can pass a message to this URL.  
-
-
-## Installing a Windows App
-In order to test and publish your Windows 8 applications you will need a Windows developer account that can be obtained from: 
-
-[Windows Dev Center](https://dev.windows.com/en-us) 
-
-Upon doing so you will receive a Publisher GUID (this can be located under Dashboard > Windows Phone Store > Account). This GUID is needed by PhoneGap in order to sign your applications. 
-
-You can download the SDK as well as development tools from [here](https://dev.windows.com/en-us/develop/download-phone-sdk)
-
-Using the "Windows Phone Application Deployment" program you can deploy the XAP which PhoneGap creates onto your Windows device
-
-<img src="assets/images/apploader.PNG"/>
-
-## Creating PhoneGap app
-In order to build a Mendix phonegap app that utilises the push notification application there are number of steps that you need to complete before being able to utilise the functionality.
-
-### Step 1 - Login to Mendix home
-Open up home.mendix.com and navigate to the project that you wish to build the app for. Once on the project wall for your application click on the publish section.
-
-<img src="assets/images/step1.png"/>
-
-### Step 2 - App Identifier
-Once in the publish section you must enter an app identifier for your application. This is important when setting up an IOS app. Refer to the section about creating an app identifier to find out more information about creating an app identifier and IOS certificate.
-
-<img src="assets/images/step2.png"/>
-
-### Step 3 - Select Devices
-Select the devices that you want to deploy your app to and upload splash screen images for the devices you have selected. 
-
-Press the button publish to appstore and you will be asked whether you want to build in the cloud or do it yourself. Choose do it yourself and press the Download Phonegap Build Package.
-
-
-<img src="assets/images/step3.png"/>
-
-### Step 4 - Download phonegap.zip
-
-Once the phonegap.zip is downloaded, unzip it into a folder and open up the config.xml. You will need to edit the config.xml so that you can include additional phonegap plugins. The plugin we will need to include is the phonegap [push plugin](https://github.com/phonegap-build/PushPlugin).
-
-The code you will need to include is:
-`<gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />`
-
-<img src="assets/images/step4.png"/>
-
-### Step 5 - Configure xml
-Once you have edited the config.xml you should have everything necessary for your application to work. You will now need to zip up your files and upload the zipped file to [phonegap build](https://build.phonegap.com).
-
-<img src="assets/images/step5.png"/>
-
-
+For more information on setting up your Google API please refer to this article: [Google API Setup] (http://developer.android.com/google/gcm/gs.html).
