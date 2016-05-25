@@ -23,6 +23,13 @@ For more information on contributing to this repository visit [Contributing to a
 
 ## Implementation Guide
 
+This guide will walk you through the steps needed to implement push notifications in your application:
+- Importing the `PushNotifications` module.
+- Adding the Push Notification widget and administrator pages.
+- Updating several project files with the necessary dependencies.
+- Obtaining GCM/APNs access/credentials and configuring them to your application.
+- Building the hybrid mobile package.
+
 ### Step 1 - Create an mpk of the `PushNotifications` module
 
 We need to extract the module from this project before starting with the implementation. Walk through the following steps:
@@ -51,7 +58,7 @@ Import the mpk file created in Step 1 into your Mendix project. To do this, righ
 
 ### Step 4 - Update component.json file
 
-Find the `theme\components.json` file in your project. This file contains (among others) the dependencies of the to-be-created hybrid mobile application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
+Find the `theme\components.json` file in your project directory. This file contains (among others) the dependencies of the to-be-created hybrid mobile application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
 
 ```
 {  
@@ -70,6 +77,8 @@ Find the `theme\components.json` file in your project. This file contains (among
    "cachebust":"{{cachebust}}"
 }
 ```
+
+You can find more information about the `components.json` file [here](https://world.mendix.com/display/refguide6/Customizing+Hybrid+Mobile+Apps).
 
 ### Step 5 - Update index.html file
 
@@ -99,13 +108,13 @@ At this point you can deploy your application to the Mendix cloud. If you are us
 
 ### Step 8 - Set up access to APNs and GCM
 
-Set up access to APNs and GCM and configure them in your application.
+Set up access to APNs and GCM and configure them in your application. Note that starting with GCM is recommended because it is significantly less complicated than setting up APNs.
 
 See [Setting up Apple Push Notification Server](#setting-up-apple-push-notification-server) and [Setting up Google Cloud Messaging Server](#setting-up-google-cloud-messaging-server) for the details.
 
 ### Step 9 - Build the hybrid mobile application
 
-You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the app instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
+You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the PhoneGap Build package instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
 
 Once you have downloaded the hybrid mobile project file, extract it and include the required PhoneGap plugin by adding the following line to the `config.xml` file:
 
@@ -121,21 +130,25 @@ For more information about PhoneGap Build, you can refer to their [documentation
 
 Once you finish implementing the steps described previously, you will want to test whether everything works correctly. This can be done easily using the administration pages that should have been included in your application during [step 7](#step-7---set-up-the-administration-pages) of the implementation guide. Follow these steps to send a push notification to a device:
 
-### Step 1 - Log in to your hybrid mobile application
+### Step 1 - Log in as administrator to the web (desktop) application
+
+Open your application in the browser and log in as administrator (e.g. `MxAdmin`).
+
+### Step 2 - Create a user account for a mobile user
+
+To be able to log in into your hybrid mobile application, you will need to create a new user. Typically, this can be done from the administration pages of your application.
+
+### Step 3 - Log in to your hybrid mobile application
 
 Open your hybrid mobile app and log in to it.
 
-### Step 2 - Log in as administrator to the web (desktop) application
+### Step 4 - Open the "Device Overview" page
 
-Open your application in the browser and log in as administrator.
-
-### Step 3 - Open the "Device Overview" page
-
-Navigate to the `Device Overview` page. Here you should see one device already having been registered; the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+Back in the administrator view of your web application, navigate to the `Device Overview` page. Here you should see one device already having been registered; the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
 
 <img src="assets/images/testing/device overview.JPG"/>
 
-### Step 4 - Send a message
+### Step 5 - Send a message
 
 Fill in the title and the message in the form and press `Send immediate` button. Your device should receive a new push notification. If your hybrid mobile app is currently running in the foreground, the notification will be displayed in the app. Otherwise, it will be shown as a standard push notification.
 
