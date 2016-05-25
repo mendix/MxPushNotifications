@@ -1,5 +1,8 @@
 # Mendix Push Notifications
 
+> BETA
+> This module is currently in beta; the APIs described below are subject to change.
+
 Push Notifications let your application notify a user of events even when the user is not actively using the application. This is a native capability provided by both Android and iOS devices and made available via Google Cloud Messaging (GCM) and Apple Push Notifications service (APNs). This project is meant to make it easy for Mendix developers who want to include Push Notifications capability into their Mendix hybrid mobile application.
 
 ## Overview
@@ -7,6 +10,18 @@ Push Notifications let your application notify a user of events even when the us
 In general, a Mendix Push Notifications solution consists of two parts: the `PushNotifications` module and the `PushNotifications` widget (depicted in the picture as "Custom widget"). The module is the "server-side" and responsible for sending push notifications to GCM/APNs which in turn will send the notifications to end-user devices. The widget resides in the hybrid mobile (PhoneGap) app. It is responsible for the application's interaction with GCM/APNs (via a PhoneGap Push Plugin); both registering the devices with these services and handling push notifications received from them.
 
 <img src="assets/images/overview/architecture.png"/>
+
+## Pre-requisites
+
+- Mendix platform account (You can sign up [here](https://www.mendix.com/try-now/))
+- Mendix Modeler version 6.1.0 or newer (You can download it [here](https://appstore.home.mendix.com/link/modeler))
+- Mobile device (To get started, we recommend an Android device connected to your development machine by data cable)
+- [PhoneGap Build](https://build.phonegap.com/) account
+
+## Supported Platforms
+
+- Android 4.0 and newer
+- iOS 7.0 and newer
 
 ## Limitations
 
