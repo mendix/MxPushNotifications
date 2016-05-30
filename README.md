@@ -270,7 +270,6 @@ Depending on if you are a new or existing user, you may get a different credenti
 If your page looks like the screenshot above, follow the steps in [section 4a](#step-4a---adding-credentials-as-a-new-user).
 If instead your page looks like the screenshot below, follow the steps in [section 4b](#step-4b---adding-credentials-as-an-existing-user).
 
->>>>>>> Improved documentation.
 <img src="assets/images/gcm-step4b.png"/>
 
 ### Step 4a - Adding credentials as a new user
