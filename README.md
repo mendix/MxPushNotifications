@@ -113,7 +113,7 @@ Include the push notifications snippet in mobile and tablet layouts. You can do 
 
 ### Step 7 - Set up the administration pages
 
-Add the `AppleAdministration`, `GoogleAdministration`, and `Device_Overview` pages to the project navigation. The `Apple Administration` and `GoogleAdministration` pages are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Device_Overview` page contains a list of all devices registered with the application and is useful for testing purposes.
+Add the `PushNotificationsAdministration` page to the project navigation. This page contains four tabs: `Messages`, `Devices`, `Apple`, and `Google`. The `Apple` and `Google` tabs are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Devices` tab contains a list of all devices registered with the application and is useful for testing purposes. The `Messages` tab shows all the messages that are queued either because they were sent using the `QueueMessage` action or because previous attempts to send them failed.
 
 > Note: don't forget to set the `Project security` -> `User roles` to include the `PushNotifications.Administrator` role as part of the main `Administrator` role and the `PushNotifications.User` role as part of the main `User` role.
 >
@@ -157,9 +157,9 @@ To be able to log in into your hybrid mobile application, you will need to creat
 
 Open your hybrid mobile app and log in to it.
 
-### Step 4 - Open the "Device Overview" page
+### Step 4 - Open the Push Notifications administration page
 
-Back in the administrator view of your web application, navigate to the `Device Overview` page. Here you should see one device already having been registered; the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+Back in the administrator view of your web application, navigate to the `Device Overview` tab in the Push Notification administration page. Here you should see one device already having been registered, which is the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
 
 <img src="assets/images/testing/device overview.JPG"/>
 
@@ -181,7 +181,7 @@ This is a list of microflows that can be called by your application to send push
 |SendMessagesImmediately|A microflow to send multiple messages to GCM/APNs immediately  |
 |SendMessagesQueued     |A microflow to send multiple messages to GCM/APNs using a queue|
 
-> Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. In a Free App environment this does not require an extra step, but for TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal.
+> Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. For TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal, for Free Apps the scheduled events feature is not supported.
 
 ## Setting up Apple Push Notification Server
 
