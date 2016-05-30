@@ -51,25 +51,25 @@ We need to extract the module from this project before starting with the impleme
 
 1. Clone this project or download it as ZIP and extract it.
 2. Open the `PushNotifications.mpr` which is located in the `test` directory in the root of the project with a Mendix Modeler.
-3. Right-click on the `PushNotifications` module (inside Project Explorer pane), select `Export module package...` and save the mpk file.
+3. Right-click on the `PushNotifications` module (inside Project Explorer pane) and select `Export module package...`. A dialog will appear informing you of the existence of references to other modules; choose the 'Continue exporting' option. The next dialog will allow you to choose which resources to export along with the module; make sure all files are selected, confirm, and then save the mpk file.
 
 <img src="assets/images/implementation guide/Preparation export Push Notification module.JPG"/>
 
-### Step 2 - Install module dependencies
+### Step 2 - Import the `PushNotifications` module
 
-First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the AppStore.
-
-> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
->
-> <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
-
-### Step 3 - Import the `PushNotifications` module
-
-Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module.
+Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module. While importing you may get a dialog explaining that some project files will be overwritten; you can just click `OK` here.
 
 <img src="assets/images/implementation guide/Import Push Notification module.JPG"/>
 
 <img src="assets/images/implementation guide/Import Push Notification module as a new module.JPG"/>
+
+### Step 3 - Install module dependencies
+
+First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the AppStore; while importing you may again get a dialog about overwriting project files, which you can confirm by clicking the `OK` button.
+
+> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
+>
+> <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
 ### Step 4 - Update component.json file
 
@@ -244,12 +244,11 @@ To register for Google Cloud Messaging and configure the service in the app, you
 
 Open up the Google [developers console] (https://console.developers.google.com) and log in with your Google id.
 
-<img src="assets/images/gcm-step1.png"/>
-
 ### Step 2 - Create project
 
-From the `Go to project` menu, click `Create a project` and fill in the project name and project ID for your application. Then click `Create`.
+From the dropdown box in the upper-right corner of the page (see screenshot below), click `Create a project` and fill in the project name and project ID for your application. Then click `Create`.
 
+<img src="assets/images/gcm-step1.png"/>
 <img src="assets/images/gcm-step2.png"/>
 
 ### Step 3 - Enable Google Cloud Messaging
@@ -264,9 +263,20 @@ Click on the menu option `Credentials`, located on the left hand side under the 
 
 <img src="assets/images/gcm-step4.png"/>
 
-Click on the `Create credentials` button. You would want to choose an API key of type `Server`.
-
+Depending on if you are a new or existing user, you may get a different credential setting page.
+<img src="assets/images/gcm-step4a.png"/>
+If your page looks like the screenshot above, follow the steps in [section 4a](#step-4a---adding-credentials-as-a-new-user).
+If instead your page looks like the screenshot below, follow the steps in [section 4b](#step-4b---adding-credentials-as-an-existing-user).
 <img src="assets/images/gcm-step4b.png"/>
+
+### Step 4a - Adding credentials as a new user
+
+ -For the question **Which API are you using?**, select "Google Cloud Messaging".		 
+ -The next question, **Where will you be calling the API from?**, answer "Web server".
+
+### Step 4b - Adding credentials as an existing user
+
+Click on the `Create credentials` button. You would want to choose an API key of type `Server`.
 
 ### Step 5 - Create API key
 
