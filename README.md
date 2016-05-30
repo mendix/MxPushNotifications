@@ -159,7 +159,7 @@ Open your hybrid mobile app and log in to it.
 
 ### Step 4 - Open the Push Notifications administration page
 
-Back in the administrator view of your web application, navigate to the `Device Overview` tab in the Push Notification administration page. Here you should see one device already having been registered, which is the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
+Back in the administrator view of your web application, navigate to the `Device Overview` tab in the Push Notifications administration page. Here you should see one device already having been registered, which is the device that you used to log in to your hybrid mobile application. Continue by selecting the device and press the `New Message` button.
 
 <img src="assets/images/testing/device overview.JPG"/>
 
