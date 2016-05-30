@@ -57,7 +57,7 @@ We need to extract the module from this project before starting with the impleme
 
 ### Step 2 - Import the `PushNotifications` module
 
-Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module. While importing you may get a dialog explaining that some project files will be overwritten; you can just click `OK` here.
+Import the mpk file created in Step 1 into your Mendix project. To do this, right-click on an empty space on the Project Explorer pane, select `Import module package...`, choose the mpk file, and add it as a new module. While importing you may get a dialog explaining that some project files will be overwritten; you can just click `OK` here. After importing the module, your error dock will inform you that entity access is out of date; double-click on the error, and then click on `Update security` at the top of the domain model pane to fix this error.
 
 <img src="assets/images/implementation guide/Import Push Notification module.JPG"/>
 
@@ -113,7 +113,7 @@ To function properly, the widget should be placed inside a layout which is exclu
 
 ### Step 7 - Set up the administration pages
 
-Add the `PushNotificationsAdministration` page to the project navigation. This page contains four tabs: `Messages`, `Devices`, `Apple`, and `Google`. The `Apple` and `Google` tabs are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Devices` tab contains a list of all devices registered with the application and is useful for testing purposes. The `Messages` tab shows all the messages that are queued either because they were sent using the `QueueMessage` action or because previous attempts to send them failed.
+Add the `PushNotifications_Administration` page to the project navigation. This page contains four tabs: `Messages`, `Devices`, `Apple`, and `Google`. The `Apple` and `Google` tabs are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Devices` tab contains a list of all devices registered with the application and is useful for testing purposes. The `Messages` tab shows all the messages that are queued either because they were sent using the `QueueMessage` action or because previous attempts to send them failed.
 
 > Note: don't forget to set the `Project security` -> `User roles` to include the `PushNotifications.Administrator` role as part of the main `Administrator` role and the `PushNotifications.User` role as part of the main `User` role.
 >
@@ -228,12 +228,14 @@ This certificate needs to be converted into the `.p12` format. If you don’t kn
 
 ### Step 6 - Configure APNs in your application
 
-For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the Apple Administration page that was set up in [step 7](#step-7---set-up-the-administration-pages) of the Implementation Guide.
+For the last step you need to configure APNs within your application. This can be done by logging into your application as a user with Administrator role and opening the `Apple` tab of the `PushNotifications_Administration` page that was set up in [step 7](#step-7---set-up-the-administration-pages) of the Implementation Guide.
 
 For this purpose you need to:
 -	Add your Apple Push Notification service SSL certificate in `.p12` format
 -	Add the server url and port. This is `gateway.sandbox.push.apple.com:2195` for sandbox and `gateway.push.apple.com:2195` for production.
 -	Add the feedback url and port. This is `feedback.sandbox.push.apple.com:2196` for sandbox and `feedback.push.apple.com:2196` for production.
+
+> Note: At this moment, multiple configuration objects are not supported; having more than one of these objects will lead to unpredictable behavior. This will be fixed in the near future.
 
 ## Setting up Google Cloud Messaging Server
 
@@ -297,11 +299,12 @@ For the next step, you'll need to look up the **project number**. You can find i
 
 ### Step 6 - Configure GCM in your application
 
-Open your Mendix application and log in as an Admin, so that you can see the menu option `Google admin`.
-Enter the **project number** into the `Sender id` field and the API key into the `API Key` field.
+Open your Mendix application, log in as an Admin, and open the `PushNotifications_Administration` page. In this page, navigate to the `Google` tab and then the `Configurations` tab. Select the configuration object and click on the `Edit` button if it already exists, or on the `New` button if it does not. For the `DTAP mode` field, choose the option which corresponds to your environment. The `XMPP server` field should have the value `gcm.googleapis.com` whereas the `XMPP Port` field should be `5235`. Enter the **project number** into the `Sender id` field and the API key into the `API Key` field. 
+
+> Note: At this moment, multiple configuration objects are not supported; having more than one of these objects will lead to unpredictable behavior. This will be fixed in the near future.
 
 <img src="assets/images/gcm-step6.PNG"/>
 
-Once entered tick the checkbox `Enabled` and press the `Restart` button. From now on your application will always connect to the GCM service on startup.
+Once the information has been entered, tick the `Enabled` checkbox and press the `Restart` button. From now on your application will always connect to the GCM service on startup.
 
 For more information on setting up your Google API please refer to this article: [Google API Setup] (http://developer.android.com/google/gcm/gs.html).
