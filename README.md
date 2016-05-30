@@ -274,8 +274,8 @@ If instead your page looks like the screenshot below, follow the steps in [secti
 
 ### Step 4a - Adding credentials as a new user
 
- -For the question **Which API are you using?**, select "Google Cloud Messaging".		 
- -The next question, **Where will you be calling the API from?**, answer "Web server".
+- For the question **Which API are you using?**, select "Google Cloud Messaging".		 
+- The next question, **Where will you be calling the API from?**, answer "Web server".
 
 ### Step 4b - Adding credentials as an existing user
 
