@@ -107,7 +107,7 @@ Update `theme/index.html` to include the following reference to this JavaScript 
 
 ### Step 6 - Include the push notifications snippet in the application's layouts
 
-Include the push notifications snippet in mobile and tablet layouts. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME/Snippets` folder in the `PushNotifications` module) to your layout.
+To function properly, the widget should be placed inside a layout which is exclusively applied to mobile pages (i.e. mobile-specific). For example, the `Phone_Top` layout in the `NavigationLayouts` module is a good candidate for this purpose. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME` folder in the `PushNotifications` module) into your mobile-specific layout. Please note that viewing pages which include the Push Notifications widget within the browser will prevent the page from being loaded correctly; we are aware of this issue and will provide a solution in the future.
 
 <img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
