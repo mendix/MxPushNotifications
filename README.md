@@ -23,14 +23,19 @@ In general, a Mendix Push Notifications solution consists of two parts: the `Pus
 - Android 4.0 and newer
 - iOS 7.0 and newer
 
-## Limitations
+## Limitations and known issues
 
-This project assumes that the mobile app and the "back-end" part will be co-located in the same application.
+### This project assumes that the mobile app and the "back-end" part will be co-located in the same application.
 
-At this moment this project does not support:
+### At this moment this project does not support:
 - Offline hybrid mobile
 - Anonymous access
 - Multiple devices per user
+
+### "Error parsing JSON" when sending GCM messages
+- This is a known issue (issue #16). We will address it in a next release.
+- Please note that viewing pages which include the Push Notifications widget within the browser (with a non-mobile layout) will prevent the page from being loaded correctly; we are aware of this issue and will provide a solution in the future.
+
 
 ## Contributing
 
@@ -111,7 +116,17 @@ To function properly, the widget should be placed inside a layout which is exclu
 
 <img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
-### Step 7 - Set up the administration pages
+### Step 7 - Start connectors from your After Startup microflow
+
+The PushNotifications module contains a microflow named `AfterStartup_PushNotifications` which will start the connectors for GCM and APNs for you.
+When you include the PushNotifications module in your project, you will need to make sure this microflow is explicitly invoked after startup of your app.
+If your project uses Mendix SSO, most likely the `AppCloudServices.StartAppCloudServices` microflow is set to execute after startup. Please refer to the [reference guide] (https://world.mendix.com/display/mendixcloud/Integrate+your+app+with+Mendix+SSO) for details. 
+
+Change your startup microflow to a custom microflow where you call both after startup microflows. 
+
+<img src="assets/images/implementation guide/startupflow.png"/>
+
+### Step 8 - Set up the administration pages
 
 Add the `PushNotifications_Administration` page to the project navigation. This page contains four tabs: `Messages`, `Devices`, `Apple`, and `Google`. The `Apple` and `Google` tabs are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Devices` tab contains a list of all devices registered with the application and is useful for testing purposes. The `Messages` tab shows all the messages that are queued either because they were sent using the `QueueMessage` action or because previous attempts to send them failed.
 
@@ -121,13 +136,13 @@ Add the `PushNotifications_Administration` page to the project navigation. This 
 
 At this point you can deploy your application to the Mendix cloud. If you are using a Free App, simply click the `Run` button.
 
-### Step 8 - Set up access to APNs and GCM
+### Step 9 - Set up access to APNs and GCM
 
 Set up access to APNs and GCM and configure them in your application. Note that starting with GCM is recommended because it is significantly less complicated than setting up APNs.
 
 See [Setting up Apple Push Notification Server](#setting-up-apple-push-notification-server) and [Setting up Google Cloud Messaging Server](#setting-up-google-cloud-messaging-server) for the details.
 
-### Step 9 - Build the hybrid mobile application
+### Step 10 - Build the hybrid mobile application
 
 You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the PhoneGap Build package instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
 
@@ -171,15 +186,12 @@ Fill in the title and the message in the form and press `Send immediate` button.
 
 ## APIs
 
-This is a list of microflows that can be called by your application to send push notifications. They are located in the `_USE ME/Microflows` folder.
+This is a list of Java actions that can be called by your application to send push notifications. They are located in the `_USE ME/Send Messages` folder.
 
-|Microflow name         |Description                                                    |
+|Java action name       |Description                                                    |
 |-----------------------|---------------------------------------------------------------|
-|MessageFactory         |A microflow to create a `Message` object                       |
-|SendMessageImmediately |A microflow to send a message to GCM/APNs immediately          |
-|SendMessageQueued      |A microflow to send a message to GCM/APNs using a queue        |
-|SendMessagesImmediately|A microflow to send multiple messages to GCM/APNs immediately  |
-|SendMessagesQueued     |A microflow to send multiple messages to GCM/APNs using a queue|
+|SendMessage            |An action to send a message to GCM/APNs immediately            |
+|QueueMessage          |An action to send a message to GCM/APNs using a queue          |
 
 > Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. For TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal, for Free Apps the scheduled events feature is not supported.
 
