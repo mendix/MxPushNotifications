@@ -193,7 +193,7 @@ This is a list of Java actions that can be called by your application to send pu
 |Java action name       |Description                                                    |
 |-----------------------|---------------------------------------------------------------|
 |SendMessage            |An action to send a message to GCM/APNs immediately            |
-|QueueMessage          |An action to send a message to GCM/APNs using a queue          |
+|QueueMessage           |An action to send a message to GCM/APNs using a queue          |
 
 > Note: for sending queued messages to work, you need to ensure that the scheduled event `PushQueue` is active. For TAP environments you will need to explicitly activate the scheduled event in the Mendix Cloud Portal, for Free Apps the scheduled events feature is not supported.
 

@@ -38,7 +38,7 @@ public class SendGoogleMessages extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		GCMConnection connection = GCMConnection.getConnection();
-		connection.sendMessage(messages);
+		connection.sendMessages(messages);
 		return true;
 		// END USER CODE
 	}

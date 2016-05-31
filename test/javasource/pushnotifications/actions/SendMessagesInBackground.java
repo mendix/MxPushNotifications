@@ -67,7 +67,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 						appleMessages);
 			}
 		} catch (Exception e) {
-			logger.warn("Background process for Apple messages already running? " + e.toString(), e);;
+			logger.warn("Background process for Apple messages already running? " + e.toString(), e);
 		}
 		
 		try {
@@ -76,7 +76,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 						googleMessages);
 			}
 		} catch (Exception e) {
-			logger.warn("Background process for Google messages already running? " + e.toString(), e);;
+			logger.warn("Background process for Google messages already running? " + e.toString(), e);
 		}
 		
 		try {

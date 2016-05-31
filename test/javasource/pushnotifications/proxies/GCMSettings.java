@@ -7,12 +7,8 @@ package pushnotifications.proxies;
 /**
  * Google implementation.
  */
-public class GCMSettings
+public class GCMSettings extends pushnotifications.proxies.MessagingServiceSettings
 {
-	private final com.mendix.systemwideinterfaces.core.IMendixObject gCMSettingsMendixObject;
-
-	private final com.mendix.systemwideinterfaces.core.IContext context;
-
 	/**
 	 * Internal name of this entity
 	 */
@@ -23,12 +19,12 @@ public class GCMSettings
 	 */
 	public enum MemberNames
 	{
-		Enabled("Enabled"),
 		XMPPServer("XMPPServer"),
 		XMPPPort("XMPPPort"),
 		SenderId("SenderId"),
 		APIKey("APIKey"),
-		DTAPMode("DTAPMode");
+		DTAPMode("DTAPMode"),
+		Enabled("Enabled");
 
 		private java.lang.String metaName;
 
@@ -51,13 +47,9 @@ public class GCMSettings
 
 	protected GCMSettings(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject gCMSettingsMendixObject)
 	{
-		if (gCMSettingsMendixObject == null)
-			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
+		super(context, gCMSettingsMendixObject);
 		if (!com.mendix.core.Core.isSubClassOf("PushNotifications.GCMSettings", gCMSettingsMendixObject.getType()))
 			throw new java.lang.IllegalArgumentException("The given object is not a PushNotifications.GCMSettings");
-
-		this.gCMSettingsMendixObject = gCMSettingsMendixObject;
-		this.context = context;
 	}
 
 	/**
@@ -90,73 +82,6 @@ public class GCMSettings
 		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//PushNotifications.GCMSettings" + xpathConstraint))
 			result.add(pushnotifications.proxies.GCMSettings.initialize(context, obj));
 		return result;
-	}
-
-	/**
-	 * Commit the changes made on this proxy object.
-	 */
-	public final void commit() throws com.mendix.core.CoreException
-	{
-		com.mendix.core.Core.commit(context, getMendixObject());
-	}
-
-	/**
-	 * Commit the changes made on this proxy object using the specified context.
-	 */
-	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
-	{
-		com.mendix.core.Core.commit(context, getMendixObject());
-	}
-
-	/**
-	 * Delete the object.
-	 */
-	public final void delete()
-	{
-		com.mendix.core.Core.delete(context, getMendixObject());
-	}
-
-	/**
-	 * Delete the object using the specified context.
-	 */
-	public final void delete(com.mendix.systemwideinterfaces.core.IContext context)
-	{
-		com.mendix.core.Core.delete(context, getMendixObject());
-	}
-	/**
-	 * @return value of Enabled
-	 */
-	public final Boolean getEnabled()
-	{
-		return getEnabled(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of Enabled
-	 */
-	public final Boolean getEnabled(com.mendix.systemwideinterfaces.core.IContext context)
-	{
-		return (Boolean) getMendixObject().getValue(context, MemberNames.Enabled.toString());
-	}
-
-	/**
-	 * Set value of Enabled
-	 * @param enabled
-	 */
-	public final void setEnabled(Boolean enabled)
-	{
-		setEnabled(getContext(), enabled);
-	}
-
-	/**
-	 * Set value of Enabled
-	 * @param context
-	 * @param enabled
-	 */
-	public final void setEnabled(com.mendix.systemwideinterfaces.core.IContext context, Boolean enabled)
-	{
-		getMendixObject().setValue(context, MemberNames.Enabled.toString(), enabled);
 	}
 
 	/**
@@ -347,22 +272,6 @@ public class GCMSettings
 			getMendixObject().setValue(context, MemberNames.DTAPMode.toString(), null);
 	}
 
-	/**
-	 * @return the IMendixObject instance of this proxy for use in the Core interface.
-	 */
-	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
-	{
-		return gCMSettingsMendixObject;
-	}
-
-	/**
-	 * @return the IContext instance of this proxy, or null if no IContext instance was specified at initialization.
-	 */
-	public final com.mendix.systemwideinterfaces.core.IContext getContext()
-	{
-		return context;
-	}
-
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -395,6 +304,7 @@ public class GCMSettings
 	 * @return String GUID from this object, format: ID_0000000000
 	 * @deprecated Use getMendixObject().getId().toLong() to get a unique identifier for this object.
 	 */
+	@Override
 	@Deprecated
 	public java.lang.String getGUID()
 	{
