@@ -70,7 +70,7 @@ Import the mpk file created in Step 1 into your Mendix project. To do this, righ
 
 ### Step 3 - Install module dependencies
 
-First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the AppStore; while importing you may again get a dialog about overwriting project files, which you can confirm by clicking the `OK` button.
+First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the App Store; you can reach it by clicking on the `App Store` button on the right side of the menu bar of the modeler.  While importing you may again get a dialog about overwriting project files, which you can confirm by clicking the `OK` button.
 
 > Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
 >
@@ -120,9 +120,9 @@ To function properly, the widget should be placed inside a layout which is exclu
 
 The PushNotifications module contains a microflow named `AfterStartup_PushNotifications` which will start the connectors for GCM and APNs for you.
 When you include the PushNotifications module in your project, you will need to make sure this microflow is explicitly invoked after startup of your app.
-If your project uses Mendix SSO, most likely the `AppCloudServices.StartAppCloudServices` microflow is set to execute after startup. Please refer to the [reference guide] (https://world.mendix.com/display/mendixcloud/Integrate+your+app+with+Mendix+SSO) for details. 
+If your project uses Mendix SSO, most likely the `AppCloudServices.StartAppCloudServices` microflow is set to execute after startup. Please refer to the [reference guide] (https://world.mendix.com/display/mendixcloud/Integrate+your+app+with+Mendix+SSO) for details.
 
-Change your startup microflow to a custom microflow where you call both after startup microflows. 
+Change your startup microflow to a custom microflow where you call both after startup microflows.
 
 <img src="assets/images/implementation guide/startupflow.png"/>
 
@@ -155,6 +155,8 @@ Once you have downloaded the hybrid mobile project file, extract it and include 
 You can proceed by repackaging the project into a zip file and using PhoneGap Build to generate the files for Android and iOS.
 
 For more information about PhoneGap Build, you can refer to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
+
+> Note that a free PhoneGap Build account is limited to a single application, whereas paid plans support multiple applications.
 
 ## Testing The Implementation
 
@@ -311,7 +313,7 @@ For the next step, you'll need to look up the **project number**. You can find i
 
 ### Step 6 - Configure GCM in your application
 
-Open your Mendix application, log in as an Admin, and open the `PushNotifications_Administration` page. In this page, navigate to the `Google` tab and then the `Configurations` tab. Select the configuration object and click on the `Edit` button if it already exists, or on the `New` button if it does not. For the `DTAP mode` field, choose the option which corresponds to your environment. The `XMPP server` field should have the value `gcm.googleapis.com` whereas the `XMPP Port` field should be `5235`. Enter the **project number** into the `Sender id` field and the API key into the `API Key` field. 
+Open your Mendix application, log in as an Admin, and open the `PushNotifications_Administration` page. In this page, navigate to the `Google` tab and then the `Configurations` tab. Select the configuration object and click on the `Edit` button if it already exists, or on the `New` button if it does not. For the `DTAP mode` field, choose the option which corresponds to your environment. The `XMPP server` field should have the value `gcm.googleapis.com` whereas the `XMPP Port` field should be `5235`. Enter the **project number** into the `Sender id` field and the API key into the `API Key` field.
 
 > Note: At this moment, multiple configuration objects are not supported; having more than one of these objects will lead to unpredictable behavior. This will be fixed in the near future.
 
