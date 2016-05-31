@@ -9,10 +9,10 @@
 
 package pushnotifications.actions;
 
-import pushnotifications.implementation.apn.APNConnection;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.webui.CustomJavaAction;
+import pushnotifications.implementation.apn.APNConnection;
 
 /**
  * 
