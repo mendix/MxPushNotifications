@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import org.json.simple.JSONValue;
 import org.xmlpull.v1.XmlPullParser;
 
+import pushnotifications.implementation.MessagingServiceConnection;
 import pushnotifications.proxies.Device;
 import pushnotifications.proxies.GCMSettings;
 import pushnotifications.proxies.GoogleMessage;
@@ -38,8 +39,9 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
  * Implemented the GCMConnection as a singleton!
  * 
  * @author alm
+ * @author res
  */
-public class GCMConnection {
+public class GCMConnection implements MessagingServiceConnection<GCMSettings, GoogleMessage> {
 	private static GCMConnection theConnection;
 
 	static final String GCM_ELEMENT_NAME = "gcm";
@@ -78,7 +80,8 @@ public class GCMConnection {
 		logger = Core.getLogger(Constants.getLogNode());
 	}
 
-	public void start(GCMSettings settings) throws CoreException {
+	@Override
+	public void start(GCMSettings settings) {
 		ConnectionConfiguration config = new ConnectionConfiguration(
 				settings.getXMPPServer(), settings.getXMPPPort());
 		config.setSecurityMode(SecurityMode.enabled);
@@ -117,58 +120,8 @@ public class GCMConnection {
         
 	}
 
-	public synchronized void sendMessage(List<GoogleMessage> messages) throws CoreException {
-		for (GoogleMessage message : messages) {
-			try {
-				String messageId = this.nextMessageId();
-		        Map<String, String> payload = new HashMap<String, String>();
-		        payload.put("message", message.getMessage());
-		        payload.put("embeddedMessageId", messageId);
-		        if (message.getTitle() != null && !message.getTitle().trim().isEmpty()) {
-		        	payload.put("title", message.getTitle());
-		        }
-		        
-		        String messageJson = createJsonMessage(
-		        		message.getTo(), messageId, payload,
-		                null, message.getTimeToLive(), true);
-	
-		        
-				if(!this.sendDownstreamMessage(messageJson)) {
-					/*if downstream fails need to add to fail counter else constant loop*/
-					if (message.getFailedCount() >= Constants.getMaxFailedCount()) {
-						message.delete();
-					}
-					else{
-						message.setFailed(true);
-						message.setFailedReason(messageJson);
-						message.setFailedCount(message.getFailedCount() + 1);
-						message.setQueued(true);
-						message.setNextTry(new Date(
-						System.currentTimeMillis() + (60000 * (message.getFailedCount() * 5) )));
-						message.commit();
-					}
-					throw new Exception("Message not delivered, view log.");
-					
-				}
-				
-				logger.info("GCM: Successfully sent message to: " + message.getTo());
-				message.delete();
-			} catch (Exception e) {
-				if (message.getFailedCount() > Constants.getMaxFailedCount()) {
-					logger.error("GCM: Message to " + message.getTo() + " failed: " + e.toString(), e);
-					message.delete();
-				} else {
-					message.setFailed(true);
-					message.setFailedReason(e.toString());
-					message.setFailedCount(message.getFailedCount() + 1);
-					message.setQueued(true);
-					message.setNextTry(new Date(
-							System.currentTimeMillis() + (60000 * (message.getFailedCount() * 5) )));
-					message.commit();
-					logger.warn("GCM: Message to " + message.getTo() + " failed: " + e.toString(), e);
-				}
-			}
-		}
+	public void sendMessages(List<GoogleMessage> messages) {
+		messages.forEach(this::sendMessage);
 	}
 	
 	public static GCMConnection getConnection() {
@@ -345,5 +298,63 @@ public class GCMConnection {
 		message.put("to", to);
 		message.put("message_id", messageId);
 		return JSONValue.toJSONString(message);
+	}
+
+	@Override
+	public synchronized void sendMessage(GoogleMessage message) {
+		try {
+			String messageId = this.nextMessageId();
+	        Map<String, String> payload = new HashMap<String, String>();
+	        payload.put("message", message.getMessage());
+	        payload.put("embeddedMessageId", messageId);
+	        if (message.getTitle() != null && !message.getTitle().trim().isEmpty()) {
+	        	payload.put("title", message.getTitle());
+	        }
+	        
+	        String messageJson = createJsonMessage(
+	        		message.getTo(), messageId, payload,
+	                null, message.getTimeToLive(), true);
+
+	        
+			if(!this.sendDownstreamMessage(messageJson)) {
+				/*if downstream fails need to add to fail counter else constant loop*/
+				if (message.getFailedCount() >= Constants.getMaxFailedCount()) {
+					message.delete();
+				}
+				else{
+					message.setFailed(true);
+					message.setFailedReason(messageJson);
+					message.setFailedCount(message.getFailedCount() + 1);
+					message.setQueued(true);
+					message.setNextTry(new Date(
+					System.currentTimeMillis() + (60000 * (message.getFailedCount() * 5) )));
+					message.commit();
+				}
+				throw new Exception("Message not delivered, view log.");
+				
+			}
+			
+			logger.info("GCM: Successfully sent message to: " + message.getTo());
+			message.delete();
+		} catch (Exception e) {
+			if (message.getFailedCount() > Constants.getMaxFailedCount()) {
+				logger.error("GCM: Message to " + message.getTo() + " failed: " + e.toString(), e);
+				message.delete();
+			} else {
+				message.setFailed(true);
+				message.setFailedReason(e.toString());
+				message.setFailedCount(message.getFailedCount() + 1);
+				message.setQueued(true);
+				message.setNextTry(new Date(
+						System.currentTimeMillis() + (60000 * (message.getFailedCount() * 5) )));
+				try {
+					message.commit();
+				} catch (CoreException ce) {
+					logger.error(String.format("Commiting failed GCM Message with message ID %s to database failed.", message.getMessageId()), ce);
+				}
+				logger.warn("GCM: Message to " + message.getTo() + " failed: " + e.toString(), e);
+			}
+		}
+		
 	}
 }

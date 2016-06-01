@@ -25,12 +25,12 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * Takes windows message input and sends a windows notifcation via a webservice (toast)
  */
-public class SendWindowMessage extends CustomJavaAction<Boolean>
+public class SendWindowsMessage extends CustomJavaAction<Boolean>
 {
 	private java.util.List<IMendixObject> __WindowsMessages;
 	private java.util.List<pushnotifications.proxies.WindowsMessage> WindowsMessages;
 
-	public SendWindowMessage(IContext context, java.util.List<IMendixObject> WindowsMessages)
+	public SendWindowsMessage(IContext context, java.util.List<IMendixObject> WindowsMessages)
 	{
 		super(context);
 		this.__WindowsMessages = WindowsMessages;
@@ -109,7 +109,7 @@ public class SendWindowMessage extends CustomJavaAction<Boolean>
 	@Override
 	public String toString()
 	{
-		return "SendWindowMessage";
+		return "SendWindowsMessage";
 	}
 
 	// BEGIN EXTRA CODE
