@@ -156,7 +156,7 @@ You can proceed by repackaging the project into a zip file and using PhoneGap Bu
 
 For more information about PhoneGap Build, you can refer to their [documentation](http://docs.build.phonegap.com/en_US/index.html).
 
-> Note that a free PhoneGap Build account is limited to a single application, whereas paid plans support multiple applications.
+> Note that a free PhoneGap Build account is limited to a single application, whereas paid plans support multiple applications. As a consequence, you may need to delete an existing app from your PhoneGap build environment in order to create a new one.
 
 ## Testing The Implementation
 
