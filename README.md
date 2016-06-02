@@ -72,7 +72,7 @@ Import the mpk file created in Step 1 into your Mendix project. To do this, righ
 
 First, open your existing Mendix project (or create a new one). The `PushNotifications` module has two dependencies: `CommunityCommons` and `Encryption` module. Include these two dependencies by downloading them from the App Store; you can reach it by clicking on the `App Store` button on the right side of the menu bar of the modeler.  While importing you may again get a dialog about overwriting project files, which you can confirm by clicking the `OK` button.
 
-> Note: importing the Encryption module will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used).
+> Note: Older versions of the [Encryption module] (https://appstore.home.mendix.com/link/app/1011/Mendix/Encryption) will trigger errors because it contains a reference to a non-existent layout. Fix it by assigning the master layout of the `Encryption.ResponsiveLayout_Certificate` layout to another layout (in this specific use case it is not really important which layout is used). This does not apply to version 1.3.1 and higher.
 >
 > <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
