@@ -34,7 +34,6 @@ This project assumes that the mobile app and the "back-end" part will be co-loca
 
 ### "Error parsing JSON" when sending GCM messages
 - This is a known issue (issue #16). We will address it in a next release.
-- Please note that viewing pages which include the Push Notifications widget within the browser (with a non-mobile layout) will prevent the page from being loaded correctly; we are aware of this issue and will provide a solution in the future.
 
 
 ## Contributing
