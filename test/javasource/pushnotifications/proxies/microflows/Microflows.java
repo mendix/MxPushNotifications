@@ -16,13 +16,13 @@ public class Microflows
 {
 	// These are the microflows for the PushNotifications module
 
-	public static void aC_Device(IContext context, pushnotifications.proxies.Device _device)
+	public static void aCo_Device(IContext context, pushnotifications.proxies.Device _device)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("Device", _device == null ? null : _device.getMendixObject());
-			Core.execute(context, "PushNotifications.AC_Device", params);
+			Core.execute(context, "PushNotifications.ACo_Device", params);
 		}
 		catch (CoreException e)
 		{
@@ -30,13 +30,13 @@ public class Microflows
 		}
 	}
 
-	public static void aC_SetMessageType(IContext context, pushnotifications.proxies.Message _message)
+	public static void aCr_Message(IContext context, pushnotifications.proxies.Message _message)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("Message", _message == null ? null : _message.getMendixObject());
-			Core.execute(context, "PushNotifications.AC_SetMessageType", params);
+			Core.execute(context, "PushNotifications.ACr_Message", params);
 		}
 		catch (CoreException e)
 		{
@@ -50,19 +50,6 @@ public class Microflows
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			return (Boolean)Core.execute(context, "PushNotifications.AfterStartup_PushNotifications", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
-	public static void appleAdministration_New(IContext context)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			Core.execute(context, "PushNotifications.AppleAdministration_New", params);
 		}
 		catch (CoreException e)
 		{
@@ -126,6 +113,65 @@ public class Microflows
 			}
 			params.put("WindowsMessageList", listparam_windowsMessageList);
 			Core.execute(context, "PushNotifications.Background_SendWindowsMessage", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void createAndQueueMessage(IContext context, pushnotifications.proxies.Device _device, String _messageText, String _title, Long _badge, String _launchImage, String _sound)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Device", _device == null ? null : _device.getMendixObject());
+			params.put("MessageText", _messageText);
+			params.put("Title", _title);
+			params.put("Badge", _badge);
+			params.put("LaunchImage", _launchImage);
+			params.put("Sound", _sound);
+			Core.execute(context, "PushNotifications.CreateAndQueueMessage", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void createAndSendMessage(IContext context, pushnotifications.proxies.Device _device, String _messageText, String _title, Long _badge, String _launchImage, String _sound)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Device", _device == null ? null : _device.getMendixObject());
+			params.put("MessageText", _messageText);
+			params.put("Title", _title);
+			params.put("Badge", _badge);
+			params.put("LaunchImage", _launchImage);
+			params.put("Sound", _sound);
+			Core.execute(context, "PushNotifications.CreateAndSendMessage", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static pushnotifications.proxies.Message createMessage(IContext context, pushnotifications.proxies.Device _device, String _message, String _title, Long _badge, String _launchImage, String _sound, boolean _queued)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Device", _device == null ? null : _device.getMendixObject());
+			params.put("Message", _message);
+			params.put("Title", _title);
+			params.put("Badge", _badge);
+			params.put("LaunchImage", _launchImage);
+			params.put("Sound", _sound);
+			params.put("Queued", _queued);
+			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.CreateMessage", params);
+			return result == null ? null : pushnotifications.proxies.Message.initialize(context, result);
 		}
 		catch (CoreException e)
 		{
@@ -206,12 +252,12 @@ public class Microflows
 		}
 	}
 
-	public static pushnotifications.proxies.Device ds_device(IContext context)
+	public static pushnotifications.proxies.Device dS_Device(IContext context)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.ds_device", params);
+			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_Device", params);
 			return result == null ? null : pushnotifications.proxies.Device.initialize(context, result);
 		}
 		catch (CoreException e)
@@ -220,13 +266,13 @@ public class Microflows
 		}
 	}
 
-	public static pushnotifications.proxies.APNSettings dS_GetAPNSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
+	public static pushnotifications.proxies.APNSettings getAPNSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("DTAPMode", _dTAPMode == null ? null : _dTAPMode.name());
-			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_GetAPNSettings", params);
+			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.GetAPNSettings", params);
 			return result == null ? null : pushnotifications.proxies.APNSettings.initialize(context, result);
 		}
 		catch (CoreException e)
@@ -235,27 +281,12 @@ public class Microflows
 		}
 	}
 
-	public static pushnotifications.proxies.GCMSettings dS_GetGCMSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
+	public static pushnotifications.proxies.DTAPMode getDTAPMode(IContext context)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("DTAPMode", _dTAPMode == null ? null : _dTAPMode.name());
-			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.DS_GetGCMSettings", params);
-			return result == null ? null : pushnotifications.proxies.GCMSettings.initialize(context, result);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
-	public static pushnotifications.proxies.DTAPMode dTAPMode(IContext context)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			String result = (String)Core.execute(context, "PushNotifications.DTAPMode", params);
+			String result = (String)Core.execute(context, "PushNotifications.GetDTAPMode", params);
 			if (result == null)
 				return null;
 			return pushnotifications.proxies.DTAPMode.valueOf(result);
@@ -266,20 +297,55 @@ public class Microflows
 		}
 	}
 
-	public static void iVK_DetailsMessage(IContext context, java.util.List<pushnotifications.proxies.Message> _messageList)
+	public static pushnotifications.proxies.GCMSettings getGCMSettings(IContext context, pushnotifications.proxies.DTAPMode _dTAPMode)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			java.util.ArrayList<IMendixObject> listparam_messageList = null;
-			if (_messageList != null)
-			{
-				listparam_messageList = new java.util.ArrayList<IMendixObject>();
-				for (pushnotifications.proxies.Message obj : _messageList)
-					listparam_messageList.add(obj.getMendixObject());
-			}
-			params.put("MessageList", listparam_messageList);
-			Core.execute(context, "PushNotifications.IVK_DetailsMessage", params);
+			params.put("DTAPMode", _dTAPMode == null ? null : _dTAPMode.name());
+			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.GetGCMSettings", params);
+			return result == null ? null : pushnotifications.proxies.GCMSettings.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_CreateAppleAdministration(IContext context)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			Core.execute(context, "PushNotifications.IVK_CreateAppleAdministration", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_OpenMessageDetails(IContext context, pushnotifications.proxies.Message _message)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Message", _message == null ? null : _message.getMendixObject());
+			Core.execute(context, "PushNotifications.IVK_OpenMessageDetails", params);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
+
+	public static void iVK_OpenSendMessageForm(IContext context, pushnotifications.proxies.Device _device)
+	{
+		try
+		{
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("Device", _device == null ? null : _device.getMendixObject());
+			Core.execute(context, "PushNotifications.IVK_OpenSendMessageForm", params);
 		}
 		catch (CoreException e)
 		{
@@ -329,54 +395,6 @@ public class Microflows
 		}
 	}
 
-	public static void iVK_Send(IContext context, pushnotifications.proxies.GoogleMessage _googleMessage)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("GoogleMessage", _googleMessage == null ? null : _googleMessage.getMendixObject());
-			Core.execute(context, "PushNotifications.IVK_Send", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
-	public static void iVK_SendMessage(IContext context, pushnotifications.proxies.Device _device)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("Device", _device == null ? null : _device.getMendixObject());
-			Core.execute(context, "PushNotifications.IVK_SendMessage", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
-	public static pushnotifications.proxies.Message messageFactory(IContext context, pushnotifications.proxies.Device _device, String _message, String _title, Long _badge, String _launchImage, String _sound)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("Device", _device == null ? null : _device.getMendixObject());
-			params.put("Message", _message);
-			params.put("Title", _title);
-			params.put("Badge", _badge);
-			params.put("LaunchImage", _launchImage);
-			params.put("Sound", _sound);
-			IMendixObject result = (IMendixObject)Core.execute(context, "PushNotifications.MessageFactory", params);
-			return result == null ? null : pushnotifications.proxies.Message.initialize(context, result);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
 	public static void sE_FeedbackService(IContext context)
 	{
 		try
@@ -390,12 +408,12 @@ public class Microflows
 		}
 	}
 
-	public static void sE_Queue(IContext context)
+	public static void sE_SendQueuedMessages(IContext context)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
-			Core.execute(context, "PushNotifications.SE_Queue", params);
+			Core.execute(context, "PushNotifications.SE_SendQueuedMessages", params);
 		}
 		catch (CoreException e)
 		{
@@ -445,27 +463,6 @@ public class Microflows
 			}
 			params.put("MessageList", listparam_messageList);
 			Core.execute(context, "PushNotifications.SendMessagesImmediately", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
-
-	public static void sendMessagesQueued(IContext context, java.util.List<pushnotifications.proxies.Message> _messageList)
-	{
-		try
-		{
-			Map<String, Object> params = new HashMap<String, Object>();
-			java.util.ArrayList<IMendixObject> listparam_messageList = null;
-			if (_messageList != null)
-			{
-				listparam_messageList = new java.util.ArrayList<IMendixObject>();
-				for (pushnotifications.proxies.Message obj : _messageList)
-					listparam_messageList.add(obj.getMendixObject());
-			}
-			params.put("MessageList", listparam_messageList);
-			Core.execute(context, "PushNotifications.SendMessagesQueued", params);
 		}
 		catch (CoreException e)
 		{

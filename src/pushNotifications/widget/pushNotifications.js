@@ -3,14 +3,14 @@
 /*
  pushNotifications
  ========================
- 
+
  @file      : pushNotifications.js
- @version   : 2.0.1
+ @version   : 2.0.2
  @author    : Simon Black
- @date      : Tue, 21 Apr 2016 15:27:32 GMT
- @copyright : 
- @license   : 
- 
+ @date      : Thu, 02 Jun 2016 12:57:02 CEST
+ @copyright :
+ @license   :
+
  Documentation
  ========================
  Describe your widget here.
