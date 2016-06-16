@@ -135,7 +135,10 @@ Add the `PushNotifications_Administration` page to the project navigation. This 
 
 At this point you can deploy your application to the Mendix cloud. If you are using a Free App, simply click the `Run` button.
 
-You should make sure that the `Encryption.EncryptionKey` constant has a value before you start the application. If you are using a Free App, you should set a default value for the constant in the model. Otherwise, you can configure the constant value in the Mendix Cloud Portal.
+> You should make sure that the `Encryption.EncryptionKey` constant has a value before you start the application. If the value is not set, you will get a NullPointerException when you try to send a notification to APNs.
+>
+> If you are using a Free App, you should set a default value for the constant in the model. Otherwise, you can configure the constant value in the Mendix Cloud Portal.
+
 
 ### Step 9 - Set up access to APNs and GCM
 
