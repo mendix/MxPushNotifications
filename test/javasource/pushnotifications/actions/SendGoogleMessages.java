@@ -14,9 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-/**
- * 
- */
 public class SendGoogleMessages extends CustomJavaAction<Boolean>
 {
 	private java.util.List<IMendixObject> __messages;
