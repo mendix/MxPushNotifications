@@ -15,9 +15,6 @@ import com.mendix.webui.CustomJavaAction;
 import communitycommons.Misc;
 import pushnotifications.implementation.apn.APNConnection;
 
-/**
- * 
- */
 public class StopAPN extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __settings;

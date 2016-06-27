@@ -14,9 +14,6 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import pushnotifications.implementation.apn.APNConnection;
 
-/**
- * 
- */
 public class SendAppleMessages extends CustomJavaAction<Boolean>
 {
 	private java.util.List<IMendixObject> __messages;

@@ -13,9 +13,6 @@ import communitycommons.Misc;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
-/**
- * 
- */
 public class recommitInBatches extends CustomJavaAction<Boolean>
 {
 	private String xpath;

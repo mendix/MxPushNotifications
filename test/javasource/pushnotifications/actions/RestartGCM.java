@@ -14,9 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-/**
- * 
- */
 public class RestartGCM extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __settings;
