@@ -16,9 +16,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import org.apache.commons.codec.binary.Base64;
 
-/**
- * 
- */
 public class EncryptString extends CustomJavaAction<String>
 {
 	private String value;
