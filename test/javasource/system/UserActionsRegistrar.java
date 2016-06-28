@@ -124,11 +124,13 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(encryption.actions.DecryptString.class);
 			component.actionRegistry().registerUserAction(encryption.actions.EncryptString.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.PollFeedbackService.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.QueueMessage.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.RestartGCM.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendAppleMessages.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendGoogleMessages.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessage.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessagesInBackground.class);
-			component.actionRegistry().registerUserAction(pushnotifications.actions.SendWindowMessage.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendWindowsMessage.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StartAPN.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StartGCM.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StopAPN.class);
