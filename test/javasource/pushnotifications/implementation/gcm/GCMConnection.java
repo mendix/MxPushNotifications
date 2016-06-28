@@ -37,7 +37,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
  * Implemented the GCMConnection as a singleton!
- * 
+ *
  * @author alm
  * @author res
  */
@@ -49,6 +49,8 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 
 	private XMPPTCPConnection connection;
 	private ILogNode logger;
+
+	private static Random random = new Random();
 
 	/**
 	 * Indicates whether the connection is in draining state, which means that
@@ -75,7 +77,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 		} catch (Exception e) {
 		}
 	}
-	
+
 	private GCMConnection() {
 		logger = Core.getLogger(Constants.getLogNode());
 	}
@@ -97,10 +99,10 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 			logger.error("GCM: Error while connecting: " + e.toString(), e);
 			return;
 		}
-		
+
 		connection.addConnectionListener(new LoggingConnectionListener());
 		connection.addPacketListener(new GCMPacketListener(this), new PacketTypeFilter(Message.class));
-		
+
 		// Log all outgoing packets
         connection.addPacketInterceptor(new PacketInterceptor() {
             @Override
@@ -114,16 +116,16 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 		} catch (Exception e) {
 			logger.error("GCM: Error logging in at Google XMPP: " + e.toString(), e);
 		}
-        
-        
+
+
         logger.info("GCM: Connected to GCM.");
-        
+
 	}
 
 	public void sendMessages(List<GoogleMessage> messages) {
 		messages.forEach(this::sendMessage);
 	}
-	
+
 	public static GCMConnection getConnection() {
 		if (theConnection == null) {
 			theConnection = new GCMConnection();
@@ -152,7 +154,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 
 	/**
 	 * Handles an upstream data message from a device application.
-	 * 
+	 *
 	 * <p>
 	 * This sample echo server sends an echo message back to the device.
 	 * Subclasses should override this method to properly process upstream
@@ -179,7 +181,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 
 	/**
 	 * Handles an ACK.
-	 * 
+	 *
 	 * <p>
 	 * Logs a INFO message, but subclasses could override it to properly handle
 	 * ACKs.
@@ -192,7 +194,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 
 	/**
 	 * Handles a NACK.
-	 * 
+	 *
 	 * <p>
 	 * Logs a INFO message, but subclasses could override it to properly handle
 	 * NACKs.
@@ -202,9 +204,9 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
         String from = (String) jsonObject.get("from");
         logger.info("GCM: handleNackReceipt() from: " + from + ",messageId: " + messageId);
         logger.trace("Nack contents: " + jsonObject.toString());
-        
+
         IContext sysContext = Core.createSystemContext();
-        
+
         /**
          * Remove the device from the list when the NACK error code is:
          *  - BAD_REGISTRATION
@@ -214,10 +216,10 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
         	String errorCode = (String) jsonObject.get("error");
         	if (errorCode.equals("BAD_REGISTRATION") || errorCode.equals("DEVICE_UNREGISTERED")) {
         		logger.info("Removing device with registration " + from + " because it's unregistered.");
-        		
+
         		try {
-					List<IMendixObject> devices = Core.retrieveXPathQueryEscaped(sysContext, 
-							"//" + Device.entityName + "[" + 
+					List<IMendixObject> devices = Core.retrieveXPathQueryEscaped(sysContext,
+							"//" + Device.entityName + "[" +
 								   Device.MemberNames.RegistrationID.toString() +
 								   "='%s']", 1, 0, new HashMap<String, String>(), 0, from);
 					if (devices.size() < 1) {
@@ -226,10 +228,10 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 						Core.delete(sysContext, devices);
 					}
 				} catch (CoreException e) {
-					logger.error("Unable to remove device " + from + " : " + 
+					logger.error("Unable to remove device " + from + " : " +
 							e.toString(), e);
 				}
-        						
+
         	}
         }
     }
@@ -240,14 +242,14 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
         if ("CONNECTION_DRAINING".equals(controlType)) {
             connectionDraining = true;
         } else {
-            logger.info("GCM: Unrecognized control type: " + controlType + ". This could " + 
+            logger.info("GCM: Unrecognized control type: " + controlType + ". This could " +
                     "happen if new features are added to the CCS protocol.");
         }
     }
 
 	/**
 	 * Creates a JSON encoded GCM message.
-	 * 
+	 *
 	 * @param to
 	 *            RegistrationId of the target device (Required).
 	 * @param messageId
@@ -285,7 +287,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 	/**
 	 * Creates a JSON encoded ACK message for an upstream message received from
 	 * an application.
-	 * 
+	 *
 	 * @param to
 	 *            RegistrationId of the device who sent the upstream message.
 	 * @param messageId
@@ -306,16 +308,17 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 			String messageId = this.nextMessageId();
 	        Map<String, String> payload = new HashMap<String, String>();
 	        payload.put("message", message.getMessage());
-	        payload.put("embeddedMessageId", messageId);
+        	payload.put("embeddedMessageId", messageId);
+        	payload.put("notId", Integer.toString(random.nextInt(Integer.MAX_VALUE)));
 	        if (message.getTitle() != null && !message.getTitle().trim().isEmpty()) {
 	        	payload.put("title", message.getTitle());
 	        }
-	        
+
 	        String messageJson = createJsonMessage(
 	        		message.getTo(), messageId, payload,
 	                null, message.getTimeToLive(), true);
 
-	        
+
 			if(!this.sendDownstreamMessage(messageJson)) {
 				/*if downstream fails need to add to fail counter else constant loop*/
 				if (message.getFailedCount() >= Constants.getMaxFailedCount()) {
@@ -331,9 +334,9 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 					message.commit();
 				}
 				throw new Exception("Message not delivered, view log.");
-				
+
 			}
-			
+
 			logger.info("GCM: Successfully sent message to: " + message.getTo());
 			message.delete();
 		} catch (Exception e) {
@@ -355,6 +358,6 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 				logger.warn("GCM: Message to " + message.getTo() + " failed: " + e.toString(), e);
 			}
 		}
-		
+
 	}
 }
