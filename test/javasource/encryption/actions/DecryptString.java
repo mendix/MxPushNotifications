@@ -17,6 +17,9 @@ import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
+/**
+ * 
+ */
 public class DecryptString extends CustomJavaAction<String>
 {
 	private String value;
