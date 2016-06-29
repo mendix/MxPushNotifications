@@ -8,7 +8,7 @@
 		<property key="settingsEntity" type="entity" required="true">
 			<caption>Settings Entity</caption>
 			<category>Google Messaging Server</category>
-			<description>Entity that contains API Key and/or Client ID of the Google's Push Server. If you have more than one object, please ensure there is one single settings object using a XPath constrain.</description>
+			<description>Entity that contains API Key and/or Client ID of Google's Push Server. If you have more than one object, please ensure there is only one single settings object using an XPath constraint.</description>
 		</property>
 		<property key="settingsXpathConstraint" type="entityConstraint" entityProperty="settingsEntity" required="false">
 			<caption>Settings Constraint</caption>
