@@ -5,9 +5,9 @@
  ========================
 
  @file      : pushNotifications.js
- @version   : 2.0.2
+ @version   : 2.1.0
  @author    : Simon Black
- @date      : Thu, 02 Jun 2016 12:57:02 CEST
+ @date      : Thu, 30 Jun 2016 10:59 CEST
  @copyright :
  @license   :
 
