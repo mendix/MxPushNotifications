@@ -75,37 +75,13 @@ First, open your existing Mendix project (or create a new one). The `PushNotific
 >
 > <img src="assets/images/implementation guide/Fix Encryption module.JPG"/>
 
-### Step 4 - Update component.json file
-
-Find the `theme\components.json` file in your project directory. This file contains (among others) the dependencies of the to-be-created hybrid mobile application. Update `theme\components.json` by adding `"widgets/pushNotifications/lib/PushNotification.js"` as an element of the `js` array so it would look like this:
-
-```
-{  
-   "files":{  
-      "css":[  
-         "lib/bootstrap/css/bootstrap.min.css",
-         "mxclientsystem/mxui/ui/mxui.css",
-         "styles/css/lib/lib.css",
-         "styles/css/custom/custom.css"
-      ],
-      "js":[  
-         "mxclientsystem/mxui/mxui.js",
-         "widgets/pushNotifications/lib/PushNotification.js"
-      ]
-   },
-   "cachebust":"{{cachebust}}"
-}
-```
-
-You can find more information about the `components.json` file [here](https://world.mendix.com/display/refguide6/Customizing+Hybrid+Mobile+Apps).
-
-### Step 5 - Include the push notifications snippet in the application's layouts
+### Step 4 - Include the push notifications snippet in the application's layouts
 
 To function properly, the widget should be placed inside a layout which is exclusively applied to mobile pages (i.e. mobile-specific). For example, the `Phone_Top` layout in the `NavigationLayouts` module is a good candidate for this purpose. You can do this by drag-and-dropping the `PushNotification_Snippet` snippet (located in `_USE ME` folder in the `PushNotifications` module) into your mobile-specific layout. Please note that viewing pages which include the Push Notifications widget within the browser will prevent the page from being loaded correctly; we are aware of this issue and will provide a solution in the future.
 
 <img src="assets/images/implementation guide/Include push notification snippet on layouts.JPG"/>
 
-### Step 6 - Start connectors from your After Startup microflow
+### Step 5 - Start connectors from your After Startup microflow
 
 The PushNotifications module contains a microflow named `AfterStartup_PushNotifications` which will start the connectors for GCM and APNs for you.
 When you include the PushNotifications module in your project, you will need to make sure this microflow is explicitly invoked after startup of your app.
@@ -115,7 +91,7 @@ Change your startup microflow to a custom microflow where you call both after st
 
 <img src="assets/images/implementation guide/startupflow.png"/>
 
-### Step 7 - Set up the administration pages
+### Step 6 - Set up the administration pages
 
 Add the `PushNotifications_Administration` page to the project navigation. This page contains four tabs: `Messages`, `Devices`, `Apple`, and `Google`. The `Apple` and `Google` tabs are used to configure your application to be able to reach the respective services (APNs and GCM) later on. The `Devices` tab contains a list of all devices registered with the application and is useful for testing purposes. The `Messages` tab shows all the messages that are queued either because they were sent using the `QueueMessage` action or because previous attempts to send them failed.
 
@@ -130,13 +106,13 @@ At this point you can deploy your application to the Mendix cloud. If you are us
 > If you are using a Free App, you should set a default value for the constant in the model. Otherwise, you can configure the constant value in the Mendix Cloud Portal.
 
 
-### Step 8 - Set up access to APNs and GCM
+### Step 7 - Set up access to APNs and GCM
 
 Set up access to APNs and GCM and configure them in your application. Note that starting with GCM is recommended because it is significantly less complicated than setting up APNs.
 
 See [Setting up Apple Push Notification Server](#setting-up-apple-push-notification-server) and [Setting up Google Cloud Messaging Server](#setting-up-google-cloud-messaging-server) for the details.
 
-### Step 9 - Build the hybrid mobile application
+### Step 8 - Build the hybrid mobile application
 
 You will need to build the hybrid mobile application. Refer to the [Publishing a Mendix Hybrid Mobile App how-to] (https://world.mendix.com/display/howto6/Publishing+a+Mendix+Hybrid+Mobile+App+in+Mobile+App+Stores) to get the explanation on how to do this. Note that you should opt to download the PhoneGap Build package instead of directly publishing it. This is necessary because we need to include a PhoneGap plugin which is used by this module in the hybrid mobile application.
 
