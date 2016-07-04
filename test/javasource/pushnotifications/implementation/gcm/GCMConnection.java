@@ -65,7 +65,7 @@ public class GCMConnection implements MessagingServiceConnection<GCMSettings, Go
 					@Override
 					public PacketExtension parseExtension(XmlPullParser parser)
 							throws Exception {
-						String json = parser.getText();
+						String json = parser.nextText();
 						return new GcmPacketExtension(json);
 					}
 				});
