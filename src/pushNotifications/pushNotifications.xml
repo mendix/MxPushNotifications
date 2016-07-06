@@ -6,19 +6,19 @@
 	<phonegap enabled="true"/>
 	<properties>
 		<property key="settingsEntity" type="entity" required="true">
-			<caption>Google GCM Settings Entity</caption>
-			<category>Google Settings</category>
-			<description>The entity that contains the object with the API Key and/or Client ID the object used is the first object in the case of a list. (Optional)</description>
+			<caption>Settings Entity</caption>
+			<category>Google Messaging Server</category>
+			<description>The entity used to store all configuration information needed by the app to communicate with GCM.</description>
 		</property>
 		<property key="settingsXpathConstraint" type="entityConstraint" entityProperty="settingsEntity" required="false">
-			<caption>Settings Constraint</caption>
-			<category>Google Settings</category>
-			<description>The XPath constraint on the "Settings Entity".</description>
+			<caption>Constraint</caption>
+			<category>Google Messaging Server</category>
+			<description>If the database contains more than one settings object, use this XPath constraint to retrieve the correct one. (Optional).</description>
 		</property>
 		<property key="senderId" type="attribute" required="true" entityProperty="settingsEntity" isPath="optional" pathType="reference">
-			<caption>Sender ID</caption>
-			<category>Google Settings</category>
-			<description>Google Sender ID</description>
+			<caption>Sender ID attribute</caption>
+			<category>Google Messaging Server</category>
+			<description>The attribute in which the GCM Sender ID is stored.</description>
 			<attributeTypes>
 				<attributeType name="String"/>
 				<attributeType name="Long"/>
