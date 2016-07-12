@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+	<widget xmlns = "http://www.w3.org/ns/widgets"
+		xmlns:gap = "http://phonegap.com/ns/1.0"
+		id        = "io.mxapps.pushnotficationste"
+		version   = "0.0.1" >
+
+	<name>PushNotficationsTest</name>
+
+	<description></description>
+
+	<!--
+	Current latest and default version
+	Platform versions don't follow a common version number anymore
+	(see: http://phonegap.com/blog/2015/06/16/phonegap-updated-on-build/).
+	Instead, Phonegap Build derives the platform versions from the CLI
+	defaults.
+	-->
+	<preference name="phonegap-version" value="cli-6.0.0" />
+
+	<!--
+	On iOS, the statusbar is transparent by default and is drawn over the top
+	of our app.
+	-->
+	<preference name="StatusBarOverlaysWebView" value="false" />
+	<preference name="StatusBarBackgroundColor" value="#000000" />
+
+	<!--
+	Set proper defaults for `cordova.file.dataDirectory`.
+	-->
+	<preference name="AndroidPersistentFileLocation" value="Internal" />
+	<preference name="iosPersistentFileLocation" value="Library" />
+
+	<!--
+	Disable backup to iCloud on iOS.
+	-->
+	<preference name="BackupWebStorage" value="none" />
+
+	<!-- allow assets to be loaded and open links in the app itself, see: http://phonegap.com/blog/2012/03/20/access-tags/ -->
+	<!-- Issue 204079: Allow retrieval of any resource. Custom widgets can point to anything. -->
+	<access origin="*" />
+
+	<gap:plugin name="cordova-plugin-battery-status" source="npm" />
+	<gap:plugin name="cordova-plugin-camera" source="npm" />
+	<gap:plugin name="cordova-plugin-console" source="npm" />
+	<gap:plugin name="cordova-plugin-contacts" source="npm" />
+	<gap:plugin name="cordova-plugin-device" source="npm" />
+	<gap:plugin name="cordova-plugin-device-motion" source="npm" />
+	<gap:plugin name="cordova-plugin-device-orientation" source="npm" />
+	<gap:plugin name="cordova-plugin-dialogs" source="npm" />
+	<gap:plugin name="cordova-plugin-file" source="npm" />
+	<gap:plugin name="cordova-plugin-geolocation" source="npm" />
+	<gap:plugin name="cordova-plugin-globalization" source="npm" />
+	<gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+	<gap:plugin name="cordova-plugin-media-capture" source="npm" />
+	<gap:plugin name="cordova-plugin-media" source="npm" />
+	<gap:plugin name="cordova-plugin-network-information" source="npm" />
+	<gap:plugin name="cordova-plugin-splashscreen" source="npm" />
+	<gap:plugin name="cordova-plugin-statusbar" source="npm" />
+	<gap:plugin name="cordova-plugin-vibration" source="npm" />
+	<gap:plugin name="cordova-plugin-zip" source="npm" />
+	<gap:plugin name="cordova-plugin-whitelist" source="npm" />
+	<gap:plugin name="phonegap-plugin-barcodescanner" source="npm" />
+	<gap:plugin name="phonegap-plugin-push" source="npm">
+		<param name="SENDER_ID" value="628727542087" />
+	</gap:plugin>
+	<preference name="android-build-tool" value="gradle" />
+
+
+	<gap:platform name="ios" />
+
+	<gap:splash src="res/ios/Default-Landscape@2x.png" gap:platform="ios" width="2048" height="1536" />
+	<icon src="res/ios/icon-76@2x.png" gap:platform="ios" width="152" height="152" />
+	<icon src="res/ios/icon-40@2x.png" gap:platform="ios" width="80" height="80" />
+	<gap:splash src="res/ios/Default-568h@2x.png" gap:platform="ios" width="640" height="1136" />
+	<gap:splash src="res/ios/Default-Portrait.png" gap:platform="ios" width="768" height="1024" />
+	<icon src="res/ios/icon-small@2x.png" gap:platform="ios" width="58" height="58" />
+	<icon src="res/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
+	<icon src="res/ios/icon-40.png" gap:platform="ios" width="40" height="40" />
+	<gap:splash src="res/ios/Default-Landscape.png" gap:platform="ios" width="1024" height="768" />
+	<icon src="res/ios/icon-small.png" gap:platform="ios" width="29" height="29" />
+	<icon src="res/ios/icon-76.png" gap:platform="ios" width="76" height="76" />
+	<icon src="res/ios/icon@2x.png" gap:platform="ios" width="114" height="114" />
+	<icon src="res/ios/icon-72@2x.png" gap:platform="ios" width="144" height="144" />
+	<icon src="res/ios/icon-50.png" gap:platform="ios" width="50" height="50" />
+	<icon src="res/ios/icon-50@2x.png" gap:platform="ios" width="100" height="100" />
+	<gap:splash src="res/ios/Default@2x.png" gap:platform="ios" width="640" height="960" />
+	<icon src="res/ios/icon-60.png" gap:platform="ios" width="60" height="60" />
+	<gap:splash src="res/ios/Default.png" gap:platform="ios" width="320" height="480" />
+	<gap:splash src="res/ios/Default-Portrait@2x.png" gap:platform="ios" width="1536" height="2048" />
+	<icon src="res/ios/icon.png" gap:platform="ios" width="57" height="57" />
+	<icon src="res/ios/icon-60@2x.png" gap:platform="ios" width="120" height="120" />
+
+
+	<gap:platform name="android" />
+
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<icon src="res/android/mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/land-hdpi.png" gap:platform="android" gap:qualifier="land-hdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/port-mdpi.png" gap:platform="android" gap:qualifier="port-ldpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<icon src="res/android/xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<icon src="res/android/xxhdpi.png" gap:platform="android" gap:qualifier="xxhdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/port-hdpi.png" gap:platform="android" gap:qualifier="port-hdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/port-ldpi.png" gap:platform="android" gap:qualifier="port-ldpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<icon src="res/android/hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/land-ldpi.png" gap:platform="android" gap:qualifier="land-ldpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/land-mdpi.png" gap:platform="android" gap:qualifier="land-ldpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<icon src="res/android/ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/land-xhdpi.png" gap:platform="android" gap:qualifier="land-xhdpi"/>
+	<!-- Icon definitions - for more details: http://developer.android.com/guide/topics/resources/providing-resources.html -->
+	<gap:splash src="res/android/port-xhdpi.png" gap:platform="android" gap:qualifier="port-xhdpi"/>
+
+
+	<gap:platform name="winphone" />
+	<gap:plugin name="cordova-plugin-file-transfer" source="npm" version="1.1.0" />
+
+	<gap:splash src="res/windowsphone/splash.jpg" gap:platform="winphone" />
+	<icon src="res/windowsphone/icon.png" gap:platform="winphone" />
+	<icon src="res/windowsphone/tileicon.png" gap:platform="winphone" gap:role="background"/>
+
+
+</widget>

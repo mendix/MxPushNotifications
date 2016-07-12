@@ -1,4 +1,6 @@
+dist/
 **/javasource/**/proxies/
+test/releases/
 test/deployment/
 test/.classpath
 test/.project
