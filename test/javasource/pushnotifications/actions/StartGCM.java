@@ -32,8 +32,7 @@ public class StartGCM extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		GCMConnection connection = GCMConnection.getConnection();
-		connection.start(settings);
-		return true;
+		return connection.start(settings);
 		// END USER CODE
 	}
 

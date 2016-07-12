@@ -14,7 +14,6 @@ import java.util.List;
 import pushnotifications.proxies.AppleMessage;
 import pushnotifications.proxies.GoogleMessage;
 import pushnotifications.proxies.Message;
-import pushnotifications.proxies.WindowsMessage;
 import pushnotifications.proxies.constants.Constants;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
@@ -46,15 +45,12 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 		IContext sysContext = Core.createSystemContext();
 		List<IMendixObject> appleMessages = new LinkedList<IMendixObject>();
 		List<IMendixObject> googleMessages = new LinkedList<IMendixObject>();
-		List<IMendixObject> windowsMessages = new LinkedList<IMendixObject>();
-		
+
 		for (Message message : messages) {
 			if (message instanceof AppleMessage) {
 				appleMessages.add(message.getMendixObject());
 			} else if (message instanceof GoogleMessage) {
 				googleMessages.add(message.getMendixObject());
-			} else if (message instanceof WindowsMessage){
-				windowsMessages.add(message.getMendixObject());
 			}
 		}
 		
@@ -75,15 +71,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 		} catch (Exception e) {
 			logger.warn("Background process for Google messages already running? " + e.toString(), e);
 		}
-		
-		try {
-			if (windowsMessages.size() > 0) {
-				Core.executeAsync(sysContext, "PushNotifications.Background_SendWindowsMessage",
-						windowsMessages);
-			}
-		} catch (Exception e) {
-			logger.warn("Background process for Windows messages already running? " + e.toString(), e);;
-		}
+
 		return true;
 		// END USER CODE
 	}

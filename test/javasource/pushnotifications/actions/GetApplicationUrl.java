@@ -9,35 +9,22 @@
 
 package pushnotifications.actions;
 
+import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
-import pushnotifications.implementation.apn.APNConnection;
 
-public class StopAPN extends CustomJavaAction<Boolean>
+public class GetApplicationUrl extends CustomJavaAction<String>
 {
-	private IMendixObject __settings;
-	private pushnotifications.proxies.APNSettings settings;
-
-	public StopAPN(IContext context, IMendixObject settings)
+	public GetApplicationUrl(IContext context)
 	{
 		super(context);
-		this.__settings = settings;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public String executeAction() throws Exception
 	{
-		this.settings = __settings == null ? null : pushnotifications.proxies.APNSettings.initialize(getContext(), __settings);
-
 		// BEGIN USER CODE
-		APNConnection connection = APNConnection.getConnection();
-		
-		if(connection!= null){
-			connection.stop();
-		}
-		
-		return true;
+		return Core.getConfiguration().getApplicationRootUrl();
 		// END USER CODE
 	}
 
@@ -47,7 +34,7 @@ public class StopAPN extends CustomJavaAction<Boolean>
 	@Override
 	public String toString()
 	{
-		return "StopAPN";
+		return "GetApplicationUrl";
 	}
 
 	// BEGIN EXTRA CODE

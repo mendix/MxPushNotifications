@@ -12,7 +12,6 @@ package pushnotifications.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
-import communitycommons.Misc;
 import pushnotifications.implementation.apn.APNConnection;
 
 public class StartAPN extends CustomJavaAction<Boolean>
@@ -33,13 +32,7 @@ public class StartAPN extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		APNConnection connection = APNConnection.getConnection();
-		try{
-			connection.start(settings);
-		}
-		catch(Exception e){
-			Misc.throwException(e.getMessage());
-			return false;
-		}
+		connection.start(settings);
 		return true;
 		// END USER CODE
 	}

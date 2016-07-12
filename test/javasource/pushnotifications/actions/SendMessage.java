@@ -17,7 +17,7 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
 /**
  * Java action to use instead of microflow 'SendMessageImmediately'
  * Parameters: 
- * Device: Android, iOS or Windows
+ * Device: Android or iOS
  * MessageText: the contents of the message
  * Title: The title of the message
  * Badge: a number that appears on the app icon (iOS)

@@ -13,6 +13,6 @@ public interface MessagingServiceConnection<S extends MessagingServiceSettings, 
 	
 	void sendMessage(M message);
 
-	void start (S settings);
+	boolean start (S settings);
 
 }	
