@@ -12,3 +12,4 @@ test/.svn
 .idea/
 nbproject
 node_modules
+dist
