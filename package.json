@@ -1,9 +1,9 @@
 {
-  "name": "pushNotifications",
-  "version": "2.0.2",
+  "name": "MxPushNotifications",
+  "version": "1.0.0",
   "description": "Phonegap widget for notifications",
-  "license": "MIT",
-  "author": "Simon Black",
+  "license": "Apache 2.0",
+  "author": "Mendix Technology B.V.",
   "private": false,
   "dependencies": {},
   "devDependencies": {

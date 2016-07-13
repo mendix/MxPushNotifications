@@ -14,9 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-/**
- * 
- */
 public class StartGCM extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __settings;
@@ -35,8 +32,7 @@ public class StartGCM extends CustomJavaAction<Boolean>
 
 		// BEGIN USER CODE
 		GCMConnection connection = GCMConnection.getConnection();
-		connection.start(settings);
-		return true;
+		return connection.start(settings);
 		// END USER CODE
 	}
 

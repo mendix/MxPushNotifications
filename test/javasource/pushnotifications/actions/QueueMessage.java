@@ -17,7 +17,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 /**
  * Replaces microflow 'SendMessageQueued'.
  * Parameters: 
- * Device: Android, iOS or Windows
+ * Device: Android or iOS
  * MessageText: the contents of the message
  * Title: The title of the message
  * Badge: a number that appears on the app icon (iOS)

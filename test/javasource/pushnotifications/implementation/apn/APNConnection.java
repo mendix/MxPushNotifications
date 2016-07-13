@@ -32,6 +32,8 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 	private ILogNode logger;
 	private ApnsService service;
 	
+	static final int REGISTRATION_ID_CUTOFF = Constants.getRegistrationIdCutoff().intValue();
+	
 	private APNConnection() {
 		logger = Core.getLogger(Constants.getLogNode());
 	}
@@ -41,11 +43,14 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 	 */
 	@Override
 	public void stop() {
-		
-		try {
-			service.stop();
-		} catch (Exception e) {
-			logger.error("APN: Error while stopping APN: " + e.toString(), e);
+		if(service != null) {
+			try {
+				service.stop();
+			} catch (Exception e) {
+				logger.error("APN: Error while stopping APN: " + e.toString(), e);
+			}
+		} else {
+			logger.warn("APN: Could not stop service; was already stopped.");
 		}
 	}
 	
@@ -53,7 +58,7 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 	 * @see pushnotifications.implementation.apn.MessagingServiceConnection#start(pushnotifications.proxies.APNSettings)
 	 */
 	@Override
-	public void start(APNSettings settings) {
+	public boolean start(APNSettings settings) {
 		File cert;
 		IContext sysContext = Core.createSystemContext();
 		
@@ -63,7 +68,7 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 					new FileOutputStream(cert));
 		} catch (IOException | CoreException e) {
 			logger.error("APN: Error while creating temp file for certificate: " + e.toString(), e);
-			return;
+			return false;
 		}
 		
 		try {
@@ -76,9 +81,12 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 					.withFeedbackDestination(settings.getFeedbackServer(), settings.getFeedbackPort())
 					.withCert(new FileInputStream(cert), passcode).build();
 		} catch (Exception e) {
-			logger.error("APN: Error while building APNS service: " + e.toString(), e);
-			return;
+			logger.error("APN: Error while building APN service: " + e.toString(), e);
+			return false;
 		}
+		logger.info("APN: Successfully built APN service.");
+
+		return true;
 	}
 	
 	/* (non-Javadoc)
@@ -156,11 +164,11 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 			String payload = builder.build();
 			String token = message.getTo();
 			service.push(token, payload);
-			logger.info("APN: Successfully sent message to: " + message.getTo());
+			logger.info(String.format("APN: Successfully sent message to %s...", message.getTo().substring(0, REGISTRATION_ID_CUTOFF)));
 			message.delete();
 		} catch (Exception e) {
 			if (message.getFailedCount() > Constants.getMaxFailedCount()) {
-				logger.error("APN: Message to " + message.getTo() + " failed: " + e.toString(), e);
+				logger.error(String.format("APN: Message to %s... failed: %s", message.getTo().substring(0, REGISTRATION_ID_CUTOFF), e.toString()), e);
 				message.delete();
 			} else {
 				message.setFailed(true);
@@ -174,7 +182,7 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 				} catch (CoreException ce) {
 					logger.error(String.format("Commiting failed APN Message with message ID %s to database failed.", message.getMessageId()), ce);
 				}
-				logger.warn("APN: Message to " + message.getTo() + " failed: " + e.toString(), e);
+				logger.warn(String.format("APN: Message to %s... failed: %s", message.getTo().substring(0, REGISTRATION_ID_CUTOFF), e.toString()), e);
 			}
 		}		
 	}

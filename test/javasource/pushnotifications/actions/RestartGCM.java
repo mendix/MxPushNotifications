@@ -14,9 +14,6 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-/**
- * 
- */
 public class RestartGCM extends CustomJavaAction<Boolean>
 {
 	private IMendixObject __settings;
@@ -34,14 +31,15 @@ public class RestartGCM extends CustomJavaAction<Boolean>
 		this.settings = __settings == null ? null : pushnotifications.proxies.GCMSettings.initialize(getContext(), __settings);
 
 		// BEGIN USER CODE
+		boolean restartResult = true;
 		GCMConnection connection = GCMConnection.getConnection();
 		if (connection != null) {
 			connection.stop();
 		}
 		if (settings.getEnabled()) {
-			connection.start(settings);
+			restartResult = connection.start(settings);
 		}
-		return true;
+		return restartResult;
 		// END USER CODE
 	}
 

@@ -5,9 +5,9 @@
  ========================
 
  @file      : pushNotifications.js
- @version   : 2.0.2
+ @version   : 2.1.0
  @author    : Simon Black
- @date      : Thu, 02 Jun 2016 12:57:02 CEST
+ @date      : Thu, 30 Jun 2016 10:59 CEST
  @copyright :
  @license   :
 
@@ -22,12 +22,9 @@ define([
     "mxui/widget/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dojo/_base/lang",
-    "pushNotifications/lib/jquery-1.11.2",
     "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function(declare, _WidgetBase, _TemplatedMixin, dojoLang, _jQuery, widgetTemplate) {
+], function (declare, _WidgetBase, _TemplatedMixin, dojoLang, widgetTemplate) {
     "use strict";
-
-    var $ = _jQuery.noConflict(true);
 
     // Declare widget"s prototype.
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
@@ -61,7 +58,7 @@ define([
         update: function(obj, callback) {
             logger.debug(".update");
             if (typeof cordova !== "undefined") {
-                if (typeof window.plugins.pushNotification !== "undefined") {
+                if (typeof window.PushNotification !== "undefined") {
                     if (typeof obj === "string") {
                         this._contextGuid = obj;
                         mx.data.get({
@@ -82,7 +79,7 @@ define([
                         this._loadData(obj);
                     }
                 } else {
-                    console.warn("plugins pushNotification not availble, should be included during the build.");
+                    console.warn("plugins pushNotification not available, should be included during the build.");
                 }
             }
             if (callback) {
@@ -94,7 +91,6 @@ define([
             logger.debug("._loadData");
             this._contextObj = obj;
             this._initGCMSettings();
-            this._storeMf();
         },
         _initGCMSettings: function() {
             logger.debug("._initGCMSettings");
@@ -106,195 +102,68 @@ define([
         },
         _registerDevice: function(settings) {
             logger.debug("._registerDevice");
+            window.mObject = this._contextObj;
+            window.pushWidget = this;
             if (settings.length === 1) {
                 this._gcmSettings = settings[0];
                 this._gcmSenderID = this._gcmSettings.get(this.senderId);
-                window.mxPush = this;
-                window.mObject = this._contextObj;
-                var pushNotification = window.plugins.pushNotification;
-                if (device.platform === "android" || device.platform === "Android") {
-                    logger.debug("[PUSHNOTIFY] - Android - Registering Android device.");
-                    window.mObject.set("DeviceType", "Android");
-                    pushNotification.register(
-                        this._androidSuccessHandler,
-                        this._androidErrorHandler,
-                        {
-                            "senderID": this._gcmSenderID,
-                            "ecb": "mxPush._androidCallBack"
+                var push = PushNotification.init({
+                    "android": {
+                        "senderID": this._gcmSenderID
+                    },
+                    "ios": { "alert": "true", "badge": "true", "sound": "true" },
+                    "windows": {}
+                });
+
+                push.on('registration', function (data) {
+                    console.log("registration event");
+                    var platform = window.device.platform;
+                    if (platform === "Android") {
+                        window.mObject.set("DeviceType", "Android");
+                    } else if (platform === "iOS") {
+                        window.mObject.set("DeviceType", "iOS");
+                    } else if (platform === "Windows 8") {
+                        window.mObject.set("DeviceType", "Windows");
+                    }
+
+                    window.mObject.set("RegistrationID", data.registrationId);
+                    mx.data.commit({
+                        mxobj: window.mObject,
+                        callback: function () {
+                            console.log("[PUSHNOTIFY] - " + platform + " - Object committed");
+                        },
+                        error: function (e) {
+                            console.error("[PUSHNOTIFY] - " + platform + " - Error occurred attempting to commit: " + e);
                         }
-                    );
-                } else if (device.platform === "Win32NT") {
-                    // if (typeof console !== "undefined") {
-                    logger.debug("[PUSHNOTIFY] - WP8 - Registering Windows device.");
-                    logger.debug(JSON.stringify(window.plugins));
-                    logger.debug("[PUSHNOTIFY] - WP8 - Device UUID");
-                    //}
-                    window.mObject.set("DeviceType", "Windows");
-                    window.mObject.set("WindowsUUID", device.uuid);
-                    pushNotification.register(
-                        this._wp8ChannelHandler,
-                        this._wp8ErrorHandler,
-                        {
-                            "channelName": "toast",
-                            "ecb": "window.mxPush._wp8SuccessHandler",
-                            "uccb": "window.mxPush._wp8ChannelHandler",
-                            "errcb": "window.mxPush._wp8ErrorHandler"
-                        }
-                    );
-                } else {
-                    logger.debug("[PUSHNOTIFY] - iOS - Registering iOS device.");
-                    window.mObject.set("DeviceType", "iOS");
-                    pushNotification.register(
-                        this._iosTokenHandler,
-                        this._iosErrorHandler,
-                        {
-                            "badge": "true",
-                            "sound": "true",
-                            "alert": "true",
-                            "ecb": "mxPush._iosCallBack"
-                        }
-                    );
-                }
+                    });
+                });
+
+                push.on('notification', function (data) {
+                    console.log("notification event");
+                    var cards = document.getElementById("cards");
+                    var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget._removeAlert(this);"><span aria-hidden="true">&times;</span></button>' +
+                        data.message +
+                        '</div>';
+                    var cardList = cards.childNodes;
+                    for(var i = 0; i < cardList.length; i++){
+                        cardList[i].className = "alert alert-info alert-dismissible";
+                    }
+                    cards.innerHTML += card;
+                    push.finish(function () {
+                        console.log('finish successfully called');
+                    });
+                });
+
+                push.on('error', function (e) {
+                    console.log("push error");
+                });
             } else {
                 console.warn("unable to retrieve settings");
             }
         },
-        _setupEvents: function() {
-            logger.debug("_setupEvents");
-        },
-        _storeMf: function() {
-            logger.debug("._storeMf");
-            window.androidID = this._androidId;
-        },
-        _closeNot: function() {
-            logger.debug("._closeNot");
-            $(".notification").fadeOut();
-        },
-        _iosTokenHandler: function(result) {
-            logger.debug("._iosTokenHandler");
-            // Your iOS push server needs to know the token before it can push to this device
-            // here is where you might want to send it the token for later use.
-            window.mObject.set("RegistrationID", result);
-            mx.data.commit({
-                mxobj: window.mObject,
-                callback: function() {
-                    console.log("[PUSHNOTIFY] - iOS - Object committed");
-                },
-                error: function(e) {
-                    console.error("[PUSHNOTIFY] - iOS - Error occurred attempting to commit: " + e);
-                }
-            });
-        },
-        _iosErrorHandler: function() {
-            console.warn("[PUSHNOTIFY] - iOS - could not register device");
-        },
-        // Windows Phone 8
-        _wp8ChannelHandler: function(event) {
-            logger.debug("[PUSHNOTIFY] ChannelHandler");
-            if (event.uri) {
-                window.mObject.set("RegistrationID", event.uri);
-                mx.data.commit({
-                    mxobj: window.mObject,
-                    callback: function() {
-                        console.log("[PUSHNOTIFY] - wp8 - Object committed");
-                    },
-                    error: function(e) {
-                        console.error("[PUSHNOTIFY] - wp8 - Error occurred attempting to commit: " + JSON.stringify(e));
-                    }
-                });
-            }
-        },
-        _wp8SuccessHandler: function(e) {
-            logger.debug("[PUSHNOTIFY] - wp8 - Result Notification - ");
-            if (e.type === "toast" && e.jsonContent) {
-                window.plugins.pushNotification.showToastNotification(
-                    this._wp8ToastSuccessHandler,
-                    this._wp8ErrorHandler,
-                    {
-                        "Title": e.jsonContent["wp:Title"],
-                        "Subtitle": e.jsonContent["wp:Content"],
-                        "NavigationUri": e.jsonContent["wp:Param"]
-                    }
-                );
-            }
-            if (e.type === "raw" && e.jsonContent) {
-                alert(e.jsonContent.Body);
-            }
-        },
-        _wp8ToastSuccessHandler: function(event) {
-            logger.debug("_wp8ToastSuccessHandler called");
-        },
-        _wp8ErrorHandler: function(event) {
-            logger.error("[PUSHNOTIFY] - wp8 - Error - " + JSON.stringify(event));
-        },
-        // Android
-        _androidCallBack: function(e) {
-            switch (e.event) {
-                case "registered":
-                    if (e.regid.length > 0) {
-                        window.mObject.set("RegistrationID", e.regid);
-                        mx.data.commit({
-                            mxobj: window.mObject,
-                            callback: function() {
-                                logger.debug("[PUSHNOTIFY] Object committed");
-                            },
-                            error: function(e) {
-                                console.error("[PUSHNOTIFY] Error occurred attempting to commit: " + e);
-                            }
-                        });
-                    }
-                    break;
-
-                case "message":
-                    // if this flag is set, this notification happened while we were in the foreground.
-                    // you might want to play a sound to get the user"s attention, throw up a dialog, etc.
-                    if (e.foreground && typeof Media !== "undefined") {
-                        // on Android soundname is outside the payload.
-                        // On Amazon FireOS all custom attributes are contained within payload
-                        // if the notification contains a soundname, play it.
-                        var soundfile = e.soundname || e.payload.sound,
-                            my_media = new Media("/android_asset/www/" + soundfile);
-                        my_media.play();
-                    }
-                    $(".notification p").text(e.payload.message);
-                    $(".notification").fadeIn();
-                    break;
-
-                case "error":
-                    $(".notification p").text(e.msg);
-                    $(".notification").fadeIn();
-                    break;
-
-                default:
-                    logger.debug("An unknown GCM event has occurred");
-                    break;
-            }
-        },
-        _androidSuccessHandler: function(result) {
-            logger.debug("[PUSHNOTIFY] - Android - SuccessHandler");
-        },
-        _androidErrorHandler: function() {
-            console.error("[PUSHNOTIFY] - Android - could not register device");
-        },
-        _iosCallBack: function(event) {
-            /*ios event*/
-            logger.debug("._iosCallBack");
-            if (event.alert) {
-                $(".notification p").text(event.alert);
-                $(".notification").fadeIn();
-            }
-
-            if (event.sound) {
-                var snd = new Media("not.caf");
-                snd.play();
-            }
-
-            if (event.badge) {
-                window.plugins.pushNotification.setApplicationIconBadgeNumber(this._iosSuccessHandler, this._iosErrorHandler, event.badge);
-            }
-        },
-        _iosSuccessHandler: function(result) {
-            logger.debug("[PUSHNOTIFY] - iOS - SuccessHandler");
+        _removeAlert: function (e){
+            e.parentNode.parentNode.removeChild(e.parentNode);
         }
     });
 });
