@@ -6,6 +6,12 @@ test/.classpath
 test/.project
 test/.mendix-cache
 test/.svn
+demo/releases/
+demo/deployment/
+demo/.classpath
+demo/.project
+demo/.mendix-cache
+demo/.svn
 *.launch
 *.tmp
 *.lock

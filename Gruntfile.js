@@ -29,6 +29,7 @@ var WIDGET_XML = path.join(shelljs.pwd(), "/src/", pkg.name, "/", pkg.name + ".x
 var PACKAGE_XML = path.join(shelljs.pwd(), "/src/package.xml");
 var TEST_WIDGETS_FOLDER = path.join(shelljs.pwd(), "./test/widgets");
 var TEST_WIDGETS_DEPLOYMENT_FOLDER = path.join(shelljs.pwd(), "./test/deployment/web/widgets");
+var DEMO_WIDGETS_FOLDER = path.join(shelljs.pwd(), "./demo/widgets");
 
 /**
  * If you want to use a custom folder for the test project, make sure these are added to package.json:
@@ -47,6 +48,14 @@ if (pkg.paths && pkg.paths.testProjectFolder && pkg.paths.testProjectFileName) {
     TEST_PATH = path.join(folder, pkg.paths.testProjectFileName);
     TEST_WIDGETS_FOLDER = path.join(folder, "/widgets");
     TEST_WIDGETS_DEPLOYMENT_FOLDER = path.join(folder, "/deployment/web/widgets");
+}
+
+if (pkg.paths && pkg.paths.demoProjectFolder ) {
+    var folder = pkg.paths.demoProjectFolder;
+    if (folder.indexOf(".") === 0) {
+        folder = path.join(shelljs.pwd(), folder);
+    }
+    DEMO_WIDGETS_FOLDER = path.join(folder, "/widgets");
 }
 
 module.exports = function (grunt) {
@@ -84,7 +93,8 @@ module.exports = function (grunt) {
             },
             mpks: {
                 files: [
-                    { dest: TEST_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true }
+                    { dest: TEST_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true },
+                    { dest: DEMO_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true }
                 ]
             }
         },
@@ -217,6 +227,7 @@ module.exports = function (grunt) {
         grunt.log.writeln("PACKAGE_XML:                    ", PACKAGE_XML);
         grunt.log.writeln("TEST_WIDGETS_FOLDER:            ", TEST_WIDGETS_FOLDER);
         grunt.log.writeln("TEST_WIDGETS_DEPLOYMENT_FOLDER: ", TEST_WIDGETS_DEPLOYMENT_FOLDER);
+        grunt.log.writeln("DEMO_WIDGETS_FOLDER:            ", DEMO_WIDGETS_FOLDER);
         return done();
     });
 
