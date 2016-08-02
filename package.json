@@ -31,7 +31,8 @@
   "generatorVersion": "<%= generatorVersion %>",
   "paths": {
     "testProjectFolder": "./test/",
-    "testProjectFileName": "Test.mpr"
+    "testProjectFileName": "Test.mpr",
+    "demoProjectFolder": "./demo/"
   },
   "scripts": {
     "test": "grunt test"
