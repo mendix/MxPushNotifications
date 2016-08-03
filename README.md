@@ -6,7 +6,7 @@ Push Notifications let your application notify a user of events even when the us
 
 ## Step 1 - Import the PushNotifications module from the App Store
 
-Same
+Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
 
 ## Step 2 - Install module dependencies
 
@@ -88,6 +88,8 @@ Add the following lines of code to your config.xml:
 </gap:plugin>
 ```
 
+Note that Action Buttons require a newer version of the phonegap-plugin-push than before.
+
 ## Extending functionality to make callbacks more useful
 
 The Action Buttons that are shown in your notification menu are outside of Mendix context. Therefore you need to add the callbacks to your index.html (so it's always accessible). To extend the callback functionality you can edit the GCMConnection.java file and send extra data along. An example:
@@ -108,3 +110,6 @@ actions.add(thirdAction);
 payload.put("actions", actions);
 ```
 
+## Known bugs and errors
+
+Only tested on Android.
