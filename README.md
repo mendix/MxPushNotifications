@@ -79,7 +79,7 @@ Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Impleme
 
 ## Step 9 - Missingno
 
-???
+Missing from Mendix documentation???
 
 ## Step 10 - Build the hybrid mobile application
 
