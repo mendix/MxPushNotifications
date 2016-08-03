@@ -62,10 +62,27 @@ Make sure you don't change the callback function names, otherwise the module wil
 
 ## Step 5 - Set up the administration pages
 
+Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
+
 ## Step 6: Set up project security for your module
+
+Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
 
 ## Step 7 - Deploy your app
 
+Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
+
 ## Step 8 - Set up access to APNs and GCM
 
+Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
+
 ## Step 10 - Build the hybrid mobile application
+
+Add the following lines of code to your config.xml:
+
+```
+<preference name="android-build-tool" value="gradle" />
+<gap:plugin name="phonegap-plugin-push" source="npm" version="1.6.0">
+            <param name="SENDER_ID" value="XXXXXXXXXXXX" />
+</gap:plugin>
+```
