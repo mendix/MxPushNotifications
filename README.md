@@ -77,6 +77,10 @@ Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Impleme
 
 Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Implementation+Guide)
 
+## Step 9 - Missingno
+
+???
+
 ## Step 10 - Build the hybrid mobile application
 
 Add the following lines of code to your config.xml:
