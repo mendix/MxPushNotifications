@@ -114,6 +114,8 @@ actions.add(thirdAction);
 payload.put("actions", actions);
 ```
 
+As you can see in the above code three action buttons are added. If you want more or less. Simply add/remove them from the code and you index.html callbacks. I have tested this with up to three buttons and that works perfectly.
+
 ## Known bugs and errors
 
 Only tested on Android.
