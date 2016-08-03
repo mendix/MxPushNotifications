@@ -20,43 +20,44 @@ Same as [Mendix 6 How-To](https://world.mendix.com/display/public/howto6/Impleme
 
 Add Microflow Services to your After Startup for each callback defined in your index.html. These callbacks should be defined like such:
 
-```		  <script>
-            firstCallback = function(data) {
-                // For test purposes
-                // console.log(JSON.stringify(data));
-                $.ajax({
-                    url:"YOUR URL HERE",
-                    type:"POST",
-                    data:JSON.stringify(data),
-                    contentType:"application/json; charset=utf-8",
-                    dataType:"json"
-                });
-            },
+```		  
+<script>
+firstCallback = function(data) {
+    // For test purposes
+    // console.log(JSON.stringify(data));
+    $.ajax({
+        url:"YOUR URL HERE",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json"
+    });
+},
 
-            secondCallback = function(data) {
-                // For test purposes
-                // console.log(JSON.stringify(data));                
-                $.ajax({
-                    url:"YOUR URL HERE",
-                    type:"POST",
-                    data:JSON.stringify(data),
-                    contentType:"application/json; charset=utf-8",
-                    dataType:"json"
-                });               
-            },
+secondCallback = function(data) {
+    // For test purposes
+    // console.log(JSON.stringify(data));                
+    $.ajax({
+        url:"YOUR URL HERE",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json"
+    });               
+},
 
-            thirdCallback = function(data) {
-                // For test purposes
-                // console.log(JSON.stringify(data));                
-                $.ajax({
-                    url:"YOUR URL HERE",
-                    type:"POST",
-                    data:JSON.stringify(data),
-                    contentType:"application/json; charset=utf-8",
-                    dataType:"json"
-                });        
-            }
-        </script> 
+thirdCallback = function(data) {
+    // For test purposes
+    // console.log(JSON.stringify(data));                
+    $.ajax({
+        url:"YOUR URL HERE",
+        type:"POST",
+        data:JSON.stringify(data),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json"
+    });        
+}
+</script> 
   ```
 Make sure you don't change the callback function names, otherwise the module will not work. You can also use XMLHTTPRequests to send data, but I prefer this way. If you are implementing it with the above, you also need to include jquery in your Phonegap zip. I have added jquery.min.js to the /js/ folder (downloaded from [Google](https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js)).
 
@@ -86,3 +87,24 @@ Add the following lines of code to your config.xml:
             <param name="SENDER_ID" value="XXXXXXXXXXXX" />
 </gap:plugin>
 ```
+
+## Extending functionality to make callbacks more useful
+
+The Action Buttons that are shown in your notification menu are outside of Mendix context. Therefore you need to add the callbacks to your index.html (so it's always accessible). To extend the callback functionality you can edit the GCMConnection.java file and send extra data along. An example:
+
+```
+payload.put("awesomeness", message.getawesomeness());
+//the notId attribute is added so each notification is shown instead of replacing the previous one sent from your application.
+payload.put("notId", message.getnotId());
+
+//New bit of code that addes ActionButtons to your notification. The constructor has the following parameters: Title, callback function title, foreground (this defines if clicking the Action Button should open the app or handle things in the background).
+ActionButton firstAction = new ActionButton("YEAH!", "firstCallback", false);
+ActionButton secondAction = new ActionButton("NO :-(", "secondCallback", false);
+ActionButton thirdAction = new ActionButton("Not sure", "thirdCallback", false);
+
+actions.add(firstAction);
+actions.add(secondAction);
+actions.add(thirdAction);
+payload.put("actions", actions);
+```
+
