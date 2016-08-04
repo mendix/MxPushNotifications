@@ -60,7 +60,7 @@ define([
                     all({gcm: this.initGCMSettings()})
                         .then(dojoLang.hitch(this, this.registerDevice))
                         .otherwise(function (err) {
-                            console.error(err);
+                            logger.error(err);
                         })
                 } else {
                     logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
@@ -178,15 +178,16 @@ define([
             } else if (platform === "iOS") {
                 device.set("DeviceType", "iOS");
             } else if (platform === "Windows 8") {
+                device.set("DeviceType", "Windows");
             }
 
             mx.data.commit({
                 mxobj: device,
                 callback: dojoLang.hitch(this, function () {
-                    console.log("Committed device object with ID " + device.get(this.registrationIdAttribute));
+                    logger.debug("Committed device object with ID " + device.get(this.registrationIdAttribute));
                 }),
                 error: dojoLang.hitch(this, function (e) {
-                    console.error("Error occurred attempting to commit device object: " + e);
+                    logger.error("Error occurred attempting to commit device object: " + e);
                 })
             });
         },
@@ -199,12 +200,12 @@ define([
             this.retrieveDevice(data.registrationId)
                 .then(dojoLang.hitch(this, this.updateDevice))
                 .otherwise(function (err) {
-                    console.error("Failed to register device: " + err);
+                    logger.error("Failed to register device: " + err);
                 })
         },
 
         onPushNotification: function (data) {
-            console.log("notification event");
+            logger.debug(".onPushNotification");
 
             var cards = document.getElementById("cards");
             var card = '' +
@@ -222,12 +223,12 @@ define([
             cards.innerHTML += card;
 
             push.finish(function () {
-                console.log('finish successfully called');
+                logger.debug('Successfully process push notification.');
             });
         },
 
         onPushError: function (e) {
-            console.error("Push error: " + e);
+            logger.error("Push error: " + e);
         },
 
         removeAlert: function (e){
