@@ -21,9 +21,12 @@ define([
     "dojo/_base/declare",
     "mxui/widget/_WidgetBase",
     "dijit/_TemplatedMixin",
+    "dojo/Deferred",
+    "dojo/promise/all",
     "dojo/_base/lang",
+    "dojo/json",
     "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function (declare, _WidgetBase, _TemplatedMixin, dojoLang, widgetTemplate) {
+], function (declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
     "use strict";
 
     // Declare widget"s prototype.
@@ -31,138 +34,204 @@ define([
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
         // Parameters configured in the Modeler.
+        deviceEntity: "",
+        registrationIdAttribute: "",
         settingsEntity: "",
         settingsXpathConstraint: "",
-        senderId: "",
+        senderIdAttribute: "",
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
-        _contextObj: null,
-        _objProperty: null,
-        _pushNotification: null,
-        _gcmSettings: null,
-        _gcmSenderID: null,
+        _gcmSenderId: null,
+        _registrationId: null,
+
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
             window.logger.level(window.logger.ALL);
-            this._objProperty = {};
         },
+
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
             logger.debug(".postCreate");
+
             this.domNode.innerHTML = this.templateString;
-        },
-        alertDismissed: function() {
-            logger.debug(".alertDismissed");
-        },
-        // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
-        update: function(obj, callback) {
-            logger.debug(".update");
+
             if (typeof cordova !== "undefined") {
                 if (typeof window.PushNotification !== "undefined") {
-                    if (typeof obj === "string") {
-                        this._contextGuid = obj;
-                        mx.data.get({
-                            guids: [obj],
-                            callback: dojoLang.hitch(this, function(objArr) {
-                                if (objArr.length === 1) {
-                                    this._loadData(objArr[0]);
-                                } else {
-                                    console.warn("Could not find the object corresponding to the received object ID.");
-                                }
-                            })
-                        });
-                    } else if (obj === null) {
-                        // Sorry no data no show!
-                        console.warn("Could not find the object corresponding to the received object ID.");
-                    } else {
-                        // Load data
-                        this._loadData(obj);
-                    }
+                    all({gcm: this.initGCMSettings()})
+                        .then(dojoLang.hitch(this, this.registerDevice))
+                        .otherwise(function (err) {
+                            logger.error(err);
+                        })
                 } else {
-                    console.warn("plugins pushNotification not available, should be included during the build.");
+                    logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
                 }
             }
-            if (callback) {
-                callback();
-            }
         },
-        // Loading data
-        _loadData: function(obj) {
-            logger.debug("._loadData");
-            this._contextObj = obj;
-            this._initGCMSettings();
-        },
-        _initGCMSettings: function() {
-            logger.debug("._initGCMSettings");
+
+        initGCMSettings: function() {
+            logger.debug(".initGCMSettings");
+
+            var deferred = new Deferred();
+
             var xpathString = "//" + this.settingsEntity + this.settingsXpathConstraint;
             mx.data.get({
                 xpath: xpathString,
-                callback: this._registerDevice
+                callback: function(settings) {
+                    if (settings.length > 0) {
+                        logger.debug("Found a GCM settings object.");
+
+                        deferred.resolve(settings[0]);
+                    } else {
+                        deferred.reject("Could not find a GCM settings object.")
+                    }
+                },
+                error: function (err) {
+                    deferred.reject("Could not retrieve a GCM settings object.");
+                }
             }, this);
+
+            return deferred.promise;
         },
-        _registerDevice: function(settings) {
-            logger.debug("._registerDevice");
-            window.mObject = this._contextObj;
+
+        registerDevice: function(allSettings) {
+            logger.debug(".registerDevice");
+
+            var deferred = new Deferred();
+
             window.pushWidget = this;
-            if (settings.length === 1) {
-                this._gcmSettings = settings[0];
-                this._gcmSenderID = this._gcmSettings.get(this.senderId);
+
+            if (allSettings["gcm"]) {
+                var gcm = allSettings.gcm;
+
+                this._gcmSenderId = gcm.get(this.senderIdAttribute);
+
                 var push = PushNotification.init({
                     "android": {
-                        "senderID": this._gcmSenderID
+                        "senderID": this._gcmSenderId
                     },
-                    "ios": { "alert": "true", "badge": "true", "sound": "true" },
+                    "ios": {
+                        "alert": "true",
+                        "badge": "true",
+                        "sound": "true"
+                    },
                     "windows": {}
                 });
 
-                push.on('registration', function (data) {
-                    console.log("registration event");
-                    var platform = window.device.platform;
-                    if (platform === "Android") {
-                        window.mObject.set("DeviceType", "Android");
-                    } else if (platform === "iOS") {
-                        window.mObject.set("DeviceType", "iOS");
-                    } else if (platform === "Windows 8") {
-                        window.mObject.set("DeviceType", "Windows");
-                    }
+                push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
+                push.on('notification', dojoLang.hitch(this.onPushNotification));
+                push.on('error', dojoLang.hitch(this.onPushError));
 
-                    window.mObject.set("RegistrationID", data.registrationId);
-                    mx.data.commit({
-                        mxobj: window.mObject,
-                        callback: function () {
-                            console.log("[PUSHNOTIFY] - " + platform + " - Object committed");
-                        },
-                        error: function (e) {
-                            console.error("[PUSHNOTIFY] - " + platform + " - Error occurred attempting to commit: " + e);
-                        }
-                    });
-                });
-
-                push.on('notification', function (data) {
-                    console.log("notification event");
-                    var cards = document.getElementById("cards");
-                    var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget._removeAlert(this);"><span aria-hidden="true">&times;</span></button>' +
-                        data.message +
-                        '</div>';
-                    var cardList = cards.childNodes;
-                    for(var i = 0; i < cardList.length; i++){
-                        cardList[i].className = "alert alert-info alert-dismissible";
-                    }
-                    cards.innerHTML += card;
-                    push.finish(function () {
-                        console.log('finish successfully called');
-                    });
-                });
-
-                push.on('error', function (e) {
-                    console.log("push error");
-                });
+                deferred.resolve(push);
             } else {
-                console.warn("unable to retrieve settings");
+                deferred.reject("Could not initialize the PushNotifications plugin.")
             }
+
+            return deferred.promise;
         },
-        _removeAlert: function (e){
+
+        retrieveDevice: function (registrationId) {
+            logger.debug(".retrieveDevice");
+
+            var xpathString = "//" + this.deviceEntity + "[" + this.registrationIdAttribute + "='" + registrationId + "']"
+
+            var deferred = new Deferred();
+
+            mx.data.get({
+                xpath: xpathString,
+                filter: {
+                    amount: 1
+                },
+                callback: dojoLang.hitch(this, function(device) {
+                    if (device.length > 0) {
+                        logger.debug("Retrieved device object with ID " + device[0].get(this.registrationIdAttribute));
+
+                        deferred.resolve(device[0]);
+                    } else {
+                        mx.data.create({
+                            entity: this.deviceEntity,
+                            callback: dojoLang.hitch(this, function(obj) {
+                                obj.set(this.registrationIdAttribute, registrationId);
+
+                                logger.debug("Created device object created with ID " + obj.get(this.registrationIdAttribute));
+
+                                deferred.resolve(obj);
+                            }),
+                            error: dojoLang.hitch(this, function(e) {
+                                deferred.reject("Failed to create device object: " + e);
+                            })
+                        });
+                    }
+                }),
+                error: function(e) {
+                    deferred.reject("Failed to retrieve device object: " + e);
+                }
+            });
+
+            return deferred.promise;
+        },
+
+        updateDevice: function (device) {
+            var platform = window.device.platform;
+
+            if (platform === "Android") {
+                device.set("DeviceType", "Android");
+            } else if (platform === "iOS") {
+                device.set("DeviceType", "iOS");
+            } else if (platform === "Windows 8") {
+                device.set("DeviceType", "Windows");
+            }
+
+            mx.data.commit({
+                mxobj: device,
+                callback: dojoLang.hitch(this, function () {
+                    logger.debug("Committed device object with ID " + device.get(this.registrationIdAttribute));
+                }),
+                error: dojoLang.hitch(this, function (e) {
+                    logger.error("Error occurred attempting to commit device object: " + e);
+                })
+            });
+        },
+
+        onPushRegistration: function (data) {
+            logger.debug(".onPushRegistration");
+
+            this._registrationId = data.registrationId;
+
+            this.retrieveDevice(data.registrationId)
+                .then(dojoLang.hitch(this, this.updateDevice))
+                .otherwise(function (err) {
+                    logger.error("Failed to register device: " + err);
+                })
+        },
+
+        onPushNotification: function (data) {
+            logger.debug(".onPushNotification");
+
+            var cards = document.getElementById("cards");
+            var card = '' +
+                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                data.message +
+                '</div>';
+
+            var cardList = cards.childNodes;
+            for(var i = 0; i < cardList.length; i++){
+                cardList[i].className = "alert alert-info alert-dismissible";
+            }
+            cards.innerHTML += card;
+
+            push.finish(function () {
+                logger.debug('Successfully process push notification.');
+            });
+        },
+
+        onPushError: function (e) {
+            logger.error("Push error: " + e);
+        },
+
+        removeAlert: function (e){
             e.parentNode.parentNode.removeChild(e.parentNode);
         }
     });
