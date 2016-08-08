@@ -138,6 +138,7 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendGoogleMessages.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessage.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessagesInBackground.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessageToUser.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StartAPN.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StartGCM.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StopAPN.class);
