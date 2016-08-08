@@ -29,6 +29,8 @@ var WIDGET_XML = path.join(shelljs.pwd(), "/src/", pkg.name, "/", pkg.name + ".x
 var PACKAGE_XML = path.join(shelljs.pwd(), "/src/package.xml");
 var TEST_WIDGETS_FOLDER = path.join(shelljs.pwd(), "./test/widgets");
 var TEST_WIDGETS_DEPLOYMENT_FOLDER = path.join(shelljs.pwd(), "./test/deployment/web/widgets");
+var DEMO_WIDGETS_FOLDER = path.join(shelljs.pwd(), "./demo/widgets");
+var DEMO_WIDGETS_DEPLOYMENT_FOLDER = path.join(shelljs.pwd(), "./demo/deployment/web/widgets");
 
 /**
  * If you want to use a custom folder for the test project, make sure these are added to package.json:
@@ -84,7 +86,8 @@ module.exports = function (grunt) {
             },
             mpks: {
                 files: [
-                    { dest: TEST_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true }
+                    { dest: TEST_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true },
+                    { dest: DEMO_WIDGETS_FOLDER, cwd: "./dist/" + pkg.version , src: [ pkg.name + ".mpk"], expand: true }
                 ]
             }
         },
@@ -217,6 +220,8 @@ module.exports = function (grunt) {
         grunt.log.writeln("PACKAGE_XML:                    ", PACKAGE_XML);
         grunt.log.writeln("TEST_WIDGETS_FOLDER:            ", TEST_WIDGETS_FOLDER);
         grunt.log.writeln("TEST_WIDGETS_DEPLOYMENT_FOLDER: ", TEST_WIDGETS_DEPLOYMENT_FOLDER);
+        grunt.log.writeln("DEMO_WIDGETS_FOLDER:            ", DEMO_WIDGETS_FOLDER);
+        grunt.log.writeln("DEMO_WIDGETS_DEPLOYMENT_FOLDER: ", DEMO_WIDGETS_DEPLOYMENT_FOLDER);
         return done();
     });
 
