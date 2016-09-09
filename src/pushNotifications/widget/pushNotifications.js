@@ -34,14 +34,17 @@ define([
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
         // Parameters configured in the Modeler.
-        deviceEntity: "",
+        deviceRegistrationEntity: "",
+        deviceIdAttribute: "",
         registrationIdAttribute: "",
+        deviceTypeAttribute: "",
         settingsEntity: "",
         settingsXpathConstraint: "",
         senderIdAttribute: "",
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
         _gcmSenderId: null,
+        _deviceId: null,
         _registrationId: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
@@ -58,10 +61,10 @@ define([
             if (typeof cordova !== "undefined") {
                 if (typeof window.PushNotification !== "undefined") {
                     all({gcm: this.initGCMSettings()})
-                        .then(dojoLang.hitch(this, this.registerDevice))
-                        .otherwise(function (err) {
-                            logger.error(err);
-                        })
+                    .then(dojoLang.hitch(this, this.initializePushPlugin))
+                    .otherwise(function (err) {
+                        logger.error(err);
+                    })
                 } else {
                     logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
                 }
@@ -73,9 +76,12 @@ define([
 
             var deferred = new Deferred();
 
-            var xpathString = "//" + this.settingsEntity + this.settingsXpathConstraint;
+            var xpathString = "//" + this.settingsEntity;
             mx.data.get({
                 xpath: xpathString,
+                filter: {
+                    amount: 1
+                },
                 callback: function(settings) {
                     if (settings.length > 0) {
                         logger.debug("Found a GCM settings object.");
@@ -93,8 +99,8 @@ define([
             return deferred.promise;
         },
 
-        registerDevice: function(allSettings) {
-            logger.debug(".registerDevice");
+        initializePushPlugin: function(allSettings) {
+            logger.debug(".initializePushPlugin");
 
             var deferred = new Deferred();
 
@@ -129,65 +135,47 @@ define([
             return deferred.promise;
         },
 
-        retrieveDevice: function (registrationId) {
-            logger.debug(".retrieveDevice");
-
-            var xpathString = "//" + this.deviceEntity + "[" + this.registrationIdAttribute + "='" + registrationId + "']"
+        initializeDeviceRegistration: function () {
+            logger.debug(".initializeDeviceRegistration");
 
             var deferred = new Deferred();
 
-            mx.data.get({
-                xpath: xpathString,
-                filter: {
-                    amount: 1
-                },
-                callback: dojoLang.hitch(this, function(device) {
-                    if (device.length > 0) {
-                        logger.debug("Retrieved device object with ID " + device[0].get(this.registrationIdAttribute));
+            logger.info(this.deviceRegistrationEntity);
 
-                        deferred.resolve(device[0]);
-                    } else {
-                        mx.data.create({
-                            entity: this.deviceEntity,
-                            callback: dojoLang.hitch(this, function(obj) {
-                                obj.set(this.registrationIdAttribute, registrationId);
-
-                                logger.debug("Created device object created with ID " + obj.get(this.registrationIdAttribute));
-
-                                deferred.resolve(obj);
-                            }),
-                            error: dojoLang.hitch(this, function(e) {
-                                deferred.reject("Failed to create device object: " + e);
-                            })
-                        });
-                    }
+            mx.data.create({
+                entity: this.deviceRegistrationEntity,
+                callback: dojoLang.hitch(this, function(deviceRegistration) {
+                    deferred.resolve(deviceRegistration);
                 }),
                 error: function(e) {
-                    deferred.reject("Failed to retrieve device object: " + e);
+                    deferred.reject("Failed to initialize device registration: " + e);
                 }
             });
 
             return deferred.promise;
         },
 
-        updateDevice: function (device) {
+        registerDevice: function (deviceRegistration) {
             var platform = window.device.platform;
 
+            deviceRegistration.set(this.deviceIdAttribute, this._deviceId);
+            deviceRegistration.set(this.registrationIdAttribute, this._registrationId);
+
             if (platform === "Android") {
-                device.set("DeviceType", "Android");
+                deviceRegistration.set("DeviceType", "Android");
             } else if (platform === "iOS") {
-                device.set("DeviceType", "iOS");
+                deviceRegistration.set("DeviceType", "iOS");
             } else if (platform === "Windows 8") {
-                device.set("DeviceType", "Windows");
+                deviceRegistration.set("DeviceType", "Windows");
             }
 
             mx.data.commit({
-                mxobj: device,
+                mxobj: deviceRegistration,
                 callback: dojoLang.hitch(this, function () {
-                    logger.debug("Committed device object with ID " + device.get(this.registrationIdAttribute));
+                    logger.debug("Register device with ID " + deviceRegistration.get(this.registrationIdAttribute));
                 }),
                 error: dojoLang.hitch(this, function (e) {
-                    logger.error("Error occurred attempting to commit device object: " + e);
+                    logger.error("Error occurred attempting to register device: " + e);
                 })
             });
         },
@@ -195,10 +183,11 @@ define([
         onPushRegistration: function (data) {
             logger.debug(".onPushRegistration");
 
+            this._deviceId = window.device.uuid;
             this._registrationId = data.registrationId;
 
-            this.retrieveDevice(data.registrationId)
-                .then(dojoLang.hitch(this, this.updateDevice))
+            this.initializeDeviceRegistration()
+                .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function (err) {
                     logger.error("Failed to register device: " + err);
                 })
