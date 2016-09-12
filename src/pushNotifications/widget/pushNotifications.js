@@ -140,8 +140,6 @@ define([
 
             var deferred = new Deferred();
 
-            logger.info(this.deviceRegistrationEntity);
-
             mx.data.create({
                 entity: this.deviceRegistrationEntity,
                 callback: dojoLang.hitch(this, function(deviceRegistration) {
