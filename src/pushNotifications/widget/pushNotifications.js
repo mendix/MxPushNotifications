@@ -33,13 +33,13 @@ define([
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
-        // Parameters configured in the Modeler.
-        deviceRegistrationEntity: "PushNotifications.DeviceRegistration",
-        deviceIdAttribute: "PushNotifications.DeviceRegistration.DeviceID",
-        registrationIdAttribute: "PushNotifications.DeviceRegistration.RegistrationID",
-        deviceTypeAttribute: "PushNotifications.DeviceRegistration.DeviceType",
-        settingsEntity: "PushNotifications.GCMSettings",
-        senderIdAttribute: "PushNotifications.GCMSettings.SenderId",
+        // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
+        DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
+        DEVICE_ID_ATTRIBUTE: "PushNotifications.DeviceRegistration.DeviceID",
+        REGISTRATION_ID_ATTRIBUTE: "PushNotifications.DeviceRegistration.RegistrationID",
+        DEVICE_TYPE_ATTRIBUTE: "PushNotifications.DeviceRegistration.DeviceType",
+        GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
+        SENDER_ID_ATTRIBUTE: "PushNotifications.GCMSettings.SenderId",
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
         _gcmSenderId: null,
@@ -56,7 +56,9 @@ define([
             logger.debug(".postCreate");
 
             this.domNode.innerHTML = this.templateString;
+        },
 
+        update: function(obj, callback) {
             if (typeof cordova !== "undefined") {
                 if (typeof window.PushNotification !== "undefined") {
                     var networkState = navigator.connection.type;
@@ -70,6 +72,8 @@ define([
                     logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
                 }
             }
+
+            mendix.lang.nullExec(callback);
         },
 
         initializePushNotifications: function() {
@@ -87,10 +91,10 @@ define([
 
             var deferred = new Deferred();
 
-            logger.info(this.settingsEntity);
+            logger.info(this.GCM_SETTINGS_ENTITY);
 
             mx.data.getSlice(
-                this.settingsEntity,
+                this.GCM_SETTINGS_ENTITY,
                 null,                   // No constraints
                 {
                     limit: 0,            // Filter
@@ -131,7 +135,7 @@ define([
             if (allSettings["gcm"]) {
                 var gcm = allSettings.gcm;
 
-                this._gcmSenderId = gcm.get(this.senderIdAttribute);
+                this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
 
                 var push = PushNotification.init({
                     "android": {
@@ -163,7 +167,7 @@ define([
             var deferred = new Deferred();
 
             mx.data.create({
-                entity: this.deviceRegistrationEntity,
+                entity: this.DEVICE_REGISTRATION_ENTITY,
                 callback: dojoLang.hitch(this, function(deviceRegistration) {
                     deferred.resolve(deviceRegistration);
                 }),
@@ -180,8 +184,8 @@ define([
             
             var platform = window.device.platform;
 
-            deviceRegistration.set(this.deviceIdAttribute, this._deviceId);
-            deviceRegistration.set(this.registrationIdAttribute, this._registrationId);
+            deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
+            deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
 
             if (platform === "Android") {
                 deviceRegistration.set("DeviceType", "Android");
@@ -194,7 +198,7 @@ define([
             mx.data.commit({
                 mxobj: deviceRegistration,
                 callback: dojoLang.hitch(this, function () {
-                    logger.debug("Register device with ID " + deviceRegistration.get(this.registrationIdAttribute));
+                    logger.debug("Register device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
                 }),
                 error: dojoLang.hitch(this, function (e) {
                     logger.error("Error occurred attempting to register device: " + e);
