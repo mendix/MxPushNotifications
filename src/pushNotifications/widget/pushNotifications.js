@@ -34,13 +34,12 @@ define([
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
         // Parameters configured in the Modeler.
-        deviceRegistrationEntity: "",
-        deviceIdAttribute: "",
-        registrationIdAttribute: "",
-        deviceTypeAttribute: "",
-        settingsEntity: "",
-        settingsXpathConstraint: "",
-        senderIdAttribute: "",
+        deviceRegistrationEntity: "PushNotifications.DeviceRegistration",
+        deviceIdAttribute: "PushNotifications.DeviceRegistration.DeviceID",
+        registrationIdAttribute: "PushNotifications.DeviceRegistration.RegistrationID",
+        deviceTypeAttribute: "PushNotifications.DeviceRegistration.DeviceType",
+        settingsEntity: "PushNotifications.GCMSettings",
+        senderIdAttribute: "PushNotifications.GCMSettings.SenderId",
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
         _gcmSenderId: null,
@@ -62,7 +61,7 @@ define([
                 if (typeof window.PushNotification !== "undefined") {
                     var networkState = navigator.connection.type;
  
-                    if (networkState !== Connection.NONE && networkState !== Conection.UNKNOWN) {
+                    if (networkState !== Connection.NONE && networkState !== Connection.UNKNOWN) {
                         this.initializePushNotifications();
                     } else {
                         document.addEventListener("online", dojoLang.hitch(this, this.initializePushNotifications), false);
@@ -75,7 +74,7 @@ define([
 
         initializePushNotifications: function() {
             all({gcm: this.initGCMSettings()})
-                        .then(dojoLang.hitch(this, this.registerDevice))
+                        .then(dojoLang.hitch(this, this.initializePushPlugin))
                         .otherwise(function (err) {
                             logger.error(err);
                         });
@@ -88,15 +87,24 @@ define([
 
             var deferred = new Deferred();
 
+            logger.info(this.settingsEntity);
+
             mx.data.getSlice(
                 this.settingsEntity,
                 null,                   // No constraints
                 {
-                    limit: 1            // Filter
+                    limit: 0,            // Filter
+                    offset: 0,
+                    sort: []
                 },
                 function(settings, count) {
+                    logger.info(settings);
+                    logger.info(count);
+
                     if (settings.length > 0) {
                         logger.debug("Found a GCM settings object.");
+
+                        logger.info(settings);
 
                         deferred.resolve(settings[0]);
                     } else {
@@ -117,6 +125,8 @@ define([
             var deferred = new Deferred();
 
             window.pushWidget = this;
+
+            logger.info(allSettings);
 
             if (allSettings["gcm"]) {
                 var gcm = allSettings.gcm;
@@ -166,6 +176,8 @@ define([
         },
 
         registerDevice: function (deviceRegistration) {
+            logger.debug(".registerDevice");
+            
             var platform = window.device.platform;
 
             deviceRegistration.set(this.deviceIdAttribute, this._deviceId);
