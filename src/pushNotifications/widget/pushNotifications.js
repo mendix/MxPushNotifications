@@ -57,15 +57,27 @@ define([
 
             if (typeof cordova !== "undefined") {
                 if (typeof window.PushNotification !== "undefined") {
-                    all({gcm: this.initGCMSettings()})
-                        .then(dojoLang.hitch(this, this.registerDevice))
-                        .otherwise(function (err) {
-                            logger.error(err);
-                        })
+                    var networkState = navigator.connection.type;
+ 
+                    if (networkState !== Connection.NONE && networkState !== Conection.UNKNOWN) {
+                        this.initializePushNotifications();
+                    } else {
+                        document.addEventListener("online", dojoLang.hitch(this, this.initializePushNotifications), false);
+                    }                   
                 } else {
                     logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
                 }
             }
+        },
+
+        initializePushNotifications: function() {
+            all({gcm: this.initGCMSettings()})
+                        .then(dojoLang.hitch(this, this.registerDevice))
+                        .otherwise(function (err) {
+                            logger.error(err);
+                        });
+
+            document.removeEventListener("online");
         },
 
         initGCMSettings: function() {
@@ -73,10 +85,13 @@ define([
 
             var deferred = new Deferred();
 
-            var xpathString = "//" + this.settingsEntity + this.settingsXpathConstraint;
-            mx.data.get({
-                xpath: xpathString,
-                callback: function(settings) {
+            mx.data.getSlice(
+                this.settingsEntity,
+                null,                   // No constraints
+                {
+                    limit: 1            // Filter
+                },
+                function(settings, count) {
                     if (settings.length > 0) {
                         logger.debug("Found a GCM settings object.");
 
@@ -85,10 +100,10 @@ define([
                         deferred.reject("Could not find a GCM settings object.")
                     }
                 },
-                error: function (err) {
-                    deferred.reject("Could not retrieve a GCM settings object.");
+                function (err) {
+                    deferred.reject("Could not retrieve a GCM settings object: " + err.message);
                 }
-            }, this);
+            );
 
             return deferred.promise;
         },
