@@ -35,11 +35,11 @@ define([
         templateString: widgetTemplate,
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
-        DEVICE_ID_ATTRIBUTE: "PushNotifications.DeviceRegistration.DeviceID",
-        REGISTRATION_ID_ATTRIBUTE: "PushNotifications.DeviceRegistration.RegistrationID",
-        DEVICE_TYPE_ATTRIBUTE: "PushNotifications.DeviceRegistration.DeviceType",
+        DEVICE_ID_ATTRIBUTE: "DeviceID",
+        REGISTRATION_ID_ATTRIBUTE: "RegistrationID",
+        DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
-        SENDER_ID_ATTRIBUTE: "PushNotifications.GCMSettings.SenderId",
+        SENDER_ID_ATTRIBUTE: "SenderId",
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handle: null,
         _gcmSenderId: null,
@@ -91,8 +91,6 @@ define([
 
             var deferred = new Deferred();
 
-            logger.info(this.GCM_SETTINGS_ENTITY);
-
             mx.data.getSlice(
                 this.GCM_SETTINGS_ENTITY,
                 null,                   // No constraints
@@ -102,13 +100,8 @@ define([
                     sort: []
                 },
                 function(settings, count) {
-                    logger.info(settings);
-                    logger.info(count);
-
                     if (settings.length > 0) {
                         logger.debug("Found a GCM settings object.");
-
-                        logger.info(settings);
 
                         deferred.resolve(settings[0]);
                     } else {
@@ -129,8 +122,6 @@ define([
             var deferred = new Deferred();
 
             window.pushWidget = this;
-
-            logger.info(allSettings);
 
             if (allSettings["gcm"]) {
                 var gcm = allSettings.gcm;
@@ -182,10 +173,10 @@ define([
         registerDevice: function (deviceRegistration) {
             logger.debug(".registerDevice");
             
-            var platform = window.device.platform;
-
             deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
             deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
+            
+            var platform = window.device.platform;
 
             if (platform === "Android") {
                 deviceRegistration.set("DeviceType", "Android");
@@ -194,16 +185,25 @@ define([
             } else if (platform === "Windows 8") {
                 deviceRegistration.set("DeviceType", "Windows");
             }
-
-            mx.data.commit({
+            
+            mx.data.save({
                 mxobj: deviceRegistration,
-                callback: dojoLang.hitch(this, function () {
-                    logger.debug("Register device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                callback: dojoLang.hitch(this, function() {
+                    mx.data.commit({
+                        mxobj: deviceRegistration,
+                        callback: dojoLang.hitch(this, function () {
+                            logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                        }),
+                        error: function(e) {
+                            logger.error("Error occurred attempting to register device: " + e);
+                        }
+                    });
                 }),
-                error: dojoLang.hitch(this, function (e) {
+                error: function(e) {
                     logger.error("Error occurred attempting to register device: " + e);
-                })
+                }
             });
+            
         },
 
         onPushRegistration: function (data) {
