@@ -46,6 +46,7 @@ define([
         _gcmSenderId: null,
         _deviceId: null,
         _registrationId: null,
+        _platform: null,
         _initIntervalHandle: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
@@ -103,7 +104,7 @@ define([
 
             var deferred = new Deferred();
 
-            var onGetGCMSetting = function(settings, count) {
+            var handleGCMSettings = function(settings, count) {
                 if (settings.length > 0) {
                     logger.debug("Found one or more GCM settings objects. Using the first one.");
 
@@ -126,7 +127,7 @@ define([
                         offset: 0,
                         sort: []
                     },
-                    onGetGCMSetting, // Success handler
+                    handleGCMSettings, // Success handler
                     function (err) { // Error handler
                         deferred.reject("Could not retrieve a GCM settings object: " + err.message);
                     }
@@ -137,7 +138,7 @@ define([
                     filter: {
                         amount: 1
                     },
-                    callback: onGetGCMSetting,
+                    callback: handleGCMSettings,
                     error: function (err) {
                         deferred.reject("Could not retrieve a GCM settings object: " + err.message);
                     }
@@ -181,6 +182,20 @@ define([
             }
 
             return deferred.promise;
+        },
+
+        onPushRegistration: function (data) {
+            logger.debug(".onPushRegistration");
+
+            this._deviceId = window.device.uuid;
+            this._registrationId = data.registrationId;
+            this._platform = window.device.platform;
+
+            this.initializeDeviceRegistration()
+                .then(dojoLang.hitch(this, this.registerDevice))
+                .otherwise(function (err) {
+                    logger.error("Failed to register device: " + err);
+                })
         },
 
         initializeDeviceRegistration: function () {
@@ -242,15 +257,11 @@ define([
             
             deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
             deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
-            
-            var platform = window.device.platform;
 
-            if (platform === "Android") {
+            if (this._platform === "Android") {
                 deviceRegistration.set("DeviceType", "Android");
-            } else if (platform === "iOS") {
+            } else if (this._platform === "iOS") {
                 deviceRegistration.set("DeviceType", "iOS");
-            } else if (platform === "Windows 8") {
-                deviceRegistration.set("DeviceType", "Windows");
             }
 
             // We commit the DeviceRegistration object to trigger the backend process.
@@ -264,19 +275,6 @@ define([
                     logger.error("Error occurred attempting to register device: " + e);
                 }
             });
-        },
-
-        onPushRegistration: function (data) {
-            logger.debug(".onPushRegistration");
-
-            this._deviceId = window.device.uuid;
-            this._registrationId = data.registrationId;
-
-            this.initializeDeviceRegistration()
-                .then(dojoLang.hitch(this, this.registerDevice))
-                .otherwise(function (err) {
-                    logger.error("Failed to register device: " + err);
-                })
         },
 
         onPushNotification: function (data) {
