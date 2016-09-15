@@ -48,6 +48,7 @@ define([
         _registrationId: null,
         _platform: null,
         _initIntervalHandle: null,
+        _push: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -69,7 +70,7 @@ define([
                     this.initializePushNotifications(); 
                 }
             } else {
-                logger.warning("PushNotifications plugin not available; this plugin should be included during the build.");
+                logger.debug("PushNotifications plugin not available; this plugin should be included during the build.");
             }
 
             mendix.lang.nullExec(callback);
@@ -83,8 +84,8 @@ define([
             })
             .then(dojoLang.hitch(this, this.initializePushPlugin))
             .then(dojoLang.hitch(this, function() {
+                // We've registered our device Successfully. We can remove the retry interval, if it's set.
                 if (typeof this._initIntervalHandle === "number") {
-                    // We've registered our device Successfully. We can remove the retry interval, if it's set.
                     window.clearInterval(this._initIntervalHandle);
                     this._initIntervalHandle = null;
                 }
@@ -160,7 +161,7 @@ define([
 
                 this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
 
-                var push = PushNotification.init({
+                this._push = PushNotification.init({
                     "android": {
                         "senderID": this._gcmSenderId
                     },
@@ -172,11 +173,11 @@ define([
                     "windows": {}
                 });
 
-                push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
-                push.on('notification', dojoLang.hitch(this.onPushNotification));
-                push.on('error', dojoLang.hitch(this.onPushError));
+                this._push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
+                this._push.on('notification', dojoLang.hitch(this, this.onPushNotification));
+                this._push.on('error', dojoLang.hitch(this, this.onPushError));
 
-                deferred.resolve(push);
+                deferred.resolve(this._push);
             } else {
                 deferred.reject("Could not initialize the PushNotifications plugin.")
             }
@@ -295,8 +296,8 @@ define([
             }
             cards.innerHTML += card;
 
-            push.finish(function () {
-                logger.debug('Successfully process push notification.');
+            this._push.finish(function () {
+                logger.debug('Successfully processed push notification.');
             });
         },
 
