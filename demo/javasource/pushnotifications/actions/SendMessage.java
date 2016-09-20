@@ -34,8 +34,9 @@ public class SendMessage extends CustomJavaAction<Boolean>
 	private Long Badge;
 	private String LaunchImage;
 	private String Sound;
+	private Long TimeToLive;
 
-	public SendMessage(IContext context, IMendixObject DeviceParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound)
+	public SendMessage(IContext context, IMendixObject DeviceParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
 	{
 		super(context);
 		this.__DeviceParameter1 = DeviceParameter1;
@@ -44,6 +45,7 @@ public class SendMessage extends CustomJavaAction<Boolean>
 		this.Badge = Badge;
 		this.LaunchImage = LaunchImage;
 		this.Sound = Sound;
+		this.TimeToLive = TimeToLive;
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class SendMessage extends CustomJavaAction<Boolean>
 		this.DeviceParameter1 = __DeviceParameter1 == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound);
+		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
 		return true;
 		// END USER CODE
 	}
