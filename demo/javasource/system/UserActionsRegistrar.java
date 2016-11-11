@@ -130,17 +130,15 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(encryption.actions.PGPDecryptDocument.class);
 			component.actionRegistry().registerUserAction(encryption.actions.PGPEncryptDocument.class);
 			component.actionRegistry().registerUserAction(encryption.actions.ValidatePrivateKeyRing.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.ExecuteMicroflowInNewContext.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.GetApplicationUrl.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.PollFeedbackService.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.QueueMessage.class);
-			component.actionRegistry().registerUserAction(pushnotifications.actions.RestartGCM.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendAppleMessages.class);
-			component.actionRegistry().registerUserAction(pushnotifications.actions.SendGoogleMessages.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessage.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessagesInBackground.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.SendMessageToUser.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StartAPN.class);
-			component.actionRegistry().registerUserAction(pushnotifications.actions.StartGCM.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.StopAPN.class);
 			component.actionRegistry().registerUserAction(system.actions.VerifyPassword.class);
 		}

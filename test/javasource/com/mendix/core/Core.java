@@ -59,7 +59,11 @@ public final class Core
 		component = localComponent;
 		integration = i;
 	}
-	
+
+	/**
+        * @deprecated Will be removed in next major release.
+        */
+        @Deprecated
 	public static LocalComponent getComponent()
 	{
 		return component;
