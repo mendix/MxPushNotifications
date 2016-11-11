@@ -126,6 +126,7 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(communitycommons.actions.YearsBetween.class);
 			component.actionRegistry().registerUserAction(encryption.actions.DecryptString.class);
 			component.actionRegistry().registerUserAction(encryption.actions.EncryptString.class);
+			component.actionRegistry().registerUserAction(pushnotifications.actions.ExecuteMicroflowInNewContext.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.GetApplicationUrl.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.PollFeedbackService.class);
 			component.actionRegistry().registerUserAction(pushnotifications.actions.QueueMessage.class);
