@@ -124,64 +124,41 @@ define([
                 }
             };
 
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
-                if (mx.isOffline()) {
-                    this.getGCMSettingsEntityOffline(handleGCMSettings, function (err) { // Error handler
-                        deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
-                    });
-                } else {
-                    this.getGCMSettingsEntityOnline(handleGCMSettings, function (err) { // Error handler
-                        deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
-                    });
+            var getGCMSettingsEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
+                handleGCMSettings, function (err) {
+                    deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
                 }
-            } else {
-                /*
-                    mx.data.getSlice is only available in the offline (client-side) backend.
-                    Unfortunately, we have no way of knowing if we're running in offline mode.
-                    Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
-                */
-                try {
-                    this.getGCMSettingsEntityOffline(handleGCMSettings, function (err) { // Error handler
-                        deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
-                    });
-                } catch (e) {
-                    this.getGCMSettingsEntityOnline(handleGCMSettings, function (err) { // Error handler
-                        deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
-                    });
+            );
+
+            var getGCMSettingsEntityOnlineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOnline,
+                handleGCMSettings, function (err) {
+                    deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
                 }
-            }
+            );
+
+            this._executeOfflineOnline(getGCMSettingsEntityOfflineFn, getGCMSettingsEntityOnlineFn);
 
             return deferred.promise;
         },
 
         getGCMSettingsEntityOffline: function (success, error) {
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
-                mx.data.getSlice(this.GCM_SETTINGS_ENTITY,
-                    null,            // No constraints
-                    {
-                        limit: 0,    // Filter
-                        offset: 0,
-                        sort: []
-                    },
-                    true, // caching, introduced in 7.3
-                    success, // Success handler
-                    error
-                );
-            } else {
-                mx.data.getSlice(this.GCM_SETTINGS_ENTITY,
-                    null,            // No constraints
-                    {
-                        limit: 0,    // Filter
-                        offset: 0,
-                        sort: []
-                    },
-                    success, // Success handler
-                    error
-                );
-            }
+            logger.debug(".getGCMSettingsEntityOffline");
+
+            this._getSliceCompat(this.GCM_SETTINGS_ENTITY,
+                null,           // No constraints
+                {
+                    limit: 0,   // Filter
+                    offset: 0,
+                    sort: []
+                },
+                success,
+                error
+            );
         },
 
         getGCMSettingsEntityOnline: function (success, error) {
+            logger.debug(".getGCMSettingsEntityOnline");
+
             mx.data.get({
                 xpath: "//" + this.GCM_SETTINGS_ENTITY,
                 filter: {
@@ -194,8 +171,6 @@ define([
 
         initializePushPlugin: function(allSettings) {
             logger.debug(".initializePushPlugin");
-
-            // var deferred = new Deferred();
 
             window.pushWidget = this;
 
@@ -218,10 +193,6 @@ define([
             this._push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
             this._push.on('notification', dojoLang.hitch(this, this.onPushNotification));
             this._push.on('error', dojoLang.hitch(this, this.onPushError));
-
-            // deferred.resolve(this._push);
-
-            // return deferred.promise;
         },
 
         onPushRegistration: function (data) {
@@ -254,66 +225,42 @@ define([
                 }
             };
 
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 2)) {
-                if (mx.isOffline()) {
-                    this.getRegistrationEntityOffline(dojoLang.hitch(this, handleRegistrationEntity), function(e) {
-                        deferred.reject("Failed to get deviceRegistration objects: " + e);
-                    });
-                } else {
-                    deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
+            var getRegistrationEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
+                handleRegistrationEntity, function(e) {
+                    deferred.reject("Failed to get deviceRegistration objects: " + e);
                 }
-            } else {
-                /*
-                 In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
-                 This happens when a device registration took place, but a consecutive 'sync' failed.
-                 We'll to re-use any existing DeviceRegistration with our Registration ID.
+            );
 
-                 mx.data.getSlice is only available in the offline (client-side) backend.
-                 If it fails, we assume that we are in online mode, and just go ahead and create a DeviceRegistration object.
-                 */
-                try {
-                    this.getRegistrationEntityOffline(dojoLang.hitch(this, handleRegistrationEntity), function(e) {
-                        deferred.reject("Failed to get deviceRegistration objects: " + e);
-                    });
-                } catch (e) {
+            var getRegistrationEntityOnlineFn = dojoLang.hitch(this, function() {
                     deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
                 }
-            }
+            );
+
+            // In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
+            // This happens when a device registration took place, but a consecutive 'sync' failed.
+            // We'll to re-use any existing DeviceRegistration with our Registration ID.
+            //
+            // mx.data.getSlice is only available in the offline (client-side) backend.
+            // If it fails, we assume that we are in online mode, and just go ahead and create a DeviceRegistration object.
+            this._executeOfflineOnline(getRegistrationEntityOfflineFn, getRegistrationEntityOnlineFn);
 
             return deferred.promise;
         },
 
         getRegistrationEntityOffline: function(success, error) {
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
-                mx.data.getSlice(this.DEVICE_REGISTRATION_ENTITY,
-                    [{
-                        attribute: this.REGISTRATION_ID_ATTRIBUTE,
-                        operator: "equals",
-                        value: this._registrationId
-                    }], {
-                        offset: 0,
-                        limit: 0,
-                        sort: []
-                    },
-                    true,
-                    success,
-                    error
-                );
-            } else {
-                mx.data.getSlice(this.DEVICE_REGISTRATION_ENTITY,
-                    [{
-                        attribute: this.REGISTRATION_ID_ATTRIBUTE,
-                        operator: "equals",
-                        value: this._registrationId
-                    }], {
-                        offset: 0,
-                        limit: 0,
-                        sort: []
-                    },
-                    success,
-                    error
-                );
-            }
+            this._getSliceCompat(this.DEVICE_REGISTRATION_ENTITY,
+                [{
+                    attribute: this.REGISTRATION_ID_ATTRIBUTE,
+                    operator: "equals",
+                    value: this._registrationId
+                }], {
+                    offset: 0,
+                    limit: 0,
+                    sort: []
+                },
+                success,
+                error
+            );
         },
 
         createRegistrationEntity: function() {
@@ -389,6 +336,35 @@ define([
 
         removeAlert: function (e){
             e.parentNode.parentNode.removeChild(e.parentNode);
+        },
+
+        _executeOfflineOnline: function (getGCMSettingsEntityOfflineFn, getGCMSettingsEntityOnlineFn) {
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
+                if (mx.isOffline()) {
+                    getGCMSettingsEntityOfflineFn();
+                } else {
+                    getGCMSettingsEntityOnlineFn();
+                }
+            } else {
+                /*
+                 mx.data.getSlice is only available in the offline (client-side) backend.
+                 Unfortunately, we have no way of knowing if we're running in offline mode.
+                 Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
+                 */
+                try {
+                    getGCMSettingsEntityOfflineFn();
+                } catch (e) {
+                    getGCMSettingsEntityOnlineFn();
+                }
+            }
+        },
+
+        _getSliceCompat: function(entity, contraints, filter, success, error) {
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
+                mx.data.getSlice(entity, constraints, filter, true, success, error); // caching, introduced in 7.3
+            } else {
+                mx.data.getSlice(entity, constraints, filter, success, error);
+            }
         },
 
         _parseVersionString: function (str) {
