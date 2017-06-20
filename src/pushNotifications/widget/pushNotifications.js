@@ -33,6 +33,7 @@ define([
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
+
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
         DEVICE_ID_ATTRIBUTE: "DeviceID",
@@ -40,8 +41,10 @@ define([
         DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
         SENDER_ID_ATTRIBUTE: "SenderId",
+
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         INITIALIZATION_INTERVAL_MS: 10000,
+
         _handle: null,
         _gcmSenderId: null,
         _deviceId: null,
@@ -49,6 +52,8 @@ define([
         _platform: null,
         _initIntervalHandle: null,
         _push: null,
+
+        version: "",
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -59,16 +64,16 @@ define([
         postCreate: function() {
             logger.debug(".postCreate");
 
+            this.version =  this._parseVersionString(mx.version);
+
             this.domNode.innerHTML = this.templateString;
         },
 
         update: function(obj, callback) {
             logger.debug(".update");
 
-            if (typeof cordova !== "undefined" && typeof window.PushNotification !== "undefined") {
-                if (!this._registrationId) {
-                    this.initializePushNotifications(); 
-                }
+            if (typeof cordova !== "undefined" && typeof window.PushNotification !== "undefined" && !this._registrationId) {
+                this.initializePushNotifications();
             } else {
                 logger.debug("PushNotifications plugin not available; this plugin should be included during the build.");
             }
@@ -76,32 +81,36 @@ define([
             mendix.lang.nullExec(callback);
         },
 
+        removeRetryInterval: function() {
+            // We've registered our device Successfully. We can remove the retry interval, if it's set.
+            if (typeof this._initIntervalHandle === "number") {
+                window.clearInterval(this._initIntervalHandle);
+                this._initIntervalHandle = null;
+            }
+        },
+
         initializePushNotifications: function() {
             logger.debug(".initializePushNotifications");
 
             all({
-                gcm: this.initGCMSettings()
+                gcm: this.obtainGCMSettings()
             })
             .then(dojoLang.hitch(this, this.initializePushPlugin))
-            .then(dojoLang.hitch(this, function() {
-                // We've registered our device Successfully. We can remove the retry interval, if it's set.
-                if (typeof this._initIntervalHandle === "number") {
-                    window.clearInterval(this._initIntervalHandle);
-                    this._initIntervalHandle = null;
-                }
-            }))
+            .then(dojoLang.hitch(this, this.removeRetryInterval))
             .otherwise(dojoLang.hitch(this, function (err) {
-                logger.error(err);
-
                 // We were not able to register our device. Let's set up an interval that keeps trying.
                 if (typeof this._initIntervalHandle !== "number") {
-                    this._initIntervalHandle = window.setInterval(dojoLang.hitch(this, this.initializePushNotifications), this.INITIALIZATION_INTERVAL_MS);
+                    this._initIntervalHandle = window.setInterval(
+                        dojoLang.hitch(this, this.initializePushNotifications),
+                        this.INITIALIZATION_INTERVAL_MS
+                    );
                 }
+                logger.error(err);
             }));
         },
 
-        initGCMSettings: function() {
-            logger.debug(".initGCMSettings");
+        obtainGCMSettings: function() {
+            logger.debug(".obtainGCMSettings");
 
             var deferred = new Deferred();
 
@@ -115,12 +124,38 @@ define([
                 }
             };
 
-            /*
-            mx.data.getSlice is only available in the offline (client-side) backend.
-            Unfortunately, we have no way of knowing if we're running in offline mode.
-            Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
-            */
-            try {
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
+                if (mx.isOffline()) {
+                    this.getGCMSettingsEntityOffline(handleGCMSettings, function (err) { // Error handler
+                        deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
+                    });
+                } else {
+                    this.getGCMSettingsEntityOnline(handleGCMSettings, function (err) { // Error handler
+                        deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
+                    });
+                }
+            } else {
+                /*
+                    mx.data.getSlice is only available in the offline (client-side) backend.
+                    Unfortunately, we have no way of knowing if we're running in offline mode.
+                    Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
+                */
+                try {
+                    this.getGCMSettingsEntityOffline(handleGCMSettings, function (err) { // Error handler
+                        deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
+                    });
+                } catch (e) {
+                    this.getGCMSettingsEntityOnline(handleGCMSettings, function (err) { // Error handler
+                        deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
+                    });
+                }
+            }
+
+            return deferred.promise;
+        },
+
+        getGCMSettingsEntityOffline: function (success, error) {
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 mx.data.getSlice(this.GCM_SETTINGS_ENTITY,
                     null,            // No constraints
                     {
@@ -128,61 +163,65 @@ define([
                         offset: 0,
                         sort: []
                     },
-                    handleGCMSettings, // Success handler
-                    function (err) { // Error handler
-                        deferred.reject("Could not retrieve a GCM settings object: " + err.message);
-                    }
+                    true, // caching, introduced in 7.3
+                    success, // Success handler
+                    error
                 );
-            } catch (e) {
-                mx.data.get({
-                    xpath: "//" + this.GCM_SETTINGS_ENTITY,
-                    filter: {
-                        amount: 1
+            } else {
+                mx.data.getSlice(this.GCM_SETTINGS_ENTITY,
+                    null,            // No constraints
+                    {
+                        limit: 0,    // Filter
+                        offset: 0,
+                        sort: []
                     },
-                    callback: handleGCMSettings,
-                    error: function (err) {
-                        deferred.reject("Could not retrieve a GCM settings object: " + err.message);
-                    }
-                });
+                    success, // Success handler
+                    error
+                );
             }
+        },
 
-            return deferred.promise;
+        getGCMSettingsEntityOnline: function (success, error) {
+            mx.data.get({
+                xpath: "//" + this.GCM_SETTINGS_ENTITY,
+                filter: {
+                    amount: 1
+                },
+                callback: success,
+                error: error
+            });
         },
 
         initializePushPlugin: function(allSettings) {
             logger.debug(".initializePushPlugin");
 
-            var deferred = new Deferred();
+            // var deferred = new Deferred();
 
             window.pushWidget = this;
 
-            if (allSettings["gcm"]) {
-                var gcm = allSettings.gcm;
+            var gcm = allSettings.gcm;
 
-                this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
+            this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
 
-                this._push = PushNotification.init({
-                    "android": {
-                        "senderID": this._gcmSenderId
-                    },
-                    "ios": {
-                        "alert": "true",
-                        "badge": "true",
-                        "sound": "true"
-                    },
-                    "windows": {}
-                });
+            this._push = PushNotification.init({
+                "android": {
+                    "senderID": this._gcmSenderId
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true"
+                },
+                "windows": {}
+            });
 
-                this._push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
-                this._push.on('notification', dojoLang.hitch(this, this.onPushNotification));
-                this._push.on('error', dojoLang.hitch(this, this.onPushError));
+            this._push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
+            this._push.on('notification', dojoLang.hitch(this, this.onPushNotification));
+            this._push.on('error', dojoLang.hitch(this, this.onPushError));
 
-                deferred.resolve(this._push);
-            } else {
-                deferred.reject("Could not initialize the PushNotifications plugin.")
-            }
+            // deferred.resolve(this._push);
 
-            return deferred.promise;
+            // return deferred.promise;
         },
 
         onPushRegistration: function (data) {
@@ -192,40 +231,60 @@ define([
             this._registrationId = data.registrationId;
             this._platform = window.device.platform;
 
-            this.initializeDeviceRegistration()
+            this.getDeviceRegistration()
+                .otherwise(dojoLang.hitch(this, this.createRegistrationEntity))
                 .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function (err) {
                     logger.error("Failed to register device: " + err);
                 })
         },
 
-        initializeDeviceRegistration: function () {
-            logger.debug(".initializeDeviceRegistration");
+        getDeviceRegistration: function () {
+            logger.debug(".getDeviceRegistration");
 
             var deferred = new Deferred();
 
-            var createRegistrationEntity = function() {
-                // Nothing there. We'll create a new DeviceRegistration object.
-                mx.data.create({
-                    entity: this.DEVICE_REGISTRATION_ENTITY,
-                    callback: dojoLang.hitch(this, function(deviceRegistration) {
-                        deferred.resolve(deviceRegistration);
-                    }),
-                    error: function(e) {
-                        deferred.reject("Failed to initialize device registration: " + e);
-                    }
-                });
+            var handleRegistrationEntity = function(deviceregistrations, count) {
+                if (deviceregistrations.length > 0) {
+                    logger.debug("Found one or more device registration objects. Using the first one.");
+
+                    deferred.resolve(deviceregistrations[0]);
+                } else {
+                    deferred.reject("Could not find a device registration object.")
+                }
             };
 
-            /*
-            In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
-            This happens when a device registration took place, but a consecutive 'sync' failed.
-            We'll to re-use any existing DeviceRegistration with our Registration ID.
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 2)) {
+                if (mx.isOffline()) {
+                    this.getRegistrationEntityOffline(dojoLang.hitch(this, handleRegistrationEntity), function(e) {
+                        deferred.reject("Failed to get deviceRegistration objects: " + e);
+                    });
+                } else {
+                    deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
+                }
+            } else {
+                /*
+                 In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
+                 This happens when a device registration took place, but a consecutive 'sync' failed.
+                 We'll to re-use any existing DeviceRegistration with our Registration ID.
 
-            mx.data.getSlice is only available in the offline (client-side) backend.
-            If it fails, we assume that we are in online mode, and just go ahead and create a DeviceRegistration object.
-            */
-            try {
+                 mx.data.getSlice is only available in the offline (client-side) backend.
+                 If it fails, we assume that we are in online mode, and just go ahead and create a DeviceRegistration object.
+                 */
+                try {
+                    this.getRegistrationEntityOffline(dojoLang.hitch(this, handleRegistrationEntity), function(e) {
+                        deferred.reject("Failed to get deviceRegistration objects: " + e);
+                    });
+                } catch (e) {
+                    deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
+                }
+            }
+
+            return deferred.promise;
+        },
+
+        getRegistrationEntityOffline: function(success, error) {
+            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 mx.data.getSlice(this.DEVICE_REGISTRATION_ENTITY,
                     [{
                         attribute: this.REGISTRATION_ID_ATTRIBUTE,
@@ -235,21 +294,44 @@ define([
                         offset: 0,
                         limit: 0,
                         sort: []
-                    }, dojoLang.hitch(this, function(mxobjs, count) {
-                        if (count === 0) {
-                            dojoLang.hitch(this, createRegistrationEntity)();
-                        } else {
-                            // Found something. We'll re-use it.
-                            deferred.resolve(mxobjs[0]);
-                        }
-                    }), dojoLang.hitch(this, function(e) {
-                        deferred.reject("Failed to get deviceRegistration objects: " + e);
-                    })
+                    },
+                    true,
+                    success,
+                    error
                 );
-            } catch (e) {
-                dojoLang.hitch(this, createRegistrationEntity)();
+            } else {
+                mx.data.getSlice(this.DEVICE_REGISTRATION_ENTITY,
+                    [{
+                        attribute: this.REGISTRATION_ID_ATTRIBUTE,
+                        operator: "equals",
+                        value: this._registrationId
+                    }], {
+                        offset: 0,
+                        limit: 0,
+                        sort: []
+                    },
+                    success,
+                    error
+                );
             }
-            
+        },
+
+        createRegistrationEntity: function() {
+            logger.debug(".createRegistrationEntity");
+
+            var deferred = new Deferred();
+
+            // Nothing there. We'll create a new DeviceRegistration object.
+            mx.data.create({
+                entity: this.DEVICE_REGISTRATION_ENTITY,
+                callback: function(deviceRegistration) {
+                    deferred.resolve(deviceRegistration);
+                },
+                error: function(e) {
+                    deferred.reject("Failed to create device registration: " + e);
+                }
+            });
+
             return deferred.promise;
         },
 
@@ -307,6 +389,20 @@ define([
 
         removeAlert: function (e){
             e.parentNode.parentNode.removeChild(e.parentNode);
+        },
+
+        _parseVersionString: function (str) {
+            if (typeof(str) !== 'string') { return false; }
+            var x = str.split('.');
+            // parse from string or default to 0 if can't parse
+            var maj = parseInt(x[0]) || 0;
+            var min = parseInt(x[1]) || 0;
+            var pat = parseInt(x[2]) || 0;
+            return {
+                major: maj,
+                minor: min,
+                patch: pat
+            }
         }
     });
 });
