@@ -225,7 +225,7 @@ define([
                 }
             };
 
-            var getRegistrationEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
+            var getRegistrationEntityOfflineFn = dojoLang.hitch(this, this.getRegistrationEntityOffline,
                 handleRegistrationEntity, function(e) {
                     deferred.reject("Failed to get deviceRegistration objects: " + e);
                 }
@@ -338,12 +338,12 @@ define([
             e.parentNode.parentNode.removeChild(e.parentNode);
         },
 
-        _executeOfflineOnline: function (getGCMSettingsEntityOfflineFn, getGCMSettingsEntityOnlineFn) {
+        _executeOfflineOnline: function (offlineFn, onlineFn) {
             if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 if (mx.isOffline()) {
-                    getGCMSettingsEntityOfflineFn();
+                    offlineFn();
                 } else {
-                    getGCMSettingsEntityOnlineFn();
+                    onlineFn();
                 }
             } else {
                 /*
@@ -352,9 +352,9 @@ define([
                  Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
                  */
                 try {
-                    getGCMSettingsEntityOfflineFn();
+                    offlineFn();
                 } catch (e) {
-                    getGCMSettingsEntityOnlineFn();
+                    onlineFn();
                 }
             }
         },
