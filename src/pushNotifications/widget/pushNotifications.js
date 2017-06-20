@@ -57,7 +57,7 @@ define([
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
-            // window.logger.level(window.logger.ALL);
+            logger.level(window.logger.ALL);
         },
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
@@ -202,7 +202,7 @@ define([
             this._registrationId = data.registrationId;
             this._platform = window.device.platform;
 
-            this.getDeviceRegistration()
+            this.getDeviceRegistrationEntity()
                 .otherwise(dojoLang.hitch(this, this.createRegistrationEntity))
                 .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function (err) {
@@ -210,8 +210,8 @@ define([
                 })
         },
 
-        getDeviceRegistration: function () {
-            logger.debug(".getDeviceRegistration");
+        getDeviceRegistrationEntity: function () {
+            logger.debug(".getDeviceRegistrationEntity");
 
             var deferred = new Deferred();
 
@@ -231,10 +231,11 @@ define([
                 }
             );
 
-            var getRegistrationEntityOnlineFn = dojoLang.hitch(this, function() {
+            var getRegistrationEntityOnlineFn = function() {
+                window.setTimeout(function() {
                     deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
-                }
-            );
+                }, 0)
+            };
 
             // In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
             // This happens when a device registration took place, but a consecutive 'sync' failed.
