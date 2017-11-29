@@ -41,6 +41,7 @@ define([
         DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
         SENDER_ID_ATTRIBUTE: "SenderId",
+        ALERT_ONCLICK_PAGE: "MyFirstModule/OpenClickPage.page.xml",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         INITIALIZATION_INTERVAL_MS: 10000,
@@ -313,7 +314,7 @@ define([
 
             var cards = document.getElementById("cards");
             var card = '' +
-                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
+                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick="window.pushWidget.onClickPage(this)">' +
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
                 '<span aria-hidden="true">&times;</span>' +
                 '</button>' +
@@ -337,6 +338,15 @@ define([
 
         removeAlert: function (e){
             e.parentNode.parentNode.removeChild(e.parentNode);
+        },
+
+        onClickPage: function(e) {
+            // const context = new mendix.lib.MxContext();
+            // context.setContext(mxObject.getEntity(), mxObject.getGuid());
+            window.mx.ui.openForm(this.ALERT_ONCLICK_PAGE, {
+                callback: () => this.removeAlert(e.childNodes[0]),
+                error: error => window.mx.ui.error(`Error while opening page ${this.ALERT_ONCLICK_PAGE}: ${error.message}`)
+            });
         },
 
         _executeOfflineOnline: function (offlineFn, onlineFn) {
