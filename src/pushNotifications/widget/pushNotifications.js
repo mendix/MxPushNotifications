@@ -41,6 +41,10 @@ define([
         DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
         SENDER_ID_ATTRIBUTE: "SenderId",
+        ALERT_ONCLICK_PAGE: "MyFirstModule/OpenClickPage.page.xml",
+        ALERT_ONCLICK_MICROFLOW: "PushNotifications.IVK_OpenMessageDetails",
+        ALERT_ONCLICK_ENTITY:"PushNotifications.Message",
+        ALERT_ONCLICK_GUID:"",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         INITIALIZATION_INTERVAL_MS: 10000,
@@ -54,6 +58,8 @@ define([
         _push: null,
 
         version: "",
+        progressId: null,
+        // onClickAction: window.mxmetaobject.getEnumMap("OnClickAction"),
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -310,21 +316,47 @@ define([
 
         onPushNotification: function (data) {
             logger.debug(".onPushNotification");
+            const alertData = Object.assign({},data.additionalData);
 
-            var cards = document.getElementById("cards");
-            var card = '' +
-                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                data.message +
-                '</div>';
-
-            var cardList = cards.childNodes;
-            for(var i = 0; i < cardList.length; i++){
-                cardList[i].className = "alert alert-info alert-dismissible";
+            /**
+             * 
+            {
+                "sound": "default",
+                "title": "fdf",
+                "additionalData": {
+                    "action": "DoNothing",
+                    "entity": "null",
+                    "microflow": "null",
+                    "guid": "9851624184874063",
+                    "page": "null",
+                    "text": "sd",
+                    "google.message_id": "0:1512479066448661%4d74b278f9fd7ecd",
+                    "foreground": true
+                }
             }
-            cards.innerHTML += card;
+             * 
+             */
+            // const ddd = (x) => window.pushWidget.onClickAlert(alertData);
+            
+            if (alertData.foreground) {
+                var cards = document.getElementById("cards");
+
+                // TODO: use dojo.domConstruct to create this.
+                var card = `<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick='window.pushWidget.onClickAlert(${JSON.stringify(alertData)},this)'>` +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    alertData.text +
+                    '</div>';
+
+                var cardList = cards.childNodes;
+                for(var i = 0; i < cardList.length; i++){
+                    cardList[i].className = "alert alert-info alert-dismissible";
+                }
+                cards.innerHTML += card;
+            } else {
+                this.onClickAlert(alertData);
+            }
 
             this._push.finish(function () {
                 logger.debug('Successfully processed push notification.');
@@ -337,6 +369,70 @@ define([
 
         removeAlert: function (e){
             e.parentNode.parentNode.removeChild(e.parentNode);
+        },
+
+        onClickAlert: function(data, e) {
+            // if(mx.isOffline()) { sync }
+
+            const { entity, guid, action, microflow } = data.constructor.name === "String" ? JSON.parse(data) : data;
+            const page = data.page && data.page.replace(".","/").concat(".page.xml");
+            const callback = () => { if(e) this.removeAlert(e.childNodes[0]); };
+
+            if(action === "OpenPage" && page) {
+                window.mx.ui.openForm(page, {
+                    callback,
+                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                });
+            } else if (action === "OpenPageWithContext" && page && entity && guid) {
+                const context = new mendix.lib.MxContext();
+                context.setContext(entity, guid);
+
+                window.mx.ui.openForm(page, {
+                    callback,
+                    context,
+                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                });
+            } else if (action === "CallMicroflow" && microflow) {
+                window.mx.ui.action(microflow, {
+                    callback,
+                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
+                });
+            } else if (action === "CallMicroflowWithContext" && microflow && entity && guid) {
+                window.mx.ui.action(microflow, {
+                    callback,
+                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
+                    params: {
+                        applyto: "selection",
+                        guids: [ guid ],
+                        mxform: this.mxform
+                    }
+                });
+            } else {
+                if (e) {
+                    this.removeAlert(e.childNodes[0]);
+                }
+                return;
+            }
+        },
+
+        offlineSync: function (callback) {
+            this.progressId = window.mx.ui.showProgress(null, true);
+            if (window.mx.data.synchronizeOffline) {
+                window.mx.data.synchronizeOffline({ fast: false }, () => this.onSyncSuccess(callback), this.onSyncFailure);
+            } else if (window.mx.data.synchronizeDataWithFiles) {
+                window.mx.data.synchronizeDataWithFiles(() => this.onSyncSuccess(callback), this.onSyncFailure);
+            }
+        },
+
+        onSyncSuccess: function(callback) {
+            if (this.progressId) {
+                window.mx.ui.hideProgress(this.progressId);
+            }
+            if (callback) callback();
+        },
+ 
+        onSyncFailure: function() {
+            window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
         },
 
         _executeOfflineOnline: function (offlineFn, onlineFn) {
