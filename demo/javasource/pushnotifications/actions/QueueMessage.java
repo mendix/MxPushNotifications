@@ -58,7 +58,7 @@ public class QueueMessage extends CustomJavaAction<java.lang.Boolean>
 		this.DeviceParameter1 = __DeviceParameter1 == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParameter1);
 
 		// BEGIN USER CODE
-		createAndQueueMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, ContextObject.getId().toString(), ActionKey);
+		createAndQueueMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, String.valueOf(ContextObject.getId().toLong()), ActionKey);
 		return true;
 		// END USER CODE
 	}

@@ -58,7 +58,7 @@ public class SendMessageToUser extends CustomJavaAction<java.lang.Boolean>
 		this.UserParameter1 = __UserParameter1 == null ? null : system.proxies.User.initialize(getContext(), __UserParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, ContextObject.getId().toString(), ActionKey);
+		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, String.valueOf(ContextObject.getId().toLong()), ActionKey);
 		return true;
 		// END USER CODE
 	}

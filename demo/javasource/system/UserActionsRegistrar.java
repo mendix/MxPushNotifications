@@ -24,6 +24,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.commitInSeparateDatabaseTransaction.class);
     registrator.registerUserAction(communitycommons.actions.commitWithoutEvents.class);
     registrator.registerUserAction(communitycommons.actions.copyAttributes.class);
+    registrator.registerUserAction(communitycommons.actions.CreateLogNode.class);
     registrator.registerUserAction(communitycommons.actions.DateTimeToLong.class);
     registrator.registerUserAction(communitycommons.actions.DecryptString.class);
     registrator.registerUserAction(communitycommons.actions.DeepClone.class);
@@ -49,6 +50,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.GetFileContentsFromResource.class);
     registrator.registerUserAction(communitycommons.actions.getFileSize.class);
     registrator.registerUserAction(communitycommons.actions.getGUID.class);
+    registrator.registerUserAction(communitycommons.actions.GetImageDimensions.class);
     registrator.registerUserAction(communitycommons.actions.GetIntFromDateTime.class);
     registrator.registerUserAction(communitycommons.actions.getLastChangedByUser.class);
     registrator.registerUserAction(communitycommons.actions.getLockOwner.class);
@@ -63,6 +65,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.LongToDateTime.class);
     registrator.registerUserAction(communitycommons.actions.memberHasChanged.class);
     registrator.registerUserAction(communitycommons.actions.MergeMultiplePdfs.class);
+    registrator.registerUserAction(communitycommons.actions.MonthsBetween.class);
     registrator.registerUserAction(communitycommons.actions.objectHasChanged.class);
     registrator.registerUserAction(communitycommons.actions.objectIsNew.class);
     registrator.registerUserAction(communitycommons.actions.OverlayPdfDocument.class);
@@ -91,6 +94,10 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.StringTrim.class);
     registrator.registerUserAction(communitycommons.actions.SubstituteTemplate.class);
     registrator.registerUserAction(communitycommons.actions.SubstituteTemplate2.class);
+    registrator.registerUserAction(communitycommons.actions.SubstringAfter.class);
+    registrator.registerUserAction(communitycommons.actions.SubstringAfterLast.class);
+    registrator.registerUserAction(communitycommons.actions.SubstringBefore.class);
+    registrator.registerUserAction(communitycommons.actions.SubstringBeforeLast.class);
     registrator.registerUserAction(communitycommons.actions.ThrowException.class);
     registrator.registerUserAction(communitycommons.actions.ThrowWebserviceException.class);
     registrator.registerUserAction(communitycommons.actions.TimeMeasureEnd.class);
