@@ -44,7 +44,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import encryption.pgp.PGPFileProcessor;
 
-public class GeneratePGPKeyRing extends CustomJavaAction<Boolean>
+public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject __PrivateKey;
 	private encryption.proxies.PGPCertificate PrivateKey;
@@ -59,7 +59,7 @@ public class GeneratePGPKeyRing extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.PrivateKey = __PrivateKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __PrivateKey);
 
@@ -124,7 +124,7 @@ public class GeneratePGPKeyRing extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "GeneratePGPKeyRing";
 	}

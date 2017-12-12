@@ -25,18 +25,20 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
  * Sound: name of system sound to play (iOS)
  * 
  */
-public class SendMessage extends CustomJavaAction<Boolean>
+public class SendMessage extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject __DeviceParameter1;
 	private pushnotifications.proxies.Device DeviceParameter1;
-	private String MessageText;
-	private String Title;
-	private Long Badge;
-	private String LaunchImage;
-	private String Sound;
-	private Long TimeToLive;
+	private java.lang.String MessageText;
+	private java.lang.String Title;
+	private java.lang.Long Badge;
+	private java.lang.String LaunchImage;
+	private java.lang.String Sound;
+	private java.lang.Long TimeToLive;
+	private java.lang.String ActionKey;
+	private IMendixObject ContextObject;
 
-	public SendMessage(IContext context, IMendixObject DeviceParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
+	public SendMessage(IContext context, IMendixObject DeviceParameter1, java.lang.String MessageText, java.lang.String Title, java.lang.Long Badge, java.lang.String LaunchImage, java.lang.String Sound, java.lang.Long TimeToLive, java.lang.String ActionKey, IMendixObject ContextObject)
 	{
 		super(context);
 		this.__DeviceParameter1 = DeviceParameter1;
@@ -46,15 +48,17 @@ public class SendMessage extends CustomJavaAction<Boolean>
 		this.LaunchImage = LaunchImage;
 		this.Sound = Sound;
 		this.TimeToLive = TimeToLive;
+		this.ActionKey = ActionKey;
+		this.ContextObject = ContextObject;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.DeviceParameter1 = __DeviceParameter1 == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
+		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, ContextObject.getId().toString(), ActionKey);
 		return true;
 		// END USER CODE
 	}
@@ -63,7 +67,7 @@ public class SendMessage extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "SendMessage";
 	}
