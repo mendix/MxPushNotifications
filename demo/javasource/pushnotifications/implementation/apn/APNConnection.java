@@ -151,8 +151,8 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 				builder = builder.badge(message.getBadge());
 			}
 					
-			if (message.getActionKey() != null && !message.getActionKey().trim().isEmpty()) {
-				builder.actionKey(message.getActionKey());
+			if (message.getActionName() != null && !message.getActionName().trim().isEmpty()) {
+				builder.actionKey(message.getActionName());
 			}
 			
 			if (message.getLaunchImage() != null && !message.getLaunchImage().trim().isEmpty()) {
