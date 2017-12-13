@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import pushnotifications.implementation.apn.APNConnection;
 
-public class SendAppleMessages extends CustomJavaAction<Boolean>
+public class SendAppleMessages extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.util.List<IMendixObject> __messages;
 	private java.util.List<pushnotifications.proxies.AppleMessage> messages;
@@ -26,7 +26,7 @@ public class SendAppleMessages extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.messages = new java.util.ArrayList<pushnotifications.proxies.AppleMessage>();
 		if (__messages != null)
@@ -44,7 +44,7 @@ public class SendAppleMessages extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "SendAppleMessages";
 	}

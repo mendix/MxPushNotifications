@@ -33,6 +33,7 @@ define([
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
+        notificationActions: [{ actionName: "", actionType: "", contextEntity: "", page: "", microflow:""}],
 
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
@@ -41,10 +42,6 @@ define([
         DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         GCM_SETTINGS_ENTITY: "PushNotifications.GCMSettings",
         SENDER_ID_ATTRIBUTE: "SenderId",
-        ALERT_ONCLICK_PAGE: "MyFirstModule/OpenClickPage.page.xml",
-        ALERT_ONCLICK_MICROFLOW: "PushNotifications.IVK_OpenMessageDetails",
-        ALERT_ONCLICK_ENTITY:"PushNotifications.Message",
-        ALERT_ONCLICK_GUID:"",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         INITIALIZATION_INTERVAL_MS: 10000,
@@ -59,7 +56,6 @@ define([
 
         version: "",
         progressId: null,
-        // onClickAction: window.mxmetaobject.getEnumMap("OnClickAction"),
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -373,31 +369,34 @@ define([
 
         onClickAlert: function(data, e) {
             // if(mx.isOffline()) { sync }
-
-            const { entity, guid, action, microflow } = data.constructor.name === "String" ? JSON.parse(data) : data;
-            const page = data.page && data.page.replace(".","/").concat(".page.xml");
             const callback = () => { if(e) this.removeAlert(e.childNodes[0]); };
+            let action = null;
 
-            if(action === "OpenPage" && page) {
-                window.mx.ui.openForm(page, {
-                    callback,
-                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
-                });
-            } else if (action === "OpenPageWithContext" && page && entity && guid) {
+            for (var index =0; index<this.notificationActions.length; index++){
+                if(this.notificationActions[index].actionName === data.actionName) {
+                    action = this.notificationActions[index];
+                    break;
+                }
+            }
+
+            if(!action) {
+                callback();
+                return;
+            }
+
+            const { contextEntity, actionType, microflow, page } = action;
+            const guid = data.guid;
+
+            if (actionType === "openPage" && page && contextEntity && guid) {
                 const context = new mendix.lib.MxContext();
-                context.setContext(entity, guid);
+                context.setContext(contextEntity, guid);
 
                 window.mx.ui.openForm(page, {
                     callback,
                     context,
                     error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
                 });
-            } else if (action === "CallMicroflow" && microflow) {
-                window.mx.ui.action(microflow, {
-                    callback,
-                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
-                });
-            } else if (action === "CallMicroflowWithContext" && microflow && entity && guid) {
+            } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
                 window.mx.ui.action(microflow, {
                     callback,
                     error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
@@ -407,11 +406,18 @@ define([
                         mxform: this.mxform
                     }
                 });
+            } else if(actionType === "openPage" && page && !guid) {
+                window.mx.ui.openForm(page, {
+                    callback,
+                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                });
+            } else if (actionType === "callMicroflow" && microflow && !guid) {
+                window.mx.ui.action(microflow, {
+                    callback,
+                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
+                });
             } else {
-                if (e) {
-                    this.removeAlert(e.childNodes[0]);
-                }
-                return;
+                callback();
             }
         },
 

@@ -21,7 +21,7 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 
-public class SendMessagesInBackground extends CustomJavaAction<Boolean>
+public class SendMessagesInBackground extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.util.List<IMendixObject> __messages;
 	private java.util.List<pushnotifications.proxies.Message> messages;
@@ -33,7 +33,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.messages = new java.util.ArrayList<pushnotifications.proxies.Message>();
 		if (__messages != null)
@@ -80,7 +80,7 @@ public class SendMessagesInBackground extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "SendMessagesInBackground";
 	}

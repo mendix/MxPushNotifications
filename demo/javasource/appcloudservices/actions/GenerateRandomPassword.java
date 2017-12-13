@@ -19,18 +19,18 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Generate a valid strong random password for Mendix user
  */
-public class GenerateRandomPassword extends CustomJavaAction<String>
+public class GenerateRandomPassword extends CustomJavaAction<java.lang.String>
 {
-	private Long length;
+	private java.lang.Long length;
 
-	public GenerateRandomPassword(IContext context, Long length)
+	public GenerateRandomPassword(IContext context, java.lang.Long length)
 	{
 		super(context);
 		this.length = length;
 	}
 
 	@Override
-	public String executeAction() throws Exception
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		String _pw_charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -71,7 +71,7 @@ public class GenerateRandomPassword extends CustomJavaAction<String>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "GenerateRandomPassword";
 	}

@@ -14,7 +14,7 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import pushnotifications.implementation.apn.APNConnection;
 
-public class StartAPN extends CustomJavaAction<Boolean>
+public class StartAPN extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject __settings;
 	private pushnotifications.proxies.APNSettings settings;
@@ -26,7 +26,7 @@ public class StartAPN extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.settings = __settings == null ? null : pushnotifications.proxies.APNSettings.initialize(getContext(), __settings);
 
@@ -41,7 +41,7 @@ public class StartAPN extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "StartAPN";
 	}

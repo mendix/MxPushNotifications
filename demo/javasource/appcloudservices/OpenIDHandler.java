@@ -32,6 +32,7 @@ import com.mendix.logging.ILogNode;
 import com.mendix.m2ee.api.IMxRuntimeRequest;
 import com.mendix.m2ee.api.IMxRuntimeResponse;
 import com.mendix.systemwideinterfaces.core.ISession;
+import org.openid4java.discovery.DiscoveryException;
 
 public class OpenIDHandler extends RequestHandler {
 
@@ -93,28 +94,27 @@ public class OpenIDHandler extends RequestHandler {
 	private static final String OPENID_PROVIDER = Constants.getOpenIdProvider();
 	private static final boolean OPENID_ENABLED = Constants.getOpenIdEnabled();
 
-	private static final String OpenIDReturnURL = APPLICATION_ROOT_URL + OPENID_CLIENTSERVLET_LOCATION + CALLBACK;
-	private static final String OpenIDLogoffURL = APPLICATION_ROOT_URL + OPENID_CLIENTSERVLET_LOCATION + FORCE_LOGOFF;
+	private static final String OPENID_RETURN_URL = APPLICATION_ROOT_URL + OPENID_CLIENTSERVLET_LOCATION + CALLBACK;
+	private static final String OPENID_LOGOFF_URL = APPLICATION_ROOT_URL + OPENID_CLIENTSERVLET_LOCATION + FORCE_LOGOFF;
 
 	private DiscoveryInformation discovered;
 	private List<?> discoveries;
 	private ConsumerManager manager;
-	private static ILogNode log = Core.getLogger("AppCloudServices");
+	private static final ILogNode LOG = Core.getLogger(Constants.getLogNode());
 
 	private boolean started = false;
 	public static ILoginHandler loginHandler = new DefaultLoginHandler();
 
 	public OpenIDHandler() {
 		if (!OPENID_ENABLED) {
-			log.info("NOT starting OpenId handler, disabled by configuration");
+			LOG.info("NOT starting OpenId handler, disabled by configuration");
 		} else {
-
 			reconnectToMxID();
 		}
 	}
 
 	private void reconnectToMxID() {
-		log.info("Starting OpenId handler ... OpenIDReturnURL = " + OpenIDReturnURL + "; OpenIdProvider: " + OPENID_PROVIDER);
+		LOG.info("Starting OpenId handler ... OpenIDReturnURL = " + OPENID_RETURN_URL + "; OpenIdProvider: " + OPENID_PROVIDER);
 		try {
 
 			manager = new ConsumerManager();
@@ -127,27 +127,27 @@ public class OpenIDHandler extends RequestHandler {
 			discovered = manager.associate(discoveries);
 
 			started = true;
-			log.info("Starting OpenId handler ... DONE");
+			LOG.info("Starting OpenId handler ... DONE");
 
-		} catch (Exception e) {
-			log.error("Failed to discover OpenId service: " + e.getMessage(), e);
+		} catch (DiscoveryException e) {
+			LOG.error("Failed to discover OpenId service: " + e.getMessage(), e);
 		}
 	}
 
-	private static final Set<String> openIDLocks = new HashSet<String>();
+	private static final Set<String> OPENID_LOCKS = new HashSet<String>();
 
 	public static void lockOpenID(String openID) throws InterruptedException {
-		synchronized (openIDLocks) {
-			while (openIDLocks.contains(openID))
-				openIDLocks.wait();
-			openIDLocks.add(openID);
+		synchronized (OPENID_LOCKS) {
+			while (OPENID_LOCKS.contains(openID))
+				OPENID_LOCKS.wait();
+			OPENID_LOCKS.add(openID);
 		}
 	}
 
 	public static void unlockOpenID(String openID) {
-		synchronized (openIDLocks) {
-			openIDLocks.remove(openID);
-			openIDLocks.notifyAll();
+		synchronized (OPENID_LOCKS) {
+			OPENID_LOCKS.remove(openID);
+			OPENID_LOCKS.notifyAll();
 		}
 	}
 
@@ -163,11 +163,11 @@ public class OpenIDHandler extends RequestHandler {
 		//always force expiration on this handler!
 		resp.addHeader("Expires", "0");
 
-		if (log.isDebugEnabled())
-			log.debug("Incoming request: " + path + " fingerprint: " + getFingerPrint(req));
+		if (LOG.isDebugEnabled())
+			LOG.debug("Incoming request: " + path + " fingerprint: " + getFingerPrint(req));
 
 		if (!OPENID_ENABLED) {
-			log.info("NOT handling SSO request, disabled by configuration, redirecting to login.html");
+			LOG.info("NOT handling SSO request, disabled by configuration, redirecting to login.html");
 			redirect(resp, FALLBACK_LOGINPAGE);
 			return;
 		}
@@ -177,7 +177,7 @@ public class OpenIDHandler extends RequestHandler {
 		}
 
 		if (!started) {
-			log.error("NOT handling SSO request, could not connect to MxID 2.0, redirecting to login.html");
+			LOG.error("NOT handling SSO request, could not connect to MxID 2.0, redirecting to login.html");
 			redirect(resp, FALLBACK_LOGINPAGE);
 			return;
 		}
@@ -200,7 +200,7 @@ public class OpenIDHandler extends RequestHandler {
 	}
 
 	private void callback(IMxRuntimeRequest req, IMxRuntimeResponse resp) throws Exception {
-		log.debug("Callback from OpenID provider, evaluating..");
+		LOG.debug("Callback from OpenID provider, evaluating..");
 
 		HttpServletRequest origreq = req.getHttpServletRequest();
 
@@ -223,14 +223,14 @@ public class OpenIDHandler extends RequestHandler {
 				 * 
 				 * @See http://openid.net/specs/openid-authentication-2_0.html#negative_assertions
 				 */
-				if (log.isDebugEnabled())
-					log.debug("Immediate authentication responded with setup_needed. Assuming that the app should continue as anonymous. ");
+				if (LOG.isDebugEnabled())
+					LOG.debug("Immediate authentication responded with setup_needed. Assuming that the app should continue as anonymous. ");
 
 				loginHandler.onCompleteAnonymousLogin(mxid2Continuation, req, resp);
 			} else if ("id_res".equals(mode)) {
 				handleIdRes(req, resp, origreq, openidResp, mxid2Continuation);
 			} else if ("cancel".equals(mode)) {
-				log.warn("OpenId login failed: cancelled");
+				LOG.warn("OpenId login failed: cancelled");
 				resp.setStatus(IMxRuntimeResponse.UNAUTHORIZED);
 				error(resp, ResponseType.UNAUTHORIZED, "OpenId login failed. Please try again later.", null);
 			} else
@@ -239,7 +239,7 @@ public class OpenIDHandler extends RequestHandler {
 	}
 
 	private void handleXrds(IMxRuntimeResponse resp) throws IOException {
-		log.info("Found local discovery of RP return_url endpoint.");
+		LOG.info("Found local discovery of RP return_url endpoint.");
 
 		resp.setContentType("application/xrds+xml; charset=UTF-8");
 		resp.getWriter().write(
@@ -249,7 +249,7 @@ public class OpenIDHandler extends RequestHandler {
 						"<XRD>" +
 						"<Service>" +
 						"<Type>http://specs.openid.net/auth/2.0/return_to</Type>" +
-						"<URI>" + OpenIDReturnURL + "</URI>" +
+						"<URI>" + OPENID_RETURN_URL + "</URI>" +
 						"</Service>" +
 						"</XRD>" +
 						"</xrds:XRDS>");
@@ -257,21 +257,21 @@ public class OpenIDHandler extends RequestHandler {
 	}
 
 	private void handleHeadRequest(IMxRuntimeResponse resp) {
-		log.debug("Callback from OpenID provider, evaluating.. HEAD request not supported, ignoring.");
+		LOG.debug("Callback from OpenID provider, evaluating.. HEAD request not supported, ignoring.");
 		resp.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED); //405 - Method Not Allowed
 	}
 
 	private void handleIdRes(IMxRuntimeRequest req, IMxRuntimeResponse resp, HttpServletRequest origreq,
 							 ParameterList openidResp, String mxid2Continuation) throws Exception {
 		// extract the receiving URL from the HTTP request
-		StringBuffer receivingURL = new StringBuffer(OpenIDReturnURL);
+		StringBuffer receivingURL = new StringBuffer(OPENID_RETURN_URL);
 
 		String queryString = origreq.getQueryString();
 		if (queryString != null && queryString.length() > 0)
 			receivingURL.append("?").append(origreq.getQueryString());
 
 		// verify the response
-		log.info("[OpenID Verify Response] receivingurl: " + receivingURL + "; to: " + openidResp.getParameter("openid.return_to"));
+		LOG.info("[OpenID Verify Response] receivingurl: " + receivingURL + "; to: " + openidResp.getParameter("openid.return_to"));
 		VerificationResult verification = manager.verify(receivingURL.toString(), openidResp, discovered);
 
 		// examine the verification result and extract the verified identifier
@@ -286,7 +286,7 @@ public class OpenIDHandler extends RequestHandler {
 				unlockOpenID(userId);
 			}
 		} else {
-			log.warn("OpenId authentication failed: " + verification.getStatusMsg());
+			LOG.warn("OpenId authentication failed: " + verification.getStatusMsg());
 			resp.setStatus(IMxRuntimeResponse.UNAUTHORIZED);
 			error(resp, ResponseType.UNAUTHORIZED, "OpenId authentication request failed. Please try again later.", null);
 		}
@@ -311,19 +311,19 @@ public class OpenIDHandler extends RequestHandler {
 			}
 		} else if (!started) {
 			//special case 2: no OpenID provider discovered
-			log.warn("OpenId handler is in state 'NOT STARTED'. Falling back to default login.html");
+			LOG.warn("OpenId handler is in state 'NOT STARTED'. Falling back to default login.html");
 			redirect(resp, FALLBACK_LOGINPAGE);
 		} else {
-			log.debug("Incoming login request, redirecting to OpenID provider");
+			LOG.debug("Incoming login request, redirecting to OpenID provider");
 
-			AuthRequest authReq = manager.authenticate(discovered, OpenIDReturnURL);
+			AuthRequest authReq = manager.authenticate(discovered, OPENID_RETURN_URL);
 			authReq.setImmediate("true".equalsIgnoreCase(req.getParameter(IMMEDIATE_PARAM)));
 
 			String url = authReq.getDestinationUrl(true);
 
 			//MWE: publish the url which can be used to sign off
 			if (SINGLESIGNOFF_ENABLED)
-				url += "&mxid2.logoffcallback=" +  OpenIDUtils.urlEncode(OpenIDLogoffURL);
+				url += "&mxid2.logoffcallback=" +  OpenIDUtils.urlEncode(OPENID_LOGOFF_URL);
 
 			if (continuation != null)
 				url += "&mxid2.continuation=" +  OpenIDUtils.urlEncode(continuation);
@@ -339,7 +339,7 @@ public class OpenIDHandler extends RequestHandler {
 		if (SINGLESIGNOFF_ENABLED)
 			forceSessionLogoff(username, fingerprint);
 		else
-			log.warn("Received force_logoff request, but single sign off is not unabled in the configuration!");
+			LOG.warn("Received force_logoff request, but single sign off is not unabled in the configuration!");
 
 		resp.setStatus(IMxRuntimeResponse.OK);
 		resp.setContentType("text/plain");
@@ -347,7 +347,7 @@ public class OpenIDHandler extends RequestHandler {
 
 	private void logoff(IMxRuntimeRequest req, IMxRuntimeResponse resp) throws CoreException {
 		if (SINGLESIGNOFF_ENABLED) {
-			resp.addCookie(RequestHandler.XAS_SESSION_ID, "", "/", "", 0, true);
+			resp.addCookie(getSessionCookieName(), "", "/", "", 0, true);
 			resp.addCookie(SessionInitializer.XASID_COOKIE, "", "/", "", 0, true);
 			resp.setStatus(IMxRuntimeResponse.SEE_OTHER);
 			resp.addHeader("location", OPENID_PROVIDER + "/../" + LOGOFF);
@@ -367,9 +367,9 @@ public class OpenIDHandler extends RequestHandler {
 
 	private void forceSessionLogoff(String username, String fingerprint) {
 		String basemsg = String.format("Received logoff request for '%s' with fingerprint '%s'... ", username, fingerprint);
-		log.debug(basemsg);
+		LOG.debug(basemsg);
 
-		List<ISession> sessionsOfThisUser = new ArrayList<ISession>();
+		List<ISession> sessionsOfThisUser = new ArrayList<>();
 		for (ISession session : Core.getActiveSessions()) {
 			if (session.getUser() != null &&
 					session.getUser().getName() != null &&
@@ -377,8 +377,8 @@ public class OpenIDHandler extends RequestHandler {
 				sessionsOfThisUser.add(session);
 		}
 
-		if (sessionsOfThisUser.size() == 0)
-			log.debug(basemsg + "IGNORING. User has no active sessions");
+		if (sessionsOfThisUser.isEmpty())
+			LOG.debug(basemsg + "IGNORING. User has no active sessions");
 		else {
 			boolean found = false;
 			for (ISession session : sessionsOfThisUser) {
@@ -389,9 +389,9 @@ public class OpenIDHandler extends RequestHandler {
 			}
 
 			if (found)
-				log.info(basemsg + "SUCCESS. Session removed.");
+				LOG.info(basemsg + "SUCCESS. Session removed.");
 			else
-				log.warn(basemsg + "FAILED. User has active sessions but none matches the provided fingerprint. ");
+				LOG.warn(basemsg + "FAILED. User has active sessions but none matches the provided fingerprint. ");
 		}
 	}
 
@@ -403,9 +403,9 @@ public class OpenIDHandler extends RequestHandler {
 						.replace("{{title}}", StringEscapeUtils.escapeHtml(responseType.title))
 		);
 		if (e != null)
-			log.error("Error while handling OpenID request: " + responseType.title + ":\n" + message + ": " + e.getMessage(), e);
+			LOG.error("Error while handling OpenID request: " + responseType.title + ":\n" + message + ": " + e.getMessage(), e);
 		else
-			log.error("Error while handling OpenID request: " + responseType.title + ":\n" + message);
+			LOG.error("Error while handling OpenID request: " + responseType.title + ":\n" + message);
 	}
 
 	private void redirect(IMxRuntimeResponse resp, String url) {

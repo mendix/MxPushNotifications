@@ -23,7 +23,7 @@ import encryption.proxies.microflows.Microflows;
  * 
  * This action will either return true or an exception
  */
-public class PGPDecryptDocument extends CustomJavaAction<Boolean>
+public class PGPDecryptDocument extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject __PrivateDecryptionKey;
 	private encryption.proxies.PGPCertificate PrivateDecryptionKey;
@@ -41,7 +41,7 @@ public class PGPDecryptDocument extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.PrivateDecryptionKey = __PrivateDecryptionKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __PrivateDecryptionKey);
 
@@ -65,7 +65,7 @@ public class PGPDecryptDocument extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "PGPDecryptDocument";
 	}

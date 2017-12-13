@@ -18,12 +18,12 @@ import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.ISession;
 import com.mendix.systemwideinterfaces.core.IUser;
 
-public class ExecuteMicroflowInNewContext extends CustomJavaAction<Boolean>
+public class ExecuteMicroflowInNewContext extends CustomJavaAction<java.lang.Boolean>
 {
-	private String microflow;
+	private java.lang.String microflow;
 	private IMendixObject contextObject;
 
-	public ExecuteMicroflowInNewContext(IContext context, String microflow, IMendixObject contextObject)
+	public ExecuteMicroflowInNewContext(IContext context, java.lang.String microflow, IMendixObject contextObject)
 	{
 		super(context);
 		this.microflow = microflow;
@@ -31,7 +31,7 @@ public class ExecuteMicroflowInNewContext extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		Boolean microflowResult;
@@ -57,7 +57,7 @@ public class ExecuteMicroflowInNewContext extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "ExecuteMicroflowInNewContext";
 	}

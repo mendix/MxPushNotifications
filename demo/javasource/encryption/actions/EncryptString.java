@@ -16,13 +16,13 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import org.apache.commons.codec.binary.Base64;
 
-public class EncryptString extends CustomJavaAction<String>
+public class EncryptString extends CustomJavaAction<java.lang.String>
 {
-	private String value;
-	private String key;
-	private String prefix;
+	private java.lang.String value;
+	private java.lang.String key;
+	private java.lang.String prefix;
 
-	public EncryptString(IContext context, String value, String key, String prefix)
+	public EncryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix)
 	{
 		super(context);
 		this.value = value;
@@ -31,7 +31,7 @@ public class EncryptString extends CustomJavaAction<String>
 	}
 
 	@Override
-	public String executeAction() throws Exception
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		if (this.value == null) 
@@ -59,7 +59,7 @@ public class EncryptString extends CustomJavaAction<String>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "EncryptString";
 	}

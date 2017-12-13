@@ -23,7 +23,7 @@ import encryption.pgp.PGPFileProcessor;
  * 
  * This action will either return true or an exception
  */
-public class PGPEncryptDocument extends CustomJavaAction<Boolean>
+public class PGPEncryptDocument extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject __ExternalPublicKey;
 	private system.proxies.FileDocument ExternalPublicKey;
@@ -44,7 +44,7 @@ public class PGPEncryptDocument extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.ExternalPublicKey = __ExternalPublicKey == null ? null : system.proxies.FileDocument.initialize(getContext(), __ExternalPublicKey);
 
@@ -73,7 +73,7 @@ public class PGPEncryptDocument extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "PGPEncryptDocument";
 	}
