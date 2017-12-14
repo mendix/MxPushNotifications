@@ -100,7 +100,7 @@ define([
             .then(dojoLang.hitch(this, this.initializePushPlugin))
             .then(dojoLang.hitch(this, this.removeRetryInterval))
             .otherwise(dojoLang.hitch(this, function (err) {
-                // We were not able to register our device. Let's set up an interval that keeps trying.
+                // We were not able to register our device. var's set up an interval that keeps trying.
                 if (typeof this._initIntervalHandle !== "number") {
                     this._initIntervalHandle = window.setInterval(
                         dojoLang.hitch(this, this.initializePushNotifications),
@@ -312,28 +312,8 @@ define([
 
         onPushNotification: function (data) {
             logger.debug(".onPushNotification");
-            const alertData = Object.assign({},data.additionalData);
+            var alertData = Object.assign({},data.additionalData);
 
-            /**
-             * 
-            {
-                "sound": "default",
-                "title": "fdf",
-                "additionalData": {
-                    "action": "DoNothing",
-                    "entity": "null",
-                    "microflow": "null",
-                    "guid": "9851624184874063",
-                    "page": "null",
-                    "text": "sd",
-                    "google.message_id": "0:1512479066448661%4d74b278f9fd7ecd",
-                    "foreground": true
-                }
-            }
-             * 
-             */
-            // const ddd = (x) => window.pushWidget.onClickAlert(alertData);
-            
             if (alertData.foreground) {
                 var cards = document.getElementById("cards");
 
@@ -363,43 +343,50 @@ define([
             logger.error("Push error: " + e);
         },
 
-        removeAlert: function (e){
+        removeAlert: function (e) {
             e.parentNode.parentNode.removeChild(e.parentNode);
         },
 
-        onClickAlert: function(data, e) {
+        onClickAlert: function (data, e) {
             // if(mx.isOffline()) { sync }
-            const callback = () => { if(e) this.removeAlert(e.childNodes[0]); };
-            let action = null;
 
-            for (var index =0; index<this.notificationActions.length; index++){
+            var action = null;
+            var callback = function () {
+                if(e) this.removeAlert(e.childNodes[0]); 
+            };
+
+            for (var index = 0; index < this.notificationActions.length; index++){
                 if(this.notificationActions[index].actionName === data.actionName) {
                     action = this.notificationActions[index];
                     break;
                 }
             }
 
-            if(!action) {
+            if (!action) {
                 callback();
                 return;
             }
 
-            const { contextEntity, actionType, microflow, page } = action;
-            const guid = data.guid;
+            var { contextEntity, actionType, microflow, page } = action;
+            var guid = data.guid;
 
             if (actionType === "openPage" && page && contextEntity && guid) {
-                const context = new mendix.lib.MxContext();
+                var context = new mendix.lib.MxContext();
                 context.setContext(contextEntity, guid);
 
                 window.mx.ui.openForm(page, {
                     callback,
                     context,
-                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + page +": "+ error.message);
+                    }
                 });
             } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
                 window.mx.ui.action(microflow, {
                     callback,
-                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
+                    },
                     params: {
                         applyto: "selection",
                         guids: [ guid ],
@@ -409,12 +396,16 @@ define([
             } else if(actionType === "openPage" && page && !guid) {
                 window.mx.ui.openForm(page, {
                     callback,
-                    error: error => window.mx.ui.error(`Error while opening page ${page}: ${error.message}`)
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + page +": "+ error.message);
+                    }
                 });
             } else if (actionType === "callMicroflow" && microflow && !guid) {
                 window.mx.ui.action(microflow, {
                     callback,
-                    error: error => window.mx.ui.error(`Error while executing microflow ${microflow}: ${error.message}`), // tslint:disable-line max-line-length
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
+                    }
                 });
             } else {
                 callback();
@@ -424,9 +415,9 @@ define([
         offlineSync: function (callback) {
             this.progressId = window.mx.ui.showProgress(null, true);
             if (window.mx.data.synchronizeOffline) {
-                window.mx.data.synchronizeOffline({ fast: false }, () => this.onSyncSuccess(callback), this.onSyncFailure);
+                window.mx.data.synchronizeOffline({ fast: false }, function () { this.onSyncSuccess(callback); }, this.onSyncFailure);
             } else if (window.mx.data.synchronizeDataWithFiles) {
-                window.mx.data.synchronizeDataWithFiles(() => this.onSyncSuccess(callback), this.onSyncFailure);
+                window.mx.data.synchronizeDataWithFiles(function () { this.onSyncSuccess(callback); }, this.onSyncFailure);
             }
         },
 
@@ -452,7 +443,7 @@ define([
                 /*
                  mx.data.getSlice is only available in the offline (client-side) backend.
                  Unfortunately, we have no way of knowing if we're running in offline mode.
-                 Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
+                 var's try to use getSlice first, and fall back to an xpath retrieve if it fails.
                  */
                 try {
                     offlineFn();
