@@ -92,12 +92,9 @@ define([
         initializePushNotifications: function() {
             logger.debug(".initializePushNotifications");
 
-            all({
-                    gcm: this.obtainGCMSettings()
-                })
-                .then(dojoLang.hitch(this, this.initializePushPlugin))
+            this.initializePushPlugin()
                 .then(dojoLang.hitch(this, this.removeRetryInterval))
-                .otherwise(dojoLang.hitch(this, function(err) {
+                .otherwise(dojoLang.hitch(this, function (err) {
                     // We were not able to register our device. Let's set up an interval that keeps trying.
                     if (typeof this._initIntervalHandle !== "number") {
                         this._initIntervalHandle = window.setInterval(
@@ -109,92 +106,93 @@ define([
                 }));
         },
 
-        obtainGCMSettings: function() {
-            logger.debug(".obtainGCMSettings");
+        // obtainGCMSettings: function() {
+        //     logger.debug(".obtainGCMSettings");
+        //
+        //     var deferred = new Deferred();
+        //
+        //     var handleGCMSettings = function(settings, count) {
+        //         if (settings.length > 0) {
+        //             logger.debug("Found one or more GCM settings objects. Using the first one.");
+        //
+        //             deferred.resolve(settings[0]);
+        //         } else {
+        //             deferred.reject("Could not find a GCM settings object.")
+        //         }
+        //     };
+        //
+        //     var getGCMSettingsEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
+        //         handleGCMSettings, function (err) {
+        //             deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
+        //         }
+        //     );
+        //
+        //     var getGCMSettingsEntityOnlineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOnline,
+        //         handleGCMSettings, function (err) {
+        //             deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
+        //         }
+        //     );
+        //
+        //     this._executeOfflineOnline(getGCMSettingsEntityOfflineFn, getGCMSettingsEntityOnlineFn);
+        //
+        //     return deferred.promise;
+        // },
 
-            var deferred = new Deferred();
+        // getGCMSettingsEntityOffline: function (success, error) {
+        //     logger.debug(".getGCMSettingsEntityOffline");
+        //
+        //     this._getSliceCompat(this.GCM_SETTINGS_ENTITY,
+        //         null,           // No constraints
+        //         {
+        //             limit: 0,   // Filter
+        //             offset: 0,
+        //             sort: []
+        //         },
+        //         success,
+        //         error
+        //     );
+        // },
+        //
+        // getGCMSettingsEntityOnline: function (success, error) {
+        //     logger.debug(".getGCMSettingsEntityOnline");
+        //
+        //     mx.data.get({
+        //         xpath: "//" + this.GCM_SETTINGS_ENTITY,
+        //         filter: {
+        //             amount: 1
+        //         },
+        //         callback: success,
+        //         error: error
+        //     });
+        // },
 
-            var handleGCMSettings = function(settings, count) {
-                if (settings.length > 0) {
-                    logger.debug("Found one or more GCM settings objects. Using the first one.");
-
-                    deferred.resolve(settings[0]);
-                } else {
-                    deferred.reject("Could not find a GCM settings object.")
-                }
-            };
-
-            var getGCMSettingsEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
-                handleGCMSettings,
-                function(err) {
-                    deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
-                }
-            );
-
-            var getGCMSettingsEntityOnlineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOnline,
-                handleGCMSettings,
-                function(err) {
-                    deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
-                }
-            );
-
-            this._executeOfflineOnline(getGCMSettingsEntityOfflineFn, getGCMSettingsEntityOnlineFn);
-
-            return deferred.promise;
-        },
-
-        getGCMSettingsEntityOffline: function(success, error) {
-            logger.debug(".getGCMSettingsEntityOffline");
-
-            this._getSliceCompat(this.GCM_SETTINGS_ENTITY,
-                null, // No constraints
-                {
-                    limit: 0, // Filter
-                    offset: 0,
-                    sort: []
-                },
-                success,
-                error
-            );
-        },
-
-        getGCMSettingsEntityOnline: function(success, error) {
-            logger.debug(".getGCMSettingsEntityOnline");
-
-            mx.data.get({
-                xpath: "//" + this.GCM_SETTINGS_ENTITY,
-                filter: {
-                    amount: 1
-                },
-                callback: success,
-                error: error
-            });
-        },
-
-        initializePushPlugin: function(allSettings) {
+        initializePushPlugin: function() {
             logger.debug(".initializePushPlugin");
 
+            var deferred = new Deferred();
+            
             window.pushWidget = this;
 
-            var gcm = allSettings.gcm;
+            // var gcm = allSettings.gcm;
 
-            this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
+            // this._gcmSenderId = gcm.get(this.SENDER_ID_ATTRIBUTE);
 
             this._push = PushNotification.init({
                 "android": {
-                    "senderID": this._gcmSenderId
+                    // "senderID": this._gcmSenderId
                 },
                 "ios": {
                     "alert": "true",
                     "badge": "true",
                     "sound": "true"
-                },
-                "windows": {}
+                }
             });
 
             this._push.on('registration', dojoLang.hitch(this, this.onPushRegistration));
             this._push.on('notification', dojoLang.hitch(this, this.onPushNotification));
             this._push.on('error', dojoLang.hitch(this, this.onPushError));
+
+            return deferred.resolve();
         },
 
         onPushRegistration: function(data) {
