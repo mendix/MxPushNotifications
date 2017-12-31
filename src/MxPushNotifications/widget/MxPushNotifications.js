@@ -1,13 +1,13 @@
 /*jslint browser: true, devel:true, nomen:true, unparam:true, regexp: true*/
 /*global logger, cordova, mx, mxui, device, define, Media, require*/
 /*
- pushNotifications
+ MxPushNotifications
  ========================
 
- @file      : pushNotifications.js
- @version   : 2.3.0
- @author    : Simon Black & Kevin Vlaanderen
- @date      : Thu, 30 Jun 2016 10:59 CEST
+ @file      : MxPushNotifications.js
+ @version   : 3.0.0
+ @author    : Kevin Vlaanderen & Simon Black
+ @date      : Sat, 30 Dec 2017 17.50 CET
  @copyright :
  @license   :
 
@@ -25,12 +25,12 @@ define([
     "dojo/promise/all",
     "dojo/_base/lang",
     "dojo/json",
-    "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function(declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
+    "dojo/text!MxPushNotifications/widget/template/MxPushNotifications.html"
+], function (declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
     "use strict";
 
     // Declare widget"s prototype.
-    return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
+    return declare("MxPushNotifications.widget.MxPushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
 
@@ -170,7 +170,7 @@ define([
             logger.debug(".initializePushPlugin");
 
             var deferred = new Deferred();
-            
+
             window.pushWidget = this;
 
             // var gcm = allSettings.gcm;
@@ -386,4 +386,4 @@ define([
     });
 });
 
-require(["pushNotifications/widget/pushNotifications"]);
+require(["MxPushNotifications/widget/MxPushNotifications"]);
