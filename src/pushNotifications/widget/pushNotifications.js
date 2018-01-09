@@ -26,7 +26,7 @@ define([
     "dojo/_base/lang",
     "dojo/json",
     "dojo/text!pushNotifications/widget/template/pushNotifications.html"
-], function (declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
     "use strict";
 
     // Declare widget"s prototype.
@@ -64,7 +64,7 @@ define([
         postCreate: function() {
             logger.debug(".postCreate");
 
-            this.version =  this._parseVersionString(mx.version);
+            this.version = this._parseVersionString(mx.version);
 
             this.domNode.innerHTML = this.templateString;
         },
@@ -93,20 +93,20 @@ define([
             logger.debug(".initializePushNotifications");
 
             all({
-                gcm: this.obtainGCMSettings()
-            })
-            .then(dojoLang.hitch(this, this.initializePushPlugin))
-            .then(dojoLang.hitch(this, this.removeRetryInterval))
-            .otherwise(dojoLang.hitch(this, function (err) {
-                // We were not able to register our device. Let's set up an interval that keeps trying.
-                if (typeof this._initIntervalHandle !== "number") {
-                    this._initIntervalHandle = window.setInterval(
-                        dojoLang.hitch(this, this.initializePushNotifications),
-                        this.INITIALIZATION_INTERVAL_MS
-                    );
-                }
-                logger.error(err);
-            }));
+                    gcm: this.obtainGCMSettings()
+                })
+                .then(dojoLang.hitch(this, this.initializePushPlugin))
+                .then(dojoLang.hitch(this, this.removeRetryInterval))
+                .otherwise(dojoLang.hitch(this, function(err) {
+                    // We were not able to register our device. Let's set up an interval that keeps trying.
+                    if (typeof this._initIntervalHandle !== "number") {
+                        this._initIntervalHandle = window.setInterval(
+                            dojoLang.hitch(this, this.initializePushNotifications),
+                            this.INITIALIZATION_INTERVAL_MS
+                        );
+                    }
+                    logger.error(err);
+                }));
         },
 
         obtainGCMSettings: function() {
@@ -125,13 +125,15 @@ define([
             };
 
             var getGCMSettingsEntityOfflineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOffline,
-                handleGCMSettings, function (err) {
+                handleGCMSettings,
+                function(err) {
                     deferred.reject("Could not retrieve a GCM settings object (offline): " + err.message);
                 }
             );
 
             var getGCMSettingsEntityOnlineFn = dojoLang.hitch(this, this.getGCMSettingsEntityOnline,
-                handleGCMSettings, function (err) {
+                handleGCMSettings,
+                function(err) {
                     deferred.reject("Could not retrieve a GCM settings object (online): " + err.message);
                 }
             );
@@ -141,13 +143,13 @@ define([
             return deferred.promise;
         },
 
-        getGCMSettingsEntityOffline: function (success, error) {
+        getGCMSettingsEntityOffline: function(success, error) {
             logger.debug(".getGCMSettingsEntityOffline");
 
             this._getSliceCompat(this.GCM_SETTINGS_ENTITY,
-                null,           // No constraints
+                null, // No constraints
                 {
-                    limit: 0,   // Filter
+                    limit: 0, // Filter
                     offset: 0,
                     sort: []
                 },
@@ -156,7 +158,7 @@ define([
             );
         },
 
-        getGCMSettingsEntityOnline: function (success, error) {
+        getGCMSettingsEntityOnline: function(success, error) {
             logger.debug(".getGCMSettingsEntityOnline");
 
             mx.data.get({
@@ -195,7 +197,7 @@ define([
             this._push.on('error', dojoLang.hitch(this, this.onPushError));
         },
 
-        onPushRegistration: function (data) {
+        onPushRegistration: function(data) {
             logger.debug(".onPushRegistration");
 
             this._deviceId = window.device.uuid;
@@ -205,12 +207,12 @@ define([
             this.getDeviceRegistrationEntity()
                 .otherwise(dojoLang.hitch(this, this.createRegistrationEntity))
                 .then(dojoLang.hitch(this, this.registerDevice))
-                .otherwise(function (err) {
+                .otherwise(function(err) {
                     logger.error("Failed to register device: " + err);
                 })
         },
 
-        getDeviceRegistrationEntity: function () {
+        getDeviceRegistrationEntity: function() {
             logger.debug(".getDeviceRegistrationEntity");
 
             var deferred = new Deferred();
@@ -226,7 +228,8 @@ define([
             };
 
             var getRegistrationEntityOfflineFn = dojoLang.hitch(this, this.getRegistrationEntityOffline,
-                handleRegistrationEntity, function(e) {
+                handleRegistrationEntity,
+                function(e) {
                     deferred.reject("Failed to get deviceRegistration objects: " + e);
                 }
             );
@@ -249,8 +252,7 @@ define([
         },
 
         getRegistrationEntityOffline: function(success, error) {
-            this._getSliceCompat(this.DEVICE_REGISTRATION_ENTITY,
-                [{
+            this._getSliceCompat(this.DEVICE_REGISTRATION_ENTITY, [{
                     attribute: this.REGISTRATION_ID_ATTRIBUTE,
                     operator: "equals",
                     value: this._registrationId
@@ -283,9 +285,9 @@ define([
             return deferred.promise;
         },
 
-        registerDevice: function (deviceRegistration) {
+        registerDevice: function(deviceRegistration) {
             logger.debug(".registerDevice");
-            
+
             deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
             deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
 
@@ -299,7 +301,7 @@ define([
             // This is the only time we can commit the object, because it will be deleted in the AfterCommit event.
             mx.data.commit({
                 mxobj: deviceRegistration,
-                callback: dojoLang.hitch(this, function () {
+                callback: dojoLang.hitch(this, function() {
                     logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
                 }),
                 error: function(e) {
@@ -308,7 +310,7 @@ define([
             });
         },
 
-        onPushNotification: function (data) {
+        onPushNotification: function(data) {
             logger.debug(".onPushNotification");
 
             var cards = document.getElementById("cards");
@@ -321,25 +323,25 @@ define([
                 '</div>';
 
             var cardList = cards.childNodes;
-            for(var i = 0; i < cardList.length; i++){
+            for (var i = 0; i < cardList.length; i++) {
                 cardList[i].className = "alert alert-info alert-dismissible";
             }
             cards.innerHTML += card;
 
-            this._push.finish(function () {
+            this._push.finish(function() {
                 logger.debug('Successfully processed push notification.');
             });
         },
 
-        onPushError: function (e) {
+        onPushError: function(e) {
             logger.error("Push error: " + e);
         },
 
-        removeAlert: function (e){
+        removeAlert: function(e) {
             e.parentNode.parentNode.removeChild(e.parentNode);
         },
 
-        _executeOfflineOnline: function (offlineFn, onlineFn) {
+        _executeOfflineOnline: function(offlineFn, onlineFn) {
             if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 if (mx.isOffline()) {
                     offlineFn();
@@ -360,7 +362,7 @@ define([
             }
         },
 
-        _getSliceCompat: function(entity, contraints, filter, success, error) {
+        _getSliceCompat: function(entity, constraints, filter, success, error) {
             if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 mx.data.getSlice(entity, constraints, filter, true, success, error); // caching, introduced in 7.3
             } else {
@@ -368,8 +370,10 @@ define([
             }
         },
 
-        _parseVersionString: function (str) {
-            if (typeof(str) !== 'string') { return false; }
+        _parseVersionString: function(str) {
+            if (typeof(str) !== 'string') {
+                return false;
+            }
             var x = str.split('.');
             // parse from string or default to 0 if can't parse
             var maj = parseInt(x[0]) || 0;
