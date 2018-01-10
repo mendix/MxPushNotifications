@@ -297,17 +297,41 @@ define([
                 deviceRegistration.set("DeviceType", "iOS");
             }
 
-            // We commit the DeviceRegistration object to trigger the backend process.
-            // This is the only time we can commit the object, because it will be deleted in the AfterCommit event.
-            mx.data.commit({
-                mxobj: deviceRegistration,
-                callback: dojoLang.hitch(this, function() {
-                    logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
-                }),
-                error: function(e) {
-                    logger.error("Error occurred attempting to register device: " + e);
-                }
-            });
+            // CC Jan 10, 2018 - only commit the DeviceRegistration if the registration id has changed or does not yet exist
+            var lastRegistrationId = localStorage.getItem("mx-registration-id");
+            if (!lastRegistrationId || lastRegistrationId !== deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE)) {
+                // We commit the DeviceRegistration object to trigger the backend process.
+                // This is the only time we can commit the object, because it will be deleted in the AfterCommit event.
+                mx.data.commit({
+                    mxobj: deviceRegistration,
+                    callback: dojoLang.hitch(this, function() {
+                        logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                        if (mx.isOffline()) {
+                            mx.data.synchronizeOffline({ // settings, success, error
+                                    fast: true // data only
+                                },
+                                dojoLang.hitch(this, function() {
+                                    console.log("Synchronization successful.")
+                                    if (window.localStorage) {
+                                        console.debug("writing new device registration id to localstorage: " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                                        localStorage.setItem("mx-registration-id", deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                                    }
+                                }),
+                                dojoLang.hitch(this, function(error) {
+                                    console.error("An error occurred during synchronization");
+                                    console.error(error);
+                                }));
+                        }
+                    }),
+                    error: function(e) {
+                        logger.error("Error occurred attempting to register device: " + e);
+                    }
+                });
+            } else {
+                console.log("skipping synchronization since the registration id has not changed.")
+            }
+
+
         },
 
         onPushNotification: function(data) {
