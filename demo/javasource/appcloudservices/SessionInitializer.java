@@ -5,10 +5,10 @@ import java.util.List;
 
 import system.proxies.User;
 import appcloudservices.proxies.microflows.Microflows;
+import static appcloudservices.proxies.constants.Constants.getLogNode;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
-import com.mendix.externalinterface.connector.RequestHandler;
 import com.mendix.logging.ILogNode;
 import com.mendix.m2ee.api.IMxRuntimeRequest;
 import com.mendix.m2ee.api.IMxRuntimeResponse;
@@ -24,14 +24,15 @@ public class SessionInitializer {
 	public static String DEFAULT_MENDIX_USERNAME_ATTRIBUTE = "Name";
 	public static final String XASID_COOKIE = "XASID";
 	private static final String ORIGIN_COOKIE = "originURI";
-	private static ILogNode log = Core.getLogger("OpenID");
+	private static final ILogNode LOG = Core.getLogger(getLogNode());
+	private static final String XAS_SESSION_ID = Core.getConfiguration().getSessionIdCookieName();
 	
 	/**
 	 * Given a username, starts a new session for the user and redirects back to index.html. 
 	 * If no matching account is found for the user, a new account will be created automatically. 
 	 * @param resp
 	 * @param req
-	 * @param username
+	 * @param user
 	 * @return 
 	 * @throws CoreException
 	 * @throws IOException 
@@ -41,9 +42,9 @@ public class SessionInitializer {
 	static public ISession createSessionForUser(IMxRuntimeResponse resp,
 			IMxRuntimeRequest req, IUser user) throws Exception {
 		
-		log.info("User " + user.getName() + " authenticated. Starting session..");
+		LOG.info("User " + user.getName() + " authenticated. Starting session..");
 		
-		String sessionid = req.getCookie(RequestHandler.XAS_SESSION_ID);
+		String sessionid = req.getCookie(XAS_SESSION_ID);
 	
 		ISession session = Core.initializeSession(user, sessionid);
 		
@@ -51,8 +52,8 @@ public class SessionInitializer {
 		String ua = req.getHeader("User-Agent");
 		session.setUserAgent(ua);
 		
-		if (log.isDebugEnabled())
-			log.debug("Created session, fingerprint: " + OpenIDUtils.getFingerPrint(session));
+		if (LOG.isDebugEnabled())
+			LOG.debug("Created session, fingerprint: " + OpenIDUtils.getFingerPrint(session));
 		
 		writeSessionCookies(resp, session);
 		
@@ -61,7 +62,7 @@ public class SessionInitializer {
 
 	public static void writeSessionCookies(IMxRuntimeResponse resp,
 			ISession session) {
-		resp.addCookie(RequestHandler.XAS_SESSION_ID, session.getId().toString(),"/" ,"" ,-1, true );
+		resp.addCookie(XAS_SESSION_ID, session.getId().toString(),"/" ,"" ,-1, true );
 		resp.addCookie(XASID_COOKIE, "0." + Core.getXASId(),"/" ,"" ,-1, true);
 		resp.addCookie(ORIGIN_COOKIE, "/" + OpenIDHandler.OPENID_CLIENTSERVLET_LOCATION + OpenIDHandler.LOGIN, "/", "", -1, false);
 	}
@@ -103,14 +104,14 @@ public class SessionInitializer {
 					Microflows.invokeOnNonFirstLoginAppCloudUser(c, User.initialize(c, user.getMendixObject()));
 				}
 				catch(Exception e) {
-					log.warn("Failed to update user roles for '" + openID + "', permissions for this user might be outdated", e);
+					LOG.warn("Failed to update user roles for '" + openID + "', permissions for this user might be outdated", e);
 				}
 			}
 			
 			//New user
 			else {
 				String basemsg = "User '" + openID + "' does not exist in database. Triggering OnFirstLogin action... ";
-				log.info(basemsg);
+				LOG.info(basemsg);
 				
 				//Expect user input here.
 				// Create new user:
@@ -118,12 +119,12 @@ public class SessionInitializer {
 				
 				IUser newUser = findUser(c, openID);
 				if (newUser != null) {
-					log.info(basemsg + "Account created.");
+					LOG.info(basemsg + "Account created.");
 					user = newUser;
 				}
 				
 				else {
-					log.info(basemsg + "No user was created. Rejecting the login request."); 
+					LOG.info(basemsg + "No user was created. Rejecting the login request."); 
 				}
 			}
 			
@@ -131,7 +132,7 @@ public class SessionInitializer {
 			return user;
 		}
 		catch (Throwable e) {
-			log.warn("Find or create user for openID '" + openID + "' caught exception. Triggering rollback.");
+			LOG.warn("Find or create user for openID '" + openID + "' caught exception. Triggering rollback.");
 			c.rollbackTransAction();
 			throw e;
 		}
@@ -143,8 +144,8 @@ public class SessionInitializer {
 		if (userList.size() > 0) {
 			IMendixObject userObject = userList.get(0);
 			String username = userObject.getValue(c, DEFAULT_MENDIX_USERNAME_ATTRIBUTE);
-			if (log.isTraceEnabled())
-				log.trace("Getting System.User using username: '" + username + "'");
+			if (LOG.isTraceEnabled())
+				LOG.trace("Getting System.User using username: '" + username + "'");
 			
 			return Core.getUser(c, username);
 		} else {
