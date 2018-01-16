@@ -12,6 +12,9 @@ package pushnotifications.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import pushnotifications.proxies.Message;
+import java.util.ArrayList;
+import java.util.List;
 import static pushnotifications.proxies.microflows.Microflows.createAndSendMessageToUser;
 
 /**
@@ -25,37 +28,34 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
  * Sound: name of system sound to play (iOS)
  * 
  */
-public class SendMessageToUser extends CustomJavaAction<Boolean>
+public class SendMessageToUser extends CustomJavaAction<java.util.List<IMendixObject>>
 {
+	private IMendixObject __MessageDataParameter1;
+	private pushnotifications.proxies.MessageData MessageDataParameter1;
 	private IMendixObject __UserParameter1;
 	private system.proxies.User UserParameter1;
-	private String MessageText;
-	private String Title;
-	private Long Badge;
-	private String LaunchImage;
-	private String Sound;
-	private Long TimeToLive;
 
-	public SendMessageToUser(IContext context, IMendixObject UserParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
+	public SendMessageToUser(IContext context, IMendixObject MessageDataParameter1, IMendixObject UserParameter1)
 	{
 		super(context);
+		this.__MessageDataParameter1 = MessageDataParameter1;
 		this.__UserParameter1 = UserParameter1;
-		this.MessageText = MessageText;
-		this.Title = Title;
-		this.Badge = Badge;
-		this.LaunchImage = LaunchImage;
-		this.Sound = Sound;
-		this.TimeToLive = TimeToLive;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
+		this.MessageDataParameter1 = __MessageDataParameter1 == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParameter1);
+
 		this.UserParameter1 = __UserParameter1 == null ? null : system.proxies.User.initialize(getContext(), __UserParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
-		return true;
+		List<Message> messages = createAndSendMessageToUser(getContext(), UserParameter1, MessageDataParameter1);
+		List<IMendixObject> objects = new ArrayList<>();
+		messages.forEach(message -> {
+			objects.add(message.getMendixObject());
+		});
+		return objects;
 		// END USER CODE
 	}
 
@@ -63,7 +63,7 @@ public class SendMessageToUser extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "SendMessageToUser";
 	}

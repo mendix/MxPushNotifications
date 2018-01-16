@@ -15,18 +15,18 @@ import com.mendix.systemwideinterfaces.core.ISession;
 import com.mendix.webui.CustomJavaAction;
 import java.util.Collection;
 
-public class LogOutUser extends CustomJavaAction<Boolean>
+public class LogOutUser extends CustomJavaAction<java.lang.Boolean>
 {
-	private String openId;
+	private java.lang.String openId;
 
-	public LogOutUser(IContext context, String openId)
+	public LogOutUser(IContext context, java.lang.String openId)
 	{
 		super(context);
 		this.openId = openId;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
         Collection<? extends ISession> activeSessions = Core.getActiveSessions();
@@ -43,7 +43,7 @@ public class LogOutUser extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "LogOutUser";
 	}

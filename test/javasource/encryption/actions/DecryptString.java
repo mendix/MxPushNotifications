@@ -17,13 +17,13 @@ import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
-public class DecryptString extends CustomJavaAction<String>
+public class DecryptString extends CustomJavaAction<java.lang.String>
 {
-	private String value;
-	private String key;
-	private String prefix;
+	private java.lang.String value;
+	private java.lang.String key;
+	private java.lang.String prefix;
 
-	public DecryptString(IContext context, String value, String key, String prefix)
+	public DecryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix)
 	{
 		super(context);
 		this.value = value;
@@ -32,22 +32,22 @@ public class DecryptString extends CustomJavaAction<String>
 	}
 
 	@Override
-	public String executeAction() throws Exception
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		if (value == null || !value.startsWith(prefix))
+		if (this.value == null || !this.value.startsWith(this.prefix))
 			return null;
-		if (prefix == null || prefix.isEmpty())
+		if (this.prefix == null || this.prefix.isEmpty())
 			throw new MendixRuntimeException("Prefix should not be empty");
-		if (key == null || key.isEmpty())
+		if (this.key == null || this.key.isEmpty())
 			throw new MendixRuntimeException("Key should not be empty");
-		if (key.length() != 16)
+		if (this.key.length() != 16)
 			throw new MendixRuntimeException("Key length should be 16");
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(key.getBytes(), "AES");
-		String[] s = value.substring(prefix.length()).split(";");
+		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+		String[] s = this.value.substring(this.prefix.length()).split(";");
 		if (s.length < 2) //Not an encrypted string, just return the original value.
-			return value;
+			return this.value;
 
 		byte[] iv = Base64.decodeBase64(s[0].getBytes());
 		byte[] encryptedData = Base64.decodeBase64(s[1].getBytes());
@@ -60,7 +60,7 @@ public class DecryptString extends CustomJavaAction<String>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "DecryptString";
 	}

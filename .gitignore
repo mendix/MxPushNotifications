@@ -9,10 +9,11 @@ test/.project
 test/theme/
 test/userlib/
 
+.idea/
 *.launch
 *.tmp
 *.lock
-.idea/
+*.iml
 
 dist/
 
