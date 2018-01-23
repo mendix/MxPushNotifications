@@ -5,8 +5,8 @@
  ========================
 
  @file      : pushNotifications.js
- @version   : 2.3.0
- @author    : Simon Black & Kevin Vlaanderen
+ @version   : 2.4.0
+ @author    : Simon Black & Kevin Vlaanderen & Derrick Kwagala
  @date      : Thu, 30 Jun 2016 10:59 CEST
  @copyright :
  @license   :
@@ -59,12 +59,12 @@ define([
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
-            // logger.level(window.logger.ALL);
+            logger.level(window.logger.ALL);
         },
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
-            logger.debug(".postCreate");
+            logger.debug(this.id + ".postCreate");
 
             this.version =  this._parseVersionString(mx.version);
 
@@ -185,9 +185,11 @@ define([
                     "senderID": this._gcmSenderId
                 },
                 "ios": {
+                    "senderID": this._gcmSenderId,
                     "alert": "true",
                     "badge": "true",
-                    "sound": "true"
+                    "sound": "true",
+                    "gcmSandbox": "true"
                 },
                 "windows": {}
             });
@@ -217,7 +219,7 @@ define([
 
             var deferred = new Deferred();
 
-            var handleRegistrationEntity = function(deviceregistrations, count) {
+            var handleRegistrationEntity = function (deviceregistrations, count) {
                 if (deviceregistrations.length > 0) {
                     logger.debug("Found one or more device registration objects. Using the first one.");
 
@@ -348,12 +350,12 @@ define([
         },
 
         onClickAlert: function (data, e) {
-            // if(mx.isOffline()) { sync }
-
             var action = null;
-            var callback = function () {
-                if(e) this.removeAlert(e.childNodes[0]); 
-            };
+            var callback = dojoLang.hitch(this, function () {
+                if(e) {
+                    this.removeAlert(e.childNodes[0]);
+                }
+            });
 
             for (var index = 0; index < this.notificationActions.length; index++){
                 if(this.notificationActions[index].actionName === data.actionName) {
@@ -367,69 +369,79 @@ define([
                 return;
             }
 
-            var { contextEntity, actionType, microflow, page } = action;
-            var guid = data.guid;
-
-            if (actionType === "openPage" && page && contextEntity && guid) {
+            try {
+                var { contextEntity, actionType, microflow, page } = action;
+                var guid = data.guid;
                 var context = new mendix.lib.MxContext();
                 context.setContext(contextEntity, guid);
 
-                window.mx.ui.openForm(page, {
-                    callback,
-                    context,
-                    error: function (error) {
-                        window.mx.ui.error("Error while opening page " + page +": "+ error.message);
-                    }
+                if (actionType === "openPage" && page && contextEntity && guid) {
+                        window.mx.ui.openForm(page, {
+                            callback,
+                            context,
+                            error: function (error) {
+                                window.mx.ui.error("Error while opening page " + page +": "+ error.message);
+                            }
+                        });
+                } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
+                    window.mx.ui.action(microflow, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
+                        },
+                        params: {
+                            applyto: "selection",
+                            guids: [ guid ],
+                            mxform: this.mxform
+                        }
+                    });
+                } else if(actionType === "openPage" && page && !guid) {
+                    window.mx.ui.openForm(page, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + page +": "+ error.message);
+                        }
+                    });
+                } else if (actionType === "callMicroflow" && microflow && !guid) {
+                    window.mx.ui.action(microflow, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
+                        }
+                    });
+                } else {
+                    callback();
+                }
+            } catch(e) {
+                mx.ui.confirmation( {
+                    content: "Synchronize this application with the server?",
+                    proceed: "Yes",
+                    cancel: "No",
+                    handler: this.offlineSync.bind(this)
                 });
-            } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
-                window.mx.ui.action(microflow, {
-                    callback,
-                    error: function (error) {
-                        window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
-                    },
-                    params: {
-                        applyto: "selection",
-                        guids: [ guid ],
-                        mxform: this.mxform
-                    }
-                });
-            } else if(actionType === "openPage" && page && !guid) {
-                window.mx.ui.openForm(page, {
-                    callback,
-                    error: function (error) {
-                        window.mx.ui.error("Error while opening page " + page +": "+ error.message);
-                    }
-                });
-            } else if (actionType === "callMicroflow" && microflow && !guid) {
-                window.mx.ui.action(microflow, {
-                    callback,
-                    error: function (error) {
-                        window.mx.ui.error("Error while opening page " + microflow +": "+ error.message);
-                    }
-                });
-            } else {
-                callback();
             }
         },
 
-        offlineSync: function (callback) {
-            this.progressId = window.mx.ui.showProgress(null, true);
+        offlineSync: function () {
+            var progressId = window.mx.ui.showProgress(null, true);
+            var onSyncSuccess = function(callback) {
+                if (progressId) {
+                    window.mx.ui.hideProgress(progressId);
+                }
+                if (callback) callback();
+            };
+            var onSyncFailure = function() {
+                window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
+            };
+
+            onSyncSuccess = onSyncSuccess.bind(this);
+            onSyncFailure = onSyncFailure.bind(this);
+
             if (window.mx.data.synchronizeOffline) {
-                window.mx.data.synchronizeOffline({ fast: false }, function () { this.onSyncSuccess(callback); }, this.onSyncFailure);
+                window.mx.data.synchronizeOffline({ fast: false }, onSyncSuccess, onSyncFailure);
             } else if (window.mx.data.synchronizeDataWithFiles) {
-                window.mx.data.synchronizeDataWithFiles(function () { this.onSyncSuccess(callback); }, this.onSyncFailure);
+                window.mx.data.synchronizeDataWithFiles(onSyncSuccess, onSyncFailure);
             }
-        },
-
-        onSyncSuccess: function(callback) {
-            if (this.progressId) {
-                window.mx.ui.hideProgress(this.progressId);
-            }
-            if (callback) callback();
-        },
- 
-        onSyncFailure: function() {
-            window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
         },
 
         _executeOfflineOnline: function (offlineFn, onlineFn) {
@@ -453,7 +465,7 @@ define([
             }
         },
 
-        _getSliceCompat: function(entity, contraints, filter, success, error) {
+        _getSliceCompat: function(entity, constraints, filter, success, error) {
             if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
                 mx.data.getSlice(entity, constraints, filter, true, success, error); // caching, introduced in 7.3
             } else {
