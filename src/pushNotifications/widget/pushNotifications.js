@@ -298,7 +298,7 @@ define([
             }
 
             // CC Jan 10, 2018 - only commit the DeviceRegistration if the registration id has changed or does not yet exist
-            var lastRegistrationId = localStorage.getItem("mx-registration-id");
+            var lastRegistrationId = localStorage && localStorage.getItem("mx-registration-id");
             if (!lastRegistrationId || lastRegistrationId !== deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE)) {
                 // We commit the DeviceRegistration object to trigger the backend process.
                 // This is the only time we can commit the object, because it will be deleted in the AfterCommit event.
