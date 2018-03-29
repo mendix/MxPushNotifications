@@ -319,8 +319,6 @@ define([
         onPushNotification: function(data) {
             logger.debug(".onPushNotification");
 
-            logger.debug(JSON.stringify(data));
-
             if (data.additionalData.foreground) {
                 var cards = document.getElementById("cards");
 

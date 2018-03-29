@@ -158,6 +158,14 @@ public class APNConnection implements MessagingServiceConnection<APNSettings, Ap
 			if (message.getLaunchImage() != null && !message.getLaunchImage().trim().isEmpty()) {
 				builder.launchImage(message.getLaunchImage());
 			}
+
+			if (message.getActionName() != null && !message.getActionName().trim().isEmpty()) {
+				builder.customField("actionName", message.getActionName());
+
+				if (message.getContextObjectGuid() != null) {
+					builder.customField("guid", ""+message.getContextObjectGuid());
+				}
+			}
 			
 			builder.shrinkBody(message.getResizeAlertBodyPostfix());
 			

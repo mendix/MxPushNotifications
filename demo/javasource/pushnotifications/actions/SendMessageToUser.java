@@ -35,8 +35,10 @@ public class SendMessageToUser extends CustomJavaAction<Boolean>
 	private String LaunchImage;
 	private String Sound;
 	private Long TimeToLive;
+	private String ActionName;
+	private IMendixObject ContextObjectParameter1;
 
-	public SendMessageToUser(IContext context, IMendixObject UserParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
+	public SendMessageToUser(IContext context, IMendixObject UserParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive, String ActionName, IMendixObject ContextObjectParameter1)
 	{
 		super(context);
 		this.__UserParameter1 = UserParameter1;
@@ -46,6 +48,8 @@ public class SendMessageToUser extends CustomJavaAction<Boolean>
 		this.LaunchImage = LaunchImage;
 		this.Sound = Sound;
 		this.TimeToLive = TimeToLive;
+		this.ActionName = ActionName;
+		this.ContextObjectParameter1 = ContextObjectParameter1;
 	}
 
 	@Override
@@ -54,7 +58,8 @@ public class SendMessageToUser extends CustomJavaAction<Boolean>
 		this.UserParameter1 = __UserParameter1 == null ? null : system.proxies.User.initialize(getContext(), __UserParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
+		Long contextObjectGuid = this.ContextObjectParameter1 != null ? this.ContextObjectParameter1.getId().toLong() : null;
+		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, ActionName, contextObjectGuid);
 		return true;
 		// END USER CODE
 	}

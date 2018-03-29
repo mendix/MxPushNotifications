@@ -12,6 +12,7 @@ package pushnotifications.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import javax.swing.*;
 import static pushnotifications.proxies.microflows.Microflows.createAndSendMessage;
 
 /**
@@ -35,8 +36,10 @@ public class SendMessage extends CustomJavaAction<Boolean>
 	private String LaunchImage;
 	private String Sound;
 	private Long TimeToLive;
+	private String ActionName;
+	private IMendixObject ContextObjectParameter1;
 
-	public SendMessage(IContext context, IMendixObject DeviceParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
+	public SendMessage(IContext context, IMendixObject DeviceParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive, String ActionName, IMendixObject ContextObjectParameter1)
 	{
 		super(context);
 		this.__DeviceParameter1 = DeviceParameter1;
@@ -46,6 +49,8 @@ public class SendMessage extends CustomJavaAction<Boolean>
 		this.LaunchImage = LaunchImage;
 		this.Sound = Sound;
 		this.TimeToLive = TimeToLive;
+		this.ActionName = ActionName;
+		this.ContextObjectParameter1 = ContextObjectParameter1;
 	}
 
 	@Override
@@ -54,7 +59,8 @@ public class SendMessage extends CustomJavaAction<Boolean>
 		this.DeviceParameter1 = __DeviceParameter1 == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParameter1);
 
 		// BEGIN USER CODE
-		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
+		Long contextObjectGuid = this.ContextObjectParameter1 != null ? this.ContextObjectParameter1.getId().toLong() : null;
+		createAndSendMessage(getContext(), DeviceParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive, ActionName, contextObjectGuid);
 		return true;
 		// END USER CODE
 	}
