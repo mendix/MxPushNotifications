@@ -33,6 +33,7 @@ define([
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
+        notificationActions: [{ actionName: "", actionType: "", contextEntity: "", page: "", microflow:""}],
 
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
@@ -54,6 +55,7 @@ define([
         _push: null,
 
         version: "",
+        progressId: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -317,20 +319,27 @@ define([
         onPushNotification: function(data) {
             logger.debug(".onPushNotification");
 
-            var cards = document.getElementById("cards");
-            var card = '' +
-                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                data.message +
-                '</div>';
+            logger.debug(JSON.stringify(data));
 
-            var cardList = cards.childNodes;
-            for (var i = 0; i < cardList.length; i++) {
-                cardList[i].className = "alert alert-info alert-dismissible";
+            if (data.additionalData.foreground) {
+                var cards = document.getElementById("cards");
+
+                // TODO: use dojo.domConstruct to create this.
+                var card = `<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick='window.pushWidget.onClickAlert(${JSON.stringify(data.additionalData)},this)'>` +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    data.message +
+                    '</div>';
+
+                var cardList = cards.childNodes;
+                for (var i = 0; i < cardList.length; i++) {
+                    cardList[i].className = "alert alert-info alert-dismissible";
+                }
+                cards.innerHTML += card;
+            } else {
+                this.onClickAlert(data.additionalData);
             }
-            cards.innerHTML += card;
 
             this._push.finish(function() {
                 logger.debug('Successfully processed push notification.');
@@ -343,6 +352,101 @@ define([
 
         removeAlert: function(e) {
             e.parentNode.parentNode.removeChild(e.parentNode);
+        },
+
+        onClickAlert: function (data, e) {
+            var action = null;
+            var callback = dojoLang.hitch(this, function () {
+                if (e) {
+                    this.removeAlert(e.childNodes[0]);
+                }
+            });
+
+            for (var index = 0; index < this.notificationActions.length; index++) {
+                if (this.notificationActions[index].actionName === data.actionName) {
+                    action = this.notificationActions[index];
+                    break;
+                }
+            }
+
+            if (!action) {
+                callback();
+                return;
+            }
+
+            try {
+                var {contextEntity, actionType, microflow, page} = action;
+                var guid = data.guid;
+                var context = new mendix.lib.MxContext();
+                context.setContext(contextEntity, guid);
+
+                if (actionType === "openPage" && page && contextEntity && guid) {
+                    window.mx.ui.openForm(page, {
+                        callback,
+                        context,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + page + ": " + error.message);
+                        }
+                    });
+                } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
+                    window.mx.ui.action(microflow, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
+                        },
+                        params: {
+                            applyto: "selection",
+                            guids: [guid],
+                            mxform: this.mxform
+                        }
+                    });
+                } else if (actionType === "openPage" && page && !guid) {
+                    window.mx.ui.openForm(page, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + page + ": " + error.message);
+                        }
+                    });
+                } else if (actionType === "callMicroflow" && microflow && !guid) {
+                    window.mx.ui.action(microflow, {
+                        callback,
+                        error: function (error) {
+                            window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
+                        }
+                    });
+                } else {
+                    callback();
+                }
+            } catch (e) {
+                mx.ui.confirmation({
+                    content: "Synchronize this application with the server?",
+                    proceed: "Yes",
+                    cancel: "No",
+                    handler: this.offlineSync.bind(this)
+                });
+            }
+        },
+
+        offlineSync: function () {
+            var progressId = window.mx.ui.showProgress(null, true);
+            var onSyncSuccess = function (callback) {
+                if (progressId) {
+                    window.mx.ui.hideProgress(progressId);
+                }
+                if (callback) callback();
+            };
+            var onSyncFailure = function () {
+                window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
+            };
+
+            onSyncSuccess = onSyncSuccess.bind(this);
+            onSyncFailure = onSyncFailure.bind(this);
+
+            if (window.mx.data.synchronizeOffline) {
+                window.mx.data.synchronizeOffline({fast: false}, onSyncSuccess, onSyncFailure);
+            } else if (window.mx.data.synchronizeDataWithFiles) {
+                window.mx.data.synchronizeDataWithFiles(onSyncSuccess, onSyncFailure);
+            }
         },
 
         _executeOfflineOnline: function(offlineFn, onlineFn) {
