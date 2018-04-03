@@ -302,7 +302,11 @@ define([
             mx.data.commit({
                 mxobj: deviceRegistration,
                 callback: dojoLang.hitch(this, function() {
-                    logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                    try {
+                        logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                    } catch (e) {
+                        logger.debug("Registered unknown device");
+                    }
                 }),
                 error: function(e) {
                     logger.error("Error occurred attempting to register device: " + e);
