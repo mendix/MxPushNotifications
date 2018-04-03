@@ -116,13 +116,13 @@ define([
 
             var deferred = new Deferred();
 
-            var handleGCMSettings = function(settings, count) {
+            var handleGCMSettings = function(settings) {
                 if (settings.length > 0) {
                     logger.debug("Found one or more GCM settings objects. Using the first one.");
 
                     deferred.resolve(settings[0]);
                 } else {
-                    deferred.reject("Could not find a GCM settings object.")
+                    deferred.reject("Could not find a GCM settings object.");
                 }
             };
 
@@ -211,7 +211,7 @@ define([
                 .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function(err) {
                     logger.error("Failed to register device: " + err);
-                })
+                });
         },
 
         getDeviceRegistrationEntity: function() {
@@ -219,13 +219,13 @@ define([
 
             var deferred = new Deferred();
 
-            var handleRegistrationEntity = function(deviceregistrations, count) {
+            var handleRegistrationEntity = function(deviceregistrations) {
                 if (deviceregistrations.length > 0) {
                     logger.debug("Found one or more device registration objects. Using the first one.");
 
                     deferred.resolve(deviceregistrations[0]);
                 } else {
-                    deferred.reject("Could not find a device registration object.")
+                    deferred.reject("Could not find a device registration object.");
                 }
             };
 
@@ -239,7 +239,7 @@ define([
             var getRegistrationEntityOnlineFn = function() {
                 window.setTimeout(function() {
                     deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
-                }, 0)
+                }, 0);
             };
 
             // In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
@@ -373,22 +373,31 @@ define([
             }
 
             try {
-                var {contextEntity, actionType, microflow, page} = action;
+                var contextEntity = action.contextEntity;
+                var actionType = action.actionType;
+                var microflow = action.microflow;
+                var page = action.page;
+
                 var guid = data.guid;
+
                 var context = new mendix.lib.MxContext();
-                context.setContext(contextEntity, guid);
+
+                if (contextEntity) {
+                    context.setTrackEntity(contextEntity);
+                    context.setTrackId(guid);
+                }
 
                 if (actionType === "openPage" && page && contextEntity && guid) {
                     window.mx.ui.openForm(page, {
-                        callback,
-                        context,
+                        callback: callback,
+                        context: context,
                         error: function (error) {
                             window.mx.ui.error("Error while opening page " + page + ": " + error.message);
                         }
                     });
                 } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
                     window.mx.ui.action(microflow, {
-                        callback,
+                        callback: callback,
                         error: function (error) {
                             window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
                         },
@@ -400,14 +409,14 @@ define([
                     });
                 } else if (actionType === "openPage" && page && !guid) {
                     window.mx.ui.openForm(page, {
-                        callback,
+                        callback: callback,
                         error: function (error) {
                             window.mx.ui.error("Error while opening page " + page + ": " + error.message);
                         }
                     });
                 } else if (actionType === "callMicroflow" && microflow && !guid) {
                     window.mx.ui.action(microflow, {
-                        callback,
+                        callback: callback,
                         error: function (error) {
                             window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
                         }
@@ -431,7 +440,9 @@ define([
                 if (progressId) {
                     window.mx.ui.hideProgress(progressId);
                 }
-                if (callback) callback();
+                if (callback) {
+                    callback();
+                }
             };
             var onSyncFailure = function () {
                 window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
@@ -489,7 +500,7 @@ define([
                 major: maj,
                 minor: min,
                 patch: pat
-            }
+            };
         }
     });
 });
