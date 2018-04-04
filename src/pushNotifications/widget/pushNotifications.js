@@ -353,13 +353,13 @@ define([
         },
 
         onClickAlert: function (data, e) {
-            var action = null;
             var callback = dojoLang.hitch(this, function () {
                 if (e) {
                     this.removeAlert(e.childNodes[0]);
                 }
             });
 
+            var action = null;
             for (var index = 0; index < this.notificationActions.length; index++) {
                 if (this.notificationActions[index].actionName === data.actionName) {
                     action = this.notificationActions[index];
@@ -372,71 +372,77 @@ define([
                 return;
             }
 
-            try {
-                var contextEntity = action.contextEntity;
-                var actionType = action.actionType;
-                var microflow = action.microflow;
-                var page = action.page;
+            var contextEntity = action.contextEntity;
+            var actionType = action.actionType;
+            var microflow = action.microflow;
+            var page = action.page;
 
-                var guid = data.guid;
+            var guid = data.guid;
 
+            var params = {};
+
+            if (actionType === "openPage") {
                 var context = new mendix.lib.MxContext();
 
                 if (contextEntity) {
+                    if (!guid) {
+                        callback();
+                        return;
+                    }
+
                     context.setTrackEntity(contextEntity);
                     context.setTrackId(guid);
+
+                    if (!context.getTrackObject()) {
+                        var actionCallback = this.onClickAlert.bind(this, data, e);
+
+                        mx.ui.confirmation({
+                            content: "Synchronize this application with the server?",
+                            proceed: "Yes",
+                            cancel: "No",
+                            handler: this.offlineSync.bind(this, actionCallback)
+                        });
+
+                        return;
+                    }
                 }
 
-                if (actionType === "openPage" && page && contextEntity && guid) {
-                    window.mx.ui.openForm(page, {
-                        callback: callback,
-                        context: context,
-                        error: function (error) {
-                            window.mx.ui.error("Error while opening page " + page + ": " + error.message);
-                        }
-                    });
-                } else if (actionType === "callMicroflow" && microflow && contextEntity && guid) {
-                    window.mx.ui.action(microflow, {
-                        callback: callback,
-                        error: function (error) {
-                            window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
-                        },
-                        params: {
-                            applyto: "selection",
-                            guids: [guid],
-                            mxform: this.mxform
-                        }
-                    });
-                } else if (actionType === "openPage" && page && !guid) {
-                    window.mx.ui.openForm(page, {
-                        callback: callback,
-                        error: function (error) {
-                            window.mx.ui.error("Error while opening page " + page + ": " + error.message);
-                        }
-                    });
-                } else if (actionType === "callMicroflow" && microflow && !guid) {
-                    window.mx.ui.action(microflow, {
-                        callback: callback,
-                        error: function (error) {
-                            window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
-                        }
-                    });
-                } else {
-                    callback();
+                params = {
+                    callback: callback,
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + page + ": " + error.message);
+                    }
+                };
+
+                if (context) {
+                    params.context = context;
                 }
-            } catch (e) {
-                mx.ui.confirmation({
-                    content: "Synchronize this application with the server?",
-                    proceed: "Yes",
-                    cancel: "No",
-                    handler: this.offlineSync.bind(this)
+
+                window.mx.ui.openForm(page, params);
+            } else if (actionType === "callMicroflow") {
+                if (contextEntity && guid) {
+                    params = {
+                        applyto: "selection",
+                        guids: [guid],
+                        mxform: this.mxform
+                    };
+                }
+
+                window.mx.ui.action(microflow, {
+                    callback: callback,
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
+                    },
+                    params: params
                 });
+            } else {
+                callback();
             }
         },
 
-        offlineSync: function () {
+        offlineSync: function (callback) {
             var progressId = window.mx.ui.showProgress(null, true);
-            var onSyncSuccess = function (callback) {
+            var onSyncSuccess = function () {
                 if (progressId) {
                     window.mx.ui.hideProgress(progressId);
                 }
@@ -447,9 +453,6 @@ define([
             var onSyncFailure = function () {
                 window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
             };
-
-            onSyncSuccess = onSyncSuccess.bind(this);
-            onSyncFailure = onSyncFailure.bind(this);
 
             if (window.mx.data.synchronizeOffline) {
                 window.mx.data.synchronizeOffline({fast: false}, onSyncSuccess, onSyncFailure);
