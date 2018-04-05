@@ -23,7 +23,7 @@
 						<enumerationValue key="callMicroflow">Call microflow</enumerationValue>
 					</enumerationValues>
 				</property>
-				<property key="contextEntity" type="entity" required="false">
+				<property key="contextEntity" type="entity" isPath="no" required="false">
 					<caption>Entity</caption>
 					<category>Action</category>
 					<description>The entity of the object used as context of the page or the microflow parameter</description>
@@ -40,6 +40,14 @@
 					<returnType type="Void"/>
 				</property>
 			</properties>
+		</property>
+		<property key="synchronizationMessage" type="translatableString">
+			<caption>Synchronization message</caption>
+			<category>Messages</category>
+			<description>The message that will be shown when the referred object is not yet available in the offline app.</description>
+			<translations>
+				<translation lang="en_US">The notification refers to data that you do not have on your device yet. Do you want to synchronize?</translation>
+			</translations>
 		</property>
 	</properties>
 </widget>

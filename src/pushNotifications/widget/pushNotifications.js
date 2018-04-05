@@ -35,6 +35,8 @@ define([
         templateString: widgetTemplate,
         notificationActions: [{ actionName: "", actionType: "", contextEntity: "", page: "", microflow:""}],
 
+        synchronizationMessage: "",
+
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
         DEVICE_ID_ATTRIBUTE: "DeviceID",
@@ -382,31 +384,6 @@ define([
             var params = {};
 
             if (actionType === "openPage") {
-                var context = new mendix.lib.MxContext();
-
-                if (contextEntity) {
-                    if (!guid) {
-                        callback();
-                        return;
-                    }
-
-                    context.setTrackEntity(contextEntity);
-                    context.setTrackId(guid);
-
-                    if (!context.getTrackObject()) {
-                        var actionCallback = this.onClickAlert.bind(this, data, e);
-
-                        mx.ui.confirmation({
-                            content: "Synchronize this application with the server?",
-                            proceed: "Yes",
-                            cancel: "No",
-                            handler: this.offlineSync.bind(this, actionCallback)
-                        });
-
-                        return;
-                    }
-                }
-
                 params = {
                     callback: callback,
                     error: function (error) {
@@ -414,11 +391,48 @@ define([
                     }
                 };
 
-                if (context) {
-                    params.context = context;
-                }
+                if (contextEntity) {
+                    if (!guid) {
+                        callback();
+                        return;
+                    }
 
-                window.mx.ui.openForm(page, params);
+                    var context = new mendix.lib.MxContext();
+
+                    context.setTrackEntity(contextEntity);
+                    context.setTrackId(guid);
+
+                    var doOnline = function() {
+                        params.context = context;
+
+                        window.mx.ui.openForm(page, params);
+                    };
+
+                    var doOffline = function() {
+                        var processResult = function(obj, meta) {
+                            if (meta.count === 0) {
+                                var actionCallback = this.onClickAlert.bind(this, data, e);
+
+                                mx.ui.confirmation({
+                                    content: this.synchronizationMessage,
+                                    proceed: mx.ui.translate("mxui.common", true),
+                                    cancel: mx.ui.translate("mxui.common", false),
+                                    handler: this.offlineSync.bind(this, actionCallback)
+                                });
+                            } else {
+                                params.context = context;
+
+                                window.mx.ui.openForm(page, params);
+                            }
+                        };
+
+                        mx.data.get({guid: guid, callback: processResult.bind(this)});
+                    };
+
+                    this._executeOfflineOnline(doOffline.bind(this), doOnline.bind(this));
+                } else {
+                    window.mx.ui.openForm(page, params);
+                }
             } else if (actionType === "callMicroflow") {
                 if (contextEntity && guid) {
                     params = {
@@ -462,23 +476,10 @@ define([
         },
 
         _executeOfflineOnline: function(offlineFn, onlineFn) {
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
-                if (mx.isOffline()) {
-                    offlineFn();
-                } else {
-                    onlineFn();
-                }
+            if ((mx.isOffline && mx.isOffline()) || !!mx.session.getConfig("sync_config")) {
+                return offlineFn();
             } else {
-                /*
-                 mx.data.getSlice is only available in the offline (client-side) backend.
-                 Unfortunately, we have no way of knowing if we're running in offline mode.
-                 Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
-                 */
-                try {
-                    offlineFn();
-                } catch (e) {
-                    onlineFn();
-                }
+                return onlineFn();
             }
         },
 
