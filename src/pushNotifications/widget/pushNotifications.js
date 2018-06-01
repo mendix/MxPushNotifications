@@ -35,8 +35,6 @@ define([
         templateString: widgetTemplate,
         notificationActions: [{ actionName: "", actionType: "", contextEntity: "", page: "", microflow:""}],
 
-        synchronizationMessage: "",
-
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
         DEVICE_ID_ATTRIBUTE: "DeviceID",
@@ -97,8 +95,8 @@ define([
             logger.debug(".initializePushNotifications");
 
             all({
-                    gcm: this.obtainGCMSettings()
-                })
+                gcm: this.obtainGCMSettings()
+            })
                 .then(dojoLang.hitch(this, this.initializePushPlugin))
                 .then(dojoLang.hitch(this, this.removeRetryInterval))
                 .otherwise(dojoLang.hitch(this, function(err) {
@@ -397,42 +395,40 @@ define([
                         return;
                     }
 
-                    var context = new mendix.lib.MxContext();
-
-                    context.setTrackEntity(contextEntity);
-                    context.setTrackId(guid);
-
                     var doOnline = function() {
+                        var context = new mendix.lib.MxContext(contextEntity, guid);
+
                         params.context = context;
 
                         window.mx.ui.openForm(page, params);
                     };
 
                     var doOffline = function() {
-                        var processResult = function(obj, meta) {
-                            if (meta.count === 0) {
-                                var actionCallback = this.onClickAlert.bind(this, data, e);
+                        mx.data.get({guid: guid, callback: dojoLang.hitch(this, function(obj) {
+                            if (obj) {
+                                var context = new mendix.lib.MxContext(contextEntity, guid);
 
-                                mx.ui.confirmation({
-                                    content: this.synchronizationMessage,
-                                    proceed: mx.ui.translate("mxui.common", true),
-                                    cancel: mx.ui.translate("mxui.common", false),
-                                    handler: this.offlineSync.bind(this, actionCallback)
-                                });
-                            } else {
                                 params.context = context;
 
                                 window.mx.ui.openForm(page, params);
-                            }
-                        };
+                            } else {
+                                var actionCallback = this.onClickAlert.bind(this, data, e);
 
-                        mx.data.get({guid: guid, callback: processResult.bind(this)});
+                                mx.ui.confirmation({
+                                    content: "Synchronize this application with the server?",
+                                    proceed: "Yes",
+                                    cancel: "No",
+                                    handler: this.offlineSync.bind(this, actionCallback)
+                                });
+                            }
+                        })});
                     };
 
                     this._executeOfflineOnline(doOffline.bind(this), doOnline.bind(this));
                 } else {
                     window.mx.ui.openForm(page, params);
                 }
+
             } else if (actionType === "callMicroflow") {
                 if (contextEntity && guid) {
                     params = {
@@ -477,9 +473,9 @@ define([
 
         _executeOfflineOnline: function(offlineFn, onlineFn) {
             if ((mx.isOffline && mx.isOffline()) || !!mx.session.getConfig("sync_config")) {
-                return offlineFn();
+                offlineFn();
             } else {
-                return onlineFn();
+                onlineFn();
             }
         },
 
