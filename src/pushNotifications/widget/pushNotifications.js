@@ -407,6 +407,7 @@ define([
                         mx.data.get({guid: guid, callback: dojoLang.hitch(this, function(obj) {
                             if (obj) {
                                 var context = new mendix.lib.MxContext(contextEntity, guid);
+                                context.setTrackObject(obj);
 
                                 params.context = context;
 
