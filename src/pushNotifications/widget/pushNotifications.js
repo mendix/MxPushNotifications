@@ -462,6 +462,8 @@ define([
                 }
             };
             var onSyncFailure = function () {
+                window.mx.ui.hideProgress(progressId);
+
                 window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
             };
 
