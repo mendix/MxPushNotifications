@@ -397,6 +397,7 @@ define([
 
                     var doOnline = function() {
                         var context = new mendix.lib.MxContext(contextEntity, guid);
+                        context.setTrackObject(obj);
 
                         params.context = context;
 
