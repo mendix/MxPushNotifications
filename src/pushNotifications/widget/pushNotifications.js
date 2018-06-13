@@ -1,22 +1,6 @@
 /*jslint browser: true, devel:true, nomen:true, unparam:true, regexp: true*/
 /*global logger, cordova, mx, mxui, device, define, Media, require*/
-/*
- pushNotifications
- ========================
 
- @file      : pushNotifications.js
- @version   : 2.3.0
- @author    : Simon Black & Kevin Vlaanderen
- @date      : Thu, 30 Jun 2016 10:59 CEST
- @copyright :
- @license   :
-
- Documentation
- ========================
- Describe your widget here.
- */
-
-// Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
 define([
     "dojo/_base/declare",
     "mxui/widget/_WidgetBase",
@@ -29,7 +13,6 @@ define([
 ], function(declare, _WidgetBase, _TemplatedMixin, Deferred, all, dojoLang, JSON, widgetTemplate) {
     "use strict";
 
-    // Declare widget"s prototype.
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
@@ -56,11 +39,6 @@ define([
 
         version: "",
         progressId: null,
-
-        // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
-        constructor: function() {
-            // logger.level(window.logger.ALL);
-        },
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
