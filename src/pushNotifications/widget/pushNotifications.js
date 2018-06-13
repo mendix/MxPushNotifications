@@ -373,25 +373,16 @@ define([
                         return;
                     }
 
-                    var doOnline = function() {
-                        var context = new mendix.lib.MxContext(contextEntity, guid);
-                        context.setTrackObject(obj);
+                    mx.data.get({guid: guid, callback: dojoLang.hitch(this, function(obj) {
+                        if (obj) {
+                            var context = new mendix.lib.MxContext(contextEntity, guid);
+                            context.setTrackObject(obj);
 
-                        params.context = context;
+                            params.context = context;
 
-                        window.mx.ui.openForm(page, params);
-                    };
-
-                    var doOffline = function() {
-                        mx.data.get({guid: guid, callback: dojoLang.hitch(this, function(obj) {
-                            if (obj) {
-                                var context = new mendix.lib.MxContext(contextEntity, guid);
-                                context.setTrackObject(obj);
-
-                                params.context = context;
-
-                                window.mx.ui.openForm(page, params);
-                            } else {
+                            window.mx.ui.openForm(page, params);
+                        } else {
+                            if (this._isOffline) {
                                 var actionCallback = this.onClickAlert.bind(this, data, e);
 
                                 mx.ui.confirmation({
@@ -401,10 +392,8 @@ define([
                                     handler: this.offlineSync.bind(this, actionCallback)
                                 });
                             }
-                        })});
-                    };
-
-                    this._executeOfflineOnline(doOffline.bind(this), doOnline.bind(this));
+                        }
+                    })});
                 } else {
                     window.mx.ui.openForm(page, params);
                 }
@@ -459,6 +448,10 @@ define([
             } else {
                 onlineFn();
             }
+        },
+
+        _isOffline: function() {
+            return (mx.isOffline && mx.isOffline()) || !!mx.session.getConfig("sync_config");
         },
 
         _getSliceCompat: function(entity, constraints, filter, success, error) {
