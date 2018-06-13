@@ -33,6 +33,7 @@ define([
     return declare("pushNotifications.widget.pushNotifications", [_WidgetBase, _TemplatedMixin], {
         // _TemplatedMixin will create our dom node using this HTML template.
         templateString: widgetTemplate,
+        notificationActions: [{ actionName: "", actionType: "", contextEntity: "", page: "", microflow:""}],
 
         // Constants (needed to work around the fact that you cannot use entity paths in offline mode)
         DEVICE_REGISTRATION_ENTITY: "PushNotifications.DeviceRegistration",
@@ -54,6 +55,7 @@ define([
         _push: null,
 
         version: "",
+        progressId: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -93,8 +95,8 @@ define([
             logger.debug(".initializePushNotifications");
 
             all({
-                    gcm: this.obtainGCMSettings()
-                })
+                gcm: this.obtainGCMSettings()
+            })
                 .then(dojoLang.hitch(this, this.initializePushPlugin))
                 .then(dojoLang.hitch(this, this.removeRetryInterval))
                 .otherwise(dojoLang.hitch(this, function(err) {
@@ -114,13 +116,13 @@ define([
 
             var deferred = new Deferred();
 
-            var handleGCMSettings = function(settings, count) {
+            var handleGCMSettings = function(settings) {
                 if (settings.length > 0) {
                     logger.debug("Found one or more GCM settings objects. Using the first one.");
 
                     deferred.resolve(settings[0]);
                 } else {
-                    deferred.reject("Could not find a GCM settings object.")
+                    deferred.reject("Could not find a GCM settings object.");
                 }
             };
 
@@ -209,7 +211,7 @@ define([
                 .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function(err) {
                     logger.error("Failed to register device: " + err);
-                })
+                });
         },
 
         getDeviceRegistrationEntity: function() {
@@ -217,13 +219,13 @@ define([
 
             var deferred = new Deferred();
 
-            var handleRegistrationEntity = function(deviceregistrations, count) {
+            var handleRegistrationEntity = function(deviceregistrations) {
                 if (deviceregistrations.length > 0) {
                     logger.debug("Found one or more device registration objects. Using the first one.");
 
                     deferred.resolve(deviceregistrations[0]);
                 } else {
-                    deferred.reject("Could not find a device registration object.")
+                    deferred.reject("Could not find a device registration object.");
                 }
             };
 
@@ -237,7 +239,7 @@ define([
             var getRegistrationEntityOnlineFn = function() {
                 window.setTimeout(function() {
                     deferred.reject("Cannot retrieve local deviceRegistration object when in online mode.");
-                }, 0)
+                }, 0);
             };
 
             // In offline mode, it's possible that there is still a DeviceRegistration object in our local database.
@@ -317,20 +319,25 @@ define([
         onPushNotification: function(data) {
             logger.debug(".onPushNotification");
 
-            var cards = document.getElementById("cards");
-            var card = '' +
-                '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert">' +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                data.message +
-                '</div>';
+            if (data.additionalData.foreground) {
+                var cards = document.getElementById("cards");
 
-            var cardList = cards.childNodes;
-            for (var i = 0; i < cardList.length; i++) {
-                cardList[i].className = "alert alert-info alert-dismissible";
+                // TODO: use dojo.domConstruct to create this.
+                var card = `<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick='window.pushWidget.onClickAlert(${JSON.stringify(data.additionalData)},this)'>` +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
+                    '<span aria-hidden="true">&times;</span>' +
+                    '</button>' +
+                    data.message +
+                    '</div>';
+
+                var cardList = cards.childNodes;
+                for (var i = 0; i < cardList.length; i++) {
+                    cardList[i].className = "alert alert-info alert-dismissible";
+                }
+                cards.innerHTML += card;
+            } else {
+                this.onClickAlert(data.additionalData);
             }
-            cards.innerHTML += card;
 
             this._push.finish(function() {
                 logger.debug('Successfully processed push notification.');
@@ -345,24 +352,134 @@ define([
             e.parentNode.parentNode.removeChild(e.parentNode);
         },
 
-        _executeOfflineOnline: function(offlineFn, onlineFn) {
-            if (this.version.major > 7 || (this.version.major === 7 && this.version.minor >= 3)) {
-                if (mx.isOffline()) {
-                    offlineFn();
+        onClickAlert: function (data, e) {
+            var callback = dojoLang.hitch(this, function () {
+                if (e) {
+                    this.removeAlert(e.childNodes[0]);
+                }
+            });
+
+            var action = null;
+            for (var index = 0; index < this.notificationActions.length; index++) {
+                if (this.notificationActions[index].actionName === data.actionName) {
+                    action = this.notificationActions[index];
+                    break;
+                }
+            }
+
+            if (!action) {
+                callback();
+                return;
+            }
+
+            var contextEntity = action.contextEntity;
+            var actionType = action.actionType;
+            var microflow = action.microflow;
+            var page = action.page;
+
+            var guid = data.guid;
+
+            var params = {};
+
+            if (actionType === "openPage") {
+                params = {
+                    callback: callback,
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + page + ": " + error.message);
+                    }
+                };
+
+                if (contextEntity) {
+                    if (!guid) {
+                        callback();
+                        return;
+                    }
+
+                    var doOnline = function() {
+                        var context = new mendix.lib.MxContext(contextEntity, guid);
+                        context.setTrackObject(obj);
+
+                        params.context = context;
+
+                        window.mx.ui.openForm(page, params);
+                    };
+
+                    var doOffline = function() {
+                        mx.data.get({guid: guid, callback: dojoLang.hitch(this, function(obj) {
+                            if (obj) {
+                                var context = new mendix.lib.MxContext(contextEntity, guid);
+                                context.setTrackObject(obj);
+
+                                params.context = context;
+
+                                window.mx.ui.openForm(page, params);
+                            } else {
+                                var actionCallback = this.onClickAlert.bind(this, data, e);
+
+                                mx.ui.confirmation({
+                                    content: "Synchronize this application with the server?",
+                                    proceed: "Yes",
+                                    cancel: "No",
+                                    handler: this.offlineSync.bind(this, actionCallback)
+                                });
+                            }
+                        })});
+                    };
+
+                    this._executeOfflineOnline(doOffline.bind(this), doOnline.bind(this));
                 } else {
-                    onlineFn();
+                    window.mx.ui.openForm(page, params);
                 }
+
+            } else if (actionType === "callMicroflow") {
+                if (contextEntity && guid) {
+                    params = {
+                        applyto: "selection",
+                        guids: [guid],
+                        mxform: this.mxform
+                    };
+                }
+
+                window.mx.ui.action(microflow, {
+                    callback: callback,
+                    error: function (error) {
+                        window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
+                    },
+                    params: params
+                });
             } else {
-                /*
-                 mx.data.getSlice is only available in the offline (client-side) backend.
-                 Unfortunately, we have no way of knowing if we're running in offline mode.
-                 Let's try to use getSlice first, and fall back to an xpath retrieve if it fails.
-                 */
-                try {
-                    offlineFn();
-                } catch (e) {
-                    onlineFn();
+                callback();
+            }
+        },
+
+        offlineSync: function (callback) {
+            var progressId = window.mx.ui.showProgress(null, true);
+            var onSyncSuccess = function () {
+                if (progressId) {
+                    window.mx.ui.hideProgress(progressId);
                 }
+                if (callback) {
+                    callback();
+                }
+            };
+            var onSyncFailure = function () {
+                window.mx.ui.hideProgress(progressId);
+
+                window.mx.ui.info(window.mx.ui.translate("mxui.sys.UI", "sync_error"), true);
+            };
+
+            if (window.mx.data.synchronizeOffline) {
+                window.mx.data.synchronizeOffline({fast: false}, onSyncSuccess, onSyncFailure);
+            } else if (window.mx.data.synchronizeDataWithFiles) {
+                window.mx.data.synchronizeDataWithFiles(onSyncSuccess, onSyncFailure);
+            }
+        },
+
+        _executeOfflineOnline: function(offlineFn, onlineFn) {
+            if ((mx.isOffline && mx.isOffline()) || !!mx.session.getConfig("sync_config")) {
+                offlineFn();
+            } else {
+                onlineFn();
             }
         },
 
@@ -387,7 +504,7 @@ define([
                 major: maj,
                 minor: min,
                 patch: pat
-            }
+            };
         }
     });
 });

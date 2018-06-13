@@ -9,8 +9,8 @@
     "undef"    : true,
     "globals"  : {
         "mendix" : false,
-        "mxui"     : false,
-        "mx"     : false
+        "mx"     : false,
+        "logger" : false
     },
 
     // Relaxing
@@ -18,5 +18,6 @@
 
     // Environments
     "browser"  : true,
-    "devel"    : true
+    "devel"    : true,
+    "dojo"     : true
 }
