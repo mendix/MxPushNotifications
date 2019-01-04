@@ -91,6 +91,7 @@ define([
             window.pushWidget = this;
 
             this._push = PushNotification.init({
+                "android": {},
                 "ios": {
                     "alert": "true",
                     "badge": "true",
