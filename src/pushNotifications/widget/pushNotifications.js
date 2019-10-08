@@ -228,7 +228,7 @@ define([
                 var cards = document.getElementById("cards");
 
                 // TODO: use dojo.domConstruct to create this.
-                var card = `<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick='window.pushWidget.onClickAlert(${JSON.stringify(data.additionalData)},this)'>` +
+                var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick="window.pushWidget.onClickAlert(' + JSON.stringify(data.additionalData) +', this)">' +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
