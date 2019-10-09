@@ -9,7 +9,7 @@ For normal project all dependencies are found in the App Store module. For devel
 
 Prerequisite:
  - Install Gradle Build Tool https://gradle.org/install/
- - On MaxOS install Mono https://www.mono-project.com/download/stable/
+ - On MacOS install Mono https://www.mono-project.com/download/stable/
 
 Install dependencies JAR files
 ```bash
@@ -26,7 +26,15 @@ Check security on JAR dependencies:
 $ gradle dependencyCheckAnalyze --info
 ```
 
+Before release update the build.gradle, the target version of the module and the "Push Notification Connector" version.
+
+``` groofy
+PNC_VERSION = '4.0.6'
+MXBUILD_VERSION = '7.23.8.58888'
+```
+
 Export module for App Store:
+
 ```bash
 $ gradle extractModule
 ```
