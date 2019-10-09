@@ -35,17 +35,17 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Note that DeepClone does commit all objects, where Clone does not.
  */
-public class DeepClone extends CustomJavaAction<Boolean>
+public class DeepClone extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject source;
 	private IMendixObject target;
-	private String membersToSkip;
-	private String membersToKeep;
-	private String reverseAssociations;
-	private String excludeEntities;
-	private String excludeModules;
+	private java.lang.String membersToSkip;
+	private java.lang.String membersToKeep;
+	private java.lang.String reverseAssociations;
+	private java.lang.String excludeEntities;
+	private java.lang.String excludeModules;
 
-	public DeepClone(IContext context, IMendixObject source, IMendixObject target, String membersToSkip, String membersToKeep, String reverseAssociations, String excludeEntities, String excludeModules)
+	public DeepClone(IContext context, IMendixObject source, IMendixObject target, java.lang.String membersToSkip, java.lang.String membersToKeep, java.lang.String reverseAssociations, java.lang.String excludeEntities, java.lang.String excludeModules)
 	{
 		super(context);
 		this.source = source;
@@ -57,8 +57,8 @@ public class DeepClone extends CustomJavaAction<Boolean>
 		this.excludeModules = excludeModules;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
         this.membersToSkip       = this.membersToSkip == null       ? "" : this.membersToSkip;
@@ -75,8 +75,8 @@ public class DeepClone extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "DeepClone";
 	}

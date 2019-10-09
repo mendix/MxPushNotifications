@@ -18,29 +18,29 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * The microflow is run with system rights in its own transaction, and is very useful to run heavy microflows on the background.
  */
-public class RunMicroflowAsyncInQueue extends CustomJavaAction<Boolean>
+public class RunMicroflowAsyncInQueue extends CustomJavaAction<java.lang.Boolean>
 {
-	private String microflowName;
+	private java.lang.String microflow;
 
-	public RunMicroflowAsyncInQueue(IContext context, String microflowName)
+	public RunMicroflowAsyncInQueue(IContext context, java.lang.String microflow)
 	{
 		super(context);
-		this.microflowName = microflowName;
+		this.microflow = microflow;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		return Misc.runMicroflowAsyncInQueue(microflowName);
+		return Misc.runMicroflowAsyncInQueue(microflow);
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "RunMicroflowAsyncInQueue";
 	}

@@ -17,7 +17,7 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Converts an unencoded file to a base 64 encoded string.
  */
-public class Base64EncodeFile extends CustomJavaAction<String>
+public class Base64EncodeFile extends CustomJavaAction<java.lang.String>
 {
 	private IMendixObject __file;
 	private system.proxies.FileDocument file;
@@ -28,8 +28,8 @@ public class Base64EncodeFile extends CustomJavaAction<String>
 		this.__file = file;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		this.file = __file == null ? null : system.proxies.FileDocument.initialize(getContext(), __file);
 
@@ -41,8 +41,8 @@ public class Base64EncodeFile extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "Base64EncodeFile";
 	}

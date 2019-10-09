@@ -1,19 +1,59 @@
 /* ==========================================================================
-   Page Header
+   Pageheader
 ========================================================================== */
+
+//== Default
+//-------------------------------------------------------------------------------------------------------------------//
 .pageheader {
-	border-bottom: 2px solid $default-border-color;
-	@include default-spacing($type: margin, $direction: bottom, $device: responsive);
+    border-bottom: 1px solid $border-color-default;
+    background: $header-bg-color;
 }
-.pageheader.pageheader-fullwidth {
-	background-color: $bg-color-secondary;
-	border-bottom: 1px solid $default-border-color;
-	margin-bottom: 0;
+
+// Check if it is part of a inner layoutgrid
+.mx-scrollcontainer .mx-placeholder .mx-layoutgrid .pageheader {
+    @include get-responsive-spacing-large($type: margin, $direction: bottom);
+    @include get-responsive-spacing-large($type: padding, $direction: bottom);
+    background: transparent;
 }
+
+//== Elements
+//-------------------------------------------------------------------------------------------------------------------//
+.pageheader-type {
+    margin: 0;
+}
+
 .pageheader-title {
-	margin-bottom: 0;
-	margin-top: 0;
+    margin: 0;
 }
+
 .pageheader-subtitle {
-	color: $color-text-black-secondary;
+    margin: 0;
+}
+
+//== Variations
+//-------------------------------------------------------------------------------------------------------------------//
+.pageheaderwithcontrols {
+    .controlgroup {
+    }
+}
+
+.pageheaderwithimage {
+    .pageheader-image {
+    }
+    .figurecontent {
+    }
+}
+
+.pageheaderwithimageandcontrols {
+}
+
+.pageheaderwithsearch {
+    .pageheader-title {
+        margin-bottom: 1em;
+    }
+}
+
+.pageheaderwithbreadcrumb {
+    .breadcrumb {
+    }
 }

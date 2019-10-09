@@ -1,0 +1,113 @@
+apply plugin: 'java'
+
+sourceCompatibility = '1.8'
+[compileJava]*.options*.encoding = 'UTF-8'
+
+import org.gradle.api.internal.file.copy.CopySpecInternal
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.owasp:dependency-check-gradle:5.2.2'
+    }
+}
+
+apply plugin: 'org.owasp.dependencycheck'
+
+project.ext {
+    PNC_VERSION = '4.0.6'
+    MXBUILD_VERSION = '7.23.8.58888'
+    MODULE_NAME = 'PushNotifications'
+}
+
+def runtimeLibs = "$buildDir/runtime/bundles"
+def monoPath = "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
+
+def userLibDir = "$projectDir/test/userlib"
+def testProject = "$projectDir/test/PushNotfications.mpr"
+
+configurations {
+    tar
+}
+
+repositories {
+    mavenCentral()
+    ivy {
+        url 'https://cdn.mendix.com/'
+        layout 'pattern', {
+            artifact '/[organisation]/[module]-[revision].[ext]'
+        }
+        metadataSources {
+            artifact()
+        }
+    }
+}
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.0' // '2.1.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.0' // '2.1.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0' // '2.1.0'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.13' // '1.10'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6' // '2.6.0'
+    compile group: 'com.google.api-client', name: 'google-api-client', version: '1.30.4' // '?'
+    compile group: 'io.netty', name: 'netty-tcnative', version: '2.0.26.Final' //'2.0.5.Final'
+    compile group: 'com.turo', name: 'pushy', version: '0.13.9' // '0.13.5'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28' //1.7.21
+
+    tar "runtime:mxbuild:${project.MXBUILD_VERSION}@tar.gz"
+}
+
+// https://stackoverflow.com/a/48724412/412834
+configurations.each {
+    c -> c.resolutionStrategy.dependencySubstitution {
+        all { DependencySubstitution dependency ->
+            if (dependency.requested.group == 'com.google.guava') {
+                dependency.useTarget 'com.google.guava:guava:27.0-jre'
+            }
+        }
+    }
+}
+
+task extractModule( type: Exec ) {
+    if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        executable "$buildDir/modeler/mxutil.exe"
+        args "create-module-package", "--filter-required-libs", "--package-dir=${projectDir}/dist/${project.PNC_VERSION}/module", testProject, project.MODULE_NAME
+    } else {
+        executable "$monoPath/mono"
+        args "$buildDir/modeler/mxutil.exe", "create-module-package", "--filter-required-libs", "--exclude-files=resources/.*", "--package-dir=${projectDir}/dist/${project.PNC_VERSION}/module", testProject, project.MODULE_NAME
+    }
+}
+
+extractModule.doFirst {
+    mkdir "${projectDir}/dist/${project.PNC_VERSION}/module"
+}
+
+task copyToUserlib( type: Copy ) {
+    into userLibDir
+    from configurations.runtime
+    eachFile { fileCopyDetails ->
+        def requiredLibFlag = new File(destinationDir, "${fileCopyDetails.name}.${project.MODULE_NAME}.RequiredLib")
+        requiredLibFlag.write ''
+    }
+}
+
+task untarMxbuild( type: Copy ) {
+    configurations.tar.findAll{it.name.endsWith('tar.gz')}.each {
+        from tarTree(resources.gzip(it))
+        into buildDir
+        include('**/modeler/**')
+        includeEmptyDirs = false
+    }
+}
+
+task prepareDeps {
+    dependsOn 'clean', 'copyToUserlib', 'untarMxbuild'
+}
+
+clean {
+    delete "$userLibDir"
+}
+
+tasks.untarMxbuild.shouldRunAfter tasks.copyToUserlib

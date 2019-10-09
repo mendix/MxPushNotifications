@@ -13,17 +13,17 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
 /**
- * Starts a new transaction.
+ * Start a transaction, if a transaction is already started for this context, a savepoint will be added
  */
-public class StartTransaction extends CustomJavaAction<Boolean>
+public class StartTransaction extends CustomJavaAction<java.lang.Boolean>
 {
 	public StartTransaction(IContext context)
 	{
 		super(context);
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		getContext().startTransaction();
@@ -34,8 +34,8 @@ public class StartTransaction extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "StartTransaction";
 	}

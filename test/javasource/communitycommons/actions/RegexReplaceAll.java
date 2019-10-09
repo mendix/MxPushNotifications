@@ -14,20 +14,22 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
 /**
- * Performs a regular expression. Identical to the microflow expression funciton 'replaceAll'. Useful to be used from java, or in older Mendix versions. 
+ * Deprecated.
+ * 
+ * Performs a regular expression. Identical to the microflow expression funciton 'replaceAll'.
  * For the regexp specification see:
- * http://download.oracle.com/javase/1.4.2/docs/api/java/util/regex/Pattern.html
+ * https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
  * 
  * A decent regexp tester can be found at:
  * http://www.fileformat.info/tool/regex.htm
  */
-public class RegexReplaceAll extends CustomJavaAction<String>
+public class RegexReplaceAll extends CustomJavaAction<java.lang.String>
 {
-	private String haystack;
-	private String needleRegex;
-	private String replacement;
+	private java.lang.String haystack;
+	private java.lang.String needleRegex;
+	private java.lang.String replacement;
 
-	public RegexReplaceAll(IContext context, String haystack, String needleRegex, String replacement)
+	public RegexReplaceAll(IContext context, java.lang.String haystack, java.lang.String needleRegex, java.lang.String replacement)
 	{
 		super(context);
 		this.haystack = haystack;
@@ -35,8 +37,8 @@ public class RegexReplaceAll extends CustomJavaAction<String>
 		this.replacement = replacement;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return StringUtils.regexReplaceAll(haystack, needleRegex, replacement);
@@ -46,8 +48,8 @@ public class RegexReplaceAll extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "RegexReplaceAll";
 	}

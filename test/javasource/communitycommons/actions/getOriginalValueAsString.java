@@ -23,20 +23,20 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * The function is applicable for non-String members as well, but always returns a String representation of the previous value.
  */
-public class getOriginalValueAsString extends CustomJavaAction<String>
+public class getOriginalValueAsString extends CustomJavaAction<java.lang.String>
 {
 	private IMendixObject item;
-	private String member;
+	private java.lang.String member;
 
-	public getOriginalValueAsString(IContext context, IMendixObject item, String member)
+	public getOriginalValueAsString(IContext context, IMendixObject item, java.lang.String member)
 	{
 		super(context);
 		this.item = item;
 		this.member = member;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return ORM.getOriginalValueAsString(this.getContext(), item, member);
@@ -46,8 +46,8 @@ public class getOriginalValueAsString extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "getOriginalValueAsString";
 	}

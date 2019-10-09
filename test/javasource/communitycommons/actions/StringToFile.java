@@ -11,34 +11,40 @@ package communitycommons.actions;
 
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import communitycommons.StringUtils;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 
 /**
- * Stores a string into the provides filedocument
- * 
+ * Stores a string into the provided FileDocument, using the specified encoding.
  * Note that destination will be committed.
  */
-public class StringToFile extends CustomJavaAction<Boolean>
+public class StringToFile extends CustomJavaAction<java.lang.Boolean>
 {
-	private String value;
+	private java.lang.String value;
 	private IMendixObject __destination;
 	private system.proxies.FileDocument destination;
+	private communitycommons.proxies.StandardEncodings encoding;
 
-	public StringToFile(IContext context, String value, IMendixObject destination)
+	public StringToFile(IContext context, java.lang.String value, IMendixObject destination, java.lang.String encoding)
 	{
 		super(context);
 		this.value = value;
 		this.__destination = destination;
+		this.encoding = encoding == null ? null : communitycommons.proxies.StandardEncodings.valueOf(encoding);
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.destination = __destination == null ? null : system.proxies.FileDocument.initialize(getContext(), __destination);
 
 		// BEGIN USER CODE
-		StringUtils.stringToFile(getContext(), value, destination);
+		Charset charset = StandardCharsets.UTF_8;
+		if (this.encoding != null)
+			charset = Charset.forName(this.encoding.name().replace('_', '-'));
+		StringUtils.stringToFile(getContext(), value, destination, charset);
 		return true;
 		// END USER CODE
 	}
@@ -46,8 +52,8 @@ public class StringToFile extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "StringToFile";
 	}
