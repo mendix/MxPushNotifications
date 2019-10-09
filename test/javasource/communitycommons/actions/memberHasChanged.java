@@ -22,20 +22,20 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Returns true if changed.
  */
-public class memberHasChanged extends CustomJavaAction<Boolean>
+public class memberHasChanged extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject item;
-	private String member;
+	private java.lang.String member;
 
-	public memberHasChanged(IContext context, IMendixObject item, String member)
+	public memberHasChanged(IContext context, IMendixObject item, java.lang.String member)
 	{
 		super(context);
 		this.item = item;
 		this.member = member;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return ORM.memberHasChanged(this.getContext(), item, member);
@@ -45,8 +45,8 @@ public class memberHasChanged extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "memberHasChanged";
 	}

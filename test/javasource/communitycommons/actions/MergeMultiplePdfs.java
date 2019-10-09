@@ -14,7 +14,10 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import communitycommons.Misc;
 
-public class MergeMultiplePdfs extends CustomJavaAction<Boolean>
+/**
+ * Restricted to 10 files at once for Mendix Cloud v4 compatibility. If you need to merge more than 10 files at once merge recursively instead or change the MergeMultiplePdfs_MaxAtOnce constant.
+ */
+public class MergeMultiplePdfs extends CustomJavaAction<java.lang.Boolean>
 {
 	private java.util.List<IMendixObject> __FilesToMerge;
 	private java.util.List<system.proxies.FileDocument> FilesToMerge;
@@ -28,8 +31,8 @@ public class MergeMultiplePdfs extends CustomJavaAction<Boolean>
 		this.__MergedDocument = MergedDocument;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		this.FilesToMerge = new java.util.ArrayList<system.proxies.FileDocument>();
 		if (__FilesToMerge != null)
@@ -39,15 +42,15 @@ public class MergeMultiplePdfs extends CustomJavaAction<Boolean>
 		this.MergedDocument = __MergedDocument == null ? null : system.proxies.FileDocument.initialize(getContext(), __MergedDocument);
 
 		// BEGIN USER CODE
-		return Misc.mergePDF(this.getContext(), this.FilesToMerge, __MergedDocument);
+		return Misc.mergePDF(this.getContext(), this.FilesToMerge, this.MergedDocument.getMendixObject());
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "MergeMultiplePdfs";
 	}

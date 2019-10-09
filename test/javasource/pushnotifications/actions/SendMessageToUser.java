@@ -12,6 +12,9 @@ package pushnotifications.actions;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import pushnotifications.proxies.Message;
+import java.util.ArrayList;
+import java.util.List;
 import static pushnotifications.proxies.microflows.Microflows.createAndSendMessageToUser;
 
 /**
@@ -25,45 +28,49 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
  * Sound: name of system sound to play (iOS)
  * 
  */
-public class SendMessageToUser extends CustomJavaAction<Boolean>
+public class SendMessageToUser extends CustomJavaAction<java.util.List<IMendixObject>>
 {
-	private IMendixObject __UserParameter1;
-	private system.proxies.User UserParameter1;
-	private String MessageText;
-	private String Title;
-	private Long Badge;
-	private String LaunchImage;
-	private String Sound;
-	private Long TimeToLive;
+	private IMendixObject __MessageDataParam;
+	private pushnotifications.proxies.MessageData MessageDataParam;
+	private IMendixObject __UserParam;
+	private system.proxies.User UserParam;
+	private IMendixObject ContextObject;
 
-	public SendMessageToUser(IContext context, IMendixObject UserParameter1, String MessageText, String Title, Long Badge, String LaunchImage, String Sound, Long TimeToLive)
+	public SendMessageToUser(IContext context, IMendixObject MessageDataParam, IMendixObject UserParam, IMendixObject ContextObject)
 	{
 		super(context);
-		this.__UserParameter1 = UserParameter1;
-		this.MessageText = MessageText;
-		this.Title = Title;
-		this.Badge = Badge;
-		this.LaunchImage = LaunchImage;
-		this.Sound = Sound;
-		this.TimeToLive = TimeToLive;
+		this.__MessageDataParam = MessageDataParam;
+		this.__UserParam = UserParam;
+		this.ContextObject = ContextObject;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.UserParameter1 = __UserParameter1 == null ? null : system.proxies.User.initialize(getContext(), __UserParameter1);
+		this.MessageDataParam = __MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
+
+		this.UserParam = __UserParam == null ? null : system.proxies.User.initialize(getContext(), __UserParam);
 
 		// BEGIN USER CODE
-		createAndSendMessageToUser(getContext(), UserParameter1, MessageText, Title, Badge, LaunchImage, Sound, TimeToLive);
-		return true;
+		if (ContextObject != null) {
+			Long guid = ContextObject.getId().toLong();
+			MessageDataParam.setContextObjectGuid(guid);
+		}
+
+		List<Message> messages = createAndSendMessageToUser(getContext(), UserParam, MessageDataParam);
+		List<IMendixObject> objects = new ArrayList<>();
+		messages.forEach(message -> {
+			objects.add(message.getMendixObject());
+		});
+		return objects;
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "SendMessageToUser";
 	}

@@ -16,109 +16,123 @@
  *
  * Used in dataviews
  */
+
 .dijitCalendarContainer {
-	/* (must be higher than popup z-index) */
-	z-index: 10010 !important;
-	background-color: #eff0f2;
-
-	tr {
-		th {
-			background-color: #26323D;
-			color: #FFF;
-			text-align: center;
-		}
-		th,
-		td {
-			padding: 6px;
-			text-align: center;
-		}
-		td .dijitCalendarDateLabel {
-			color: #000;
-		}
-		tfoot h3 {
-			margin: 0;
-			padding: 0;
-			font-size: inherit;
-		}
-	}
-
-	.dijitCalendarMonthLabel {
-		@include font(bold);
-	}
-	.dijitButtonNode {
-		border: 0;
-	}
-	.dijitCalendarArrow {
-		cursor: pointer;
-	}
-	.dijitCalendarSelectedDate,
-	.dijitCalendarSelectedDate:hover {
-		border-radius: 10px;
-		background: $brand-primary;
-		.dijitCalendarDateLabel {
-			color: #fff;
-		}
-	}
-	.dijitCalendarHoveredDate,
-	.dijitCalendarPreviousYearHover,
-	.dijitCalendarNextYearHover,
-	.dijitCalendarMonthLabelHover {
-		border-radius: 10px;
-		background-color: #dbdcdd;
-	}
-	.dijitCalendarYearContainer td {
-		border-top: 1px solid $default-border-color;
-		text-align: center;
-		color: #000;
-		.dijitCalendarSelectedYear {
-			@include font(bold);
-			text-decoration: underline;
-		}
-	}
-	.dijitCalendarMonthContainer th:first-child {
-		border-top-left-radius: 3px;
-	}
-	.dijitCalendarMonthContainer th:last-child {
-		border-top-right-radius: 3px;
-	}
+    /* (must be higher than popup z-index) */
+    z-index: 10010 !important;
+    padding: 10px;
+    border: 1px solid #D1D6E4;
+    border-radius: 4px;
+    background: #FFFFFF;
+    box-shadow: 0 2px 10px 0 rgba(0,0,0,0.06);
+    font-size: 12px;
+    tr {
+        th {
+            text-align: center;
+            color: $brand-primary;
+        }
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+        td .dijitCalendarDateLabel {
+            color: #2D3E4E;
+        }
+        tfoot h3 {
+            margin: 0;
+            padding: 0;
+            font-size: inherit;
+        }
+        .dijitCalendarNextMonth,
+        .dijitCalendarPreviousMonth {
+            span {
+                color: lighten(#2D3E4E, 50%);
+            }
+        }
+    }
+    .dijitCalendarMonthLabel {
+        color: $brand-primary;
+    }
+    .dijitButtonNode {
+        border: 0;
+    }
+    .dijitCalendarArrow {
+        cursor: pointer;
+    }
+    .dijitCalendarSelectedDate,
+    .dijitCalendarSelectedDate:hover {
+        border-radius: 50%;
+        background: $brand-primary;
+        .dijitCalendarDateLabel {
+            color: #FFFFFF;
+        }
+    }
+    .dijitCalendarHoveredDate {
+        border-radius: 50%;
+        background-color: $brand-default;
+        .dijitCalendarDateLabel {
+            color: $brand-primary;
+        }
+    }
+    .dijitCalendarYearContainer {
+        text-align: center;
+        span {
+            color: lighten($brand-primary, 30);
+            &.dijitCalendarSelectedYear {
+                color: $brand-primary;
+            }
+            &:hover {
+                text-decoration: underline;
+                background-color: transparent;
+            }
+        }
+    }
+    .dijitCalendarMonthContainer th:first-child {
+        border-top-left-radius: 3px;
+    }
+    .dijitCalendarMonthContainer th:last-child {
+        border-top-right-radius: 3px;
+    }
 }
 
 .dijitCalendarMonthMenuPopup {
-	border-radius: 3px;
-	/* (must be higher than popup z-index) */
-	z-index: 10020 !important;
-	padding: 3px 4px;
-	background-color: #26323D;
-	.dijitCalendarMonthMenu {
-		border-style: none;
-		background: none;
-		.dijitCalendarMonthLabel {
-			padding: 2px 0;
-			color: #FFF;
-			&:hover,
-			&:focus {
-				color: #4280cb;
-			}
-		}
-	}
+    /* (must be higher than popup z-index) */
+    z-index: 10020 !important;
+    padding: 3px 4px;
+    border-radius: 3px;
+    background-color: #26323D;
+    .dijitCalendarMonthMenu {
+        padding: 5px;
+        border-style: none;
+        background: none;
+        font-size: 12px;
+        .dijitCalendarMonthLabel {
+            padding: 2px 0;
+            color: #FFFFFF;
+            &:hover,
+            &:focus {
+                color: #4280CB;
+            }
+        }
+    }
 }
 
 .dj_rtl {
-	.dijitCalendarContainer {
-	 	.dijitCalendarMonthContainer {
-	 		th {
-
-	 			&:first-child {
-	 				border-top-left-radius: 0px;
-	 				border-top-right-radius: 3px;	
-	 			}
-	 			&:last-child {
-	 				border-top-left-radius: 3px;
-	 				border-top-right-radius: 0px;
-	 			}
-	 		}
-	 	}
-	}
+    .dijitCalendarContainer {
+        .dijitCalendarMonthContainer {
+            th {
+                &:first-child {
+                    border-top-left-radius: 0;
+                    border-top-right-radius: 3px;
+                }
+                &:last-child {
+                    border-top-left-radius: 3px;
+                    border-top-right-radius: 0;
+                }
+            }
+        }
+    }
 }
 
 
@@ -127,32 +141,30 @@
  *
  * Default tooltip used for Mendix widgets
  */
+
 .mx-tooltip {
-	.dijitTooltipContainer {
-		border-radius: 4px;
-		box-shadow:	0 6px 12px rgba(0,0,0,0.175);
-
-		border-width: 1px;
-		border-color: $gray-light;
-		background: #FFF;
-
-		.mx-tooltip-content {
-			padding: 10px;
-		}
-		.form-group {
-			margin-bottom: 5px;
-		}
-	}
-
-	.dijitTooltipConnector {
-		margin-left: -10px;
-		width: 0;
-		height: 0;
-		border-width: 10px 10px 10px 0;
-		border-style: solid;
-		border-color: transparent;
-		border-right-color: $gray-light;
-	}
+    .dijitTooltipContainer {
+        border-width: 1px;
+        border-color: $gray-light;
+        border-radius: 4px;
+        background: #FFFFFF;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        .mx-tooltip-content {
+            padding: 10px;
+        }
+        .form-group {
+            margin-bottom: 5px;
+        }
+    }
+    .dijitTooltipConnector {
+        width: 0;
+        height: 0;
+        margin-left: -10px;
+        border-width: 10px 10px 10px 0;
+        border-style: solid;
+        border-color: transparent;
+        border-right-color: $gray-light;
+    }
 }
 
 
@@ -161,66 +173,66 @@
  *
  * Used in Mendix as split pane containers
  */
+
 .dijitBorderContainer {
     padding: 5px;
-    background-color: #fcfcfc;
-
+    background-color: #FCFCFC;
     .dijitSplitterV,
-	.dijitGutterV {
-		width: 5px;
-		border: 0;
-		background: #fcfcfc;
-	}
-	.dijitSplitterH,
-	.dijitGutterH {
-		height: 5px;
-		border: 0;
-		background: #fcfcfc;
-	}
-	.dijitSplitterH {
-		.dijitSplitterThumb {
-			top: 2px;
-			width: 19px;
-			height: 1px;
-			background: #B0B0B0;
-		}
-	}
-	.dijitSplitterV {
-		.dijitSplitterThumb {
-			left: 2px;
-			width: 1px;
-			height: 19px;
-			background: #B0B0B0;
-		}
-	}
-	.dijitSplitContainer-child, 
-	.dijitBorderContainer-child {
-	    border: 1px solid #ccc;
-	}
-	.dijitBorderContainer-dijitTabContainerTop, 
-	.dijitBorderContainer-dijitTabContainerBottom, 
-	.dijitBorderContainer-dijitTabContainerLeft,
-	.dijitBorderContainer-dijitTabContainerRight {
-	    border: none;
-	}
-	.dijitBorderContainer-dijitBorderContainer {
-	    padding: 0;
-	    border: none;
-	}
-	.dijitSplitterActive {
-		opacity: 0.6;
-		filter: alpha(opacity=60); /* For IE8 and earlier */
-		
-		margin: 0;
-		background-color: #aaa;
-		background-image: none;
-		font-size: 1px;
-	}
-	.dijitSplitContainer-dijitContentPane,
-	.dijitBorderContainer-dijitContentPane {
-		padding: 5px;
-		background-color: #fff;
-	}
+    .dijitGutterV {
+        width: 5px;
+        border: 0;
+        background: #FCFCFC;
+    }
+    .dijitSplitterH,
+    .dijitGutterH {
+        height: 5px;
+        border: 0;
+        background: #FCFCFC;
+    }
+    .dijitSplitterH {
+        .dijitSplitterThumb {
+            top: 2px;
+            width: 19px;
+            height: 1px;
+            background: #B0B0B0;
+        }
+    }
+    .dijitSplitterV {
+        .dijitSplitterThumb {
+            left: 2px;
+            width: 1px;
+            height: 19px;
+            background: #B0B0B0;
+        }
+    }
+    .dijitSplitContainer-child,
+    .dijitBorderContainer-child {
+        border: 1px solid #CCCCCC;
+    }
+    .dijitBorderContainer-dijitTabContainerTop,
+    .dijitBorderContainer-dijitTabContainerBottom,
+    .dijitBorderContainer-dijitTabContainerLeft,
+    .dijitBorderContainer-dijitTabContainerRight {
+        border: none;
+    }
+    .dijitBorderContainer-dijitBorderContainer {
+        padding: 0;
+        border: none;
+    }
+    .dijitSplitterActive {
+        /* For IE8 and earlier */
+        margin: 0;
+        opacity: 0.6;
+        background-color: #AAAAAA;
+        background-image: none;
+        font-size: 1px;
+        filter: alpha(opacity=60);
+    }
+    .dijitSplitContainer-dijitContentPane,
+    .dijitBorderContainer-dijitContentPane {
+        padding: 5px;
+        background-color: #FFFFFF;
+    }
 }
 
 
@@ -229,58 +241,55 @@
  *
  * Used in datepickers and calendar widgets
  */
+
 .dijitMenuPopup {
-	margin-top: 10px;
+    margin-top: 10px;
     .dijitMenu {
-        border-radius: 3px;
         display: block;
+        width: 200px !important;
         margin-top: 0; // No top margin because there is no parent with margin bottom
         padding: 12px 10px;
+        border-radius: 3px;
         background: $brand-inverse;
-        width: 200px !important;
-
         &:after {
             position: absolute;
             bottom: 100%;
             left: 20px;
+            width: 0;
+            height: 0;
             margin-left: -10px;
-            width: 0px;
-            height: 0px;
+            content: " ";
+            pointer-events: none;
             border: medium solid transparent;
             border-width: 10px;
             border-bottom-color: $brand-inverse;
-            content: " ";
-            pointer-events: none;
         }
-
         // Menu item
         .dijitMenuItem {
             background: transparent;
             .dijitMenuItemLabel {
-                border-radius: 3px;
-                padding: 10px;
-                color: #FFF;
-                width: 180px !important;
                 display: block;
-				overflow: hidden;
-				text-overflow: ellipsis;
+                overflow: hidden;
+                width: 180px !important;
+                padding: 10px;
+                text-overflow: ellipsis;
+                color: #FFFFFF;
+                border-radius: 3px;
             }
             // Hover
             &.dijitMenuItemHover {
                 background: none;
-                .dijitMenuItemLabel {  
+                .dijitMenuItemLabel {
                     background: $brand-primary;
                 }
             }
         }
-
         // New label
         .tg_newlabelmenuitem {
             .dijitMenuItemLabel {
-                @include font(bold);
+                font-weight: $font-weight-bold;
             }
         }
-
         // Seperator
         .dijitMenuSeparator {
             td {
@@ -292,6 +301,6 @@
                     margin: 0; //override dijit styling
                 }
             }
-        }   
+        }
     }
 }

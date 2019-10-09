@@ -20,18 +20,18 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Example usuage: In general, if an Event (before commit especially) returns false, it should call this action and then return true instead. If an Before commit returns false, the object will not be committed, but there is no easy way for the calling Microflow/ action to detect this! An exception on the other hand, will be noticed.
  */
-public class ThrowException extends CustomJavaAction<Boolean>
+public class ThrowException extends CustomJavaAction<java.lang.Boolean>
 {
-	private String message;
+	private java.lang.String message;
 
-	public ThrowException(IContext context, String message)
+	public ThrowException(IContext context, java.lang.String message)
 	{
 		super(context);
 		this.message = message;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		Misc.throwException(message);
@@ -42,8 +42,8 @@ public class ThrowException extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "ThrowException";
 	}

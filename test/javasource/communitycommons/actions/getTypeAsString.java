@@ -16,7 +16,7 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Returns the actual type of an Entity. Useful as alternative way to split upon inheritance, or as input of other functions in this module.
  */
-public class getTypeAsString extends CustomJavaAction<String>
+public class getTypeAsString extends CustomJavaAction<java.lang.String>
 {
 	private IMendixObject instance;
 
@@ -26,8 +26,8 @@ public class getTypeAsString extends CustomJavaAction<String>
 		this.instance = instance;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		if (instance == null)
@@ -39,8 +39,8 @@ public class getTypeAsString extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "getTypeAsString";
 	}

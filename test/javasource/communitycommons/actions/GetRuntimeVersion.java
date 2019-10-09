@@ -16,15 +16,15 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Returns the runtime version of this application.
  */
-public class GetRuntimeVersion extends CustomJavaAction<String>
+public class GetRuntimeVersion extends CustomJavaAction<java.lang.String>
 {
 	public GetRuntimeVersion(IContext context)
 	{
 		super(context);
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return Misc.getRuntimeVersion();
@@ -34,8 +34,8 @@ public class GetRuntimeVersion extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "GetRuntimeVersion";
 	}

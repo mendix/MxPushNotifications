@@ -9,20 +9,20 @@
 
 package encryption.actions;
 
+import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
-import org.apache.commons.codec.binary.Base64;
 
-public class EncryptString extends CustomJavaAction<String>
+public class EncryptString extends CustomJavaAction<java.lang.String>
 {
-	private String value;
-	private String key;
-	private String prefix;
+	private java.lang.String value;
+	private java.lang.String key;
+	private java.lang.String prefix;
 
-	public EncryptString(IContext context, String value, String key, String prefix)
+	public EncryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix)
 	{
 		super(context);
 		this.value = value;
@@ -30,36 +30,36 @@ public class EncryptString extends CustomJavaAction<String>
 		this.prefix = prefix;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		if (value == null) 
+		if (this.value == null) 
 			return null;
-		if (prefix == null || prefix.isEmpty())
+		if (this.prefix == null || this.prefix.isEmpty())
 			throw new MendixRuntimeException("Prefix should not be empty");
-		if (key == null || key.isEmpty())
+		if (this.key == null || this.key.isEmpty())
 			throw new MendixRuntimeException("Key should not be empty");
-		if (key.length() != 16)
+		if (this.key.length() != 16)
 			throw new MendixRuntimeException("Key length should be 16");
-		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(key.getBytes(), "AES");
+		Cipher c = Cipher.getInstance("AES/GCM/PKCS5PADDING");
+		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
 		c.init(Cipher.ENCRYPT_MODE, k);
 
-		byte[] encryptedData = c.doFinal(value.getBytes());
+		byte[] encryptedData = c.doFinal(this.value.getBytes());
 		byte[] iv = c.getIV();
 
-		return new StringBuilder(prefix +
-				new String(Base64.encodeBase64(iv))).append(";").append(
-				new String(Base64.encodeBase64(encryptedData))).toString();
+		return new StringBuilder(this.prefix +
+				new String(Base64.getEncoder().encode(iv))).append(";").append(
+				new String(Base64.getEncoder().encode(encryptedData))).toString();
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "EncryptString";
 	}

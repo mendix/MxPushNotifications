@@ -29,7 +29,7 @@ public class getCreatedByUser extends CustomJavaAction<IMendixObject>
 		this.thing = thing;
 	}
 
-	@Override
+	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
@@ -40,8 +40,8 @@ public class getCreatedByUser extends CustomJavaAction<IMendixObject>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "getCreatedByUser";
 	}

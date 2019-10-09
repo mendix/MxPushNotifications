@@ -16,15 +16,15 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Generates a random hash, perfectly to use as random but unique identifier
  */
-public class RandomHash extends CustomJavaAction<String>
+public class RandomHash extends CustomJavaAction<java.lang.String>
 {
 	public RandomHash(IContext context)
 	{
 		super(context);
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return StringUtils.randomHash();
@@ -34,8 +34,8 @@ public class RandomHash extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "RandomHash";
 	}

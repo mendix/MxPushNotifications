@@ -26,20 +26,20 @@ import com.mendix.webui.CustomJavaAction;
  * Example post data: 
  * 'ipSearchTag=url&x=0&y=0'
  */
-public class retrieveURL extends CustomJavaAction<String>
+public class retrieveURL extends CustomJavaAction<java.lang.String>
 {
-	private String url;
-	private String postdata;
+	private java.lang.String url;
+	private java.lang.String postdata;
 
-	public retrieveURL(IContext context, String url, String postdata)
+	public retrieveURL(IContext context, java.lang.String url, java.lang.String postdata)
 	{
 		super(context);
 		this.url = url;
 		this.postdata = postdata;
 	}
 
-	@Override
-	public String executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return Misc.retrieveURL(url, postdata);
@@ -49,8 +49,8 @@ public class retrieveURL extends CustomJavaAction<String>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "retrieveURL";
 	}

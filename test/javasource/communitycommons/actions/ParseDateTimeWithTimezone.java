@@ -11,9 +11,12 @@ package communitycommons.actions;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
+import communitycommons.Logging;
+import communitycommons.proxies.LogLevel;
+import communitycommons.proxies.LogNodes;
+import java.text.ParseException;
 
 /**
  * This method parses a date from a string with a given pattern according to a specific timezone.
@@ -21,12 +24,12 @@ import com.mendix.webui.CustomJavaAction;
  */
 public class ParseDateTimeWithTimezone extends CustomJavaAction<java.util.Date>
 {
-	private String date;
-	private String pattern;
-	private String timeZone;
+	private java.lang.String date;
+	private java.lang.String pattern;
+	private java.lang.String timeZone;
 	private java.util.Date defaultValue;
 
-	public ParseDateTimeWithTimezone(IContext context, String date, String pattern, String timeZone, java.util.Date defaultValue)
+	public ParseDateTimeWithTimezone(IContext context, java.lang.String date, java.lang.String pattern, java.lang.String timeZone, java.util.Date defaultValue)
 	{
 		super(context);
 		this.date = date;
@@ -35,7 +38,7 @@ public class ParseDateTimeWithTimezone extends CustomJavaAction<java.util.Date>
 		this.defaultValue = defaultValue;
 	}
 
-	@Override
+	@java.lang.Override
 	public java.util.Date executeAction() throws Exception
 	{
 		// BEGIN USER CODE
@@ -47,8 +50,8 @@ public class ParseDateTimeWithTimezone extends CustomJavaAction<java.util.Date>
 			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 			sdf.setTimeZone(TimeZone.getTimeZone(timeZone));
 			return sdf.parse(date);
-		} catch (Exception e) {
-			Core.getLogger(this.getClass().getSimpleName()).warn("Unable to parse date " + date, e);
+		} catch (ParseException e) {
+			Logging.log(LogNodes.CommunityCommons.name(), LogLevel.Warning, "Unable to parse date " + date, e);
 			return defaultValue;
 		}
 		// END USER CODE
@@ -57,8 +60,8 @@ public class ParseDateTimeWithTimezone extends CustomJavaAction<java.util.Date>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "ParseDateTimeWithTimezone";
 	}

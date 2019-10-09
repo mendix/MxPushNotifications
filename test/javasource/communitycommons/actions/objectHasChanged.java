@@ -17,7 +17,7 @@ import com.mendix.webui.CustomJavaAction;
 /**
  * Returns true if at least one member (including owned associations) of this object has changed.
  */
-public class objectHasChanged extends CustomJavaAction<Boolean>
+public class objectHasChanged extends CustomJavaAction<java.lang.Boolean>
 {
 	private IMendixObject item;
 
@@ -27,8 +27,8 @@ public class objectHasChanged extends CustomJavaAction<Boolean>
 		this.item = item;
 	}
 
-	@Override
-	public Boolean executeAction() throws Exception
+	@java.lang.Override
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
 		return ORM.objectHasChanged(item);
@@ -38,8 +38,8 @@ public class objectHasChanged extends CustomJavaAction<Boolean>
 	/**
 	 * Returns a string representation of this action
 	 */
-	@Override
-	public String toString()
+	@java.lang.Override
+	public java.lang.String toString()
 	{
 		return "objectHasChanged";
 	}
