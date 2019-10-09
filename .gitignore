@@ -1,17 +1,14 @@
-demo/deployment
-demo/.classpath
-demo/.project
-
-test/javasource/
+test/javasource/administration/proxies/
+test/javasource/communitycommons/proxies/
+test/javasource/pushnotifications/proxies/
+test/javasource/system/proxies/
+test/javasource/myfirstmodule/proxies/
+test/javasource/encryption/proxies/
 test/deployment/
 test/.classpath
 test/.mendix-cache/
-test/.settings/
 test/.project
-test/theme/
 test/.svn/
-test/userlib/
-test_org/
 
 *.launch
 *.tmp
