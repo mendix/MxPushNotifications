@@ -24,6 +24,7 @@ define([
         REGISTRATION_ID_ATTRIBUTE: "RegistrationID",
         DEVICE_TYPE_ATTRIBUTE: "DeviceType",
         SENDER_ID_ATTRIBUTE: "SenderId",
+        IS_HYBRID_ATTRIBUTE: "IsHybrid",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         INITIALIZATION_INTERVAL_MS: 10000,
@@ -197,6 +198,7 @@ define([
 
             deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
             deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
+            deviceRegistration.set(this.IS_HYBRID_ATTRIBUTE, true);
 
             if (this._platform === "Android") {
                 deviceRegistration.set("DeviceType", "Android");
@@ -226,9 +228,16 @@ define([
 
             if (data.additionalData.foreground) {
                 var cards = document.getElementById("cards");
-
-                // TODO: use dojo.domConstruct to create this.
-                var card = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick="window.pushWidget.onClickAlert(' + JSON.stringify(data.additionalData) +', this)">' +
+                var alertWrapper = ""
+                
+                // If it is IE11 we cant use backticks
+                if (window.document.documentMode) {
+                    alertWrapper = '<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick="window.pushWidget.onClickAlert(' + JSON.stringify(data.additionalData) +', this)">'
+                }
+                else {
+                    alertWrapper = `<div class="alert alert-info alert-dismissible animated fadeInDown" role="alert" onClick='window.pushWidget.onClickAlert(${JSON.stringify(data.additionalData)},this)'>`
+                }
+                var card = alertWrapper +
                     '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick="window.pushWidget.removeAlert(this);">' +
                     '<span aria-hidden="true">&times;</span>' +
                     '</button>' +
