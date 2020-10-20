@@ -54,10 +54,32 @@ dependencies {
     compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
     compile group: 'com.google.api-client', name: 'google-api-client', version: '1.30.4'
     compile group: 'io.netty', name: 'netty-tcnative', version: '2.0.26.Final'
-    compile group: 'io.netty', name: 'netty-resolver-dns', version: '4.1.53.Final'
     compile group: 'com.turo', name: 'pushy', version: '0.13.9'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
 
+    compile('io.netty:netty-codec-http2') {
+        version {
+            strictly '4.1.53.Final'
+        }
+    }
+
+    compile('io.netty:netty-handler-proxy') {
+        version {
+            strictly '4.1.53.Final'
+        }
+    }
+
+    compile('io.netty:netty-resolver-dns') {
+        version {
+            strictly '4.1.53.Final'
+        }
+    }
+
+    compile('io.netty:netty-all') {
+        version {
+            strictly '4.1.53.Final'
+        }
+    }
     tar "runtime:mxbuild:${project.MXBUILD_VERSION}@tar.gz"
 }
 
