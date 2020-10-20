@@ -11,6 +11,7 @@ package encryption.actions;
 
 import org.bouncycastle.openpgp.PGPSecretKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
@@ -35,7 +36,7 @@ public class ValidatePrivateKeyRing extends CustomJavaAction<java.lang.Boolean>
 		// BEGIN USER CODE
 		
 		//This function will throw an exception if the inputstream isn't a valid private keyring
-		new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(Core.getFileDocumentContent(getContext(), this.PrivateKeyRing.getMendixObject()) ));
+		new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(Core.getFileDocumentContent(getContext(), this.PrivateKeyRing.getMendixObject()) ), new BcKeyFingerprintCalculator());
 		
 		
 		return true;
