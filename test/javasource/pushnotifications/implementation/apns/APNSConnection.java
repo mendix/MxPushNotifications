@@ -21,6 +21,7 @@ import encryption.proxies.microflows.Microflows;
 import io.netty.util.concurrent.Future;
 import org.apache.commons.io.IOUtils;
 import pushnotifications.proxies.*;
+import java.util.concurrent.TimeUnit;
 
 public class APNSConnection {
     private static APNSConnection instance = null;
@@ -61,6 +62,8 @@ public class APNSConnection {
                             ApnsClientBuilder.PRODUCTION_APNS_HOST :
                             ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
                     .setClientCredentials(cert, passcode)
+                    .setConnectionTimeout(30, TimeUnit.SECONDS)
+                    .setGracefulShutdownTimeout(30, TimeUnit.SECONDS)
                     .build();
         } else if (authType == APNSAuthenticationType.Token) {
             APNSToken apnsToken = settings.getAPNSSettings_APNSToken();
@@ -75,6 +78,8 @@ public class APNSConnection {
                             ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
                     .setSigningKey(ApnsSigningKey.loadFromPkcs8File(token,
                             apnsToken.getTeamId(), apnsToken.getKeyId()))
+                    .setConnectionTimeout(30, TimeUnit.SECONDS)
+                    .setGracefulShutdownTimeout(30, TimeUnit.SECONDS)
                     .build();
         } else {
 			throw new NoAuthenticationTypeException();
