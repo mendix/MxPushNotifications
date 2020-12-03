@@ -22,7 +22,7 @@ apply plugin: 'org.owasp.dependencycheck'
 apply plugin: 'com.github.ben-manes.versions'
 
 project.ext {
-    PNC_VERSION = '5.1.3'
+    PNC_VERSION = '5.1.5'
     MXBUILD_VERSION = '8.9.0.5487'
     MODULE_NAME = 'PushNotifications'
 }
