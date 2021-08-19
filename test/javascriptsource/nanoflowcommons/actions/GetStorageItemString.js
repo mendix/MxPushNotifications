@@ -11,32 +11,30 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Retrieve a local stored string value identified by a unique key. This could be set via the SetStorageItemString JavaScript action.
- * 
  * @param {string} key - This field is required.
  * @returns {Promise.<string>}
  */
 export async function GetStorageItemString(key) {
 	// BEGIN USER CODE
-    if (!key) {
-        return Promise.reject(new Error("Input parameter 'Key' is required"));
+  if (!key) {
+    throw new TypeError("Input parameter 'Key' is required");
+  }
+  return getItem(key).then(function (result) {
+    if (result === null) {
+      throw new Error("Storage item '".concat(key, "' does not exist"));
     }
-    return getItem(key).then(result => {
-        if (result === null) {
-            return Promise.reject(new Error(`Storage item '${key}' does not exist`));
-        }
-        return result;
-    });
-    async function getItem(key) {
-        if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
-            return AsyncStorage.getItem(key);
-        }
-        if (window) {
-            const value = window.localStorage.getItem(key);
-            return Promise.resolve(value);
-        }
-        return Promise.reject(new Error("No storage API available"));
+    return result;
+  });
+  function getItem(key) {
+    if (navigator && navigator.product === "ReactNative") {
+      var AsyncStorage = require("@react-native-community/async-storage").default;
+      return AsyncStorage.getItem(key);
     }
+    if (window) {
+      var value = window.localStorage.getItem(key);
+      return Promise.resolve(value);
+    }
+    throw new Error("No storage API available");
+  }
 	// END USER CODE
 }

@@ -11,17 +11,16 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Wait for number of milliseconds before continuing nanoflow execution.
  * @param {Big} delay - The number of milliseconds to wait. This field is required.
- * @returns {Promise.<void>}
+ * @returns {Promise.<boolean>}
  */
 export async function Wait(delay) {
 	// BEGIN USER CODE
-    if (delay == null) {
-        return Promise.reject(new Error("Input parameter 'delay' is required."));
-    }
-    return new Promise(resolve => {
-        setTimeout(() => resolve(), Number(delay));
-    });
+  if (delay == null) {
+    throw new TypeError("Input parameter 'delay' is required.");
+  }
+  return new Promise(function (resolve) {
+    setTimeout(function () {return resolve(true);}, Number(delay));
+  });
 	// END USER CODE
 }

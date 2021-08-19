@@ -16,28 +16,18 @@ import { Big } from "big.js";
  */
 export async function RequestLocationPermission() {
 	// BEGIN USER CODE
-    if (navigator && navigator.product === "ReactNative") {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const RN = require("react-native");
-        if (!navigator.geolocation) {
-            navigator.geolocation = require("@react-native-community/geolocation");
-        }
-        if (RN.Platform.OS === "android") {
-            const locationPermission = RN.PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION;
-            return RN.PermissionsAndroid.check(locationPermission).then(hasPermission => hasPermission
-                ? true
-                : RN.PermissionsAndroid.request(locationPermission).then(status => status === RN.PermissionsAndroid.RESULTS.GRANTED));
-        }
-        else if (navigator.geolocation && navigator.geolocation.requestAuthorization) {
-            try {
-                navigator.geolocation.requestAuthorization();
-                return Promise.resolve(true);
-            }
-            catch (error) {
-                return Promise.reject(error);
-            }
-        }
+  if (navigator && navigator.product === "ReactNative") {
+    var RN = require("react-native");
+    if (RN.Platform.OS === "android") {
+      var locationPermission = RN.PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION;
+      return RN.PermissionsAndroid.check(locationPermission).then(function (hasPermission) {return hasPermission ?
+        true :
+        RN.PermissionsAndroid.request(locationPermission).then(function (status) {return status === RN.PermissionsAndroid.RESULTS.GRANTED;});});
+    } else
+    if (navigator.geolocation && navigator.geolocation.requestAuthorization) {
+      navigator.geolocation.requestAuthorization();
     }
-    return Promise.reject(new Error("No permission request for location is required for web/hybrid platform"));
+  }
+  return Promise.resolve(true);
 	// END USER CODE
 }

@@ -19,10 +19,10 @@ import { Big } from "big.js";
  */
 export async function SignOut() {
 	// BEGIN USER CODE
-    if (!mx.session.isGuest()) {
-        mx.logout();
-        return Promise.resolve(true);
-    }
-    return Promise.resolve(false);
+  if (!mx.session.isGuest()) {
+    mx.logout();
+    return Promise.resolve(true);
+  }
+  return Promise.resolve(false);
 	// END USER CODE
 }

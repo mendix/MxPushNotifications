@@ -11,31 +11,30 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Get a Mendix object by its GUID.
  * @param {string} entity - This field is required.
  * @param {string} objectGuid - This field is required.
  * @returns {Promise.<MxObject>}
  */
 export async function GetObjectByGuid(entity, objectGuid) {
 	// BEGIN USER CODE
-    if (!entity) {
-        return Promise.reject(new Error("Input parameter 'Entity' is required."));
-    }
-    if (!objectGuid) {
-        return Promise.reject(new Error("Input parameter 'Object guid' is required."));
-    }
-    return new Promise((resolve, reject) => {
-        mx.data.get({
-            guid: objectGuid,
-            callback: object => {
-                if (object) {
-                    resolve(object);
-                }
-                else {
-                    reject(new Error("'Object guid' not found"));
-                }
-            }
-        });
-    });
+  if (!entity) {
+    throw new TypeError("Input parameter 'Entity' is required.");
+  }
+  if (!objectGuid) {
+    throw new TypeError("Input parameter 'Object guid' is required.");
+  }
+  return new Promise(function (resolve, reject) {
+    mx.data.get({
+      guid: objectGuid,
+      callback: function callback(object) {
+        if (object) {
+          resolve(object);
+        } else
+        {
+          reject();
+        }
+      } });
+
+  });
 	// END USER CODE
 }

@@ -20,90 +20,89 @@ import { Big } from "big.js";
  */
 export async function ReverseGeocode(latitude, longitude, geocodingProvider, providerApiKey) {
 	// BEGIN USER CODE
-    /**
-     * Documentation:
-     *  - Native: https://github.com/devfd/react-native-geocoder
-     *  - Google: https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding
-     *  - Geocodio: https://www.geocod.io/docs/#reverse-geocoding
-     *  - LocationIQ: https://locationiq.com/docs-html/index.html#reverse-geocoding
-     *  - MapQuest: https://developer.mapquest.com/documentation/open/geocoding-api/address/get/
-     */
-    if (!latitude) {
-        return Promise.reject(new Error("Input parameter 'Latitude' is required"));
-    }
-    if (!longitude) {
-        return Promise.reject(new Error("Input parameter 'Longitude' is required"));
-    }
-    if (navigator && navigator.product === "ReactNative") {
-        const Geocoder = require("react-native-geocoder").default;
-        const position = { lat: Number(latitude), lng: Number(longitude) };
-        return Geocoder.geocodePosition(position).then(results => {
-            if (results.length === 0) {
-                return Promise.reject(new Error("No results found"));
-            }
-            return results[0].formattedAddress;
-        });
-    }
-    if (!geocodingProvider) {
-        return Promise.reject(new Error("Input parameter 'Geocoding provider' is required for use on web"));
-    }
-    if (!providerApiKey) {
-        return Promise.reject(new Error("Input parameter 'Provider api key' is required for use on web"));
-    }
-    latitude = encodeURIComponent(latitude);
-    longitude = encodeURIComponent(longitude);
-    providerApiKey = encodeURIComponent(providerApiKey);
-    const url = getApiUrl(geocodingProvider, latitude, longitude, providerApiKey);
-    return fetch(url)
-        .then(response => response.json().catch(() => response.text().then(text => {
-        return Promise.reject(new Error(text));
-    })))
-        .then(response => getAddress(geocodingProvider, response))
-        .catch(error => Promise.reject(error));
-    function getApiUrl(provider, lat, long, key) {
-        switch (provider) {
-            case "Google":
-                return `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&key=${key}`;
-            case "Geocodio":
-                return `https://api.geocod.io/v1.3/reverse?q=${lat},${long}&api_key=${key}`;
-            case "LocationIQ":
-                return `https://eu1.locationiq.com/v1/reverse.php?format=json&lat=${lat}&lon=${long}&key=${key}`;
-            case "MapQuest":
-                return `https://www.mapquestapi.com/geocoding/v1/reverse?location=${lat},${long}&key=${key}`;
+  /**
+   * Documentation:
+   *  - Native: https://github.com/devfd/react-native-geocoder
+   *  - Google: https://developers.google.com/maps/documentation/geocoding/intro#ReverseGeocoding
+   *  - Geocodio: https://www.geocod.io/docs/#reverse-geocoding
+   *  - LocationIQ: https://locationiq.com/docs-html/index.html#reverse-geocoding
+   *  - MapQuest: https://developer.mapquest.com/documentation/open/geocoding-api/address/get/
+   */
+  if (!latitude) {
+    throw new TypeError("Input parameter 'Latitude' is required");
+  }
+  if (!longitude) {
+    throw new TypeError("Input parameter 'Longitude' is required");
+  }
+  if (navigator && navigator.product === "ReactNative") {
+    var Geocoder = require("react-native-geocoder").default;
+    var position = { lat: Number(latitude), lng: Number(longitude) };
+    return Geocoder.geocodePosition(position).then(function (results) {
+      if (results.length === 0) {
+        throw new Error("No results found");
+      }
+      return results[0].formattedAddress;
+    });
+  }
+  if (!geocodingProvider) {
+    throw new TypeError("Input parameter 'Geocoding provider' is required for use on web");
+  }
+  if (!providerApiKey) {
+    throw new TypeError("Input parameter 'Provider api key' is required for use on web");
+  }
+  latitude = encodeURIComponent(latitude);
+  longitude = encodeURIComponent(longitude);
+  providerApiKey = encodeURIComponent(providerApiKey);
+  var url = getApiUrl(geocodingProvider, latitude, longitude, providerApiKey);
+  return fetch(url).
+  then(function (response) {return response.json().catch(function () {return response.text().then(function (text) {
+        throw new Error(text);
+      });});}).
+  then(function (response) {return getAddress(geocodingProvider, response);});
+  function getApiUrl(provider, lat, long, key) {
+    switch (provider) {
+      case "Google":
+        return "https://maps.googleapis.com/maps/api/geocode/json?latlng=".concat(lat, ",").concat(long, "&key=").concat(key);
+      case "Geocodio":
+        return "https://api.geocod.io/v1.3/reverse?q=".concat(lat, ",").concat(long, "&api_key=").concat(key);
+      case "LocationIQ":
+        return "https://eu1.locationiq.com/v1/reverse.php?format=json&lat=".concat(lat, "&lon=").concat(long, "&key=").concat(key);
+      case "MapQuest":
+        return "https://www.mapquestapi.com/geocoding/v1/reverse?location=".concat(lat, ",").concat(long, "&key=").concat(key);}
+
+  }
+  function getAddress(provider, response) {
+    switch (provider) {
+      case "Google":
+        if (response.status !== "OK") {
+          throw new Error(response.error_message);
         }
-    }
-    function getAddress(provider, response) {
-        switch (provider) {
-            case "Google":
-                if (response.status !== "OK") {
-                    throw new Error(response.error_message);
-                }
-                return response.results[0].formatted_address;
-            case "Geocodio":
-                if (response.error) {
-                    throw new Error(response.error);
-                }
-                if (response.results.length === 0) {
-                    throw new Error("No results found");
-                }
-                return response.results[0].formatted_address;
-            case "LocationIQ":
-                if (response.error) {
-                    throw new Error(response.error);
-                }
-                return response.display_name;
-            case "MapQuest":
-                if (response.info.statuscode !== 0) {
-                    throw new Error(response.info.messages.join(", "));
-                }
-                if (response.results.length === 0) {
-                    throw new Error("No results found");
-                }
-                const location = response.results[0].locations[0];
-                const city = location.adminArea5;
-                const country = location.adminArea1;
-                return `${location.street}, ${location.postalCode} ${city}, ${country}`;
+        return response.results[0].formatted_address;
+      case "Geocodio":
+        if (response.error) {
+          throw new Error(response.error);
         }
-    }
+        if (response.results.length === 0) {
+          throw new Error("No results found");
+        }
+        return response.results[0].formatted_address;
+      case "LocationIQ":
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        return response.display_name;
+      case "MapQuest":
+        if (response.info.statuscode !== 0) {
+          throw new Error(response.info.messages.join(", "));
+        }
+        if (response.results.length === 0) {
+          throw new Error("No results found");
+        }
+        var location = response.results[0].locations[0];
+        var city = location.adminArea5;
+        var country = location.adminArea1;
+        return "".concat(location.street, ", ").concat(location.postalCode, " ").concat(city, ", ").concat(country);}
+
+  }
 	// END USER CODE
 }

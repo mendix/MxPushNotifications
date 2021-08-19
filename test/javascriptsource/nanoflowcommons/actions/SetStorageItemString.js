@@ -11,30 +11,29 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Store a string value in the device storage, identified by a unique key. Can be accessed by the GetStorageItemObject action. Please note that users can clear the device storage.
  * @param {string} key - This field is required.
  * @param {string} value - This field is required.
- * @returns {Promise.<void>}
+ * @returns {Promise.<boolean>}
  */
 export async function SetStorageItemString(key, value) {
 	// BEGIN USER CODE
-    if (!key) {
-        return Promise.reject(new Error("Input parameter 'Key' is required"));
+  if (!key) {
+    throw new TypeError("Input parameter 'Key' is required");
+  }
+  if (!value) {
+    throw new TypeError("Input parameter 'Value' is required");
+  }
+  return setItem(key, value).then(function () {return true;});
+  function setItem(key, value) {
+    if (navigator && navigator.product === "ReactNative") {
+      var AsyncStorage = require("@react-native-community/async-storage").default;
+      return AsyncStorage.setItem(key, value);
     }
-    if (!value) {
-        return Promise.reject(new Error("Input parameter 'Value' is required"));
+    if (window) {
+      window.localStorage.setItem(key, value);
+      return Promise.resolve();
     }
-    return setItem(key, value);
-    function setItem(key, value) {
-        if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
-            return AsyncStorage.setItem(key, value);
-        }
-        if (window) {
-            window.localStorage.setItem(key, value);
-            return Promise.resolve();
-        }
-        return Promise.reject(new Error("No storage API available"));
-    }
+    throw new Error("No storage API available");
+  }
 	// END USER CODE
 }

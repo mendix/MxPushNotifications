@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { Alert, Linking, NativeModules } from "react-native";
+import { Alert, Linking } from "react-native";
 import ImagePicker from "react-native-image-picker";
 
 // BEGIN EXTRA CODE
@@ -73,11 +73,8 @@ export async function TakePicture(picture, pictureSource, pictureQuality, maximu
                 const guid = imageObject.getGuid();
                 // eslint-disable-next-line no-useless-escape
                 const filename = /[^\/]*$/.exec(uri)[0];
-                const onSuccess = () => NativeModules.NativeFsModule.remove(uri).then(() => resolve(true));
-                const onError = (error) => {
-                    NativeModules.NativeFsModule.remove(uri).then(undefined);
-                    reject(error);
-                };
+                const onSuccess = () => resolve(true);
+                const onError = (error) => reject(error);
                 mx.data.saveDocument(guid, filename, {}, blob, onSuccess, onError);
             });
         });
@@ -108,11 +105,6 @@ export async function TakePicture(picture, pictureSource, pictureQuality, maximu
                 text: "To enable access, tap Settings > Permissions and turn on Camera and Storage.",
                 reTryTitle: "Settings",
                 okTitle: "Cancel"
-            },
-            storageOptions: {
-                skipBackup: true,
-                cameraRoll: false,
-                privateDirectory: true
             }
         };
     }

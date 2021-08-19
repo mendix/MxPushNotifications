@@ -11,37 +11,36 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Store a Mendix object in device storage, identified by a unique key. Can be accesed by the GetStargeItemObject action. Please note that users can clear the device storage.
  * @param {string} key - This field is required.
  * @param {MxObject} value - This field is required.
- * @returns {Promise.<void>}
+ * @returns {Promise.<boolean>}
  */
 export async function SetStorageItemObject(key, value) {
 	// BEGIN USER CODE
-    if (!key) {
-        return Promise.reject(new Error("Input parameter 'Key' is required"));
+  if (!key) {
+    throw new TypeError("Input parameter 'Key' is required");
+  }
+  if (!value) {
+    throw new TypeError("Input parameter 'Value' is required");
+  }
+  var serializedObject = serializeMxObject(value);
+  return setItem(key, JSON.stringify(serializedObject)).then(function () {return true;});
+  function setItem(key, value) {
+    if (navigator && navigator.product === "ReactNative") {
+      var AsyncStorage = require("@react-native-community/async-storage").default;
+      return AsyncStorage.setItem(key, value);
     }
-    if (!value) {
-        return Promise.reject(new Error("Input parameter 'Value' is required"));
+    if (window) {
+      window.localStorage.setItem(key, value);
+      return Promise.resolve();
     }
-    const serializedObject = serializeMxObject(value);
-    return setItem(key, JSON.stringify(serializedObject));
-    function setItem(key, value) {
-        if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
-            return AsyncStorage.setItem(key, value);
-        }
-        if (window) {
-            window.localStorage.setItem(key, value);
-            return Promise.resolve();
-        }
-        return Promise.reject(new Error("No storage API available"));
-    }
-    function serializeMxObject(object) {
-        return object.getAttributes().reduce((accumulator, attributeName) => {
-            accumulator[attributeName] = object.get(attributeName);
-            return accumulator;
-        }, { guid: object.getGuid() });
-    }
+    throw new Error("No storage API available");
+  }
+  function serializeMxObject(object) {
+    return object.getAttributes().reduce(function (accumulator, attributeName) {
+      accumulator[attributeName] = object.get(attributeName);
+      return accumulator;
+    }, { guid: object.getGuid() });
+  }
 	// END USER CODE
 }

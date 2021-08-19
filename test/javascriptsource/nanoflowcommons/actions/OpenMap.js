@@ -17,56 +17,57 @@ import { Big } from "big.js";
  */
 export async function OpenMap(location) {
 	// BEGIN USER CODE
-    if (!location) {
-        return Promise.reject(new Error("Input parameter 'Location' is required"));
+  console.log("location", location);
+  if (!location) {
+    throw new TypeError("Input parameter 'Location' is required");
+  }
+  location = encodeURIComponent(location);
+  var iosUrl = "maps://maps.apple.com/?q=".concat(location);
+  var androidUrl = "geo:0,0?q=".concat(location);
+  var webUrl = "https://maps.google.com/maps?q=".concat(location);
+  // Native platform
+  if (navigator && navigator.product === "ReactNative") {
+    var Linking = require("react-native").Linking;
+    var Platform = require("react-native").Platform;
+    var url = Platform.select({
+      ios: iosUrl,
+      android: androidUrl });
+
+    return Linking.canOpenURL(url).then(function (supported) {
+      if (!supported) {
+        return false;
+      }
+      return Linking.openURL(url).then(function () {return true;});
+    });
+  }
+  // Hybrid or mobile web platform
+  if (window && window.navigator.userAgent) {
+    // iOS platform
+    if (/iPad|iPhone|iPod/i.test(window.navigator.userAgent)) {
+      openUrl(iosUrl);
+      return Promise.resolve(true);
     }
-    location = encodeURIComponent(location);
-    const iosUrl = `maps://maps.apple.com/?q=${location}`;
-    const androidUrl = `geo:0,0?q=${location}`;
-    const webUrl = `https://maps.google.com/maps?q=${location}`;
-    // Native platform
-    if (navigator && navigator.product === "ReactNative") {
-        const Linking = require("react-native").Linking;
-        const Platform = require("react-native").Platform;
-        const url = Platform.select({
-            ios: iosUrl,
-            default: androidUrl
-        });
-        return Linking.canOpenURL(url).then(supported => {
-            if (!supported) {
-                return false;
-            }
-            return Linking.openURL(url).then(() => true);
-        });
+    // Android platform
+    if (/android|sink/i.test(window.navigator.userAgent)) {
+      openUrl(androidUrl);
+      return Promise.resolve(true);
     }
-    // Hybrid or mobile web platform
-    if (window && window.navigator.userAgent) {
-        // iOS platform
-        if (/iPad|iPhone|iPod/i.test(window.navigator.userAgent)) {
-            openUrl(iosUrl);
-            return Promise.resolve(true);
-        }
-        // Android platform
-        if (/android|sink/i.test(window.navigator.userAgent)) {
-            openUrl(androidUrl);
-            return Promise.resolve(true);
-        }
+  }
+  // Desktop web or other platform
+  if (window) {
+    window.location.href = webUrl;
+    return Promise.resolve(true);
+  }
+  return Promise.resolve(false);
+  function openUrl(url) {
+    // Hybrid platform
+    if (window && window.cordova) {
+      window.open(url, "_system");
     }
-    // Desktop web or other platform
+    // Mobile web platform
     if (window) {
-        window.location.href = webUrl;
-        return Promise.resolve(true);
+      window.location.href = url;
     }
-    return Promise.resolve(false);
-    function openUrl(url) {
-        // Hybrid platform
-        if (window && window.cordova) {
-            window.open(url, "_system");
-        }
-        // Mobile web platform
-        if (window) {
-            window.location.href = url;
-        }
-    }
+  }
 	// END USER CODE
 }

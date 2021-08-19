@@ -11,19 +11,18 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Get the client platform (NanoflowCommons.Platform) where the action is running.
  * @returns {Promise.<"NanoflowCommons.Platform.Web"|"NanoflowCommons.Platform.Native_mobile"|"NanoflowCommons.Platform.Hybrid_mobile">}
  */
 export async function GetPlatform() {
 	// BEGIN USER CODE
-    if (window && window.cordova) {
-        return Promise.resolve("Hybrid_mobile");
-    }
-    else if (navigator && navigator.product === "ReactNative") {
-        return Promise.resolve("Native_mobile");
-    }
-    else {
-        return Promise.resolve("Web");
-    }
+  if (window && window.cordova) {
+    return "Hybrid_mobile";
+  } else
+  if (navigator && navigator.product === "ReactNative") {
+    return "Native_mobile";
+  } else
+  {
+    return "Web";
+  }
 	// END USER CODE
 }

@@ -24,13 +24,13 @@ import { Big } from "big.js";
  */
 export async function SignIn(username, password) {
 	// BEGIN USER CODE
-    if (!username || !password) {
-        return Promise.resolve(new Big(401));
-    }
-    return new Promise(resolve => {
-        const onSuccess = () => resolve(new Big(200));
-        const onError = (error) => resolve(new Big(error.status));
-        mx.login(username, password, onSuccess, onError);
-    });
+  if (!username || !password) {
+    return Promise.resolve(new Big(401));
+  }
+  return new Promise(function (resolve) {
+    var onSuccess = function onSuccess() {return resolve(new Big(200));};
+    var onError = function onError(error) {return resolve(new Big(error.status));};
+    mx.login(username, password, onSuccess, onError);
+  });
 	// END USER CODE
 }

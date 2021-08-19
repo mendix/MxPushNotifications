@@ -11,7 +11,6 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Action to invoke the native sharing mechanism of the device.
  * @param {string} url - The url to share.
  * @param {string} text - The text to share.
  * @param {string} title - An optional title for the message or url to share. Only some share targets use this value.
@@ -19,40 +18,40 @@ import { Big } from "big.js";
  */
 export async function Share(url, text, title) {
 	// BEGIN USER CODE
-    if (!text && !url) {
-        return Promise.reject(new Error("It is required to provide at least one of input parameters 'Text' and 'Url'"));
-    }
-    // Native platform
-    // Documentation https://facebook.github.io/react-native/docs/share
-    if (navigator && navigator.product === "ReactNative") {
-        const RNShare = require("react-native").Share;
-        const content = url && text ? { message: text + "\n" + url, title } : url ? { url, title } : { message: text, title };
-        return RNShare.share(content).then(result => {
-            if (result.action === RNShare.dismissedAction) {
-                return false;
-            }
-            return true;
-        });
-    }
-    // Web platform
-    // Documentation https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
-    if (navigator && navigator.share) {
-        return navigator.share({ url, text, title }).then(() => true);
-    }
-    // Hybrid platform
-    // Documentation https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin
-    if (window && window.plugins && window.plugins.socialsharing) {
-        return new Promise((resolve, reject) => {
-            window.plugins.socialsharing.shareWithOptions({
-                message: text,
-                subject: title,
-                url
-            }, result => resolve(result.completed), errorMessage => reject(new Error(errorMessage)));
-        });
-    }
-    if (document && document.location && document.location.protocol === "http:") {
-        return Promise.reject(new Error("This action requires a secure https: connection"));
-    }
-    return Promise.reject(new Error("This action is not supported by this browser"));
+  if (!text && !url) {
+    throw new TypeError("It is required to provide at least one of input parameters 'Text' and 'Url'");
+  }
+  // Native platform
+  // Documentation https://facebook.github.io/react-native/docs/share
+  if (navigator && navigator.product === "ReactNative") {
+    var RNShare = require("react-native").Share;
+    var content = url && text ? { message: text + "\n" + url, title: title } : url ? { url: url, title: title } : { message: text, title: title };
+    return RNShare.share(content).then(function (result) {
+      if (result.action === RNShare.dismissedAction) {
+        return false;
+      }
+      return true;
+    });
+  }
+  // Web platform
+  // Documentation https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
+  if (navigator && navigator.share) {
+    return navigator.share({ url: url, text: text, title: title }).then(function () {return true;});
+  }
+  // Hybrid platform
+  // Documentation https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin
+  if (window && window.plugins && window.plugins.socialsharing) {
+    return new Promise(function (resolve, reject) {
+      window.plugins.socialsharing.shareWithOptions({
+        message: text,
+        subject: title,
+        url: url },
+      function (result) {return resolve(result.completed);}, function (error) {return reject(error);});
+    });
+  }
+  if (document && document.location && document.location.protocol === "http:") {
+    throw new Error("This action requires a secure https: connection");
+  }
+  throw new Error("This action is not supported by this browser");
 	// END USER CODE
 }

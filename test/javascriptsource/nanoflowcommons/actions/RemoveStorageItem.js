@@ -11,26 +11,25 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Remove a content identified by a unique key. This could be set via any of the Set Storage Item JavaScript actions
  * @param {string} key - This field is required.
  * @returns {Promise.<boolean>}
  */
 export async function RemoveStorageItem(key) {
 	// BEGIN USER CODE
-    if (!key) {
-        return Promise.reject(new Error("Input parameter 'Key' is required"));
+  if (!key) {
+    throw new TypeError("Input parameter 'Key' is required");
+  }
+  return removeItem(key).then(function () {return true;});
+  function removeItem(key) {
+    if (navigator && navigator.product === "ReactNative") {
+      var AsyncStorage = require("@react-native-community/async-storage").default;
+      return AsyncStorage.removeItem(key);
     }
-    return removeItem(key).then(() => true);
-    function removeItem(key) {
-        if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
-            return AsyncStorage.removeItem(key);
-        }
-        if (window) {
-            window.localStorage.removeItem(key);
-            return Promise.resolve();
-        }
-        return Promise.reject(new Error("No storage API available"));
+    if (window) {
+      window.localStorage.removeItem(key);
+      return Promise.resolve();
     }
+    throw new Error("No storage API available");
+  }
 	// END USER CODE
 }

@@ -11,26 +11,25 @@ import { Big } from "big.js";
 // END EXTRA CODE
 
 /**
- * Check if an item exists in a device storage, identified by a unique key. The value could be set by a Set Storage Item action.
  * @param {string} key - This field is required.
  * @returns {Promise.<boolean>}
  */
 export async function StorageItemExists(key) {
 	// BEGIN USER CODE
-    if (!key) {
-        return Promise.reject(new Error("Input parameter 'Key' is required"));
+  if (!key) {
+    throw new TypeError("Input parameter 'Key' is required");
+  }
+  return getItem(key).then(function (result) {return result !== null;});
+  function getItem(key) {
+    if (navigator && navigator.product === "ReactNative") {
+      var AsyncStorage = require("@react-native-community/async-storage").default;
+      return AsyncStorage.getItem(key);
     }
-    return getItem(key).then(result => result !== null);
-    function getItem(key) {
-        if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
-            return AsyncStorage.getItem(key);
-        }
-        if (window) {
-            const value = window.localStorage.getItem(key);
-            return Promise.resolve(value);
-        }
-        return Promise.reject(new Error("No storage API available"));
+    if (window) {
+      var value = window.localStorage.getItem(key);
+      return Promise.resolve(value);
     }
+    throw new Error("No storage API available");
+  }
 	// END USER CODE
 }
