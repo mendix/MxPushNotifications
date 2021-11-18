@@ -57,7 +57,7 @@ public class SendMessageToUsers extends CustomJavaAction<java.util.List<IMendixO
 		// BEGIN USER CODE
 		if (ContextObject != null) {
 			Long guid = ContextObject.getId().toLong();
-			MessageDataParam.setContextObjectGuid(guid);
+			MessageDataParam.setIdentifier(guid);
 		}
 
 		List<Message> messages = createAndSendMessageToUsers(getContext(), UserParam, MessageDataParam);

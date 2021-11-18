@@ -22,12 +22,12 @@ async function createParamObject(entity, url) {
 }
 function splitUrlToObject(url) {
     const urlObject = new UrlParse(url);
+    const parsedUrlObject = new UrlParse(url, true);
     const queryValues = {};
-    const query = urlObject.query;
+    const query = parsedUrlObject.query;
     for (const [key, value] of Object.entries(query)) {
         queryValues[key.toLowerCase()] = value !== undefined ? value : "";
     }
-    console.log("query", queryValues);
     const paths = urlObject.pathname
         .replace(/^\/*/, "")
         .split("/")

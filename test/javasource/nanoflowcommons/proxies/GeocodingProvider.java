@@ -6,10 +6,10 @@ package nanoflowcommons.proxies;
 
 public enum GeocodingProvider
 {
-	Google(new java.lang.String[][] { new java.lang.String[] { "en_US", "Google" } }),
-	Geocodio(new java.lang.String[][] { new java.lang.String[] { "en_US", "Geocodio" } }),
-	LocationIQ(new java.lang.String[][] { new java.lang.String[] { "en_US", "LocationIQ" } }),
-	MapQuest(new java.lang.String[][] { new java.lang.String[] { "en_US", "MapQuest" } });
+	Google(new java.lang.String[][] { new java.lang.String[] { "en_US", "Google" }, new java.lang.String[] { "nl_NL", "Google" } }),
+	Geocodio(new java.lang.String[][] { new java.lang.String[] { "en_US", "Geocodio" }, new java.lang.String[] { "nl_NL", "Geocodio" } }),
+	LocationIQ(new java.lang.String[][] { new java.lang.String[] { "en_US", "LocationIQ" }, new java.lang.String[] { "nl_NL", "LocationIQ" } }),
+	MapQuest(new java.lang.String[][] { new java.lang.String[] { "en_US", "MapQuest" }, new java.lang.String[] { "nl_NL", "MapQuest" } });
 
 	private java.util.Map<java.lang.String, java.lang.String> captions;
 

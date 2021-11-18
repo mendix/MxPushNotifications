@@ -7,8 +7,7 @@ package nativemobileresources.proxies;
 public enum PictureSource
 {
 	camera(new java.lang.String[][] { new java.lang.String[] { "en_US", "Camera" } }),
-	imageLibrary(new java.lang.String[][] { new java.lang.String[] { "en_US", "Image Library" } }),
-	either(new java.lang.String[][] { new java.lang.String[] { "en_US", "Let the user choose" } });
+	imageLibrary(new java.lang.String[][] { new java.lang.String[] { "en_US", "Image Library" } });
 
 	private java.util.Map<java.lang.String, java.lang.String> captions;
 

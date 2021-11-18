@@ -109,8 +109,8 @@ public class APNSConnection {
             if (message.getActionName() != null && !message.getActionName().trim().isEmpty()) {
                 payloadBuilder.addCustomProperty("actionName", message.getActionName());
 
-                if (message.getContextObjectGuid() != null) {
-                    payloadBuilder.addCustomProperty("guid", ""+message.getContextObjectGuid());
+                if (message.getIdentifier() != null) {
+                    payloadBuilder.addCustomProperty("guid", ""+message.getIdentifier());
                 }
             }
 
