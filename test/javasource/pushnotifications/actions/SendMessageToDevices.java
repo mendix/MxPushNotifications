@@ -57,7 +57,7 @@ public class SendMessageToDevices extends CustomJavaAction<java.util.List<IMendi
 		// BEGIN USER CODE
 		if (ContextObject != null) {
 			Long guid = ContextObject.getId().toLong();
-			MessageDataParam.setContextObjectGuid(guid);
+			MessageDataParam.setIdentifier(guid);
 		}
 
 		List<Message> messages = createAndSendMessageToDevices(getContext(), DeviceParam, MessageDataParam);

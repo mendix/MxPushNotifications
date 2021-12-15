@@ -346,7 +346,7 @@ define([
                 window.mx.ui.action(microflow, {
                     callback: callback,
                     error: function (error) {
-                        window.mx.ui.error("Error while opening page " + microflow + ": " + error.message);
+                        window.mx.ui.error("Error while calling microflow " + microflow + ": " + error.message);
                     },
                     params: params
                 });

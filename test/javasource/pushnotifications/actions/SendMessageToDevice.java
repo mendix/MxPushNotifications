@@ -52,7 +52,7 @@ public class SendMessageToDevice extends CustomJavaAction<IMendixObject>
 		// BEGIN USER CODE
 		if (ContextObject != null) {
 			Long guid = ContextObject.getId().toLong();
-			MessageDataParam.setContextObjectGuid(guid);
+			MessageDataParam.setIdentifier(guid);
 		}
 
 		Message message = createAndSendMessageToDevice(getContext(), DeviceParam, MessageDataParam);
