@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import TouchID from "react-native-touch-id";
+import TouchID from 'react-native-touch-id';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE

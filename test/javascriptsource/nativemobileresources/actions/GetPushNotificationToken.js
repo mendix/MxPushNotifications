@@ -6,7 +6,8 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { NativeModules } from "react-native";
+import { NativeModules } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -18,11 +19,9 @@ import { NativeModules } from "react-native";
 export async function GetPushNotificationToken() {
 	// BEGIN USER CODE
     // Documentation https://rnfirebase.io/docs/v5.x.x/messaging/reference/Messaging#getToken
-    if (NativeModules && !NativeModules.RNFirebase) {
+    if (NativeModules && !NativeModules.RNFBMessagingModule) {
         return Promise.reject(new Error("Firebase module is not available in your app"));
     }
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const firebase = require("react-native-firebase");
-    return firebase.messaging().getToken();
+    return messaging().getToken();
 	// END USER CODE
 }

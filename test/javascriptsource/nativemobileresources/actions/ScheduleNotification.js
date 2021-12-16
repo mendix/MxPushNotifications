@@ -6,7 +6,8 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { NativeModules } from "react-native";
+import { Platform, NativeModules } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -27,43 +28,51 @@ import { NativeModules } from "react-native";
  */
 export async function ScheduleNotification(date, body, title, subtitle, playSound, notificationId, actionName, actionGuid) {
 	// BEGIN USER CODE
-    // Documentation https://rnfirebase.io/docs/v5.x.x/notifications/scheduling-notifications
-    if (NativeModules && !NativeModules.RNFirebase) {
-        return Promise.reject(new Error("Firebase module is not available in your app"));
-    }
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const firebase = require("react-native-firebase");
-    if (!date) {
-        return Promise.reject(new Error("Input parameter 'Date' is required"));
+    // Documentation https://github.com/zo0r/react-native-push-notification
+    const isIOS = Platform.OS === "ios";
+    if (NativeModules &&
+        ((isIOS && !NativeModules.RNCPushNotificationIOS) || (!isIOS && !NativeModules.RNPushNotification))) {
+        return Promise.reject(new Error("Notifications module is not available in your app"));
     }
     if (!body) {
         return Promise.reject(new Error("Input parameter 'Body' is required"));
     }
-    const channel = new firebase.notifications.Android.Channel("mendix-local-notifications", "Local notifications", firebase.notifications.Android.Importance.Default);
-    await firebase.notifications().android.createChannel(channel);
-    const notification = new firebase.notifications.Notification()
-        .setBody(body)
-        .android.setChannelId("mendix-local-notifications");
+    const notification = { message: body };
+    const notificationIdNumber = Number(notificationId);
+    if (!isIOS) {
+        const channelId = "mendix-local-notifications";
+        const channelExists = await new Promise(resolve => PushNotification.channelExists(channelId, (exists) => resolve(exists)));
+        if (!channelExists) {
+            const channel = await new Promise(resolve => PushNotification.createChannel({
+                channelId,
+                channelName: "Local notifications"
+            }, created => resolve(created)));
+            if (!channel) {
+                return Promise.reject(new Error("Could not create the local notifications channel"));
+            }
+        }
+        notification.channelId = channelId;
+    }
+    if (notificationIdNumber) {
+        notification.id = notificationIdNumber;
+    }
     if (title) {
-        notification.setTitle(title);
+        notification.title = title;
     }
-    if (subtitle) {
-        notification.setSubtitle(subtitle);
+    if (subtitle && !isIOS) {
+        notification.subText = subtitle;
     }
-    if (playSound) {
-        notification.setSound("default");
-    }
+    notification.playSound = !!playSound;
     if (actionName || actionGuid) {
-        notification.setData({
+        notification.userInfo = {
             actionName,
             guid: actionGuid
-        });
+        };
     }
-    if (notificationId) {
-        notification.setNotificationId(notificationId);
+    if (date && date.getTime()) {
+        notification.date = date;
     }
-    return firebase.notifications().scheduleNotification(notification, {
-        fireDate: date.getTime()
-    });
+    PushNotification.localNotificationSchedule(notification);
+    return Promise.resolve();
 	// END USER CODE
 }

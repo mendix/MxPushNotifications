@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import InAppBrowser from "react-native-inappbrowser-reborn";
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE

@@ -6,6 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
+import AsyncStorage from '@react-native-community/async-storage';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -27,7 +28,6 @@ export async function SetStorageItemString(key, value) {
     return setItem(key, value);
     function setItem(key, value) {
         if (navigator && navigator.product === "ReactNative") {
-            const AsyncStorage = require("@react-native-community/async-storage").default;
             return AsyncStorage.setItem(key, value);
         }
         if (window) {

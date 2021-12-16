@@ -9,7 +9,6 @@
 
 package communitycommons.actions;
 
-import com.google.common.collect.Lists;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
@@ -17,6 +16,7 @@ import communitycommons.proxies.SanitizerPolicy;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -68,8 +68,7 @@ public class XSSSanitize extends CustomJavaAction<java.lang.String>
 			return "";
 		}
 
-		List<SanitizerPolicy> policyParams = Lists.newArrayList(policy1, policy2, policy3, policy4, policy5, policy6)
-			.stream()
+		List<SanitizerPolicy> policyParams = Stream.of(policy1, policy2, policy3, policy4, policy5, policy6)
 			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
 

@@ -52,6 +52,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.GetImageDimensions.class);
     registrator.registerUserAction(communitycommons.actions.GetIntFromDateTime.class);
     registrator.registerUserAction(communitycommons.actions.getLastChangedByUser.class);
+    registrator.registerUserAction(communitycommons.actions.GetModelVersion.class);
     registrator.registerUserAction(communitycommons.actions.getOriginalValueAsString.class);
     registrator.registerUserAction(communitycommons.actions.GetRuntimeVersion.class);
     registrator.registerUserAction(communitycommons.actions.getTypeAsString.class);
@@ -60,6 +61,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(communitycommons.actions.HTMLToPlainText.class);
     registrator.registerUserAction(communitycommons.actions.IsInDevelopment.class);
     registrator.registerUserAction(communitycommons.actions.IsStringSimplified.class);
+    registrator.registerUserAction(communitycommons.actions.ListTop.class);
     registrator.registerUserAction(communitycommons.actions.LongToDateTime.class);
     registrator.registerUserAction(communitycommons.actions.memberHasChanged.class);
     registrator.registerUserAction(communitycommons.actions.MergeMultiplePdfs.class);

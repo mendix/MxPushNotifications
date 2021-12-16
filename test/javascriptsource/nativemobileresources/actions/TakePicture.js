@@ -6,16 +6,16 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { Alert, Linking, NativeModules, Platform } from "react-native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { getLocales } from "react-native-localize";
+import { NativeModules, Alert, Platform, Linking } from 'react-native';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import { getLocales } from 'react-native-localize';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
 
 /**
  * @param {MxObject} picture - This field is required.
- * @param {"NativeMobileResources.PictureSource.camera"|"NativeMobileResources.PictureSource.imageLibrary"} pictureSource - Select a picture from the library or the camera. The default is camera.
+ * @param {"NativeMobileResources.PictureSource.camera"|"NativeMobileResources.PictureSource.imageLibrary"} pictureSource - Select a picture from the library or the camera. The default is to let the user decide.
  * @param {"NativeMobileResources.PictureQuality.original"|"NativeMobileResources.PictureQuality.low"|"NativeMobileResources.PictureQuality.medium"|"NativeMobileResources.PictureQuality.high"|"NativeMobileResources.PictureQuality.custom"} pictureQuality - Set to empty to use default value 'medium'.
  * @param {Big} maximumWidth - The picture will be scaled to this maximum pixel width, while maintaing the aspect ratio.
  * @param {Big} maximumHeight - The picture will be scaled to this maximum pixel height, while maintaing the aspect ratio.

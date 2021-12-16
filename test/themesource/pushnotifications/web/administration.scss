@@ -1,0 +1,91 @@
+.push-administration-container {
+
+    // Main tabcontainer
+    .mx-tabcontainer.tab-pills {
+        display: flex;
+
+        > .mx-tabcontainer-tabs {
+            flex-direction: column;
+            flex: 250px 0 0;
+            padding-right: 30px;
+
+            > li {
+                margin-bottom: 0;
+
+                &:not(:last-child) {
+                    border-bottom: 1px $border-color-default solid;
+                }
+            }
+
+            > li > a,
+            > li > a:hover {
+                border: 0;  
+                border-left: 5px transparent solid;
+            }
+
+            > li > a {
+                padding: 15px;
+                border-radius: 0;
+                margin-right: 0;
+                background-color: #fff;
+            }
+
+            > li.active a {
+                border-left: 5px $brand-primary solid;
+                background-color: $gray-lighter;
+                color: $font-color-default;
+            }
+
+            > li:first-child > a {
+                border-top-left-radius: $border-radius-default;
+                border-top-right-radius: $border-radius-default;
+            }
+
+            > li:last-child > a {
+                border-bottom-left-radius: $border-radius-default;
+                border-bottom-right-radius: $border-radius-default;
+            }
+        }
+
+        > .mx-tabcontainer-content {
+            flex-grow: 1;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: $border-radius-default;
+        }
+    }
+
+    // Master detail (configurations)
+    .masterdetail {
+        border: 1px $border-color-default solid;
+        border-radius: $border-radius-default;
+        
+        .masterdetail-master {
+            min-height: 300px;
+
+            .listview-lined.mx-listview > ul > li:first-child {
+                border-top: 0;
+            }
+
+            img.settings-icon {
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+            }
+        }
+    }
+
+    // Helper classes
+    .text-single-line,
+    .text-single-line .td-text {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .card.bordered {
+        border: 1px $gray-light solid;
+        width: 300px;
+    }
+}

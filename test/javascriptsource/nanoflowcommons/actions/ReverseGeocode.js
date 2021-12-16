@@ -6,6 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
+import Geodecoder from 'react-native-geocoder';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -35,9 +36,8 @@ export async function ReverseGeocode(latitude, longitude, geocodingProvider, pro
         return Promise.reject(new Error("Input parameter 'Longitude' is required"));
     }
     if (navigator && navigator.product === "ReactNative") {
-        const Geocoder = require("react-native-geocoder").default;
         const position = { lat: Number(latitude), lng: Number(longitude) };
-        return Geocoder.geocodePosition(position).then(results => {
+        return Geodecoder.geocodePosition(position).then(results => {
             if (results.length === 0) {
                 return Promise.reject(new Error("No results found"));
             }

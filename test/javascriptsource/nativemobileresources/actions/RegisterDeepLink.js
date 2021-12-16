@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { Linking } from "react-native";
+import { Linking } from 'react-native';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
