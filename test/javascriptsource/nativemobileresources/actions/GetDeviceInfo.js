@@ -6,8 +6,8 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import DeviceInfo from "react-native-device-info";
-import { getLocales, getCountry, getTimeZone, uses24HourClock } from "react-native-localize";
+import DeviceInfo from 'react-native-device-info';
+import { getLocales, getCountry, getTimeZone, uses24HourClock } from 'react-native-localize';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE

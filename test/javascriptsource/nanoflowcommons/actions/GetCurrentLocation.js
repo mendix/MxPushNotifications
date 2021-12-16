@@ -6,6 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
+import Geolocation from "@react-native-community/geolocation";
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -19,7 +20,7 @@ import { Big } from "big.js";
  * 
  * Best practices:
  * https://developers.google.com/web/fundamentals/native-hardware/user-location/
- * @param {Big} timeout - The maximum length of time (in milliseconds) the device is allowed to take in order to return a location. If empty, there is no timeout.
+ * @param {Big} timeout - The maximum length of time (in milliseconds) the device is allowed to take in order to return a location. If set as empty, default value will be 30 second timeout.
  * @param {Big} maximumAge - The maximum age (in milliseconds) of a possible cached position that is acceptable to return. If set to 0, it means that the device cannot use a cached position and must attempt to retrieve the real current position. By default the device will always return a cached position regardless of its age.
  * @param {boolean} highAccuracy - Use a higher accuracy method to determine the current location. Setting this to false saves battery life.
  * @returns {Promise.<MxObject>}
@@ -27,7 +28,7 @@ import { Big } from "big.js";
 export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
 	// BEGIN USER CODE
     if (navigator && navigator.product === "ReactNative" && !navigator.geolocation) {
-        navigator.geolocation = require("@react-native-community/geolocation");
+        navigator.geolocation = Geolocation;
     }
     return new Promise((resolve, reject) => {
         const options = getOptions();
@@ -39,7 +40,8 @@ export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
                     const geolocation = mapPositionToMxObject(mxObject, position);
                     resolve(geolocation);
                 },
-                error: () => reject(new Error("Could not create 'NanoflowCommons.Geolocation' object to store location"))
+                error: () =>
+                    reject(new Error("Could not create 'NanoflowCommons.Geolocation' object to store location"))
             });
         }
         function onError(error) {

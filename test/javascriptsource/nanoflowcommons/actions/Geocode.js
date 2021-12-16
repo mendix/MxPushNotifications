@@ -6,6 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
+import Geodecoder from 'react-native-geocoder';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -31,8 +32,7 @@ export async function Geocode(address, geocodingProvider, providerApiKey) {
         return Promise.reject(new Error("Input parameter 'Address' is required"));
     }
     if (navigator && navigator.product === "ReactNative") {
-        const Geocoder = require("react-native-geocoder").default;
-        return Geocoder.geocodeAddress(address).then(results => {
+        return Geodecoder.geocodeAddress(address).then(results => {
             if (results.length === 0) {
                 return Promise.reject(new Error("No results found"));
             }

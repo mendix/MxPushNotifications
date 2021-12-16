@@ -6,6 +6,8 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
+import { Platform, PermissionsAndroid } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -17,16 +19,14 @@ import { Big } from "big.js";
 export async function RequestLocationPermission() {
 	// BEGIN USER CODE
     if (navigator && navigator.product === "ReactNative") {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const RN = require("react-native");
         if (!navigator.geolocation) {
-            navigator.geolocation = require("@react-native-community/geolocation");
+            navigator.geolocation = Geolocation;
         }
-        if (RN.Platform.OS === "android") {
-            const locationPermission = RN.PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION;
-            return RN.PermissionsAndroid.check(locationPermission).then(hasPermission => hasPermission
+        if (Platform.OS === "android") {
+            const locationPermission = PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION;
+            return PermissionsAndroid.check(locationPermission).then(hasPermission => hasPermission
                 ? true
-                : RN.PermissionsAndroid.request(locationPermission).then(status => status === RN.PermissionsAndroid.RESULTS.GRANTED));
+                : PermissionsAndroid.request(locationPermission).then(status => status === PermissionsAndroid.RESULTS.GRANTED));
         }
         else if (navigator.geolocation && navigator.geolocation.requestAuthorization) {
             try {

@@ -38,20 +38,27 @@ public class EncryptString extends CustomJavaAction<java.lang.String>
 			return null;
 		if (this.prefix == null || this.prefix.isEmpty())
 			throw new MendixRuntimeException("Prefix should not be empty");
+		if(isLegacyAlgorithm(this.prefix))
+			throw new MendixRuntimeException(String.format(
+					"The used prefix is no longer supported for encryption. Please use '%s'.", NEW_PREFIX));
+		if (!hasValidPrefix(this.prefix))
+			throw new MendixRuntimeException(String.format("Invalid prefix used. Please use '%s'.", NEW_PREFIX));
 		if (this.key == null || this.key.isEmpty())
 			throw new MendixRuntimeException("Key should not be empty");
-		if (this.key.length() != 16)
-			throw new MendixRuntimeException("Key length should be 16");
-		Cipher c = Cipher.getInstance("AES/GCM/PKCS5PADDING");
+		if (this.key.length() != 32)
+			throw new MendixRuntimeException("Key length should be 32");
+		Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
 		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
 		c.init(Cipher.ENCRYPT_MODE, k);
 
 		byte[] encryptedData = c.doFinal(this.value.getBytes());
 		byte[] iv = c.getIV();
 
-		return new StringBuilder(this.prefix +
-				new String(Base64.getEncoder().encode(iv))).append(";").append(
-				new String(Base64.getEncoder().encode(encryptedData))).toString();
+		StringBuilder sb = new StringBuilder(this.prefix);
+		sb.append(new String(Base64.getEncoder().encode(iv)));
+		sb.append(';');
+		sb.append(new String(Base64.getEncoder().encode(encryptedData)));
+		return sb.toString();
 		// END USER CODE
 	}
 
@@ -65,5 +72,10 @@ public class EncryptString extends CustomJavaAction<java.lang.String>
 	}
 
 	// BEGIN EXTRA CODE
+	private static final String NEW_PREFIX = "{AES3}";
+	private static final String LEGACY_PREFIX_REGEX = "^\\{AES2?}$";
+
+	private boolean hasValidPrefix(String text) { return text.equals(NEW_PREFIX); }
+	private boolean isLegacyAlgorithm(String text) { return text.matches(LEGACY_PREFIX_REGEX); }
 	// END EXTRA CODE
 }

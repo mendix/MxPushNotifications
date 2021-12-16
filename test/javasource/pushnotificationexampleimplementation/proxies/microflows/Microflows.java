@@ -53,17 +53,6 @@ public class Microflows
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestMessageCleanupScheduledEvent").withParams(params).execute(context);
 	}
-	public static void microflowWithContext(IContext context, pushnotificationexampleimplementation.proxies.Test _test)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("Test", _test == null ? null : _test.getMendixObject());
-		Core.microflowCall("PushNotificationExampleImplementation.MicroflowWithContext").withParams(params).execute(context);
-	}
-	public static void microflowWithoutContext(IContext context)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		Core.microflowCall("PushNotificationExampleImplementation.MicroflowWithoutContext").withParams(params).execute(context);
-	}
 	public static void send(IContext context, pushnotifications.proxies.MessageView _messageView)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();

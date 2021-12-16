@@ -6,7 +6,8 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { NativeModules } from "react-native";
+import { Platform, NativeModules } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -17,18 +18,18 @@ import { NativeModules } from "react-native";
  */
 export async function SetBadgeNumber(badgeNumber) {
 	// BEGIN USER CODE
-    // Documentation https://rnfirebase.io/docs/v5.x.x/notifications/reference/Notifications#setBadge
-    if (NativeModules && !NativeModules.RNFirebase) {
-        return Promise.reject(new Error("Firebase module is not available in your app"));
+    // Documentation https://github.com/zo0r/react-native-push-notification
+    const isIOS = Platform.OS === "ios";
+    if (NativeModules &&
+        ((isIOS && !NativeModules.RNCPushNotificationIOS) || (!isIOS && !NativeModules.RNPushNotification))) {
+        return Promise.reject(new Error("Notifications module is not available in your app"));
     }
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const firebase = require("react-native-firebase");
     if (!badgeNumber) {
         return Promise.reject(new Error("Input parameter 'Badge number' is required"));
     }
     if (badgeNumber.lt(0)) {
         return Promise.reject(new Error("Input parameter 'Badge number' should be zero or greater"));
     }
-    return firebase.notifications().setBadge(Number(badgeNumber));
+    return PushNotification.setApplicationIconBadgeNumber(Number(badgeNumber));
 	// END USER CODE
 }

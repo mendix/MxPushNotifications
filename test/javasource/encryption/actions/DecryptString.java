@@ -16,6 +16,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
@@ -25,38 +27,36 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	private java.lang.String value;
 	private java.lang.String key;
 	private java.lang.String prefix;
+	private java.lang.String legacyKey;
 
-	public DecryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix)
+	public DecryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix, java.lang.String legacyKey)
 	{
 		super(context);
 		this.value = value;
 		this.key = key;
 		this.prefix = prefix;
+		this.legacyKey = legacyKey;
 	}
 
 	@java.lang.Override
 	public java.lang.String executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		if (this.value == null || !isStartsWithRightPrefix())
-			return null;
-		if (this.prefix == null || this.prefix.isEmpty())
-			throw new MendixRuntimeException("Prefix should not be empty");
-		if (this.key == null || this.key.isEmpty())
-			throw new MendixRuntimeException("Key should not be empty");
-		if (this.key.length() != 16)
-			throw new MendixRuntimeException("Key length should be 16");
-		
-		String decryptedText = null;
+		if (this.prefix != null)
+			throw new MendixRuntimeException("Prefix should be null when passed to DecryptString, this parameter will be deprecated");
+		if (this.value == null)
+			return this.value;
 
-		if (isEncryptedWithLegacyAlgorithm(this.value))	{
-			decryptedText = decryptUsingLegacyAlgorithm();
+		String textPrefix = getPrefix(this.value);
+		if (textPrefix == null)
+			throw new MendixRuntimeException("Encrypted string does not have a valid prefix.");
+		switch (textPrefix) {
+			case "AES": return decryptUsingLegacyAlgorithm();
+			case "AES2": return decryptUsingGcm();
+			case "AES3": return decryptUsingNewAlgorithm();
+			default:
+				throw new MendixRuntimeException("Invalid prefix encountered when trying to decrypt string: {" + textPrefix + "}");
 		}
-		else {
-			decryptedText = decryptUsingGcm();
-		}
-
-		return decryptedText;
 		// END USER CODE
 	}
 
@@ -70,18 +70,54 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	}
 
 	// BEGIN EXTRA CODE
-	private final int GCM_TAG_LENGTH = 16; // in bytes
-	private final String LEGACY_PREFIX = "{AES}";
-	private final String WRONG_KEY_ERROR_MESSAGE = "Cannot decrypt the text because it was either NOT encrypted with a key of length 16 or they key is different";
+	private static final int GCM_TAG_LENGTH = 16; // in bytes
+	private static final String LEGACY_PREFIX = "{AES}";
+	private static final String LEGACY_PREFIX2 = "{AES2}";
+	private static final String NEW_PREFIX = "{AES3}";
+	private static final Pattern PREFIX_REGEX = Pattern.compile("^\\{([a-zA-Z0-9]*)\\}.*$");
+	private static final String WRONG_KEY_ERROR_MESSAGE = "Cannot decrypt the text because it was either NOT encrypted with a key of length 16 or the key is different";
+
+	private String decryptUsingNewAlgorithm() throws Exception {
+		if (this.key == null || this.key.isEmpty())
+			throw new MendixRuntimeException("Key should not be empty");
+		if (this.key.length() != 32)
+			throw new MendixRuntimeException("Key length should be 32");
+
+		String[] s = this.value.substring(NEW_PREFIX.length()).split(";");
+
+		if (s.length < 2)
+			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string.");
+
+		Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
+		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+
+		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
+		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
+
+		try {
+			GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
+			c.init(Cipher.DECRYPT_MODE, k, spec);
+			return new String(c.doFinal(encryptedData));
+		} catch (InvalidAlgorithmParameterException | BadPaddingException ex) {
+			if (isEncryptedWithWrongKey(ex.getMessage()))
+				throw new MendixRuntimeException(WRONG_KEY_ERROR_MESSAGE);
+			else throw ex;
+		}
+	}
 
 	private String decryptUsingGcm() throws Exception {
-		String[] s = this.value.substring(this.prefix.length()).split(";");
+		if (this.legacyKey == null || this.legacyKey.isEmpty())
+			throw new MendixRuntimeException("Legacy key should not be empty");
+		if (this.legacyKey.length() != 16)
+			throw new MendixRuntimeException("Legacy key length should be 16");
 
-		if (s.length < 2) //Not an encrypted string, just return the original value.
-			return this.value;
+		String[] s = this.value.substring(LEGACY_PREFIX2.length()).split(";");
+
+		if (s.length < 2)
+			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string using legacy algorithm.");
 
 		Cipher c = Cipher.getInstance("AES/GCM/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES");
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
 		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
@@ -98,19 +134,23 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	}
 	
 	private boolean isEncryptedWithWrongKey(String message) {
-		return 
-				message.equals( "Wrong IV length: must be 16 bytes long") ||
+		return message.equals("Wrong IV length: must be 16 bytes long") ||
 				message.equals("Given final block not properly padded");
 	}
 
 	private String decryptUsingLegacyAlgorithm() throws Exception {
+		if (this.legacyKey == null || this.legacyKey.isEmpty())
+			throw new MendixRuntimeException("Legacy key should not be empty");
+		if (this.legacyKey.length() != 16)
+			throw new MendixRuntimeException("Legacy key length should be 16");
+
 		String[] s = this.value.substring(LEGACY_PREFIX.length()).split(";");
 
-		if (s.length < 2) //Not an encrypted string, just return the original value.
-			return this.value;
+		if (s.length < 2)
+			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string using legacy algorithm.");
 
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES");
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
 		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
@@ -125,12 +165,11 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 		}
 	}
 
-	private boolean isEncryptedWithLegacyAlgorithm(String text) {
-		return text.startsWith(LEGACY_PREFIX);
-	}
-
-	private boolean isStartsWithRightPrefix() {
-		return this.value.startsWith(this.value) || isEncryptedWithLegacyAlgorithm(this.value);
+	// try to extract the prefix of an encrypted string
+	// returns null if no prefix is found
+	private String getPrefix(String text) {
+		Matcher m = PREFIX_REGEX.matcher(text);
+		return m.find() ? m.group(1) : null;
 	}
 	// END EXTRA CODE
 }
