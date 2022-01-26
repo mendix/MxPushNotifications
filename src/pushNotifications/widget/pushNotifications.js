@@ -1,5 +1,5 @@
 /*jslint browser: true, devel:true, nomen:true, unparam:true, regexp: true*/
-/*global logger, cordova, mx, mxui, device, define, Media, require*/
+/*global mx.logger, cordova, mx, mxui, device, define, Media, require*/
 
 define([
     "dojo/_base/declare",
@@ -41,7 +41,7 @@ define([
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
-            logger.debug(".postCreate");
+            mx.logger.debug(".postCreate");
 
             this.version = this._parseVersionString(mx.version);
 
@@ -49,15 +49,15 @@ define([
         },
 
         update: function(obj, callback) {
-            logger.debug(".update");
+            mx.logger.debug(".update");
 
             if (typeof cordova !== "undefined" && typeof window.PushNotification !== "undefined" && !this._registrationId) {
                 this.initializePushNotifications();
             } else {
-                logger.debug("PushNotifications plugin not available; this plugin should be included during the build.");
+                mx.logger.debug("PushNotifications plugin not available; this plugin should be included during the build.");
             }
 
-            mendix.lang.nullExec(callback);
+            if (callback) callback();
         },
 
         removeRetryInterval: function() {
@@ -69,7 +69,7 @@ define([
         },
 
         initializePushNotifications: function() {
-            logger.debug(".initializePushNotifications");
+            mx.logger.debug(".initializePushNotifications");
 
             try {
                 this.initializePushPlugin();
@@ -82,12 +82,12 @@ define([
                         this.INITIALIZATION_INTERVAL_MS
                     );
                 }
-                logger.error(err);
+                mx.logger.error(err);
             }
         },
 
         initializePushPlugin: function() {
-            logger.debug(".initializePushPlugin");
+            mx.logger.debug(".initializePushPlugin");
 
             window.pushWidget = this;
 
@@ -106,7 +106,7 @@ define([
         },
 
         onPushRegistration: function(data) {
-            logger.debug(".onPushRegistration");
+            mx.logger.debug(".onPushRegistration");
 
             this._deviceId = window.device.uuid;
             this._registrationId = data.registrationId;
@@ -116,18 +116,18 @@ define([
                 .otherwise(dojoLang.hitch(this, this.createRegistrationEntity))
                 .then(dojoLang.hitch(this, this.registerDevice))
                 .otherwise(function(err) {
-                    logger.error("Failed to register device: " + err);
+                    mx.logger.error("Failed to register device: " + err);
                 });
         },
 
         getDeviceRegistrationEntity: function() {
-            logger.debug(".getDeviceRegistrationEntity");
+            mx.logger.debug(".getDeviceRegistrationEntity");
 
             var deferred = new Deferred();
 
             var handleRegistrationEntity = function(deviceregistrations) {
                 if (deviceregistrations.length > 0) {
-                    logger.debug("Found one or more device registration objects. Using the first one.");
+                    mx.logger.debug("Found one or more device registration objects. Using the first one.");
 
                     deferred.resolve(deviceregistrations[0]);
                 } else {
@@ -175,7 +175,7 @@ define([
         },
 
         createRegistrationEntity: function() {
-            logger.debug(".createRegistrationEntity");
+            mx.logger.debug(".createRegistrationEntity");
 
             var deferred = new Deferred();
 
@@ -194,7 +194,7 @@ define([
         },
 
         registerDevice: function(deviceRegistration) {
-            logger.debug(".registerDevice");
+            mx.logger.debug(".registerDevice");
 
             deviceRegistration.set(this.DEVICE_ID_ATTRIBUTE, this._deviceId);
             deviceRegistration.set(this.REGISTRATION_ID_ATTRIBUTE, this._registrationId);
@@ -212,19 +212,19 @@ define([
                 mxobj: deviceRegistration,
                 callback: dojoLang.hitch(this, function() {
                     try {
-                        logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
+                        mx.logger.debug("Registered device with ID " + deviceRegistration.get(this.REGISTRATION_ID_ATTRIBUTE));
                     } catch (e) {
-                        logger.debug("Registered unknown device");
+                        mx.logger.debug("Registered unknown device");
                     }
                 }),
                 error: function(e) {
-                    logger.error("Error occurred attempting to register device: " + e);
+                    mx.logger.error("Error occurred attempting to register device: " + e);
                 }
             });
         },
 
         onPushNotification: function(data) {
-            logger.debug(".onPushNotification");
+            mx.logger.debug(".onPushNotification");
 
             if (data.additionalData.foreground) {
                 var cards = document.getElementById("cards");
@@ -254,12 +254,12 @@ define([
             }
 
             this._push.finish(function() {
-                logger.debug('Successfully processed push notification.');
+                mx.logger.debug('Successfully processed push notification.');
             });
         },
 
         onPushError: function(e) {
-            logger.error("Push error: " + e);
+            mx.logger.error("Push error: " + e);
         },
 
         removeAlert: function(e) {
