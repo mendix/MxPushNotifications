@@ -1,5 +1,5 @@
 /*jslint browser: true, devel:true, nomen:true, unparam:true, regexp: true*/
-/*global mx.logger, cordova, mx, mxui, device, define, Media, require*/
+/*global cordova, mx, mxui, device, define, Media, require*/
 
 define([
     "dojo/_base/declare",
