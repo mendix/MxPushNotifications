@@ -9,6 +9,7 @@ test/.classpath
 test/.mendix-cache/
 test/.project
 test/.svn/
+test/resources/Firestore/
 
 *.launch
 *.tmp

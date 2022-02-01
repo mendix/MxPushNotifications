@@ -1,6 +1,6 @@
 {
   "name": "MxPushNotifications",
-  "version": "4.0.6",
+  "version": "6.1.0",
   "description": "Phonegap widget for notifications",
   "license": "Apache 2.0",
   "author": "Mendix Technology B.V.",
@@ -12,11 +12,11 @@
     "gulp-if": "^2.0.1",
     "gulp-intercept": "^0.1.0",
     "gulp-json-transform": "^0.4.2",
+    "gulp-jsvalidate": "^3.0.0",
     "gulp-newer": "^1.3.0",
     "gulp-plumber": "^1.1.0",
     "gulp-util": "^3.0.7",
     "gulp-zip": "^3.2.0",
-    "gulp-jsvalidate": "^3.0.0",
     "widgetbuilder-gulp-helper": "https://github.com/JelteMX/widgetbuilder-gulp-helper/archive/1.0.1.tar.gz",
     "yargs": "^6.0.0"
   },
