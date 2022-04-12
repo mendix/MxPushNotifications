@@ -22,8 +22,8 @@ apply plugin: 'org.owasp.dependencycheck'
 apply plugin: 'com.github.ben-manes.versions'
 
 project.ext {
-    PNC_VERSION = '5.1.5'
-    MXBUILD_VERSION = '8.9.0.5487'
+    PNC_VERSION = '6.1.1'
+    MXBUILD_VERSION = '9.0.5.17836'
     MODULE_NAME = 'PushNotifications'
 }
 
@@ -41,7 +41,7 @@ repositories {
     mavenCentral()
     ivy {
         url 'https://cdn.mendix.com/'
-        layout 'pattern', {
+        patternLayout {
             artifact '/[organisation]/[module]-[revision].[ext]'
         }
         metadataSources {
@@ -51,35 +51,29 @@ repositories {
 }
 
 dependencies {
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
-    compile group: 'com.google.api-client', name: 'google-api-client', version: '1.30.4'
-    compile group: 'io.netty', name: 'netty-tcnative', version: '2.0.26.Final'
-    compile group: 'com.turo', name: 'pushy', version: '0.13.9'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
-
-    compile('io.netty:netty-codec-http2') {
+    implementation group: 'com.google.auth', name: 'google-auth-library-oauth2-http', version: '1.4.0'
+    implementation group: 'com.turo', name: 'pushy', version: '0.13.9'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.13'
+    
+    implementation('io.netty:netty-codec-http2') {
         version {
-            strictly '4.1.53.Final'
+            strictly '4.1.74.Final'
         }
     }
 
-    compile('io.netty:netty-handler-proxy') {
+    implementation('io.netty:netty-handler-proxy') {
         version {
-            strictly '4.1.53.Final'
+            strictly '4.1.74.Final'
         }
     }
 
-    compile('io.netty:netty-resolver-dns') {
+    implementation('io.netty:netty-resolver-dns') {
         version {
-            strictly '4.1.53.Final'
+            strictly '4.1.74.Final'
         }
     }
 
-    compile('io.netty:netty-all') {
-        version {
-            strictly '4.1.53.Final'
-        }
-    }
     tar "runtime:mxbuild:${project.MXBUILD_VERSION}@tar.gz"
 }
 
@@ -99,7 +93,7 @@ extractModule.doFirst {
 
 task copyToUserlib( type: Copy ) {
     into userLibDir
-    from configurations.runtime
+    from configurations.runtimeClasspath
     eachFile { fileCopyDetails ->
         def requiredLibFlag = new File(destinationDir, "${fileCopyDetails.name}.${project.MODULE_NAME}.RequiredLib")
         requiredLibFlag.write ''
