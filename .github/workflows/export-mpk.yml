@@ -1,0 +1,117 @@
+name: Export module package
+
+on:
+  # Run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: app
+          
+      - uses: actions/checkout@v3
+        with:
+          repository: 'mendixlabs/mx-docker-tools'
+          path: 'mx-tools'
+          
+      - name: Define MX_VERSION
+        run: |
+          cd $GITHUB_WORKSPACE/app/test
+          VERSION=$(sqlite3 PushNotfications.mpr 'SELECT _ProductVersion FROM _MetaData LIMIT 1')
+          echo "Detected Mendix version: $VERSION"
+          echo "MX_VERSION=$VERSION" >> $GITHUB_ENV
+          
+      - name: Read package.json
+        id: set_module_version
+        run: |
+          content=`cat $GITHUB_WORKSPACE/app/package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+
+      - name: Define MODULE_VERSION
+        run: |
+          MODULE_VERSION=${{fromJson(steps.set_module_version.outputs.packageJson).version}}
+          echo "Detected module version: $MODULE_VERSION"
+          echo "MODULE_VERSION=$MODULE_VERSION" >> $GITHUB_ENV
+      
+      - name: Create output directory
+        run: mkdir $GITHUB_WORKSPACE/out
+            
+      - name: Build MX Util
+        run: |
+          cd $GITHUB_WORKSPACE/mx-tools
+          make version=${{env.MX_VERSION}} build
+          
+      - name: Run MX Util
+        run: |
+          MX_TOOLS_IMAGE="mendixlabs/mx-docker-tools:"${{env.MX_VERSION}}
+          mkdir $GITHUB_WORKSPACE/app/test/packages
+          docker run -v $GITHUB_WORKSPACE/app/test:/opt/app -i $MX_TOOLS_IMAGE mxutil.exe create-module-package --package-dir /opt/app/packages /opt/app/PushNotfications.mpr "PushNotifications" --filter-required-libs --exclude-files="resources" | tee $GITHUB_WORKSPACE/out/mxutil.log
+          cp -f $GITHUB_WORKSPACE/app/test/packages/PushNotifications.mpk $GITHUB_WORKSPACE/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk
+          rm -rf $GITHUB_WORKSPACE/app/test/packages
+
+      - name: Remove non-whitelisted widgets
+        run: |
+          TEMP_UNZIP_FOLDER="$GITHUB_WORKSPACE/temp"
+          TARGET_MPK="$GITHUB_WORKSPACE/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk"
+          ALLOWED_LIST="$GITHUB_WORKSPACE/app/.github/workflows/widgets-whitelist.txt"
+          if [ ! -f "$ALLOWED_LIST" ]; then 
+            echo “Unable to find file widgets-whitelist.txt”
+            exit 1; 
+          fi
+          if [ -d "$TEMP_UNZIP_FOLDER" ]; then rm -Rf $TEMP_UNZIP_FOLDER; fi
+          mkdir $TEMP_UNZIP_FOLDER
+          unzip -x $TARGET_MPK -d $TEMP_UNZIP_FOLDER
+          cd "$TEMP_UNZIP_FOLDER/widgets"
+          for i in *; do
+            if ! grep -q "$i" $ALLOWED_LIST; then
+              echo "Removing widget: $i" | tee -a $GITHUB_WORKSPACE/out/removed-widgets.log
+              rm "$i"
+              sed -i "/$i/d" $TEMP_UNZIP_FOLDER/package.xml
+            fi
+          done
+          
+          cd $TEMP_UNZIP_FOLDER
+          zip -r PushNotifications-${{env.MODULE_VERSION}}.mpk *
+          mv -f PushNotifications-${{env.MODULE_VERSION}}.mpk $GITHUB_WORKSPACE/app/dist/
+          if [ -d "$TEMP_UNZIP_FOLDER" ]; then rm -Rf $TEMP_UNZIP_FOLDER; fi
+      
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{env.MODULE_VERSION}}
+          release_name: Marketplace release v${{env.MODULE_VERSION}}
+          body: |
+            (insert release notes)
+          commitish: master
+          draft: true
+          prerelease: false
+
+      - name: Upload release asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ${{ github.workspace }}/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk
+          asset_name: PushNotifications-${{env.MODULE_VERSION}}.mpk
+          asset_content_type: application/zip
+      
+      - name: Archive results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Results
+          path: ${{ github.workspace }}/out/*
