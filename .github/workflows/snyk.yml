@@ -14,9 +14,9 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle@master
+        uses: snyk/actions/gradle@7fc2a503b9b624bc777982df99412478ca61f05a # master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
