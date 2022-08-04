@@ -62,7 +62,7 @@ jobs:
         run: |
           TEMP_UNZIP_FOLDER="$GITHUB_WORKSPACE/temp"
           TARGET_MPK="$GITHUB_WORKSPACE/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk"
-          ALLOWED_LIST="$GITHUB_WORKSPACE/app/.github/workflows/widgets-whitelist.txt"
+          ALLOWED_LIST="$GITHUB_WORKSPACE/app/widgets-whitelist.txt"
           if [ ! -f "$ALLOWED_LIST" ]; then 
             echo “Unable to find file widgets-whitelist.txt”
             exit 1; 
