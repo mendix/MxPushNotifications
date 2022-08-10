@@ -1,13 +1,8 @@
 name: Run Snyk scan
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
-  # push:
-  #   branches: [ "master" ]
-  # pull_request:
-  #   branches: [ "master" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: [ "master" ]
   workflow_dispatch:
   
 jobs:
