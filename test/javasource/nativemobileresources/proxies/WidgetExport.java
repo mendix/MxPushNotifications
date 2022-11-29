@@ -24,7 +24,7 @@ public class WidgetExport
 		Decimal("Decimal"),
 		Enumeration("Enumeration");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -40,15 +40,17 @@ public class WidgetExport
 
 	public WidgetExport(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "NativeMobileResources.WidgetExport"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected WidgetExport(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject widgetExportMendixObject)
 	{
-		if (widgetExportMendixObject == null)
+		if (widgetExportMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("NativeMobileResources.WidgetExport", widgetExportMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a NativeMobileResources.WidgetExport");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, widgetExportMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.widgetExportMendixObject = widgetExportMendixObject;
 		this.context = context;
@@ -66,6 +68,9 @@ public class WidgetExport
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static nativemobileresources.proxies.WidgetExport initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -80,6 +85,7 @@ public class WidgetExport
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -88,6 +94,7 @@ public class WidgetExport
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -197,9 +204,9 @@ public class WidgetExport
 	public final nativemobileresources.proxies.Enumeration getEnumeration(com.mendix.systemwideinterfaces.core.IContext context)
 	{
 		Object obj = getMendixObject().getValue(context, MemberNames.Enumeration.toString());
-		if (obj == null)
+		if (obj == null) {
 			return null;
-
+		}
 		return nativemobileresources.proxies.Enumeration.valueOf((java.lang.String) obj);
 	}
 
@@ -219,10 +226,11 @@ public class WidgetExport
 	 */
 	public final void setEnumeration(com.mendix.systemwideinterfaces.core.IContext context, nativemobileresources.proxies.Enumeration enumeration)
 	{
-		if (enumeration != null)
+		if (enumeration != null) {
 			getMendixObject().setValue(context, MemberNames.Enumeration.toString(), enumeration.toString());
-		else
+		} else {
 			getMendixObject().setValue(context, MemberNames.Enumeration.toString(), null);
+		}
 	}
 
 	/**
@@ -244,9 +252,9 @@ public class WidgetExport
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final nativemobileresources.proxies.WidgetExport that = (nativemobileresources.proxies.WidgetExport) obj;
@@ -266,7 +274,7 @@ public class WidgetExport
 	 */
 	public static java.lang.String getType()
 	{
-		return "NativeMobileResources.WidgetExport";
+		return entityName;
 	}
 
 	/**

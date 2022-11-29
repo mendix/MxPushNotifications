@@ -47,12 +47,13 @@ public class SendMessageToDevices extends CustomJavaAction<java.util.List<IMendi
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MessageDataParam = __MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
+		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
 
-		this.DeviceParam = new java.util.ArrayList<pushnotifications.proxies.Device>();
-		if (__DeviceParam != null)
-			for (IMendixObject __DeviceParamElement : __DeviceParam)
-				this.DeviceParam.add(pushnotifications.proxies.Device.initialize(getContext(), __DeviceParamElement));
+		this.DeviceParam = java.util.Optional.ofNullable(this.__DeviceParam)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(__DeviceParamElement -> pushnotifications.proxies.Device.initialize(getContext(), __DeviceParamElement))
+			.collect(java.util.stream.Collectors.toList());
 
 		// BEGIN USER CODE
 		if (ContextObject != null) {
@@ -71,6 +72,7 @@ public class SendMessageToDevices extends CustomJavaAction<java.util.List<IMendi
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

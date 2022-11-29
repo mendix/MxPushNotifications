@@ -108,7 +108,6 @@ public class UserActionsRegistrar
     registrator.registerUserAction(encryption.actions.PGPDecryptDocument.class);
     registrator.registerUserAction(encryption.actions.PGPEncryptDocument.class);
     registrator.registerUserAction(encryption.actions.ValidatePrivateKeyRing.class);
-    registrator.registerUserAction(pushnotifications.actions.ExecuteMicroflowInBackground.class);
     registrator.registerUserAction(pushnotifications.actions.GetFCMAccessToken.class);
     registrator.registerUserAction(pushnotifications.actions.SendAPNSMessage_Impl.class);
     registrator.registerUserAction(pushnotifications.actions.SendMessageToDevice.class);

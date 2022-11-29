@@ -61,9 +61,9 @@ public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.CertPrivateKey = __CertPrivateKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPrivateKey);
+		this.CertPrivateKey = this.__CertPrivateKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPrivateKey);
 
-		this.CertPublicKey = __CertPublicKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPublicKey);
+		this.CertPublicKey = this.__CertPublicKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __CertPublicKey);
 
 		// BEGIN USER CODE
 		
@@ -122,6 +122,7 @@ public class GeneratePGPKeyRing extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

@@ -45,9 +45,9 @@ public class SendMessageToDevice extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.MessageDataParam = __MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
+		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
 
-		this.DeviceParam = __DeviceParam == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParam);
+		this.DeviceParam = this.__DeviceParam == null ? null : pushnotifications.proxies.Device.initialize(getContext(), __DeviceParam);
 
 		// BEGIN USER CODE
 		if (ContextObject != null) {
@@ -62,6 +62,7 @@ public class SendMessageToDevice extends CustomJavaAction<IMendixObject>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

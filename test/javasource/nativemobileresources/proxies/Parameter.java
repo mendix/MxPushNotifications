@@ -30,7 +30,7 @@ public class Parameter
 		Hash("Hash"),
 		Host("Host");
 
-		private java.lang.String metaName;
+		private final java.lang.String metaName;
 
 		MemberNames(java.lang.String s)
 		{
@@ -46,15 +46,17 @@ public class Parameter
 
 	public Parameter(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "NativeMobileResources.Parameter"));
+		this(context, com.mendix.core.Core.instantiate(context, entityName));
 	}
 
 	protected Parameter(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject parameterMendixObject)
 	{
-		if (parameterMendixObject == null)
+		if (parameterMendixObject == null) {
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("NativeMobileResources.Parameter", parameterMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a NativeMobileResources.Parameter");
+		}
+		if (!com.mendix.core.Core.isSubClassOf(entityName, parameterMendixObject.getType())) {
+			throw new java.lang.IllegalArgumentException(String.format("The given object is not a %s", entityName));
+		}	
 
 		this.parameterMendixObject = parameterMendixObject;
 		this.context = context;
@@ -72,6 +74,9 @@ public class Parameter
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.createSudoClone() can be used to obtain sudo access).
+	 * @param context The context to be used
+	 * @param mendixObject The Mendix object for the new instance
+	 * @return a new instance of this proxy class
 	 */
 	public static nativemobileresources.proxies.Parameter initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
@@ -86,6 +91,7 @@ public class Parameter
 
 	/**
 	 * Commit the changes made on this proxy object.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit() throws com.mendix.core.CoreException
 	{
@@ -94,6 +100,7 @@ public class Parameter
 
 	/**
 	 * Commit the changes made on this proxy object using the specified context.
+	 * @throws com.mendix.core.CoreException
 	 */
 	public final void commit(com.mendix.systemwideinterfaces.core.IContext context) throws com.mendix.core.CoreException
 	{
@@ -458,9 +465,9 @@ public class Parameter
 	@java.lang.Override
 	public boolean equals(Object obj)
 	{
-		if (obj == this)
+		if (obj == this) {
 			return true;
-
+		}
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
 			final nativemobileresources.proxies.Parameter that = (nativemobileresources.proxies.Parameter) obj;
@@ -480,7 +487,7 @@ public class Parameter
 	 */
 	public static java.lang.String getType()
 	{
-		return "NativeMobileResources.Parameter";
+		return entityName;
 	}
 
 	/**
