@@ -7,13 +7,19 @@ package pushnotificationexampleimplementation.proxies.microflows;
 import java.util.HashMap;
 import java.util.Map;
 import com.mendix.core.Core;
-import com.mendix.core.CoreException;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 public class Microflows
 {
+	/**
+	 * @deprecated
+	 * The default constructor of the Microflows class should not be used.
+	 * Use the static microflow invocation methods instead.
+	 */
+	@java.lang.Deprecated(since = "9.12", forRemoval = true)
+	public Microflows() {}
+
 	// These are the microflows for the PushNotificationExampleImplementation module
 	public static boolean afterStartup(IContext context)
 	{
@@ -23,12 +29,13 @@ public class Microflows
 	public static void iVK_OpenSendMessageFormWithContext(IContext context, java.util.List<pushnotifications.proxies.Device> _devices)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_devices = null;
+		java.util.List<IMendixObject> listparam_devices = null;
 		if (_devices != null)
 		{
 			listparam_devices = new java.util.ArrayList<>();
-			for (pushnotifications.proxies.Device obj : _devices)
+			for (var obj : _devices) {
 				listparam_devices.add(obj.getMendixObject());
+			}
 		}
 		params.put("Devices", listparam_devices);
 
@@ -37,26 +44,26 @@ public class Microflows
 	public static void iVK_OpenSendMessageFormWithoutContext(IContext context, java.util.List<pushnotifications.proxies.Device> _devices)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
-		java.util.ArrayList<IMendixObject> listparam_devices = null;
+		java.util.List<IMendixObject> listparam_devices = null;
 		if (_devices != null)
 		{
 			listparam_devices = new java.util.ArrayList<>();
-			for (pushnotifications.proxies.Device obj : _devices)
+			for (var obj : _devices) {
 				listparam_devices.add(obj.getMendixObject());
+			}
 		}
 		params.put("Devices", listparam_devices);
 
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_OpenSendMessageFormWithoutContext").withParams(params).execute(context);
 	}
+	public static void iVK_TestDeviceCleanupScheduledEvent(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestDeviceCleanupScheduledEvent").withParams(params).execute(context);
+	}
 	public static void iVK_TestMessageCleanupScheduledEvent(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestMessageCleanupScheduledEvent").withParams(params).execute(context);
-	}
-	public static void send(IContext context, pushnotifications.proxies.MessageView _messageView)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("MessageView", _messageView == null ? null : _messageView.getMendixObject());
-		Core.microflowCall("PushNotificationExampleImplementation.Send").withParams(params).execute(context);
 	}
 }

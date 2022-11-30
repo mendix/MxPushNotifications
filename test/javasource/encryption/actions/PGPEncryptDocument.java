@@ -46,13 +46,13 @@ public class PGPEncryptDocument extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.ExternalPublicKey = __ExternalPublicKey == null ? null : system.proxies.FileDocument.initialize(getContext(), __ExternalPublicKey);
+		this.ExternalPublicKey = this.__ExternalPublicKey == null ? null : system.proxies.FileDocument.initialize(getContext(), __ExternalPublicKey);
 
-		this.DocumentToEncrypt = __DocumentToEncrypt == null ? null : system.proxies.FileDocument.initialize(getContext(), __DocumentToEncrypt);
+		this.DocumentToEncrypt = this.__DocumentToEncrypt == null ? null : system.proxies.FileDocument.initialize(getContext(), __DocumentToEncrypt);
 
-		this.OutputDocument = __OutputDocument == null ? null : system.proxies.FileDocument.initialize(getContext(), __OutputDocument);
+		this.OutputDocument = this.__OutputDocument == null ? null : system.proxies.FileDocument.initialize(getContext(), __OutputDocument);
 
-		this.SigningCertificate = __SigningCertificate == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __SigningCertificate);
+		this.SigningCertificate = this.__SigningCertificate == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __SigningCertificate);
 
 		// BEGIN USER CODE
 
@@ -71,6 +71,7 @@ public class PGPEncryptDocument extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

@@ -47,12 +47,13 @@ public class SendMessageToUsers extends CustomJavaAction<java.util.List<IMendixO
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MessageDataParam = __MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
+		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
 
-		this.UserParam = new java.util.ArrayList<system.proxies.User>();
-		if (__UserParam != null)
-			for (IMendixObject __UserParamElement : __UserParam)
-				this.UserParam.add(system.proxies.User.initialize(getContext(), __UserParamElement));
+		this.UserParam = java.util.Optional.ofNullable(this.__UserParam)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(__UserParamElement -> system.proxies.User.initialize(getContext(), __UserParamElement))
+			.collect(java.util.stream.Collectors.toList());
 
 		// BEGIN USER CODE
 		if (ContextObject != null) {
@@ -71,6 +72,7 @@ public class SendMessageToUsers extends CustomJavaAction<java.util.List<IMendixO
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

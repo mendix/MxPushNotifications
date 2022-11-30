@@ -31,9 +31,9 @@ public class SendAPNSMessage_Impl extends CustomJavaAction<java.lang.Boolean>
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.message = __message == null ? null : pushnotifications.proxies.Message.initialize(getContext(), __message);
+		this.message = this.__message == null ? null : pushnotifications.proxies.Message.initialize(getContext(), __message);
 
-		this.settings = __settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), __settings);
+		this.settings = this.__settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), __settings);
 
 		// BEGIN USER CODE
 		APNSConnection apnsConnection = APNSConnection.getInstance();
@@ -44,6 +44,7 @@ public class SendAPNSMessage_Impl extends CustomJavaAction<java.lang.Boolean>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

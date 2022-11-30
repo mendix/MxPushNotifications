@@ -47,9 +47,9 @@ public class SendMessageToUser extends CustomJavaAction<java.util.List<IMendixOb
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MessageDataParam = __MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
+		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
 
-		this.UserParam = __UserParam == null ? null : system.proxies.User.initialize(getContext(), __UserParam);
+		this.UserParam = this.__UserParam == null ? null : system.proxies.User.initialize(getContext(), __UserParam);
 
 		// BEGIN USER CODE
 		if (ContextObject != null) {
@@ -68,6 +68,7 @@ public class SendMessageToUser extends CustomJavaAction<java.util.List<IMendixOb
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()
