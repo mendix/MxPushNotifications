@@ -52,8 +52,9 @@ jobs:
       - name: Run MX Util
         run: |
           MX_TOOLS_IMAGE="mendixlabs/mx-docker-tools:"${{env.MX_VERSION}}
-          mkdir $GITHUB_WORKSPACE/app/dist
-          docker run -v $GITHUB_WORKSPACE/app:/opt/app -i $MX_TOOLS_IMAGE mxutil.exe create-module-package --package-dir /opt/app/dist /opt/app/test/PushNotfications.mpr "PushNotifications-${{env.MODULE_VERSION}}" --filter-required-libs --exclude-files="resources" | tee $GITHUB_WORKSPACE/out/mxutil.log
+          mkdir { $GITHUB_WORKSPACE/app/tmp, $GITHUB_WORKSPACE/app/dist }
+          docker run -v $GITHUB_WORKSPACE/app:/opt/app -i $MX_TOOLS_IMAGE mxutil.exe create-module-package --package-dir /opt/app/tmp /opt/app/test/PushNotfications.mpr "PushNotifications" --filter-required-libs --exclude-files="resources" | tee $GITHUB_WORKSPACE/out/mxutil.log
+          cp -f $GITHUB_WORKSPACE/app/tmp/PushNotifications.mpk $GITHUB_WORKSPACE/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk
 
       - name: Remove non-whitelisted widgets
         run: |
