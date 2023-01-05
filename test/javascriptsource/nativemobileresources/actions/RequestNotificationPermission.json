@@ -1,6 +1,7 @@
 {
   "nativeDependencies": {
-    "@react-native-firebase/messaging": "10.5.1",
-    "@react-native-firebase/app": "10.1.0"
+    "@react-native-firebase/messaging": "15.7.0",
+    "@react-native-firebase/app": "15.7.0",
+    "@expo/config-plugins": "5.0.3"
   }
 }
