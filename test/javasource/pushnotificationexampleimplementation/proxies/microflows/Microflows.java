@@ -48,15 +48,14 @@ public class Microflows
 
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_OpenSendMessageFormWithoutContext").withParams(params).execute(context);
 	}
+	public static void iVK_TestDeviceCleanupScheduledEvent(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestDeviceCleanupScheduledEvent").withParams(params).execute(context);
+	}
 	public static void iVK_TestMessageCleanupScheduledEvent(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestMessageCleanupScheduledEvent").withParams(params).execute(context);
-	}
-	public static void send(IContext context, pushnotifications.proxies.MessageView _messageView)
-	{
-		Map<java.lang.String, Object> params = new HashMap<>();
-		params.put("MessageView", _messageView == null ? null : _messageView.getMendixObject());
-		Core.microflowCall("PushNotificationExampleImplementation.Send").withParams(params).execute(context);
 	}
 }
