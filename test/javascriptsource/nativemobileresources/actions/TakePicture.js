@@ -34,7 +34,7 @@ export async function TakePicture(picture, pictureSource, pictureQuality, maximu
     }
     // V3 dropped the feature of providing an action sheet so users can decide on which action to take, camera or library.
     const nativeVersionMajor = NativeModules.ImagePickerManager.showImagePicker ? 2 : 4;
-    const RNPermissions = nativeVersionMajor === 4 ? require("react-native-permissions") : null;
+    const RNPermissions = nativeVersionMajor === 4 ? (await import('react-native-permissions')).default : null;
     try {
         const uri = await takePicture();
         if (!uri) {
