@@ -85,9 +85,10 @@ public class ORM {
 		Map<String, ? extends IMendixObjectMember<?>> members = src.getMembers(ctx);
 		String type = src.getType() + "/";
 
-		for (String key : members.keySet()) {
+		for (var entry : members.entrySet()) {
+			String key = entry.getKey();
 			if (!toskip.contains(key) && !toskip.contains(type + key)) {
-				IMendixObjectMember<?> m = members.get(key);
+				IMendixObjectMember<?> m = entry.getValue();
 				if (m.isVirtual() || m instanceof MendixAutoNumber) {
 					continue;
 				}
@@ -266,8 +267,8 @@ public class ORM {
 		IMendixObject target, Boolean withAssociations) {
 		Map<String, ? extends IMendixObjectMember<?>> members = source.getMembers(c);
 
-		for (String key : members.keySet()) {
-			IMendixObjectMember<?> m = members.get(key);
+		for (var entry : members.entrySet()) {
+			IMendixObjectMember<?> m = entry.getValue();
 			if (m.isVirtual()) {
 				continue;
 			}
@@ -278,7 +279,7 @@ public class ORM {
 				continue;
             }
 			if (withAssociations || ((!(m instanceof MendixObjectReference) && !(m instanceof MendixObjectReferenceSet) && !(m instanceof MendixAutoNumber)))) {
-				target.setValue(c, key, m.getValue(c));
+				target.setValue(c, entry.getKey(), m.getValue(c));
 			}
 		}
 		return true;
@@ -319,20 +320,6 @@ public class ORM {
 		}
 
 		return Core.retrieveId(context, itemId);
-	}
-
-	public static boolean encryptMemberIfChanged(IContext context, IMendixObject item,
-		String member, String key) throws Exception {
-		if (memberHasChanged(context, item, member)) {
-
-			if (item.getMetaObject().getMetaPrimitive(member).getType() != PrimitiveType.String) {
-				throw new IllegalArgumentException("The member '" + member + "' is not a string attribute!");
-			}
-
-			item.setValue(context, member, StringUtils.encryptString(key, (String) item.getValue(context, member)));
-			return true;
-		}
-		return false;
 	}
 
 	public static void commitSilent(IContext c, IMendixObject mendixObject) {

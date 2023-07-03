@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import Geolocation from "@react-native-community/geolocation";
+import Geolocation from '@react-native-community/geolocation';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -27,12 +27,32 @@ import Geolocation from "@react-native-community/geolocation";
  */
 export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
 	// BEGIN USER CODE
-    if (navigator && navigator.product === "ReactNative" && !navigator.geolocation) {
-        navigator.geolocation = Geolocation;
+    let reactNativeModule;
+    let geolocationModule;
+    if (navigator && navigator.product === "ReactNative") {
+        reactNativeModule = require("react-native");
+        if (!reactNativeModule) {
+            return Promise.reject(new Error("React Native module could not be found"));
+        }
+        if (reactNativeModule.NativeModules.RNFusedLocation) {
+            geolocationModule = (await import('react-native-geolocation-service')).default;
+        }
+        else if (reactNativeModule.NativeModules.RNCGeolocation) {
+            geolocationModule = Geolocation;
+        }
+        else {
+            return Promise.reject(new Error("Geolocation module could not be found"));
+        }
+    }
+    else if (navigator && navigator.geolocation) {
+        geolocationModule = navigator.geolocation;
+    }
+    else {
+        return Promise.reject(new Error("Geolocation module could not be found"));
     }
     return new Promise((resolve, reject) => {
         const options = getOptions();
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+        geolocationModule === null || geolocationModule === void 0 ? void 0 : geolocationModule.getCurrentPosition(onSuccess, onError, options);
         function onSuccess(position) {
             mx.data.create({
                 entity: "NanoflowCommons.Geolocation",
@@ -40,16 +60,26 @@ export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
                     const geolocation = mapPositionToMxObject(mxObject, position);
                     resolve(geolocation);
                 },
-                error: () =>
-                    reject(new Error("Could not create 'NanoflowCommons.Geolocation' object to store location"))
+                error: () => reject(new Error("Could not create 'NanoflowCommons.Geolocation' object to store location"))
             });
         }
         function onError(error) {
             return reject(new Error(error.message));
         }
         function getOptions() {
-            const timeoutNumber = timeout && Number(timeout.toString());
+            let timeoutNumber = timeout && Number(timeout.toString());
             const maximumAgeNumber = maximumAge && Number(maximumAge.toString());
+            // If the timeout is 0 or undefined (empty), it causes a crash on iOS.
+            // If the timeout is undefined (empty); we set timeout to 30 sec (default timeout)
+            // If the timeout is 0; we set timeout to 1 hour (no timeout)
+            if ((reactNativeModule === null || reactNativeModule === void 0 ? void 0 : reactNativeModule.Platform.OS) === "ios") {
+                if (timeoutNumber === undefined) {
+                    timeoutNumber = 30000;
+                }
+                else if (timeoutNumber === 0) {
+                    timeoutNumber = 3600000;
+                }
+            }
             return {
                 timeout: timeoutNumber,
                 maximumAge: maximumAgeNumber,
@@ -70,8 +100,8 @@ export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
             if (position.coords.heading != null && position.coords.heading !== -1) {
                 mxObject.set("Heading", new Big(position.coords.heading.toFixed(8)));
             }
-            if (position.coords.speed != null) {
-                mxObject.set("AltitudeAccuracy", new Big(position.coords.speed.toFixed(8)));
+            if (position.coords.speed != null && position.coords.speed !== -1) {
+                mxObject.set("Speed", new Big(position.coords.speed.toFixed(8)));
             }
             return mxObject;
         }
