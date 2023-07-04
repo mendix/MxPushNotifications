@@ -48,7 +48,7 @@ public class EncryptString extends CustomJavaAction<java.lang.String>
 		if (this.key.length() != 32)
 			throw new MendixRuntimeException("Key length should be 32");
 		Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
-		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES"); // ignore Snyk Code warning; false positive
 		c.init(Cipher.ENCRYPT_MODE, k);
 
 		byte[] encryptedData = c.doFinal(this.value.getBytes());

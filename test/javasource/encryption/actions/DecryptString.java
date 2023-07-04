@@ -11,6 +11,7 @@ package encryption.actions;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Base64;
+import javax.crypto.AEADBadTagException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -76,7 +77,7 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	private static final String LEGACY_PREFIX2 = "{AES2}";
 	private static final String NEW_PREFIX = "{AES3}";
 	private static final Pattern PREFIX_REGEX = Pattern.compile("^\\{([a-zA-Z0-9]*)\\}.*$");
-	private static final String WRONG_KEY_ERROR_MESSAGE = "Cannot decrypt the text because it was either NOT encrypted with a key of length 16 or the key is different";
+	private static final String WRONG_KEY_ERROR_MESSAGE = "Cannot decrypt the text because it was either encrypted with a different key or not encrypted at all";
 
 	private String decryptUsingNewAlgorithm() throws Exception {
 		if (this.key == null || this.key.isEmpty())
@@ -90,7 +91,7 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string.");
 
 		Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
-		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES");
+		SecretKeySpec k = new SecretKeySpec(this.key.getBytes(), "AES"); // ignore Snyk Code warning; false positive
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
 		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
@@ -118,7 +119,7 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string using legacy algorithm.");
 
 		Cipher c = Cipher.getInstance("AES/GCM/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES");
+		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES"); // ignore Snyk Code warning; false positive
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
 		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
@@ -135,8 +136,9 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 	}
 	
 	private boolean isEncryptedWithWrongKey(String message) {
-		return message.equals("Wrong IV length: must be 16 bytes long") ||
-				message.equals("Given final block not properly padded");
+		return message.contains("Wrong IV length") ||
+				message.contains("Given final block not properly padded") ||
+				message.contains("Tag mismatch");
 	}
 
 	private String decryptUsingLegacyAlgorithm() throws Exception {
@@ -150,8 +152,8 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 		if (s.length < 2)
 			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string using legacy algorithm.");
 
-		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES");
+		Cipher c = Cipher.getInstance("AES/CBC/PKCS5PADDING"); // ignore Snyk Code warning; we decrypt only (for backward compatibility)
+		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES"); // ignore Snyk Code warning; false positive
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());
 		byte[] encryptedData = Base64.getDecoder().decode(s[1].getBytes());
