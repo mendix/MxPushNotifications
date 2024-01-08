@@ -22,16 +22,16 @@ apply plugin: 'org.owasp.dependencycheck'
 apply plugin: 'com.github.ben-manes.versions'
 
 project.ext {
-    PNC_VERSION = '5.1.5'
-    MXBUILD_VERSION = '8.9.0.5487'
+    PNC_VERSION = '5.4.1'
+    MXBUILD_VERSION = '8.18.0.13281'
     MODULE_NAME = 'PushNotifications'
 }
 
 def runtimeLibs = "$buildDir/runtime/bundles"
 def monoPath = '/Library/Frameworks/Mono.framework/Versions/Current/Commands'
 
-def userLibDir = "$projectDir/test/userlib"
-def testProject = "$projectDir/test/PushNotfications.mpr"
+def userLibDir = "$projectDir/userlib-generated"
+def testProject = "$projectDir/PushNotfications.mpr"
 
 configurations {
     tar
@@ -41,7 +41,7 @@ repositories {
     mavenCentral()
     ivy {
         url 'https://cdn.mendix.com/'
-        layout 'pattern', {
+        patternLayout {
             artifact '/[organisation]/[module]-[revision].[ext]'
         }
         metadataSources {
@@ -51,35 +51,51 @@ repositories {
 }
 
 dependencies {
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.13'
-    compile group: 'com.google.api-client', name: 'google-api-client', version: '1.30.4'
-    compile group: 'io.netty', name: 'netty-tcnative', version: '2.0.26.Final'
-    compile group: 'com.turo', name: 'pushy', version: '0.13.9'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.28'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 
-    compile('io.netty:netty-codec-http2') {
+    implementation('com.google.auth:google-auth-library-oauth2-http:1.7.0') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+
+    implementation('com.google.guava:guava') {
         version {
-            strictly '4.1.53.Final'
+            strictly '32.0.1-android'
+        }
+    }
+    
+    implementation('com.turo:pushy:0.13.10') {
+        exclude group: 'io.netty', module: 'netty-codec-http2'
+        exclude group: 'io.netty', module: 'netty-handler-proxy'
+        exclude group: 'io.netty', module: 'netty-resolver-dns'
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    
+    implementation('io.netty:netty-codec-http2') {
+        version {
+            strictly '4.1.101.Final'
         }
     }
 
-    compile('io.netty:netty-handler-proxy') {
+    implementation('io.netty:netty-handler-proxy') {
         version {
-            strictly '4.1.53.Final'
+            strictly '4.1.101.Final'
         }
     }
 
-    compile('io.netty:netty-resolver-dns') {
+    implementation('io.netty:netty-resolver-dns') {
         version {
-            strictly '4.1.53.Final'
+            strictly '4.1.101.Final'
         }
     }
 
-    compile('io.netty:netty-all') {
+    implementation('com.google.code.gson:gson') {
         version {
-            strictly '4.1.53.Final'
+            strictly '2.9.0'
         }
     }
+
     tar "runtime:mxbuild:${project.MXBUILD_VERSION}@tar.gz"
 }
 
@@ -99,7 +115,7 @@ extractModule.doFirst {
 
 task copyToUserlib( type: Copy ) {
     into userLibDir
-    from configurations.runtime
+    from configurations.runtimeClasspath
     eachFile { fileCopyDetails ->
         def requiredLibFlag = new File(destinationDir, "${fileCopyDetails.name}.${project.MODULE_NAME}.RequiredLib")
         requiredLibFlag.write ''

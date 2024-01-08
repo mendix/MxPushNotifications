@@ -48,6 +48,11 @@ public class Microflows
 
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_OpenSendMessageFormWithoutContext").withParams(params).execute(context);
 	}
+	public static void iVK_TestDeviceCleanupScheduledEvent(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestDeviceCleanupScheduledEvent").withParams(params).execute(context);
+	}
 	public static void iVK_TestMessageCleanupScheduledEvent(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
