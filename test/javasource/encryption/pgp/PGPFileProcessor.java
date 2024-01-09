@@ -1,6 +1,5 @@
 package encryption.pgp;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,13 +26,11 @@ public class PGPFileProcessor {
 	private boolean integrityCheck = true;
 
 	/**
-	 * Encrypt the InputDocument
+	 * Encrypt the InputDocument.
 	 * 
-	 * This function requires the publicKey, OutputFile and InputFile to be specified
-	 * 
-	 * @param context
+	 * This function requires the publicKey, OutputFile and InputFile to be specified.
+	 *
 	 * @return true or exception
-	 * @throws Exception
 	 */
 	public boolean encrypt( IContext context ) throws Exception {
 
@@ -42,33 +39,30 @@ public class PGPFileProcessor {
 		if ( this.outputFileDocument == null )
 			throw new CoreException("Please provide an output document");
 
-		InputStream publicKeyIn = Core.getFileDocumentContent(context, this.publicKeyFileDocument);
+		try (InputStream publicKeyIn = Core.getFileDocumentContent(context, this.publicKeyFileDocument)) {
 
-		String tempOutputFile = getNewTempFile("out");
-		FileOutputStream out = new FileOutputStream(tempOutputFile);
+			String tempOutputFile = getNewTempFile("out");
+			try (FileOutputStream out = new FileOutputStream(tempOutputFile)) {
 
+				File tmpIn = writeInputDocumentToTempFile(context);
 
-		File tmpIn = writeInputDocumentToTempFile(context);
+				PGPUtils.encryptFile(out, tmpIn.getAbsolutePath(), PGPUtils.readPublicKey(publicKeyIn), this.isAsciiArmored(), this.isIntegrityCheck());
 
-		PGPUtils.encryptFile(out, tmpIn.getAbsolutePath(), PGPUtils.readPublicKey(publicKeyIn), this.isAsciiArmored(), this.isIntegrityCheck());
-		out.close();
-		publicKeyIn.close();
-		tmpIn.delete();
+				tmpIn.delete();
+			}
 
-		storeOutput(context, tempOutputFile);
+			storeOutput(context, tempOutputFile);
+		}
 
 		return true;
 	}
-	
-	
+
 	/**
-	 * Encrypt and sign the InputDocument
+	 * Encrypt and sign the InputDocument.
 	 * 
-	 * This function requires the publicKey, privateKey (for signing), OutputFile and InputFile to be specified
-	 * 
-	 * @param context
+	 * This function requires the publicKey, privateKey (for signing), OutputFile and InputFile to be specified.
+	 *
 	 * @return true or exception
-	 * @throws Exception
 	 */
 	public boolean signEncrypt( IContext context ) throws Exception {
 
@@ -81,117 +75,94 @@ public class PGPFileProcessor {
 		if ( this.outputFileDocument == null )
 			throw new CoreException("Please provide an output document");
 
-
 		String tempOutputFile = getNewTempFile("out");
-		try {
-			FileOutputStream out = new FileOutputStream(tempOutputFile);
+		try (FileOutputStream out = new FileOutputStream(tempOutputFile)) {
+			try (InputStream publicKeyIn = Core.getFileDocumentContent(context, this.publicKeyFileDocument)) {
+				try (InputStream secretKeyIn = Core.getFileDocumentContent(context, this.secretKeyFileDocument)) {
 
-			InputStream publicKeyIn = Core.getFileDocumentContent(context, this.publicKeyFileDocument);
-			InputStream secretKeyIn = Core.getFileDocumentContent(context, this.secretKeyFileDocument);
+					PGPPublicKey publicKey = PGPUtils.readPublicKey(publicKeyIn);
+					PGPSecretKey secretKey = PGPUtils.readSecretKey(secretKeyIn);
 
-			PGPPublicKey publicKey = PGPUtils.readPublicKey(publicKeyIn);
-			PGPSecretKey secretKey = PGPUtils.readSecretKey(secretKeyIn);
+					File tmpIn = writeInputDocumentToTempFile(context);
 
-			File tmpIn = writeInputDocumentToTempFile(context);
+					PGPUtils.signEncryptFile(
+							out,
+							tmpIn.getAbsolutePath(),
+							publicKey,
+							secretKey,
+							this.getPassphrase(),
+							this.isAsciiArmored(),
+							this.isIntegrityCheck());
 
-			PGPUtils.signEncryptFile(
-					out,
-					tmpIn.getAbsolutePath(),
-					publicKey,
-					secretKey,
-					this.getPassphrase(),
-					this.isAsciiArmored(),
-					this.isIntegrityCheck());
-
-			out.close();
-			publicKeyIn.close();
-			secretKeyIn.close();
-			tmpIn.delete();
-
-			storeOutput(context, tempOutputFile);
+					storeOutput(context, tempOutputFile);
+				}
+			}
 		}
 		finally {
-			(new File(tempOutputFile)).delete();
+			new File(tempOutputFile).delete();
 		}
 
 		return true;
 	}
 
 	public boolean decrypt( IContext context ) throws Exception {
-		InputStream in = Core.getFileDocumentContent(context, this.inputFileDocument);
-		InputStream keyIn = Core.getFileDocumentContent(context, this.secretKeyFileDocument);
+		try (InputStream in = Core.getFileDocumentContent(context, this.inputFileDocument)) {
+			try (InputStream keyIn = Core.getFileDocumentContent(context, this.secretKeyFileDocument)) {
 
-		String tempOutputFile = getNewTempFile("out");
-		try {
-			FileOutputStream out = new FileOutputStream(tempOutputFile);
-			PGPUtils.decryptFile(in, out, keyIn, this.passphrase.toCharArray());
-			in.close();
-			out.close();
-			keyIn.close();
+				String tempOutputFile = getNewTempFile("out");
+				try (FileOutputStream out = new FileOutputStream(tempOutputFile)) {
+					PGPUtils.decryptFile(in, out, keyIn, this.passphrase.toCharArray());
 
-			storeOutput(context, tempOutputFile);
-		}
-		finally {
-			(new File(tempOutputFile)).delete();
+					storeOutput(context, tempOutputFile);
+				}
+				finally {
+					new File(tempOutputFile).delete();
+				}
+			}
 		}
 
 		return true;
 	}
 
-
 	/**
-	 * Generate a new random file name in the Mx Temp folder
-	 * 
-	 * @param suffix
+	 * Generate a new random file name in the Mx Temp folder.
+	 *
 	 * @return full path to a file in deployment/data/tmp/
 	 */
 	public static String getNewTempFile( String suffix ) {
-		return Core.getConfiguration().getTempPath().getAbsolutePath() + "/" + UUID.randomUUID().toString() + "-" + suffix + ".pgp";
+		return Core.getConfiguration().getTempPath().getAbsolutePath() + File.separator + UUID.randomUUID() + "-" + suffix + ".pgp";
 	}
 
-	/**
-	 * Evaluate and store the content of the output file in the output file document (with the same name as input file)
-	 * 
-	 * @param context
-	 * @param tempOutputFile
-	 * @throws IOException
-	 */
+	/** Evaluate and store the content of the output file in the output file document (with the same name as input file). */
 	private void storeOutput( IContext context, String tempOutputFile ) throws IOException {
-		FileInputStream in = new FileInputStream(tempOutputFile);
-		Core.storeFileDocumentContent(context, this.outputFileDocument, (String) this.inputFileDocument.getValue(context, "Name"), in);
-		in.close();
+		try (FileInputStream in = new FileInputStream(tempOutputFile)) {
+			Core.storeFileDocumentContent(context, this.outputFileDocument, this.inputFileDocument.getValue(context, "Name"), in);
+		}
 	}
 
 	private File writeInputDocumentToTempFile( IContext context ) throws IOException
 	{
 		File tmpFile = new File(getNewTempFile("in"));
-		FileOutputStream outStream = new FileOutputStream(tmpFile);
+		try (FileOutputStream outStream = new FileOutputStream(tmpFile)) {
+			try (InputStream inStream = Core.getFileDocumentContent(context, this.inputFileDocument)) {
 
-		InputStream inStream = Core.getFileDocumentContent(context, this.inputFileDocument);
-
-		int content;
-		while( (content = inStream.read()) != -1 )
-		{
-			outStream.write(content);
+				int content;
+				while( (content = inStream.read()) != -1 )
+				{
+					outStream.write(content);
+				}
+			}
 		}
-		outStream.close();
-		inStream.close();
 
 		return tmpFile;
 	}
 
-	/**
-	 * Should we use ASCII encoded output for the encryption or decryption action
-	 * @param asciiArmored
-	 */
+	/** Should we use ASCII encoded output for the encryption or decryption action. */
 	public boolean isAsciiArmored() {
 		return this.asciiArmored;
 	}
 
-	/**
-	 * Should we use ASCII encoded output for the encryption or decryption action
-	 * @param asciiArmored
-	 */
+	/** Should we use ASCII encoded output for the encryption or decryption action. */
 	public void setAsciiArmored( boolean asciiArmored ) {
 		this.asciiArmored = asciiArmored;
 	}
@@ -227,7 +198,6 @@ public class PGPFileProcessor {
 	public void setSecretKeyFileName( IMendixObject secretKeyFileDocument ) {
 		this.secretKeyFileDocument = secretKeyFileDocument;
 	}
-
 
 	public void setInputFileDocument( IMendixObject inputFileDocument ) {
 		this.inputFileDocument = inputFileDocument;
