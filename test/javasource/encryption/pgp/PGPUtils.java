@@ -138,7 +138,7 @@ public class PGPUtils {
 		if ( !secretKey.isSigningKey() ) {
 			throw new IllegalArgumentException("Private key does not allow signing.");
 		}
-		if ( secretKey.getPublicKey().isRevoked() ) {
+		if ( secretKey.getPublicKey().hasRevocation() ) {
 			throw new IllegalArgumentException("Private key has been revoked.");
 		}
 		if ( !hasKeyFlags(secretKey.getPublicKey(), KeyFlags.SIGN_DATA) ) {
@@ -214,14 +214,17 @@ public class PGPUtils {
 		//
 		// find the secret key
 		//
-		Iterator<PGPPublicKeyEncryptedData> it = enc.getEncryptedDataObjects();
+		Iterator<PGPEncryptedData> it = enc.getEncryptedDataObjects();
 		PGPPrivateKey sKey = null;
 		PGPPublicKeyEncryptedData pbe = null;
 
 		while( sKey == null && it.hasNext() ) {
-			pbe = it.next();
+			PGPEncryptedData data = it.next();
+			if (data instanceof PGPPublicKeyEncryptedData) {
+				pbe = (PGPPublicKeyEncryptedData) data;
 
-			sKey = findPrivateKey(keyIn, pbe.getKeyID(), passwd);
+				sKey = findPrivateKey(keyIn, pbe.getKeyID(), passwd);
+			}
 		}
 
 		if ( sKey == null ) {
@@ -356,7 +359,7 @@ public class PGPUtils {
 		Iterator<String> it = secretKey.getPublicKey().getUserIDs();
 		while( it.hasNext() && firstTime ) {
 			PGPSignatureSubpacketGenerator spGen = new PGPSignatureSubpacketGenerator();
-			spGen.setSignerUserID(false, it.next());
+			spGen.addSignerUserID(false, it.next());
 			signatureGenerator.setHashedSubpackets(spGen.generate());
 			// Exit the loop after the first iteration
 			firstTime = false;
@@ -450,7 +453,7 @@ public class PGPUtils {
 	{
 		if ( key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN
 				|| key.getAlgorithm() == PublicKeyAlgorithmTags.DSA
-				|| key.getAlgorithm() == PublicKeyAlgorithmTags.EC
+				|| key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH
 				|| key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA )
 		{
 			return false;

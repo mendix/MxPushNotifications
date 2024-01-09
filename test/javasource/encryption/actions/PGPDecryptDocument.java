@@ -16,8 +16,8 @@ import encryption.pgp.PGPFileProcessor;
 import encryption.proxies.microflows.Microflows;
 
 /**
- * Encrypt the FileDocument using PGP encryption. 
- *  This is allowed to be the same FileDocument instance and the action will just store th decrypted file in the entity.
+ * Encrypt the FileDocument using PGP encryption.
+ * This is allowed to be the same FileDocument instance and the action will just store the decrypted file in the entity.
  * 
  * The certificate must be a File containing a valid PGP key ring (matching the document) and the certificate must have a passphrase entered in the attribute
  * 

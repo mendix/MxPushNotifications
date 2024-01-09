@@ -9,12 +9,12 @@
 
 package pushnotifications.actions;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.List;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.mendix.systemwideinterfaces.core.IContext;
+import com.mendix.webui.CustomJavaAction;
 
 public class GetFCMAccessToken extends CustomJavaAction<java.lang.String>
 {
@@ -31,12 +31,13 @@ public class GetFCMAccessToken extends CustomJavaAction<java.lang.String>
 	{
 		// BEGIN USER CODE
 		List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/firebase.messaging");
+		
+		GoogleCredentials credentials = GoogleCredentials
+			.fromStream(new ByteArrayInputStream(this.PrivateKey.getBytes()))
+			.createScoped(SCOPES);
+		credentials.refreshIfExpired();
 
-		GoogleCredential googleCredential = GoogleCredential
-				.fromStream(new ByteArrayInputStream(this.PrivateKey.getBytes()))
-				.createScoped(SCOPES);
-		googleCredential.refreshToken();
-		return googleCredential.getAccessToken();
+		return credentials.getAccessToken().getTokenValue();
 		// END USER CODE
 	}
 
