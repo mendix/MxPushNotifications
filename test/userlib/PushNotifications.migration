@@ -1,4 +1,4 @@
-101dependency org.slf4j:slf4j-api:2.0.7
+dependency org.slf4j:slf4j-api:2.0.7
 dependency commons-codec:commons-codec:1.15
 dependency com.google.auth:google-auth-library-oauth2-http:1.7.0
 dependency com.google.guava:guava:32.0.1-android
