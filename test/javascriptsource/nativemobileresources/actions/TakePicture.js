@@ -53,26 +53,27 @@ export async function TakePicture(picture, pictureSource, pictureQuality, maximu
             const options = nativeVersionMajor === 2 ? getOptionsV2() : getOptionsV4();
             getPictureMethod()
                 .then(method => method(options, (response) => {
+                var _a;
                 if (response.didCancel) {
                     return resolve(undefined);
                 }
                 if (nativeVersionMajor === 2) {
-                    response = response;
-                    if (response.error) {
-                        const unhandledError = handleImagePickerV2Error(response.error);
+                    const responseV2 = response;
+                    if (responseV2.error) {
+                        const unhandledError = handleImagePickerV2Error(responseV2.error);
                         if (!unhandledError) {
                             return resolve(undefined);
                         }
-                        return reject(new Error(response.error));
+                        return reject(new Error(responseV2.error));
                     }
-                    return resolve(response.uri);
+                    return resolve(responseV2.uri);
                 }
                 response = response;
                 if (response.errorCode) {
                     handleImagePickerV4Error(response.errorCode, response.errorMessage);
                     return resolve(undefined);
                 }
-                return resolve(response.assets[0].uri);
+                return resolve((_a = response === null || response === void 0 ? void 0 : response.assets) === null || _a === void 0 ? void 0 : _a[0].uri);
             }))
                 .catch(error => reject(error));
         });

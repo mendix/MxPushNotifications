@@ -39,7 +39,9 @@
                         margin-right: 0.5em;
                     }
 
-                    .glyphicon {
+                    .glyphicon,
+                    .mx-icon-lined,
+                    .mx-icon-filled {
                         top: -1px;
                         margin-right: 0.5em;
                         vertical-align: middle;
@@ -137,7 +139,9 @@
                         color: $navtopbar-color;
                         font-size: $navtopbar-font-size;
 
-                        .glyphicon {
+                        .glyphicon,
+                        .mx-icon-lined,
+                        .mx-icon-filled {
                             font-size: $navtopbar-glyph-size;
                         }
                     }
@@ -185,7 +189,9 @@
                         color: $navsidebar-color;
                         font-size: $navsidebar-font-size;
 
-                        .glyphicon {
+                        .glyphicon,
+                        .mx-icon-lined,
+                        .mx-icon-filled {
                             font-size: $navsidebar-glyph-size;
                         }
                     }

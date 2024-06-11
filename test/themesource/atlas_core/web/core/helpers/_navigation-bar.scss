@@ -52,7 +52,9 @@
                     }
 
                     // Image
-                    .glyphicon {
+                    .glyphicon,
+                    .mx-icon-lined,
+                    .mx-icon-filled {
                         font-size: $navtopbar-glyph-size;
                     }
                 }
@@ -87,7 +89,7 @@
                         line-height: 1.2;
                         &:hover,
                         &:focus {
-                            color: $navtopbar-color;
+                            color: $navtopbar-color-hover;
                             background-color: $navtopbar-sub-bg-hover;
                         }
                     }
@@ -160,7 +162,9 @@
                     }
 
                     // Image
-                    .glyphicon {
+                    .glyphicon,
+                    .mx-icon-lined,
+                    .mx-icon-filled {
                         font-size: $navsidebar-glyph-size;
                     }
                 }
@@ -212,7 +216,9 @@
     }
 
     .hide-icons.mx-navbar {
-        .glyphicon {
+        .glyphicon,
+        .mx-icon-lined,
+        .mx-icon-filled {
             display: none;
         }
     }

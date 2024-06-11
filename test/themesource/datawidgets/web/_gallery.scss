@@ -55,6 +55,13 @@
 
         &:focus-visible {
             outline: 1px solid $brand-primary;
+            outline-offset: -1px;
+        }
+    }
+
+    &:not(.widget-gallery-disable-selected-items-highlight) {
+        .widget-gallery-item.widget-gallery-clickable.widget-gallery-selected {
+            background: $brand-light;
         }
     }
 
@@ -73,4 +80,8 @@
       */
     @include grid-span(12, "column");
     @include grid-span(12, "row");
+}
+
+.widget-gallery-item-button {
+    width: inherit;
 }

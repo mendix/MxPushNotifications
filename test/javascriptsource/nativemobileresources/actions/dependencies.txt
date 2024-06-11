@@ -44,7 +44,7 @@ SOFTWARE.
 ---
 
 Name: react-native-image-picker
-Version: 4.0.3
+Version: 5.0.1
 License: MIT
 Private: false
 Description: A React Native module that allows you to use native UI to select media from the device library or directly from the camera
@@ -78,7 +78,7 @@ SOFTWARE.
 ---
 
 Name: react-native-localize
-Version: 1.3.4
+Version: 1.4.2
 License: MIT
 Private: false
 Description: A toolbox for your React Native app localization.
@@ -770,7 +770,7 @@ SOFTWARE.
 ---
 
 Name: react-native-push-notification
-Version: 6.1.3
+Version: 8.1.1
 License: MIT
 Private: false
 Description: React Native Local and Remote Notifications
@@ -942,7 +942,7 @@ THE SOFTWARE.
 ---
 
 Name: @react-native-firebase/messaging
-Version: 15.7.0
+Version: 17.3.0
 License: Apache-2.0
 Private: false
 Description: React Native Firebase - React Native Firebase provides native integration of Firebase Cloud Messaging (FCM) for both Android & iOS. FCM is a cost free service, allowing for server-device and device-device communication. The React Native Firebase Messaging module provides a simple JavaScript API to interact with FCM.
@@ -987,7 +987,7 @@ You may obtain a copy of the Creative Commons Attribution 3.0 License at
 ---
 
 Name: @react-native-firebase/app
-Version: 15.7.0
+Version: 17.3.0
 License: Apache-2.0
 Private: false
 Description: A well tested, feature rich Firebase implementation for React Native, supporting iOS & Android. Individual module support for Admob, Analytics, Auth, Crash Reporting, Cloud Firestore, Database, Dynamic Links, Functions, Messaging (FCM), Remote Config, Storage and more.
@@ -1032,7 +1032,7 @@ You may obtain a copy of the Creative Commons Attribution 3.0 License at
 ---
 
 Name: @expo/config-plugins
-Version: 5.0.3
+Version: 5.0.4
 License: MIT
 Private: false
 Description: A library for Expo config plugins

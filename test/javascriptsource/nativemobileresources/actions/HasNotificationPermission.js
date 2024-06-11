@@ -19,7 +19,7 @@ import { NativeModules } from 'react-native';
 export async function HasNotificationPermission() {
 	// BEGIN USER CODE
     // Documentation https://rnfirebase.io/docs/v5.x.x/notifications/receiving-notifications
-    const allowedAuthorizationStatuses = [1 /* Authorized */, 2 /* Provisional */];
+    const allowedAuthorizationStatuses = [1 /* permissionStatus.Authorized */, 2 /* permissionStatus.Provisional */];
     if (NativeModules && !NativeModules.RNFBMessagingModule) {
         return Promise.reject(new Error("Firebase module is not available in your app"));
     }

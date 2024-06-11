@@ -83,7 +83,9 @@
             transition: all 0.2s;
             text-decoration: none;
 
-            .glyphicon {
+            .glyphicon,
+            .mx-icon-lined,
+            .mx-icon-filled {
                 top: 0;
                 font-size: 23px;
             }

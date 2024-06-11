@@ -3,6 +3,7 @@ $background-color: #fff !default;
 $selected-color: #dadcde !default;
 $border-color: #ced0d3 !default;
 $arrow: "resources/dropdown-arrow.svg";
+$item-min-height: 32px;
 
 @import "date-picker";
 
@@ -28,6 +29,10 @@ $arrow: "resources/dropdown-arrow.svg";
 
     .btn-calendar {
         margin-left: 5px; //Review in atlas, the current date picker is also 5px
+        .button-icon {
+            width: 18px;
+            height: 18px;
+        }
     }
 }
 
@@ -126,20 +131,15 @@ $arrow: "resources/dropdown-arrow.svg";
 }
 
 .dropdown-list {
-    padding: 0;
-    background: $background-color;
-    border-radius: 8px;
     list-style-type: none;
-    box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
-    overflow-x: hidden;
-    max-height: 40vh;
-    z-index: 102;
+    padding: 0;
+    margin-bottom: 0;
 
     li {
         display: flex;
         align-items: center;
         font-weight: normal;
-        min-height: 32px;
+        min-height: $item-min-height;
         cursor: pointer;
         padding: 0 $spacing-small;
 
@@ -170,8 +170,45 @@ $arrow: "resources/dropdown-arrow.svg";
     }
 }
 
+:not(.dropdown-content) > .dropdown-list {
+    background: $background-color;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
+    max-height: 40vh;
+    z-index: 102;
+}
+
+.dropdown-content {
+    background: $background-color;
+    border-radius: 8px;
+    box-shadow: 0 2px 20px 1px rgba(5, 15, 129, 0.05), 0 2px 16px 0 rgba(33, 43, 54, 0.08);
+    max-height: 40vh;
+    z-index: 140;
+}
+
+.dropdown-footer {
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+    z-index: 50;
+}
+
+.dropdown-footer-item {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 0 $spacing-small;
+    min-height: 40px;
+}
+
+.dropdown-loading {
+    flex-grow: 1;
+    text-align: center;
+}
+
 .dropdown-container {
     flex: 1;
+    position: relative;
 
     .dropdown-triggerer {
         caret-color: transparent;
@@ -188,8 +225,6 @@ $arrow: "resources/dropdown-arrow.svg";
     }
 
     .dropdown-list {
-        position: absolute;
-        width: max-content;
         left: 0;
         margin: 0 $spacing-small;
         padding: 0;
@@ -205,7 +240,7 @@ $arrow: "resources/dropdown-arrow.svg";
             display: flex;
             align-items: center;
             font-weight: normal;
-            min-height: 32px;
+            min-height: $item-min-height;
             cursor: pointer;
             padding: 0 $spacing-small;
 
@@ -235,10 +270,6 @@ $arrow: "resources/dropdown-arrow.svg";
             }
         }
     }
-}
-
-.date-filter-container {
-    z-index: 102;
 }
 
 /**
@@ -310,13 +341,13 @@ div:not(.table-compact) > .table {
     .th {
         .filter-selector {
             .filter-selectors {
-                margin: 0 $spacing-medium;
+                margin: 0;
             }
         }
 
         .dropdown-container {
             .dropdown-list {
-                margin: 0 $spacing-medium;
+                margin: 0;
             }
         }
     }

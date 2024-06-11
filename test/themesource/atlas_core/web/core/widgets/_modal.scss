@@ -36,6 +36,10 @@
                     /* For IE8 and earlier */
                     color: $modal-header-color;
                     text-shadow: none;
+                    &:focus {
+                        border-radius: 4px;
+                        outline: 2px solid $brand-primary;
+                    }
                 }
             }
 

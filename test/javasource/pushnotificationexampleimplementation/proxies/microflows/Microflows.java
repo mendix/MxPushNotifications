@@ -21,6 +21,21 @@ public class Microflows
 	public Microflows() {}
 
 	// These are the microflows for the PushNotificationExampleImplementation module
+	public static void aCT_Device_Delete(IContext context, java.util.List<pushnotifications.proxies.Device> _deviceList)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.List<IMendixObject> listparam_deviceList = null;
+		if (_deviceList != null)
+		{
+			listparam_deviceList = new java.util.ArrayList<>();
+			for (var obj : _deviceList) {
+				listparam_deviceList.add(obj.getMendixObject());
+			}
+		}
+		params.put("DeviceList", listparam_deviceList);
+
+		Core.microflowCall("PushNotificationExampleImplementation.ACT_Device_Delete").withParams(params).execute(context);
+	}
 	public static boolean afterStartup(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
@@ -65,5 +80,10 @@ public class Microflows
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();
 		Core.microflowCall("PushNotificationExampleImplementation.IVK_TestMessageCleanupScheduledEvent").withParams(params).execute(context);
+	}
+	public static void microflow(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		Core.microflowCall("PushNotificationExampleImplementation.Microflow").withParams(params).execute(context);
 	}
 }

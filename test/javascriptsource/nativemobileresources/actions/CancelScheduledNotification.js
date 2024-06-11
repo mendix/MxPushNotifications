@@ -20,14 +20,13 @@ export async function CancelScheduledNotification(notificationId) {
 	// BEGIN USER CODE
     // Documentation https://github.com/zo0r/react-native-push-notification
     const isIOS = Platform.OS === "ios";
-    if (NativeModules &&
-        ((isIOS && !NativeModules.RNCPushNotificationIOS) || (!isIOS && !NativeModules.RNPushNotification))) {
+    if (NativeModules && isIOS && !NativeModules.RNCPushNotificationIOS) {
         return Promise.reject(new Error("Notifications module is not available in your app"));
     }
     if (!notificationId) {
         return Promise.reject(new Error("Input parameter 'Notification id' is required"));
     }
-    PushNotification.cancelLocalNotifications({ id: notificationId });
+    PushNotification.cancelLocalNotification(notificationId);
     return Promise.resolve();
 	// END USER CODE
 }
