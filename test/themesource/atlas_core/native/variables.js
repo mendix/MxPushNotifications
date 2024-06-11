@@ -238,7 +238,6 @@ let input = {
         rippleColor: contrast.lowest
     },
     itemContainer: {
-        maxWidth: 500,
         paddingVertical: 12,
         paddingHorizontal: spacing.regular,
         backgroundColor: background.primary
@@ -317,6 +316,33 @@ let container = {
     }
 };
 container = merge(container, custom.container || {});
+//
+// Accordion Styles
+let accordion = {
+    container: {
+        backgroundColor: background.primary,
+        borderColor: border.color
+    },
+    groupHeader: {
+        container: {
+            paddingVertical: spacing.regular,
+            paddingHorizontal: spacing.regular
+        },
+        heading: {
+            color: font.colorTitle
+        },
+        icon: {
+            size: font.sizeLarge,
+            color: font.colorTitle
+        }
+    },
+    groupContent: {
+        paddingTop: spacing.small,
+        paddingBottom: spacing.large,
+        paddingHorizontal: spacing.regular
+    }
+};
+accordion = merge(accordion, custom.accordion || {});
 //
 // Badge Styles
 let badge = {
@@ -399,6 +425,29 @@ let listView = {
 };
 listView = merge(listView, custom.listView || {});
 //
+// Checkbox Styles
+let checkbox = {
+    checkboxInput: {
+        color: brand.primary,
+        size: 20,
+        backgroundColor: background.primary,
+        borderColor: border.color,
+        borderWidth: border.width,
+        borderRadius: border.radiusSmall,
+        width: 40,
+        height: 40
+    },
+    checkboxInputDisabled: {
+        color: brand.primaryLight,
+        backgroundColor: background.secondary
+    },
+    checkboxInputError: {
+        color: brand.danger,
+        borderColor: brand.danger
+    }
+};
+checkbox = merge(checkbox, custom.checkbox || {});
+//
 // Layoutgrid Styles
 let layoutGrid = {
     gutterSize: 16
@@ -417,6 +466,13 @@ let floatingActionButton = {
         borderColor: brand.primary,
         backgroundColor: brand.primary
     },
+    buttonContainer: {
+        heigh: 50,
+        width: 50,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     buttonIcon: {
         size: font.sizeLarge,
         color: contrast.lowest
@@ -434,7 +490,8 @@ let floatingActionButton = {
         fontSize: font.sizeSmall
     },
     secondaryButtonCaptionContainer: {
-        backgroundColor: background.primary
+        backgroundColor: background.primary,
+        borderColor: background.primary
     }
 };
 floatingActionButton = merge(floatingActionButton, custom.floatingActionButton || {});
@@ -579,5 +636,131 @@ let slider = {
 };
 slider = merge(slider, custom.slider || {});
 //
+// Radio Buttons
+let radioButtons = {
+    labelTextStyle: {
+        color: font.colorTitle,
+        fontSize: font.sizeSmall,
+        lineHeight: font.lineHeightSmall,
+        marginBottom: spacing.small
+    },
+    radioButtonItemContainerStyle: {
+        marginBottom: spacing.small
+    },
+    radioButtonItemContainerDisabledStyle: {
+        opacity: 0.5
+    },
+    radioButtonItemContainerHorizontalStyle: {
+        marginEnd: spacing.small
+    },
+    circularButtonStyle: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        borderColor: border.color,
+        marginEnd: spacing.smaller
+    },
+    activeButtonStyle: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: brand.primary
+    },
+    radioButtonItemTitleStyle: {
+        color: font.colorTitle,
+        fontSize: font.sizeSmall,
+        lineHeight: font.lineHeightSmall
+    },
+    validationMessage: {
+        color: brand.danger,
+        fontSize: font.sizeSmall
+    }
+};
+radioButtons = merge(radioButtons, custom.radioButtons || {});
+//
+// Background Gradient
+let backgroundGradient = {
+    container: {},
+    angle: 0,
+    opacity: 100
+};
+backgroundGradient = merge(backgroundGradient, custom.backgroundGradient || {});
+// column chart styles
+let columnChart = {
+    container: {},
+    errorMessage: {
+        fontFamily: font.family,
+        fontSize: font.sizeSmall,
+        fontWeight: font.weightNormal
+    },
+    chart: {},
+    grid: {
+        lineColor: border.color
+    },
+    xAxis: {
+        color: font.colorTitle,
+        fontFamily: font.family,
+        fontSize: font.sizeSmall,
+        fontWeight: font.weightNormal,
+        label: {
+            color: font.colorParagraph,
+            alignSelf: "center",
+            marginHorizontal: 0,
+            marginVertical: 8,
+            fontFamily: font.family,
+            fontSize: font.sizeSmall,
+            fontWeight: font.weightNormal
+        },
+        lineColor: border.color
+    },
+    yAxis: {
+        color: font.colorTitle,
+        fontFamily: font.family,
+        fontSize: font.sizeSmall,
+        fontWeight: font.weightNormal,
+        label: {
+            color: font.colorParagraph,
+            marginHorizontal: 0,
+            marginVertical: 8,
+            fontFamily: font.family,
+            fontSize: font.sizeSmall,
+            fontWeight: font.weightNormal
+        },
+        lineColor: border.color
+    },
+    columns: {
+        columnColorPalette: Object.entries(brand)
+            .reduce((accumulator, [key, value]) => (key.endsWith("Light") ? accumulator : [...accumulator, value]), [])
+            .join(";"),
+        columnsOffset: 20,
+        customColumnStyles: {
+            your_static_or_dynamic_attribute_value: {
+                column: {},
+                label: {}
+            }
+        }
+    },
+    legend: {
+        container: {
+            justifyContent: "flex-start",
+            marginHorizontal: 0,
+            marginVertical: spacing.small
+        },
+        item: {
+            padding: 0,
+            paddingRight: spacing.regular
+        },
+        indicator: {
+            marginRight: spacing.small
+        },
+        label: {
+            color: font.colorTitle,
+            fontFamily: font.family,
+            fontSize: font.sizeSmall,
+            fontWeight: font.weightNormal
+        }
+    }
+};
+columnChart = merge(columnChart, custom.columnChart || {});
 export * from "../../../theme/native/custom-variables";
-export { brand, backgroundDefaults, background, border, button, contrast, fontDefaults, font, input, image, layoutGrid, listView, navigation, spacing, container, tabContainer, badge, floatingActionButton, introScreen, listViewSwipe, progressBar, progressCircle, slider, rating };
+export { accordion, brand, backgroundDefaults, background, border, button, contrast, checkbox, fontDefaults, font, input, image, layoutGrid, listView, navigation, spacing, container, tabContainer, badge, floatingActionButton, introScreen, listViewSwipe, progressBar, progressCircle, slider, rating, radioButtons, backgroundGradient, columnChart };

@@ -79,10 +79,10 @@ $link-hover-color: darken($link-color, 15%) !default;
 //## Change your font family, weight, line-height, headings and more (used in components/typography)
 
 // Font Family Import (Used for google font plugin in theme creater)
-$font-family-import: "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" !default;
+$font-family-import: "resources/fonts/open-sans/open-sans.css" !default;
 
 // Font Family / False = fallback from Bootstrap (Helvetica Neue)
-$font-family-base: "SFProDisplay", "Open Sans", sans-serif !default;
+$font-family-base: "Open Sans", sans-serif !default;
 
 // Font Sizes
 $font-size-large: 18px !default;
@@ -147,6 +147,9 @@ $navsidebar-sub-color: #aaa !default;
 $navsidebar-sub-color-hover: $brand-primary !default;
 $navsidebar-sub-color-active: $brand-primary !default;
 
+$navsidebar-width-closed: 52px !default;
+$navsidebar-width-open: 232px !default;
+
 // Navigation topbar
 $navtopbar-font-size: $font-size-default !default;
 $navtopbar-sub-font-size: $font-size-small !default;
@@ -165,6 +168,16 @@ $navtopbar-sub-bg-active: $navtopbar-sub-bg !default;
 $navtopbar-sub-color: #aaa !default;
 $navtopbar-sub-color-hover: $brand-primary !default;
 $navtopbar-sub-color-active: $brand-primary !default;
+
+//== Cards
+// Shadow color
+$shadow-color-border: rgba($gray-primary, 0.5);
+$shadow-color: rgba($gray-primary, 0.66);
+
+//Shadow size
+$shadow-small: 0 2px 4px 0;
+$shadow-medium: 0 5px 7px 0;
+$shadow-large: 0 8px 10px 0;
 
 //## Used in layouts/base
 $navtopbar-border-color: $topbar-border-color !default;
@@ -511,6 +524,45 @@ $timeline-grouping-size: 120px !default;
 $timeline-grouping-border-radius: 30px !default;
 $timeline-grouping-border-color: $timeline-border-color !default;
 
+//== Accordions
+//## Extended variables for Accordion Widget
+
+// Default
+$accordion-header-default-bg: $bg-color-secondary !default;
+$accordion-header-default-bg-hover: $bg-color !default;
+$accordion-header-default-color: $font-color-header !default;
+$accordion-default-border-color: $border-color-default !default;
+
+$accordion-bg-striped: $grid-bg-striped !default;
+$accordion-bg-striped-hover: $grid-bg-selected !default;
+
+// Semantic background colors
+$accordion-header-primary-bg: $btn-primary-bg !default;
+$accordion-header-secondary-bg: $btn-default-bg !default;
+$accordion-header-success-bg: $btn-success-bg !default;
+$accordion-header-warning-bg: $btn-warning-bg !default;
+$accordion-header-danger-bg: $btn-danger-bg !default;
+
+$accordion-header-primary-bg-hover: $btn-primary-bg-hover !default;
+$accordion-header-secondary-bg-hover: $btn-default-bg-hover !default;
+$accordion-header-success-bg-hover: $btn-success-bg-hover !default;
+$accordion-header-warning-bg-hover: $btn-warning-bg-hover !default;
+$accordion-header-danger-bg-hover: $btn-danger-bg-hover !default;
+
+// Semantic text colors
+$accordion-header-primary-color: $btn-primary-color !default;
+$accordion-header-secondary-color: $btn-default-color !default;
+$accordion-header-success-color: $btn-success-color !default;
+$accordion-header-warning-color: $btn-warning-color !default;
+$accordion-header-danger-color: $btn-danger-color !default;
+
+// Semantic border colors
+$accordion-primary-border-color: $btn-primary-border-color !default;
+$accordion-secondary-border-color: $btn-default-border-color !default;
+$accordion-success-border-color: $btn-success-border-color !default;
+$accordion-warning-border-color: $btn-warning-border-color !default;
+$accordion-danger-border-color: $btn-danger-border-color !default;
+
 //== Spacing
 //## Advanced layout options (used in base/mixins/default-spacing)
 
@@ -581,10 +633,10 @@ $screen-lg: 992px !default;
 $screen-xl: 1200px !default;
 
 // So media queries don't overlap when required, provide a maximum (used for max-width)
-$screen-xs-max: ($screen-sm - 1) !default;
-$screen-sm-max: ($screen-md - 1) !default;
-$screen-md-max: ($screen-lg - 1) !default;
-$screen-lg-max: ($screen-xl - 1) !default;
+$screen-xs-max: calc(#{$screen-sm} - 1px) !default;
+$screen-sm-max: calc(#{$screen-md} - 1px) !default;
+$screen-md-max: calc(#{$screen-lg} - 1px) !default;
+$screen-lg-max: calc(#{$screen-xl} - 1px) !default;
 
 //== Settings
 //## Enable or disable your desired framework features

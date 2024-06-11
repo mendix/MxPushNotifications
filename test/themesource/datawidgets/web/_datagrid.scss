@@ -14,6 +14,8 @@ $spacing-large: 24px !default;
 $grid-border-color: #ced0d3 !default;
 
 $brand-primary: #264ae5 !default;
+$brand-light: #e6eaff !default;
+$grid-selected-row-background: $brand-light;
 
 .table {
     position: relative;
@@ -24,10 +26,6 @@ $brand-primary: #264ae5 !default;
     .table-content {
         display: grid;
         position: relative;
-
-        &.infinite-loading {
-            overflow-y: scroll;
-        }
     }
 
     /* Pseudo Row, to target this object please use .tr > .td or .tr > div */
@@ -44,11 +42,46 @@ $brand-primary: #264ae5 !default;
         border-width: 0;
         border-color: $grid-border-color;
         padding: $spacing-medium;
-        position: -webkit-sticky; /* Safari */
-        position: sticky;
         top: 0;
-        z-index: 1;
         min-width: 0;
+        position: relative;
+
+        &.dragging {
+            opacity: 0.5;
+            &.dragging-over-self {
+                opacity: 0.8;
+            }
+        }
+
+        &.drop-after:after,
+        &.drop-before:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: $dragging-effect-size;
+            background-color: $dragging-color-effect;
+
+            z-index: 1;
+        }
+
+        &.drop-before {
+            &:after {
+                left: 0;
+            }
+            &:not(:first-child):after {
+                transform: translateX(-50%);
+            }
+        }
+
+        &.drop-after {
+            &:after {
+                right: 0;
+            }
+            &:not(:last-child):after {
+                transform: translateX(50%);
+            }
+        }
 
         /* Clickable column header (Sortable) */
         .clickable {
@@ -81,18 +114,16 @@ $brand-primary: #264ae5 !default;
             flex-grow: 1;
             align-self: stretch;
             min-width: 0;
-            padding-left: $dragging-effect-size;
-            margin-left: -$dragging-effect-size;
-            /* Styles while dragging another column */
-            &.dragging {
-                border-left: $dragging-effect-size solid $dragging-color-effect;
-                padding-left: 0;
+
+            &:not(:has(.filter)) {
+                .column-header {
+                    height: 100%;
+                }
             }
         }
 
         /* Header text */
         .column-header {
-            height: 100%;
             margin: 1px 1px 1px -$dragging-effect-size + 1px;
 
             display: flex;
@@ -103,6 +134,8 @@ $brand-primary: #264ae5 !default;
                 flex-grow: 1;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                text-wrap: nowrap;
+                align-self: center;
             }
 
             svg {
@@ -141,6 +174,26 @@ $brand-primary: #264ae5 !default;
         }
     }
 
+    /* If Column Header has filter */
+    &:has(.th .column-container .filter:not(:empty)) {
+        .th {
+            &.column-selector {
+                padding: $spacing-medium 0;
+            }
+            /*adjust filter-selector icon to be mid-bottom aligned */
+            .column-selector-content {
+                align-self: flex-end;
+                margin-bottom: 3px;
+            }
+
+            /*adjust checkbox toggle to be mid-bottom aligned */
+            &.widget-datagrid-col-select {
+                align-items: flex-end;
+                padding-bottom: calc($spacing-medium + 11px);
+            }
+        }
+    }
+
     /* Column selector for hidable columns */
     .column-selector {
         padding: 0;
@@ -148,10 +201,10 @@ $brand-primary: #264ae5 !default;
         /* Column content */
         .column-selector-content {
             align-self: center;
-
+            padding-right: $spacing-medium;
             /* Button containing the eye icon */
             .column-selector-button {
-                $icon-margin: 8px;
+                $icon-margin: 7px;
                 /* 2px as path of icon's path is a bit bigger than outer svg */
                 $icon-slack-size: 2px;
 
@@ -162,8 +215,6 @@ $brand-primary: #264ae5 !default;
                 width: ($icon-size + $icon-margin * 2 + $icon-slack-size);
 
                 svg {
-                    width: $icon-size;
-                    height: $icon-size;
                     margin: $icon-margin;
                 }
             }
@@ -214,12 +265,18 @@ $brand-primary: #264ae5 !default;
             border-top-style: solid;
         }
 
-        &:focus {
-            outline: none;
+        &:focus-visible {
+            outline-width: 1px;
+            outline-style: solid;
+            outline-offset: -1px;
+            outline-color: $brand-primary;
         }
 
-        > .td-text,
-        * {
+        &.clickable {
+            cursor: pointer;
+        }
+
+        > .td-text {
             white-space: nowrap;
             word-break: break-word;
             text-overflow: ellipsis;
@@ -251,26 +308,14 @@ $brand-primary: #264ae5 !default;
 
     .align-column-left {
         justify-content: flex-start;
-
-        span {
-            justify-content: flex-start;
-        }
     }
 
     .align-column-center {
         justify-content: center;
-
-        span {
-            justify-content: center;
-        }
     }
 
     .align-column-right {
         justify-content: flex-end;
-
-        span {
-            justify-content: flex-end;
-        }
     }
 }
 
@@ -311,6 +356,13 @@ $brand-primary: #264ae5 !default;
             outline: 1px solid $brand-primary;
         }
     }
+    .pagination-icon {
+        position: relative;
+        top: 4px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+    }
 }
 
 /* Column selector for hidable columns outside DG context */
@@ -345,4 +397,20 @@ $brand-primary: #264ae5 !default;
             white-space: nowrap;
         }
     }
+}
+
+.widget-datagrid {
+    &.widget-datagrid-selection-method-click {
+        .tr.tr-selected .td {
+            background-color: $grid-selected-row-background;
+        }
+    }
+}
+
+.widget-datagrid-col-select input:focus-visible {
+    outline-offset: 0;
+}
+
+.widget-datagrid-content {
+    overflow-y: auto;
 }

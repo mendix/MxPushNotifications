@@ -20,8 +20,7 @@ export async function ClearAllDeliveredNotifications() {
 	// BEGIN USER CODE
     // Documentation https://github.com/zo0r/react-native-push-notification
     const isIOS = Platform.OS === "ios";
-    if (NativeModules &&
-        ((isIOS && !NativeModules.RNCPushNotificationIOS) || (!isIOS && !NativeModules.RNPushNotification))) {
+    if (NativeModules && isIOS && !NativeModules.RNCPushNotificationIOS) {
         return Promise.reject(new Error("Notifications module is not available in your app"));
     }
     PushNotification.removeAllDeliveredNotifications();

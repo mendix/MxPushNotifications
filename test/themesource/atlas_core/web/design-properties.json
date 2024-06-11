@@ -308,6 +308,25 @@
                     "class": "background-dark"
                 }
             ]
+        },
+        {
+            "name": "Add shadow",
+            "type": "Dropdown",
+            "description": "Add a shadow to this element",
+            "options": [
+                {
+                    "name": "Small",
+                    "class": "shadow-small"
+                },
+                {
+                    "name": "Medium",
+                    "class": "shadow-medium"
+                },
+                {
+                    "name": "Large",
+                    "class": "shadow-large"
+                }
+            ]
         }
     ],
     "Button": [
@@ -1109,6 +1128,220 @@
             "type": "Toggle",
             "description": "Hide the navigation items icon",
             "class": "hide-icons"
+        }
+    ],
+    "com.mendix.widget.custom.starrating.StarRating": [
+        {
+            "name": "Size",
+            "type": "Dropdown",
+            "description": "Change size of the rating icon/image. Default is medium.",
+            "options": [
+                {
+                    "name": "Small",
+                    "class": "widget-rating-small"
+                },
+                {
+                    "name": "Large",
+                    "class": "widget-rating-large"
+                }
+            ]
+        }
+    ],
+    "com.mendix.widget.web.accordion.Accordion": [
+        {
+            "name": "Borders",
+            "type": "Dropdown",
+            "description": "Change the border appearance. By default, only horizontal borders between groups are applied.",
+            "options": [
+                {
+                    "name": "All",
+                    "class": "widget-accordion-bordered-all"
+                },
+                {
+                    "name": "Horizontal",
+                    "class": "widget-accordion-bordered-horizontal"
+                },
+                {
+                    "name": "None",
+                    "class": "widget-accordion-bordered-none"
+                }
+            ]
+        },
+        {
+            "name": "Striped",
+            "type": "Toggle",
+            "description": "Add alternating background colors to groups in the accordion.",
+            "class": "widget-accordion-striped"
+        },
+        {
+            "name": "Compact",
+            "type": "Toggle",
+            "description": "Make groups in the accordion more compact.",
+            "class": "widget-accordion-compact"
+        }
+    ],
+    "com.mendix.widget.web.image.Image": [
+        {
+            "name": "Align content",
+            "type": "Dropdown",
+            "description": "Align content of this element left, right or center it. Align elements inside the container as a row or as a column.",
+            "options": [
+                {
+                    "name": "Left align as a row",
+                    "class": "row-left"
+                },
+                {
+                    "name": "Center align as a row",
+                    "class": "row-center"
+                },
+                {
+                    "name": "Right align as a row",
+                    "class": "row-right"
+                },
+                {
+                    "name": "Left align as a column",
+                    "class": "col-left"
+                },
+                {
+                    "name": "Center align as a column",
+                    "class": "col-center"
+                },
+                {
+                    "name": "Right align as a column",
+                    "class": "col-right"
+                }
+            ]
+        },
+        {
+            "name": "Image style",
+            "type": "Dropdown",
+            "description": "Change the image style.",
+            "options": [
+                {
+                    "name": "Rounded",
+                    "class": "img-rounded"
+                },
+                {
+                    "name": "Circle",
+                    "class": "img-circle"
+                },
+                {
+                    "name": "Square",
+                    "class": "img-square"
+                }
+            ]
+        },
+        {
+            "name": "Center image",
+            "type": "Toggle",
+            "description": "Center the image.",
+            "class": "img-center"
+        },
+        {
+            "name": "Image fit",
+            "type": "Dropdown",
+            "description": "Change the fit of the image.",
+            "options": [
+                {
+                    "name": "Fill",
+                    "class": "img-fill"
+                },
+                {
+                    "name": "Contain",
+                    "class": "img-contain"
+                },
+                {
+                    "name": "Cover",
+                    "class": "img-cover"
+                },
+                {
+                    "name": "Scale-down",
+                    "class": "img-scale-down"
+                },
+                {
+                    "name": "Auto",
+                    "class": "img-auto"
+                }
+            ]
+        },
+        {
+            "name": "Opacity",
+            "type": "Dropdown",
+            "description": "Change the opacity of the image.",
+            "options": [
+                {
+                    "name": "Low",
+                    "class": "img-opacity-low"
+                },
+                {
+                    "name": "Medium",
+                    "class": "img-opacity-medium"
+                },
+                {
+                    "name": "High",
+                    "class": "img-opacity-high"
+                }
+            ]
+        }
+    ],
+    "com.mendix.widget.custom.slider.Slider": [
+        {
+            "name": "Style",
+            "type": "Dropdown",
+            "description": "The brand style affecting this element's appearance.",
+            "options": [
+                {
+                    "name": "Brand Primary",
+                    "class": "widget-slider-primary"
+                },
+
+                {
+                    "name": "Brand Success",
+                    "class": "widget-slider-success"
+                },
+                {
+                    "name": "Brand Warning",
+                    "class": "widget-slider-warning"
+                },
+                {
+                    "name": "Brand Danger",
+                    "class": "widget-slider-danger"
+                }
+            ]
+        }
+    ],
+    "com.mendix.widget.web.tooltip.Tooltip": [
+        {
+            "name": "Show inline",
+            "type": "Toggle",
+            "description": "Show the widget as an inline element.",
+            "class": "widget-tooltip-inline"
+        }
+    ],
+    "com.mendix.widget.custom.RangeSlider.RangeSlider": [
+        {
+            "name": "Style",
+            "type": "Dropdown",
+            "description": "The brand style affecting this element's appearance.",
+            "options": [
+                {
+                    "name": "Brand Primary",
+                    "class": "widget-range-slider-primary"
+                },
+
+                {
+                    "name": "Brand Success",
+                    "class": "widget-range-slider-success"
+                },
+                {
+                    "name": "Brand Warning",
+                    "class": "widget-range-slider-warning"
+                },
+                {
+                    "name": "Brand Danger",
+                    "class": "widget-range-slider-danger"
+                }
+            ]
         }
     ]
 }

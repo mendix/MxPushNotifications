@@ -38,11 +38,14 @@
         }
     }
 
-    .form-control:not([readonly]):focus {
-        border-color: $form-input-border-focus-color;
-        outline: 0;
-        background-color: $form-input-bg-focus;
-        box-shadow: none;
+    .form-control:not([readonly]) {
+        &:focus,
+        &:focus-within {
+            border-color: $form-input-border-focus-color;
+            outline: 0;
+            background-color: $form-input-bg-focus;
+            box-shadow: none;
+        }
     }
 
     .form-control[disabled],
@@ -86,7 +89,7 @@
 
     // Dropdown input widget
     select.form-control {
-        $arrow: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='15px' height='8px'><polyline id='Line' fill='none' stroke='%23555555' points='0.5 0.5 6 6 11.545361 0.5'></polyline></svg>";
+        $arrow: "resources/arrow.svg";
         padding-right: 30px;
         background-image: url($arrow);
         background-repeat: no-repeat;
