@@ -16,4 +16,4 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-          args: --file=build.gradle --all-sub-projects
+          args: --project-name="mendix/MxPushNotifications" --file=build.gradle --all-sub-projects
