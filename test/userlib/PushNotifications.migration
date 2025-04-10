@@ -59,8 +59,8 @@ delete netty-codec-http-4.2.0.Final.jar
 delete netty-codec-http-4.2.0.Final.jar.PushNotifications.RequiredLib
 delete netty-codec-http2-4.2.0.Final.jar
 delete netty-codec-http2-4.2.0.Final.jar.PushNotifications.RequiredLib
-delete netty-codec-marshalling-4.2.0.Final.jar.PushNotifications.RequiredLib
 delete netty-codec-marshalling-4.2.0.Final.jar
+delete netty-codec-marshalling-4.2.0.Final.jar.PushNotifications.RequiredLib
 delete netty-codec-protobuf-4.2.0.Final.jar
 delete netty-codec-protobuf-4.2.0.Final.jar.PushNotifications.RequiredLib
 delete netty-codec-socks-4.2.0.Final.jar
