@@ -9,9 +9,9 @@ jobs:
   snyk-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle@7fc2a503b9b624bc777982df99412478ca61f05a # master
+        uses: snyk/actions/gradle@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
