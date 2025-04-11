@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   
 jobs:
-  security:
+  snyk-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
@@ -15,4 +15,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --file=build.gradle --all-sub-projects
+          command: monitor
+          args: --project-name="MxPushNotifications" --file=build.gradle
