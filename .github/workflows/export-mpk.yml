@@ -19,15 +19,15 @@ jobs:
           
       - name: Define MX_VERSION
         run: |
-          cd $GITHUB_WORKSPACE/app/test
-          VERSION=$(sqlite3 PushNotfications.mpr 'SELECT _ProductVersion FROM _MetaData LIMIT 1')
+          cd $GITHUB_WORKSPACE/app/module
+          VERSION=$(sqlite3 PushNotifications.mpr 'SELECT _ProductVersion FROM _MetaData LIMIT 1')
           echo "Detected Mendix version: $VERSION"
           echo "MX_VERSION=$VERSION" >> $GITHUB_ENV
           
       - name: Read package.json
         id: set_module_version
         run: |
-          content=`cat $GITHUB_WORKSPACE/app/package.json`
+          content=`cat $GITHUB_WORKSPACE/app/widget/package.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
@@ -53,7 +53,7 @@ jobs:
         run: |
           MX_TOOLS_IMAGE="mendixlabs/mx-docker-tools:"${{env.MX_VERSION}}
           mkdir { $GITHUB_WORKSPACE/app/tmp, $GITHUB_WORKSPACE/app/dist }
-          docker run -v $GITHUB_WORKSPACE/app:/opt/app -i $MX_TOOLS_IMAGE mxutil.exe create-module-package --package-dir /opt/app/tmp /opt/app/test/PushNotfications.mpr "PushNotifications" --filter-required-libs --exclude-files="resources" | tee $GITHUB_WORKSPACE/out/mxutil.log
+          docker run -v $GITHUB_WORKSPACE/app:/opt/app -i $MX_TOOLS_IMAGE mxutil.exe create-module-package --package-dir /opt/app/tmp /opt/app/module/PushNotifications.mpr "PushNotifications" --filter-required-libs --exclude-files="resources" | tee $GITHUB_WORKSPACE/out/mxutil.log
           cp -f $GITHUB_WORKSPACE/app/tmp/PushNotifications.mpk $GITHUB_WORKSPACE/app/dist/PushNotifications-${{env.MODULE_VERSION}}.mpk
 
       - name: Remove non-whitelisted widgets

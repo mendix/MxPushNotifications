@@ -31,7 +31,7 @@ def runtimeLibs = "$buildDir/runtime/bundles"
 def monoPath = '/Library/Frameworks/Mono.framework/Versions/Current/Commands'
 
 def userLibDir = "$projectDir/userlib-generated"
-def testProject = "$projectDir/PushNotfications.mpr"
+def testProject = "$projectDir/PushNotifications.mpr"
 
 configurations {
     tar
