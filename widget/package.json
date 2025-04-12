@@ -21,14 +21,15 @@
     "yargs": "^6.0.0"
   },
   "engines": {
-    "node": ">=5"
+    "node": "=6"
   },
   "generatorVersion": "2.2.3",
   "paths": {
-    "testProjectFolder": "./test/",
-    "testProjectFileName": "Test.mpr"
+    "testProjectFolder": "../module/",
+    "testProjectFileName": "PushNotifications.mpr"
   },
   "scripts": {
-    "dev": "gulp"
+    "dev": "gulp",
+    "build": "gulp build"
   }
 }

@@ -1,5 +1,5 @@
 {
-    // Enforcing
+    "esversion": 6,
     "curly"    : false,
     "forin"    : false,
     "latedef"  : "nofunc",
@@ -12,11 +12,7 @@
         "mx"     : false,
         "logger" : false
     },
-
-    // Relaxing
     "laxbreak" : true,
-
-    // Environments
     "browser"  : true,
     "devel"    : true,
     "dojo"     : true

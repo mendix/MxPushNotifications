@@ -3,13 +3,13 @@
 "use strict";
 
 // In case you seem to have trouble starting Mendix through `gulp modeler`, you might have to set the path to the Mendix application, otherwise leave both values as they are
-var MODELER_PATH = null;
-var MODELER_ARGS = "/file:{path}";
+const MODELER_PATH = null;
+const MODELER_ARGS = "/file:{path}";
 
 /********************************************************************************
  * Do not edit anything below, unless you know what you are doing
  ********************************************************************************/
-var gulp = require("gulp"),
+const gulp = require("gulp"),
     zip = require("gulp-zip"),
     del = require("del"),
     newer = require("gulp-newer"),
@@ -22,14 +22,14 @@ var gulp = require("gulp"),
     widgetBuilderHelper = require("widgetbuilder-gulp-helper"),
     jsValidate = require("gulp-jsvalidate");
 
-var pkg = require("./package.json"),
+const pkg = require("./package.json"),
     paths = widgetBuilderHelper.generatePaths(pkg),
     xmlversion = widgetBuilderHelper.xmlversion;
 
-gulp.task("default", ['build'], function() {
+gulp.task("default", ["build"], function() {
     gulp.watch("./src/**/*", ["compress"]);
     gulp.watch("./src/**/*.js", ["copy:js"]);
-    gulp.watch("./src/**/*.html", ["copy:html"])
+    gulp.watch("./src/**/*.html", ["copy:html"]);
 });
 
 gulp.task("clean", function () {
@@ -49,7 +49,7 @@ gulp.task("compress", ["clean"], function () {
 gulp.task("copy:js", function () {
     return gulp.src(["./src/**/*.js"])
         .pipe(plumber(function (error) {
-            var msg = gutil.colors.red("Error");
+            let msg = gutil.colors.red("Error");
             if (error.fileName) {
                 msg += gutil.colors.red(" in ") + gutil.colors.cyan(error.fileName);
             }
@@ -84,7 +84,7 @@ gulp.task("version:json", function () {
 });
 
 gulp.task("icon", function (cb) {
-    var icon = (typeof argv.file !== "undefined") ? argv.file : "./icon.png";
+    const icon = (typeof argv.file !== "undefined") ? argv.file : "./icon.png";
     console.log("\nUsing this file to create a base64 string: " + gutil.colors.cyan(icon));
     gulp.src(icon)
         .pipe(intercept(function (file) {
@@ -94,7 +94,7 @@ gulp.task("icon", function (cb) {
 });
 
 gulp.task("folders", function () {
-    paths.showPaths(); return;
+    paths.showPaths();
 });
 
 gulp.task("modeler", function (cb) {
