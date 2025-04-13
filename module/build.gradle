@@ -1,0 +1,117 @@
+plugins {
+    id "application"
+    id "com.mendixlabs.mendix-gradle-plugin" version "0.0.5"
+}
+
+repositories {
+    mavenCentral()
+}
+
+mendix {
+    mendixVersion = "9.24.0.2965"
+    mprFileName = "module/PushNotifications.mpr"
+}
+
+project.ext {
+    PNC_VERSION = '7.4.2'
+    MODULE_NAME = 'PushNotifications'
+}
+
+def userLibDir = "$projectDir/userlib"
+
+dependencies {
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
+
+    implementation('com.google.auth:google-auth-library-oauth2-http:1.7.0') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'com.google.guava', module: 'guava'
+    }
+
+    implementation('com.google.guava:guava') {
+        version {
+            strictly '32.0.1-android'
+        }
+    }
+
+    implementation('com.turo:pushy:0.13.10') {
+        exclude group: 'io.netty', module: 'netty-codec-http2'
+        exclude group: 'io.netty', module: 'netty-handler-proxy'
+        exclude group: 'io.netty', module: 'netty-resolver-dns'
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+
+    implementation('io.netty:netty-codec-http2') {
+        version {
+            strictly '4.2.0.Final'
+        }
+    }
+
+    implementation('io.netty:netty-handler-proxy') {
+        version {
+            strictly '4.2.0.Final'
+        }
+    }
+
+    implementation('io.netty:netty-resolver-dns') {
+        version {
+            strictly '4.2.0.Final'
+        }
+    }
+
+    implementation('com.google.code.gson:gson') {
+        version {
+            strictly '2.9.0'
+        }
+    }
+}
+
+tasks.register('printModuleVersion') {
+    println project.PNC_VERSION
+}
+
+tasks.register('updateUserLibs', Copy) {
+    dependsOn 'cleanUserLibs'
+    into userLibDir
+    from configurations.runtimeClasspath
+    eachFile { fileCopyDetails ->
+        def requiredLibFlag = new File(destinationDir, "${fileCopyDetails.name}.${project.MODULE_NAME}.RequiredLib")
+        requiredLibFlag.write ''
+    }
+}
+
+tasks.register('cleanUserLibs', Delete) {
+    fileTree(userLibDir).each {userlib ->
+        def matcher = userlib.name =~ /^(.*\.jar)\.$project.MODULE_NAME\.RequiredLib$/
+        if (matcher.matches()) {
+            def jarPath = "$userLibDir/${matcher.group(1)}"
+            def requiredLibPath = userlib
+            delete files(jarPath, requiredLibPath)
+        }
+    }
+}
+
+tasks.register('exportModule') {
+    dependsOn tasks.mxutil {
+        args = ["create-module-package", "--filter-required-libs", "--package-dir=dist", "--exclude-files=resources", "PushNotifications.mpr", project.MODULE_NAME]
+    }
+
+    finalizedBy tasks.fixWidgets, tasks.cleanModule
+}
+
+tasks.register('fixWidgets', Zip) {
+    archiveFileName = "PushNotifications-${project.PNC_VERSION}.mpk"
+    destinationDirectory = layout.projectDirectory.dir('dist')
+    from zipTree('dist/PushNotifications.mpk').matching {
+        exclude 'widgets/**'
+    }
+    into("widgets") {
+        from file("widgets/MxPushNotifications.mpk")
+    }
+}
+
+tasks.register('cleanModule', Delete) {
+    delete 'dist/PushNotifications.mpk'
+}
+
+tasks.cleanModule.mustRunAfter tasks.fixWidgets
