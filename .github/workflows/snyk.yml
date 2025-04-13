@@ -1,12 +1,19 @@
-name: Run Snyk scan
+name: Run Snyk scans
 
 on:
-  push:
-    branches: [ "master" ]
+  workflow_call:
+    inputs:
+      command:
+        type: string
+        required: false
+        default: 'test'
+      suffix:
+        type: string
+        required: false
   workflow_dispatch:
   
 jobs:
-  snyk-test:
+  snyk-test-gradle:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -15,5 +22,5 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: monitor
-          args: --project-name="MxPushNotifications" --file=build.gradle
+          command: ${{ inputs.command }}
+          args: --project-name="gradle${{ inputs.suffix }}" --file=module/build.gradle

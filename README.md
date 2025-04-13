@@ -59,3 +59,6 @@ To fetch them, run the `updateUserLibs` task after checking out the repo (and af
 
 Changes to the `userlib` folder are ignored by git.
 If you make any changes to the libraries required by other modules, you must commit these explicitly, using e.g. `git add -f <path>`.
+
+Although the widget is built as part of the CI workflows, it is not integrated into the module.
+Newly built widget versions must always be committed manually.

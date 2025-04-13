@@ -1,11 +1,6 @@
-name: Export module package
+name: Build module
 on:
-  push:
-    paths:
-      - "module/**"
-  pull_request:
-    paths:
-      - "module/**"
+  workflow_call:
   workflow_dispatch:
 jobs:
   build:

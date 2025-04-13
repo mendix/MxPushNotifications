@@ -1,17 +1,12 @@
 name: Build widget
 on:
-  push:
-    paths:
-      - "widget/**"
-  pull_request:
-    paths:
-      - "widget/**"
+  workflow_call:
   workflow_dispatch:
 defaults:
   run:
     working-directory: ./widget
 jobs:
-  build-widget:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
