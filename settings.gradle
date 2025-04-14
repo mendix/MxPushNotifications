@@ -1,6 +1,12 @@
 pluginManagement {
     repositories {
-        mavenLocal()
+        maven {
+            url = uri("https://maven.pkg.github.com/mendix/MxPushNotifications")
+            credentials {
+                username System.getenv("GITHUB_ACTOR") ?: "$gprusername"
+                password System.getenv("GITHUB_TOKEN") ?: "$gprpassword"
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
