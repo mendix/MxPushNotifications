@@ -1,26 +1,41 @@
 name: Build widget
 on:
   workflow_call:
-  workflow_dispatch:
+    outputs:
+      widget-version:
+        value: ${{ jobs.build.outputs.widget-version }}
 defaults:
   run:
     working-directory: ./widget
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      widget-version: ${{ steps.widget-version.outputs.widget-version }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+        with:
+          sparse-checkout: widget
+      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # 4.3.0
         with:
           node-version: 6
           cache: "npm"
           cache-dependency-path: widget/package-lock.json
+      - name: Define WIDGET_VERSION
+        working-directory: widget
+        run: |
+          echo "WIDGET_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+      - name: Show WIDGET_VERSION
+        id: widget-version
+        run: |
+          echo "widget-version=$WIDGET_VERSION" >> $GITHUB_OUTPUT
+          echo "$WIDGET_VERSION"
       - name: "Install dependencies"
         run: npm install
       - name: "Build widget"
         run: npm run build
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # 4.6.2
         with:
-          name: MxPushNotifications.mpk
+          name: widget
           path: widget/dist/MxPushNotifications.mpk
           compression-level: 0

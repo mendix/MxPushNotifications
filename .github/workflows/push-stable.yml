@@ -1,9 +1,9 @@
 name: Push to stable branch
-
 on:
   push:
-    branches: [ "master", "mx8" ]
-
+    branches:
+      - "master"
+      - "mx8"
 jobs:
   snyk:
     uses: ./.github/workflows/snyk.yml

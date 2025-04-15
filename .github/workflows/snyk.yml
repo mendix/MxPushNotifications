@@ -1,5 +1,4 @@
 name: Run Snyk scans
-
 on:
   workflow_call:
     inputs:
@@ -11,12 +10,11 @@ on:
         type: string
         required: false
   workflow_dispatch:
-  
 jobs:
-  snyk-test-gradle:
+  gradle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/gradle@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
         env:
