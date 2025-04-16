@@ -1,15 +1,16 @@
-test/javasource/administration/proxies/
-test/javasource/communitycommons/proxies/
-test/javasource/pushnotifications/proxies/
-test/javasource/system/proxies/
-test/javasource/myfirstmodule/proxies/
-test/javasource/encryption/proxies/
-test/deployment/
-test/.classpath
-test/.mendix-cache/
-test/.project
-test/.svn/
-test/resources/Firestore/
+module/javasource/administration/proxies/
+module/javasource/communitycommons/proxies/
+module/javasource/pushnotifications/proxies/
+module/javasource/system/proxies/
+module/javasource/myfirstmodule/proxies/
+module/javasource/encryption/proxies/
+module/deployment/
+module/theme-cache/
+module/.classpath
+module/.mendix-cache/
+module/.project
+module/.svn/
+module/resources/Firestore/
 
 *.launch
 *.tmp
@@ -20,8 +21,12 @@ build/
 
 dist/
 
-node_modules/
+widget/node_modules/
 .editorconfig
 *DS_Store*
 .vscode/
 *.bak
+
+module/userlib/*.jar
+module/userlib/*.RequiredLib
+module/widgets/MxPushNotifications.mpk
