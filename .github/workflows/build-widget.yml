@@ -2,8 +2,10 @@ name: Build widget
 on:
   workflow_call:
     outputs:
-      widget-version:
-        value: ${{ jobs.build.outputs.widget-version }}
+      package-json-version:
+        value: ${{ jobs.build.outputs.package-json-version }}
+      package-xml-version:
+        value: ${{ jobs.build.outputs.package-xml-version }}
 defaults:
   run:
     working-directory: ./widget
@@ -11,7 +13,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      widget-version: ${{ steps.widget-version.outputs.widget-version }}
+      package-json-version: ${{ steps.package-json-version.outputs.package-json-version }}
+      package-xml-version: ${{ steps.package-xml-version.outputs.info }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
         with:
@@ -21,15 +24,21 @@ jobs:
           node-version: 6
           cache: "npm"
           cache-dependency-path: widget/package-lock.json
-      - name: Define WIDGET_VERSION
+      - name: Get version from package.json
+        id: package-json-version
         working-directory: widget
         run: |
-          echo "WIDGET_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-      - name: Show WIDGET_VERSION
-        id: widget-version
+          echo "package-json-version=$(cat package.json | jq -r '.version')" >> $GITHUB_OUTPUT
+      - name: Get version from package.xml
+        id: package-xml-version
+        uses: mavrosxristoforos/get-xml-info@afaa5058ead44cfaff92c6a861b46dd7a8929f60 # 2.0.0
+        with:
+          xml-file: "widget/src/package.xml"
+          xpath: "//*[local-name()='clientModule']/@version"
+      - name: Show versions
         run: |
-          echo "widget-version=$WIDGET_VERSION" >> $GITHUB_OUTPUT
-          echo "$WIDGET_VERSION"
+          echo "Version in package.json: ${{ steps.package-json-version.outputs.package-json-version }}"
+          echo "Version in package.xml: ${{ steps.package-xml-version.outputs.info }}"
       - name: "Install dependencies"
         run: npm install
       - name: "Build widget"
