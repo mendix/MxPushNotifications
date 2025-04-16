@@ -2,10 +2,12 @@ name: Build module
 on:
   workflow_call:
     outputs:
-      widget-version:
-        value: ${{ jobs.build-widget.outputs.widget-version }}
-      module-version:
-        value: ${{ jobs.build-module.outputs.module-version }}
+      package-json-version:
+        value: ${{ jobs.build-widget.outputs.package-json-version }}
+      package-xml-version:
+        value: ${{ jobs.build-widget.outputs.package-xml-version }}
+      build-gradle-version:
+        value: ${{ jobs.build-module.outputs.build-gradle-version }}
 jobs:
   build-widget:
     uses: ./.github/workflows/build-widget.yml
@@ -14,7 +16,7 @@ jobs:
     runs-on: windows-latest
     needs: build-widget
     outputs:
-      module-version: ${{ steps.module-version.outputs.module-version }}
+      build-gradle-version: ${{ steps.build-gradle-version.outputs.build-gradle-version }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # 4.7.1
@@ -22,16 +24,15 @@ jobs:
           distribution: 'adopt'
           java-version: '21'
       - uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # 4.3.1
-      - name: Define MODULE_VERSION
+      - name: Get version from build.gradle
+        id: build-gradle-version
         run: |
-          echo "MODULE_VERSION=$(./gradlew -q printModuleVersion)" >> $env:GITHUB_ENV
+          echo "build-gradle-version=$(./gradlew -q printModuleVersion)" >> $env:GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Show MODULE_VERSION
-        id: module-version
+      - name: Show versions
         run: |
-          echo "module-version=$env:MODULE_VERSION" >> $env:GITHUB_OUTPUT
-          echo "$env:MODULE_VERSION"
+          echo "Version in build.gradle: ${{ steps.build-gradle-version.outputs.build-gradle-version }}"
       - name: "Detected module version"
         run: echo $env:MODULE_VERSION
       - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # 4.2.1
@@ -45,5 +46,5 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # 4.6.2
         with:
           name: module
-          path: module/dist/PushNotifications-${{ env.MODULE_VERSION }}.mpk
+          path: module/dist/PushNotifications-${{ steps.build-gradle-version.outputs.build-gradle-version }}.mpk
           compression-level: 0
