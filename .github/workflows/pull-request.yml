@@ -5,9 +5,6 @@ jobs:
   build-module:
     uses: ./.github/workflows/build-module.yml
     secrets: inherit
-  build-widget:
-    uses: ./.github/workflows/build-widget.yml
-    secrets: inherit
   snyk:
     uses: ./.github/workflows/snyk.yml
     secrets: inherit

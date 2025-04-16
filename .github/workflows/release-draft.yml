@@ -11,18 +11,14 @@ jobs:
   build-module:
     uses: ./.github/workflows/build-module.yml
     secrets: inherit
-  build-widget:
-    uses: ./.github/workflows/build-widget.yml
-    secrets: inherit
   check-version:
     runs-on: ubuntu-latest
     needs:
       - build-module
-      - build-widget
     steps:
       - run: |
-          if [[ ${{ needs.build-module.outputs.module-version }} != ${{ needs.build-widget.outputs.widget-version }} ]]; then
-            echo "Module version (${{ needs.build-module.outputs.module-version }}) and widget version (${{ needs.build-widget.outputs.widget-version }}) do not match"
+          if [[ ${{ needs.build-module.outputs.module-version }} != ${{ needs.build-module.outputs.widget-version }} ]]; then
+            echo "Module version (${{ needs.build-module.outputs.module-version }}) and widget version (${{ needs.build-module.outputs.widget-version }}) do not match"
             exit 1
           fi
   documentation:
@@ -35,7 +31,6 @@ jobs:
       - check-version
       - documentation
       - build-module
-      - build-widget
     runs-on: ubuntu-latest
     #if: github.ref_type == 'tag'
     steps:

@@ -29,3 +29,4 @@ widget/node_modules/
 
 module/userlib/*.jar
 module/userlib/*.RequiredLib
+module/widgets/MxPushNotifications.mpk

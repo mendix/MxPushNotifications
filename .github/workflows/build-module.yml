@@ -2,11 +2,17 @@ name: Build module
 on:
   workflow_call:
     outputs:
+      widget-version:
+        value: ${{ jobs.build-widget.outputs.widget-version }}
       module-version:
-        value: ${{ jobs.build.outputs.module-version }}
+        value: ${{ jobs.build-module.outputs.module-version }}
 jobs:
-  build:
+  build-widget:
+    uses: ./.github/workflows/build-widget.yml
+    secrets: inherit
+  build-module:
     runs-on: windows-latest
+    needs: build-widget
     outputs:
       module-version: ${{ steps.module-version.outputs.module-version }}
     steps:
@@ -28,6 +34,10 @@ jobs:
           echo "$env:MODULE_VERSION"
       - name: "Detected module version"
         run: echo $env:MODULE_VERSION
+      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # 4.2.1
+        with:
+          name: widget
+          path: module/widgets/
       - name: Build module
         run: ./gradlew buildModule
         env:
