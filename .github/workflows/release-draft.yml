@@ -4,7 +4,6 @@ on:
     branches:
       - master
       - mx8
-      - compliance
     tags:
       - v*.*.*
 jobs:
