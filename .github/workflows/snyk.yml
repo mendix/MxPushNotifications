@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
-      - name: Run Snyk to check for vulnerabilities
+      - name: Run Snyk (Gradle)
         uses: snyk/actions/gradle@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -25,3 +25,15 @@ jobs:
         with:
           command: ${{ inputs.command }}
           args: --project-name="gradle${{ inputs.suffix }}" --file=module/build.gradle
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+      - name: Run Snyk (Node)
+        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: ${{ inputs.command }}
+          args: --project-name="node${{ inputs.suffix }}" --file=widget/package.json
