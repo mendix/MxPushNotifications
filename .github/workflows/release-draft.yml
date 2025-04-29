@@ -1,0 +1,58 @@
+name: Create release draft
+on:
+  push:
+    branches:
+      - master
+      - mx8
+    tags:
+      - v*.*.*
+jobs:
+  build-module:
+    uses: ./.github/workflows/build-module.yml
+    secrets: inherit
+  check-version:
+    runs-on: ubuntu-latest
+    needs:
+      - build-module
+    steps:
+      - run: |
+          if [[ ${{ needs.build-module.outputs.package-json-version }} != ${{ needs.build-module.outputs.package-xml-version }} || ${{ needs.build-module.outputs.package-json-version }} != ${{ needs.build-module.outputs.build-gradle-version }} ]]; then
+            echo "Versions do not match"
+            echo "package.json version: ${{ needs.build-module.outputs.package-json-version }}"
+            echo "package.xml version: ${{ needs.build-module.outputs.package-xml-version }}"
+            echo "build.gradle version: ${{ needs.build-module.outputs.build-gradle-version }}"
+            exit 1
+          fi
+  documentation:
+    runs-on: ubuntu-latest
+    environment: docs
+    steps:
+      - run: echo "Documentation is ready"
+  create-draft-release:
+    needs:
+      - check-version
+      - documentation
+      - build-module
+    runs-on: ubuntu-latest
+    #if: github.ref_type == 'tag'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+        with:
+          sparse-checkout: .
+      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # 4.2.1
+        with:
+          name: module
+      - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # 4.2.1
+        with:
+          name: widget
+      - uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # 2.2.1
+        with:
+          name: "Marketplace release v${{ needs.build-module.outputs.build-gradle-version }}"
+          body_path: CHANGELOG.md
+          draft: true
+          files: |
+            *.mpk
+            LICENSE
+          fail_on_unmatched_files: true
+          generate_release_notes: false
+          make_latest: ${{ github.ref_name == 'master' }}

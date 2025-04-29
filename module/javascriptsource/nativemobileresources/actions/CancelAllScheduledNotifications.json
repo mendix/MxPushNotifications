@@ -1,0 +1,6 @@
+{
+  "nativeDependencies": {
+    "react-native-push-notification": "8.1.1",
+    "@react-native-community/push-notification-ios": "1.10.1"
+  }
+}

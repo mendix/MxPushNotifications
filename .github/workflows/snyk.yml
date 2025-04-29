@@ -1,19 +1,39 @@
-name: Run Snyk scan
-
+name: Run Snyk scans
 on:
-  push:
-    branches: [ "master" ]
+  workflow_call:
+    inputs:
+      command:
+        type: string
+        required: false
+        default: 'test'
+      suffix:
+        type: string
+        required: false
   workflow_dispatch:
-  
 jobs:
-  snyk-test:
+  gradle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/gradle@7fc2a503b9b624bc777982df99412478ca61f05a # master
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+      - name: Run Snyk (Gradle)
+        uses: snyk/actions/gradle@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG_GRADLE_PROJECT_gprusername: ${{ env.GITHUB_ACTOR }}
+          ORG_GRADLE_PROJECT_gprpassword: ${{ secrets.GITHUB_TOKEN }}
         with:
-          command: monitor
-          args: --project-name="MxPushNotifications" --file=build.gradle
+          command: ${{ inputs.command }}
+          args: --project-name="gradle${{ inputs.suffix }}" --file=module/build.gradle
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+      - name: Run Snyk (Node)
+        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # 0.4.0
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: ${{ inputs.command }}
+          args: --project-name="node${{ inputs.suffix }}" --file=widget/package.json

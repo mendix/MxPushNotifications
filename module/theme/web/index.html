@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+    <head>
+        {{unsupportedbrowser}}
+        <meta charset="utf-8">
+        <title>Mendix</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{themecss}}
+        {{appicons}}
+        {{manifest}}
+        {{startupimages}}
+    </head>
+    <body dir="ltr">
+        <noscript>To use this application, please enable JavaScript.</noscript>
+        <div id="content"></div>
+        <script>
+            dojoConfig = {
+                isDebug: false,
+                useCustomLogger: true,
+                async: true,
+                baseUrl: "mxclientsystem/dojo/",
+                cacheBust: "{{cachebust}}",
+                rtlRedirect: "index-rtl.html"
+            };
+        </script>
+        <script>
+            if (!document.cookie || !document.cookie.match(/(^|;)originURI=/gi))
+                document.cookie = "originURI=/login.html" + (window.location.protocol === "https:" ? ";SameSite=None;Secure" : "");
+        </script>
+
+        <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-messaging-compat.js"></script>
+        <script>
+        const firebaseConfig = {
+            apiKey: "",
+            authDomain: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: ""
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        </script>
+        <script src="mxclientsystem/mxui/mxui.js?{{cachebust}}"></script>
+    </body>
+</html>

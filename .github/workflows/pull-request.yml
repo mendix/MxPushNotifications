@@ -1,0 +1,10 @@
+name: Pull request
+on:
+  pull_request:
+jobs:
+  build-module:
+    uses: ./.github/workflows/build-module.yml
+    secrets: inherit
+  snyk:
+    uses: ./.github/workflows/snyk.yml
+    secrets: inherit

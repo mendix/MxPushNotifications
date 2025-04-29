@@ -1,0 +1,14 @@
+dependency org.bouncycastle:bcpg-jdk18on:1.78.1
+dependency org.bouncycastle:bcpkix-jdk18on:1.78.1
+dependency org.bouncycastle:bcprov-jdk18on:1.78.1
+dependency commons-io:commons-io:2.11.0
+delete bcpg-jdk18on-1.78.1.jar
+delete bcpg-jdk18on-1.78.1.jar.Encryption.RequiredLib
+delete bcpkix-jdk18on-1.78.1.jar
+delete bcpkix-jdk18on-1.78.1.jar.Encryption.RequiredLib
+delete bcutil-jdk18on-1.78.1.jar
+delete bcutil-jdk18on-1.78.1.jar.Encryption.RequiredLib
+delete bcprov-jdk18on-1.78.1.jar
+delete bcprov-jdk18on-1.78.1.jar.Encryption.RequiredLib
+delete commons-io-2.11.0.jar
+delete commons-io-2.11.0.jar.Encryption.RequiredLib

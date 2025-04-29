@@ -1,0 +1,19 @@
+{
+    "esversion": 6,
+    "curly"    : false,
+    "forin"    : false,
+    "latedef"  : "nofunc",
+    "newcap"   : true,
+    "quotmark" : "double",
+    "eqeqeq"   : true,
+    "undef"    : true,
+    "globals"  : {
+        "mendix" : false,
+        "mx"     : false,
+        "logger" : false
+    },
+    "laxbreak" : true,
+    "browser"  : true,
+    "devel"    : true,
+    "dojo"     : true
+}

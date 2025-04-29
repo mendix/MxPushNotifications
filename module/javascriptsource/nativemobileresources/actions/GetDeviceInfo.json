@@ -1,0 +1,5 @@
+{
+  "nativeDependencies": {
+    "react-native-localize": "1.4.2"
+  }
+}
