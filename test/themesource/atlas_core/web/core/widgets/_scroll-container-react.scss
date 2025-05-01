@@ -132,7 +132,7 @@
     .mx-scrollcontainer-push:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable,
     .mx-scrollcontainer-slide:not(.mx-scrollcontainer-open) > .mx-scrollcontainer-toggleable {
         flex-basis: var(--closed-sidebar-width, 0px);
-        overflow: clip;
+        overflow: hidden;
     }
 
     // For open sidebar - full width
@@ -188,8 +188,16 @@
         overflow-x: clip;
     }
 
-    .mx-scrollcontainer-wrapper:not(.mx-scrollcontainer-nested) {
-        -webkit-overflow-scrolling: touch;
+    .mx-scrollcontainer-wrapper {
+        height: 100%;
+
+        &:not(.mx-scrollcontainer-nested) {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        & > .mx-placeholder {
+            height: 100%;
+        }
     }
 
     // for push aside and slide over the main part should be non-interactive if sidebar is open

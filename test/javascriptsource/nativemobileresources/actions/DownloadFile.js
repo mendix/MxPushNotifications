@@ -30,6 +30,13 @@ async function getUniqueFilePath(path, fileName) {
     }
     return uniqueFilePath;
 }
+function createCopyToMediaStoreFunction(fileName, mimeType) {
+    return (filePath) => RNBlobUtil.MediaCollection.copyToMediaStore({
+        name: fileName,
+        mimeType: mimeType !== null && mimeType !== void 0 ? mimeType : "*",
+        parentFolder: ""
+    }, "Download", filePath);
+}
 // END EXTRA CODE
 
 /**
@@ -45,7 +52,6 @@ export async function DownloadFile(file, openWithOS) {
     }
     const dirs = RNBlobUtil.fs.dirs;
     const fileName = file.get("Name");
-    const mimeType = mimeTypes.getType(fileName);
     const sanitizedFileName = sanitizeFileName(fileName);
     const baseDir = Platform.OS === "ios" ? dirs.DocumentDir : dirs.DownloadDir;
     const filePath = mx.data.getDocumentUrl(file.getGuid(), Number(file.get("changedDate")));
@@ -55,11 +61,20 @@ export async function DownloadFile(file, openWithOS) {
         await RNBlobUtil.fs.cp(filePath, accessiblePath);
     }
     else {
-        accessiblePath = await RNBlobUtil.MediaCollection.copyToMediaStore({
-            name: sanitizedFileName,
-            mimeType: mimeType !== null && mimeType !== void 0 ? mimeType : "*",
-            parentFolder: ""
-        }, "Download", filePath);
+        const mimeType = mimeTypes.getType(fileName);
+        const copyToMediaStore = createCopyToMediaStoreFunction(sanitizedFileName, mimeType);
+        if (typeof mx.readFileBlob === "function") {
+            const tempPath = await getUniqueFilePath(baseDir, sanitizedFileName);
+            const base64Data = await mx.readFileBlob(filePath);
+            const base64Content = base64Data === null || base64Data === void 0 ? void 0 : base64Data.split(",")[1];
+            await RNBlobUtil.fs.createFile(tempPath, base64Content, "base64");
+            accessiblePath = await copyToMediaStore(tempPath);
+            RNBlobUtil.fs.unlink(tempPath);
+        }
+        else {
+            // this code block is for backward compatibility
+            accessiblePath = await copyToMediaStore(filePath);
+        }
     }
     if (openWithOS) {
         await FileViewer.open(accessiblePath, {

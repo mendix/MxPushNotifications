@@ -15,24 +15,28 @@ import org.bouncycastle.openpgp.operator.bc.BcKeyFingerprintCalculator;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class ValidatePrivateKeyRing extends CustomJavaAction<java.lang.Boolean>
+public class ValidatePrivateKeyRing extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject __PrivateKeyRing;
-	private encryption.proxies.PGPCertificate PrivateKeyRing;
+	/** @deprecated use PrivateKeyRing.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __PrivateKeyRing;
+	private final encryption.proxies.PGPCertificate PrivateKeyRing;
 
-	public ValidatePrivateKeyRing(IContext context, IMendixObject PrivateKeyRing)
+	public ValidatePrivateKeyRing(
+		IContext context,
+		IMendixObject _privateKeyRing
+	)
 	{
 		super(context);
-		this.__PrivateKeyRing = PrivateKeyRing;
+		this.__PrivateKeyRing = _privateKeyRing;
+		this.PrivateKeyRing = _privateKeyRing == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), _privateKeyRing);
 	}
 
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.PrivateKeyRing = this.__PrivateKeyRing == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __PrivateKeyRing);
-
 		// BEGIN USER CODE
 		
 		//This function will throw an exception if the inputstream isn't a valid private keyring

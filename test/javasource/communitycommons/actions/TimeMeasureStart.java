@@ -11,7 +11,7 @@ package communitycommons.actions;
 
 import communitycommons.Logging;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Start timing something, and print the result to the log. 
@@ -19,14 +19,17 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Note that multiple timers can run at once. Existing timers can be restarted using this function as well.
  */
-public class TimeMeasureStart extends CustomJavaAction<java.lang.Boolean>
+public class TimeMeasureStart extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String TimerName;
+	private final java.lang.String TimerName;
 
-	public TimeMeasureStart(IContext context, java.lang.String TimerName)
+	public TimeMeasureStart(
+		IContext context,
+		java.lang.String _timerName
+	)
 	{
 		super(context);
-		this.TimerName = TimerName;
+		this.TimerName = _timerName;
 	}
 
 	@java.lang.Override

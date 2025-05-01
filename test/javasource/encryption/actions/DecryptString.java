@@ -11,7 +11,6 @@ package encryption.actions;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Base64;
-import javax.crypto.AEADBadTagException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -21,22 +20,28 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class DecryptString extends CustomJavaAction<java.lang.String>
+public class DecryptString extends UserAction<java.lang.String>
 {
-	private java.lang.String value;
-	private java.lang.String key;
-	private java.lang.String prefix;
-	private java.lang.String legacyKey;
+	private final java.lang.String value;
+	private final java.lang.String key;
+	private final java.lang.String prefix;
+	private final java.lang.String legacyKey;
 
-	public DecryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix, java.lang.String legacyKey)
+	public DecryptString(
+		IContext context,
+		java.lang.String _value,
+		java.lang.String _key,
+		java.lang.String _prefix,
+		java.lang.String _legacyKey
+	)
 	{
 		super(context);
-		this.value = value;
-		this.key = key;
-		this.prefix = prefix;
-		this.legacyKey = legacyKey;
+		this.value = _value;
+		this.key = _key;
+		this.prefix = _prefix;
+		this.legacyKey = _legacyKey;
 	}
 
 	@java.lang.Override
@@ -118,7 +123,7 @@ public class DecryptString extends CustomJavaAction<java.lang.String>
 		if (s.length < 2)
 			throw new MendixRuntimeException("Unexpected prefix when trying to decrypt string using legacy algorithm.");
 
-		Cipher c = Cipher.getInstance("AES/GCM/PKCS5PADDING");
+		Cipher c = Cipher.getInstance("AES/GCM/NoPadding");
 		SecretKeySpec k = new SecretKeySpec(this.legacyKey.getBytes(), "AES"); // ignore Snyk Code warning; false positive
 
 		byte[] iv = Base64.getDecoder().decode(s[0].getBytes());

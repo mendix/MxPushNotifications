@@ -11,9 +11,9 @@ package encryption.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.webui.CustomJavaAction;
 import encryption.pgp.PGPFileProcessor;
 import encryption.proxies.microflows.Microflows;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Encrypt the FileDocument using PGP encryption.
@@ -23,32 +23,40 @@ import encryption.proxies.microflows.Microflows;
  * 
  * This action will either return true or an exception
  */
-public class PGPDecryptDocument extends CustomJavaAction<java.lang.Boolean>
+public class PGPDecryptDocument extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject __PrivateDecryptionKey;
-	private encryption.proxies.PGPCertificate PrivateDecryptionKey;
-	private IMendixObject __DocumentToDecrypt;
-	private system.proxies.FileDocument DocumentToDecrypt;
-	private IMendixObject __OutputDocument;
-	private system.proxies.FileDocument OutputDocument;
+	/** @deprecated use PrivateDecryptionKey.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __PrivateDecryptionKey;
+	private final encryption.proxies.PGPCertificate PrivateDecryptionKey;
+	/** @deprecated use DocumentToDecrypt.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __DocumentToDecrypt;
+	private final system.proxies.FileDocument DocumentToDecrypt;
+	/** @deprecated use OutputDocument.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __OutputDocument;
+	private final system.proxies.FileDocument OutputDocument;
 
-	public PGPDecryptDocument(IContext context, IMendixObject PrivateDecryptionKey, IMendixObject DocumentToDecrypt, IMendixObject OutputDocument)
+	public PGPDecryptDocument(
+		IContext context,
+		IMendixObject _privateDecryptionKey,
+		IMendixObject _documentToDecrypt,
+		IMendixObject _outputDocument
+	)
 	{
 		super(context);
-		this.__PrivateDecryptionKey = PrivateDecryptionKey;
-		this.__DocumentToDecrypt = DocumentToDecrypt;
-		this.__OutputDocument = OutputDocument;
+		this.__PrivateDecryptionKey = _privateDecryptionKey;
+		this.PrivateDecryptionKey = _privateDecryptionKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), _privateDecryptionKey);
+		this.__DocumentToDecrypt = _documentToDecrypt;
+		this.DocumentToDecrypt = _documentToDecrypt == null ? null : system.proxies.FileDocument.initialize(getContext(), _documentToDecrypt);
+		this.__OutputDocument = _outputDocument;
+		this.OutputDocument = _outputDocument == null ? null : system.proxies.FileDocument.initialize(getContext(), _outputDocument);
 	}
 
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.PrivateDecryptionKey = this.__PrivateDecryptionKey == null ? null : encryption.proxies.PGPCertificate.initialize(getContext(), __PrivateDecryptionKey);
-
-		this.DocumentToDecrypt = this.__DocumentToDecrypt == null ? null : system.proxies.FileDocument.initialize(getContext(), __DocumentToDecrypt);
-
-		this.OutputDocument = this.__OutputDocument == null ? null : system.proxies.FileDocument.initialize(getContext(), __OutputDocument);
-
 		// BEGIN USER CODE
 		PGPFileProcessor p = new PGPFileProcessor();
 		p.setInputFileDocument(this.DocumentToDecrypt.getMendixObject());

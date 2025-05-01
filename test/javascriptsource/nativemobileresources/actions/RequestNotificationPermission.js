@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform, PermissionsAndroid } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 
 // BEGIN EXTRA CODE
@@ -19,17 +19,36 @@ import messaging from '@react-native-firebase/messaging';
  */
 export async function RequestNotificationPermission() {
 	// BEGIN USER CODE
-    // Documentation https://rnfirebase.io/docs/v5.x.x/notifications/receiving-notifications
+    // Documentation https://rnfirebase.io/messaging/usage
     if (NativeModules && !NativeModules.RNFBMessagingModule) {
         return Promise.reject(new Error("Firebase module is not available in your app"));
     }
-    return messaging()
-        .requestPermission()
-        .then(() => Platform.OS === "ios" && !messaging().isDeviceRegisteredForRemoteMessages
-        ? messaging()
-            .registerDeviceForRemoteMessages()
-            .then(() => true)
-        : true)
-        .catch(() => false);
+    if (Platform.OS === "android") {
+        try {
+            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+        }
+        catch (error) {
+            console.error("Failed to request permission on Android", error);
+            return false;
+        }
+    }
+    try {
+        const authStatus = await messaging().requestPermission();
+        const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+        if (!enabled) {
+            return false;
+        }
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
+            await messaging().registerDeviceForRemoteMessages();
+            return true;
+        }
+        return true;
+    }
+    catch (error) {
+        console.error("Failed to request permission on iOS", error);
+        return false;
+    }
 	// END USER CODE
 }

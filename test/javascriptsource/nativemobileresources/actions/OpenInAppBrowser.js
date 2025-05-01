@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import InAppBrowser from 'react-native-inappbrowser-reborn';
+import { openBrowser } from '@swan-io/react-native-browser';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -22,15 +22,20 @@ export async function OpenInAppBrowser(url, toolbarColor, iosDismissButtonStyle,
 	// BEGIN USER CODE
     // Documentation https://github.com/proyecto26/react-native-inappbrowser
     if (!url) {
-        return Promise.reject(new Error("Input parameter 'Url' is required"));
+        return Promise.reject(new Error("Input parameter 'url' is required"));
     }
     const options = {
-        toolbarColor,
-        preferredBarTintColor: toolbarColor,
+        barTintColor: toolbarColor,
+        controlTintColor: toolbarColor,
         dismissButtonStyle: iosDismissButtonStyle,
-        showTitle: androidShowTitle
+        showTitle: androidShowTitle // Android show title
     };
-    await InAppBrowser.open(url, options);
-    return Promise.resolve();
+    try {
+        await openBrowser(url, options);
+        return Promise.resolve();
+    }
+    catch (error) {
+        return Promise.reject(error);
+    }
 	// END USER CODE
 }

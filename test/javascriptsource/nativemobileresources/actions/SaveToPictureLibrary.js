@@ -6,7 +6,7 @@
 // - the code between BEGIN EXTRA CODE and END EXTRA CODE
 // Other code you write will be lost the next time you deploy the project.
 import { Big } from "big.js";
-import { saveToCameraRoll } from '@react-native-community/cameraroll';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 
 // BEGIN EXTRA CODE
 // END EXTRA CODE
@@ -28,6 +28,13 @@ export async function SaveToPictureLibrary(picture) {
     const guid = picture.getGuid();
     const changedDate = picture.get("changedDate");
     const url = mx.data.getDocumentUrl(guid, changedDate);
-    return saveToCameraRoll(url);
+    // Save the file as a photo to the camera roll.
+    try {
+        const savedUri = await CameraRoll.saveToCameraRoll(url, "auto");
+        return Promise.resolve(savedUri.node.image.uri);
+    }
+    catch (error) {
+        return Promise.reject(error);
+    }
 	// END USER CODE
 }

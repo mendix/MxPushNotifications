@@ -11,25 +11,29 @@ package pushnotifications.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.webui.CustomJavaAction;
 import pushnotifications.implementation.apns.APNSConnection;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class StartAPNS extends CustomJavaAction<java.lang.Boolean>
+public class StartAPNS extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject __settings;
-	private pushnotifications.proxies.APNSSettings settings;
+	/** @deprecated use settings.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __settings;
+	private final pushnotifications.proxies.APNSSettings settings;
 
-	public StartAPNS(IContext context, IMendixObject settings)
+	public StartAPNS(
+		IContext context,
+		IMendixObject _settings
+	)
 	{
 		super(context);
-		this.__settings = settings;
+		this.__settings = _settings;
+		this.settings = _settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), _settings);
 	}
 
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.settings = this.__settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), __settings);
-
 		// BEGIN USER CODE
 		APNSConnection apnsConnection = APNSConnection.getInstance();
 		apnsConnection.start(settings);

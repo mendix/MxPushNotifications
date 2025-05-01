@@ -11,7 +11,7 @@ package communitycommons.actions;
 
 import communitycommons.Misc;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Invokes a microflow in batches. The microflow is invoked for each individual item returned by the xpath query. 
@@ -31,22 +31,29 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Note, if new objects are added to the dataset while the batch is still running, those objects will be processed as well.
  */
-public class executeMicroflowInBatches extends CustomJavaAction<java.lang.Boolean>
+public class executeMicroflowInBatches extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String xpath;
-	private java.lang.String microflow;
-	private java.lang.Long batchsize;
-	private java.lang.Boolean waitUntilFinished;
-	private java.lang.Boolean ascending;
+	private final java.lang.String xpath;
+	private final java.lang.String microflow;
+	private final java.lang.Long batchsize;
+	private final java.lang.Boolean waitUntilFinished;
+	private final java.lang.Boolean ascending;
 
-	public executeMicroflowInBatches(IContext context, java.lang.String xpath, java.lang.String microflow, java.lang.Long batchsize, java.lang.Boolean waitUntilFinished, java.lang.Boolean ascending)
+	public executeMicroflowInBatches(
+		IContext context,
+		java.lang.String _xpath,
+		java.lang.String _microflow,
+		java.lang.Long _batchsize,
+		java.lang.Boolean _waitUntilFinished,
+		java.lang.Boolean _ascending
+	)
 	{
 		super(context);
-		this.xpath = xpath;
-		this.microflow = microflow;
-		this.batchsize = batchsize;
-		this.waitUntilFinished = waitUntilFinished;
-		this.ascending = ascending;
+		this.xpath = _xpath;
+		this.microflow = _microflow;
+		this.batchsize = _batchsize;
+		this.waitUntilFinished = _waitUntilFinished;
+		this.ascending = _ascending;
 	}
 
 	@java.lang.Override

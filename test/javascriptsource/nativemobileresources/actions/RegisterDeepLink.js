@@ -17,7 +17,7 @@ import { Linking } from 'react-native';
  * Please note that the name of the input parameter is case sensitive and should all upper cases.
  * 
  * This requires a custom build of the Mendix Native Shell app to register a schema and host to the OS. See read me.  Please note that this will not work on the Make it Native app.
- * @param {Nanoflow} urlHandler
+ * @param {Nanoflow} [urlHandler]
  * @returns {Promise.<void>}
  */
 export async function RegisterDeepLink(urlHandler) {

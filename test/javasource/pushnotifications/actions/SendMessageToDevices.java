@@ -10,12 +10,12 @@
 package pushnotifications.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import pushnotifications.proxies.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static pushnotifications.proxies.microflows.Microflows.createAndSendMessageToDevices;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Java action to use instead of microflow 'SendMessageImmediately'
@@ -28,33 +28,40 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
  * Sound: name of system sound to play (iOS)
  * 
  */
-public class SendMessageToDevices extends CustomJavaAction<java.util.List<IMendixObject>>
+public class SendMessageToDevices extends UserAction<java.util.List<IMendixObject>>
 {
-	private IMendixObject __MessageDataParam;
-	private pushnotifications.proxies.MessageData MessageDataParam;
-	private java.util.List<IMendixObject> __DeviceParam;
-	private java.util.List<pushnotifications.proxies.Device> DeviceParam;
-	private IMendixObject ContextObject;
+	/** @deprecated use MessageDataParam.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __MessageDataParam;
+	private final pushnotifications.proxies.MessageData MessageDataParam;
+	/** @deprecated use com.mendix.utils.ListUtils.map(DeviceParam, com.mendix.systemwideinterfaces.core.IEntityProxy::getMendixObject) instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final java.util.List<IMendixObject> __DeviceParam;
+	private final java.util.List<pushnotifications.proxies.Device> DeviceParam;
+	private final IMendixObject ContextObject;
 
-	public SendMessageToDevices(IContext context, IMendixObject MessageDataParam, java.util.List<IMendixObject> DeviceParam, IMendixObject ContextObject)
+	public SendMessageToDevices(
+		IContext context,
+		IMendixObject _messageDataParam,
+		java.util.List<IMendixObject> _deviceParam,
+		IMendixObject _contextObject
+	)
 	{
 		super(context);
-		this.__MessageDataParam = MessageDataParam;
-		this.__DeviceParam = DeviceParam;
-		this.ContextObject = ContextObject;
+		this.__MessageDataParam = _messageDataParam;
+		this.MessageDataParam = _messageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), _messageDataParam);
+		this.__DeviceParam = _deviceParam;
+		this.DeviceParam = java.util.Optional.ofNullable(_deviceParam)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(deviceParamElement -> pushnotifications.proxies.Device.initialize(getContext(), deviceParamElement))
+			.collect(java.util.stream.Collectors.toList());
+		this.ContextObject = _contextObject;
 	}
 
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
-
-		this.DeviceParam = java.util.Optional.ofNullable(this.__DeviceParam)
-			.orElse(java.util.Collections.emptyList())
-			.stream()
-			.map(__DeviceParamElement -> pushnotifications.proxies.Device.initialize(getContext(), __DeviceParamElement))
-			.collect(java.util.stream.Collectors.toList());
-
 		// BEGIN USER CODE
 		if (ContextObject != null) {
 			Long guid = ContextObject.getId().toLong();

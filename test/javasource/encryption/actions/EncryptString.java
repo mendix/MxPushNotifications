@@ -14,20 +14,25 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class EncryptString extends CustomJavaAction<java.lang.String>
+public class EncryptString extends UserAction<java.lang.String>
 {
-	private java.lang.String value;
-	private java.lang.String key;
-	private java.lang.String prefix;
+	private final java.lang.String value;
+	private final java.lang.String key;
+	private final java.lang.String prefix;
 
-	public EncryptString(IContext context, java.lang.String value, java.lang.String key, java.lang.String prefix)
+	public EncryptString(
+		IContext context,
+		java.lang.String _value,
+		java.lang.String _key,
+		java.lang.String _prefix
+	)
 	{
 		super(context);
-		this.value = value;
-		this.key = key;
-		this.prefix = prefix;
+		this.value = _value;
+		this.key = _key;
+		this.prefix = _prefix;
 	}
 
 	@java.lang.Override

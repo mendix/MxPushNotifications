@@ -1,213 +1,209 @@
 {
     "Widget": [
         {
-            "name": "Spacing top",
-            "type": "Dropdown",
-            "description": "The spacing above this element.",
-            "options": [
+            "name": "Spacing",
+            "type": "Spacing",
+            "description": "The spacing around a widget",
+            "margin": [
                 {
-                    "name": "Outer none",
-                    "oldNames": ["None"],
-                    "class": "spacing-outer-top-none"
+                    "name": "None",
+                    "top": {
+                        "class": "spacing-outer-top-none",
+                        "oldNames": ["Spacing top::None", "Spacing top::Outer none"]
+                    },
+                    "right": {
+                        "class": "spacing-outer-right-none",
+                        "oldNames": ["Spacing right::None", "Spacing right::Outer none"]
+                    },
+                    "bottom": {
+                        "class": "spacing-outer-bottom-none",
+                        "oldNames": ["Spacing bottom::None", "Spacing bottom::Outer none"]
+                    },
+                    "left": {
+                        "class": "spacing-outer-left-none",
+                        "oldNames": ["Spacing left::None", "Spacing left::Outer none"]
+                    }
                 },
                 {
-                    "name": "Outer small",
-                    "oldNames": ["Small"],
-                    "class": "spacing-outer-top"
+                    "name": "S",
+                    "top": {
+                        "class": "spacing-outer-top",
+                        "oldNames": ["Spacing top::Small", "Spacing top::Outer small"]
+                    },
+                    "right": {
+                        "class": "spacing-outer-right",
+                        "oldNames": ["Spacing right::Small", "Spacing right::Outer small"]
+                    },
+                    "bottom": {
+                        "class": "spacing-outer-bottom",
+                        "oldNames": ["Spacing bottom::Small", "Spacing bottom::Outer small"]
+                    },
+                    "left": {
+                        "class": "spacing-outer-left",
+                        "oldNames": ["Spacing left::Small", "Spacing left::Outer small"]
+                    }
                 },
                 {
-                    "name": "Outer medium",
-                    "oldNames": ["Medium"],
-                    "class": "spacing-outer-top-medium"
+                    "name": "M",
+                    "top": {
+                        "class": "spacing-outer-top-medium",
+                        "oldNames": ["Spacing top::Medium", "Spacing top::Outer medium"]
+                    },
+                    "right": {
+                        "class": "spacing-outer-right-medium",
+                        "oldNames": ["Spacing right::Medium", "Spacing right::Outer medium"]
+                    },
+                    "bottom": {
+                        "class": "spacing-outer-bottom-medium",
+                        "oldNames": ["Spacing bottom::Medium", "Spacing bottom::Outer medium"]
+                    },
+                    "left": {
+                        "class": "spacing-outer-left-medium",
+                        "oldNames": ["Spacing left::Medium", "Spacing left::Outer medium"]
+                    }
                 },
                 {
-                    "name": "Outer large",
-                    "oldNames": ["Large"],
-                    "class": "spacing-outer-top-large"
-                },
-                {
-                    "name": "Inner none",
-                    "class": "spacing-inner-top-none"
-                },
-                {
-                    "name": "Inner small",
-                    "class": "spacing-inner-top"
-                },
-                {
-                    "name": "Inner medium",
-                    "class": "spacing-inner-top-medium"
-                },
-                {
-                    "name": "Inner large",
-                    "class": "spacing-inner-top-large"
+                    "name": "L",
+                    "top": {
+                        "class": "spacing-outer-top-large",
+                        "oldNames": ["Spacing top::Large", "Spacing top::Outer large"]
+                    },
+                    "right": {
+                        "class": "spacing-outer-right-large",
+                        "oldNames": ["Spacing right::Large", "Spacing right::Outer large"]
+                    },
+                    "bottom": {
+                        "class": "spacing-outer-bottom-large",
+                        "oldNames": ["Spacing bottom::Large", "Spacing bottom::Outer large"]
+                    },
+                    "left": {
+                        "class": "spacing-outer-left-large",
+                        "oldNames": ["Spacing left::Large", "Spacing left::Outer large"]
+                    }
                 }
-            ]
-        },
-        {
-            "name": "Spacing bottom",
-            "type": "Dropdown",
-            "description": "The spacing below this element.",
-            "options": [
+            ],
+            "padding": [
                 {
-                    "name": "Outer none",
-                    "oldNames": ["None"],
-                    "class": "spacing-outer-bottom-none"
+                    "name": "None",
+                    "top": {
+                        "class": "spacing-inner-top-none",
+                        "oldNames": ["Spacing top::Inner none"]
+                    },
+                    "right": {
+                        "class": "spacing-inner-right-none",
+                        "oldNames": ["Spacing right::Inner none"]
+                    },
+                    "bottom": {
+                        "class": "spacing-inner-bottom-none",
+                        "oldNames": ["Spacing bottom::Inner none"]
+                    },
+                    "left": {
+                        "class": "spacing-inner-left-none",
+                        "oldNames": ["Spacing left::Inner none"]
+                    }
                 },
                 {
-                    "name": "Outer small",
-                    "oldNames": ["Small"],
-                    "class": "spacing-outer-bottom"
+                    "name": "S",
+                    "top": {
+                        "class": "spacing-inner-top",
+                        "oldNames": ["Spacing top::Inner small"]
+                    },
+                    "right": {
+                        "class": "spacing-inner-right",
+                        "oldNames": ["Spacing right::Inner small"]
+                    },
+                    "bottom": {
+                        "class": "spacing-inner-bottom",
+                        "oldNames": ["Spacing bottom::Inner small"]
+                    },
+                    "left": {
+                        "class": "spacing-inner-left",
+                        "oldNames": ["Spacing left::Inner small"]
+                    }
                 },
                 {
-                    "name": "Outer medium",
-                    "oldNames": ["Medium"],
-                    "class": "spacing-outer-bottom-medium"
+                    "name": "M",
+                    "top": {
+                        "class": "spacing-inner-top-medium",
+                        "oldNames": ["Spacing top::Inner medium"]
+                    },
+                    "right": {
+                        "class": "spacing-inner-right-medium",
+                        "oldNames": ["Spacing right::Inner medium"]
+                    },
+                    "bottom": {
+                        "class": "spacing-inner-bottom-medium",
+                        "oldNames": ["Spacing bottom::Inner medium"]
+                    },
+                    "left": {
+                        "class": "spacing-inner-left-medium",
+                        "oldNames": ["Spacing left::Inner medium"]
+                    }
                 },
                 {
-                    "name": "Outer large",
-                    "oldNames": ["Large"],
-                    "class": "spacing-outer-bottom-large"
-                },
-                {
-                    "name": "Inner none",
-                    "class": "spacing-inner-bottom-none"
-                },
-                {
-                    "name": "Inner small",
-                    "class": "spacing-inner-bottom"
-                },
-                {
-                    "name": "Inner medium",
-                    "class": "spacing-inner-bottom-medium"
-                },
-                {
-                    "name": "Inner large",
-                    "class": "spacing-inner-bottom-large"
-                }
-            ]
-        },
-        {
-            "name": "Spacing left",
-            "type": "Dropdown",
-            "description": "The spacing to the left of this element.",
-            "options": [
-                {
-                    "name": "Outer none",
-                    "oldNames": ["None"],
-                    "class": "spacing-outer-left-none"
-                },
-                {
-                    "name": "Outer small",
-                    "oldNames": ["Small"],
-                    "class": "spacing-outer-left"
-                },
-                {
-                    "name": "Outer medium",
-                    "oldNames": ["Medium"],
-                    "class": "spacing-outer-left-medium"
-                },
-                {
-                    "name": "Outer large",
-                    "oldNames": ["Large"],
-                    "class": "spacing-outer-left-large"
-                },
-                {
-                    "name": "Inner none",
-                    "class": "spacing-inner-left-none"
-                },
-                {
-                    "name": "Inner small",
-                    "class": "spacing-inner-left"
-                },
-                {
-                    "name": "Inner medium",
-                    "class": "spacing-inner-left-medium"
-                },
-                {
-                    "name": "Inner large",
-                    "class": "spacing-inner-left-large"
-                }
-            ]
-        },
-        {
-            "name": "Spacing right",
-            "type": "Dropdown",
-            "description": "The spacing to the right of this element.",
-            "options": [
-                {
-                    "name": "Outer none",
-                    "oldNames": ["None"],
-                    "class": "spacing-outer-right-none"
-                },
-                {
-                    "name": "Outer small",
-                    "oldNames": ["Small"],
-                    "class": "spacing-outer-right"
-                },
-                {
-                    "name": "Outer medium",
-                    "oldNames": ["Medium"],
-                    "class": "spacing-outer-right-medium"
-                },
-                {
-                    "name": "Outer large",
-                    "oldNames": ["Large"],
-                    "class": "spacing-outer-right-large"
-                },
-                {
-                    "name": "Inner none",
-                    "class": "spacing-inner-right-none"
-                },
-                {
-                    "name": "Inner small",
-                    "class": "spacing-inner-right"
-                },
-                {
-                    "name": "Inner medium",
-                    "class": "spacing-inner-right-medium"
-                },
-                {
-                    "name": "Inner large",
-                    "class": "spacing-inner-right-large"
+                    "name": "L",
+                    "top": {
+                        "class": "spacing-inner-top-large",
+                        "oldNames": ["Spacing top::Inner large"]
+                    },
+                    "right": {
+                        "class": "spacing-inner-right-large",
+                        "oldNames": ["Spacing right::Inner large"]
+                    },
+                    "bottom": {
+                        "class": "spacing-inner-bottom-large",
+                        "oldNames": ["Spacing bottom::Inner large"]
+                    },
+                    "left": {
+                        "class": "spacing-inner-left-large",
+                        "oldNames": ["Spacing left::Inner large"]
+                    }
                 }
             ]
         },
         {
             "name": "Align self",
             "oldNames": ["Align Self"],
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Float the element to the left or to the right.",
             "options": [
                 {
                     "name": "Left",
+                    "icon": "Atlas_Core.Atlas.align-left",
                     "class": "pull-left"
                 },
                 {
                     "name": "Right",
+                    "icon": "Atlas_Core.Atlas.align-right",
                     "class": "pull-right"
                 }
             ]
         },
         {
-            "name": "Hide on phone",
-            "oldNames": ["Hide On Phone"],
-            "type": "Toggle",
-            "description": "Hide element on phone.",
-            "class": "hide-phone"
-        },
-        {
-            "name": "Hide on tablet",
-            "oldNames": ["Hide On Tablet"],
-            "type": "Toggle",
-            "description": "Hide element on tablet.",
-            "class": "hide-tablet"
-        },
-        {
-            "name": "Hide on desktop",
-            "oldNames": ["Hide On Desktop"],
-            "type": "Toggle",
-            "description": "Hide element on desktop.",
-            "class": "hide-desktop"
+            "name": "Hide on",
+            "description": "Hide on device type",
+            "multiSelect": true,
+            "type": "ToggleButtonGroup",
+            "options": [
+                {
+                    "name": "Phone",
+                    "icon": "Atlas_Core.Atlas.mobile-phone",
+                    "class": "hide-phone",
+                    "oldNames": ["Hide on phone", "Hide On Phone"]
+                },
+                {
+                    "name": "Tablet",
+                    "icon": "Atlas_Core.Atlas.tablet",
+                    "class": "hide-tablet",
+                    "oldNames": ["Hide on tablet", "Hide On Tablet"]
+                },
+                {
+                    "name": "Desktop",
+                    "icon": "Atlas_Core.Atlas.desktop",
+                    "class": "hide-desktop",
+                    "oldNames": ["Hide on desktop", "Hide On Desktop"]
+                }
+            ]
         }
     ],
     "DivContainer": [
@@ -250,53 +246,61 @@
         },
         {
             "name": "Background color",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Change the background color of the container.",
             "options": [
                 {
                     "name": "Background Primary",
                     "oldNames": ["Background Default"],
+                    "preview": "--bg-color",
                     "class": "background-main"
                 },
                 {
                     "name": "Background Secondary",
                     "oldNames": ["Background Dashboard"],
+                    "preview": "--bg-color-secondary",
                     "class": "background-secondary"
                 },
                 {
                     "name": "Brand Primary",
                     "oldNames": ["Primary"],
+                    "preview": "--brand-primary",
                     "class": "background-primary"
                 },
                 {
                     "name": "Brand Secondary",
                     "oldNames": ["Default", "Brand Default"],
-                    "class": "background-default"
+                    "class": "background-default",
+                    "preview": "--brand-default"
                 },
                 {
                     "name": "Brand Success",
                     "oldNames": ["Success"],
+                    "preview": "--brand-success",
                     "class": "background-success"
                 },
                 {
                     "name": "Brand Warning",
                     "oldNames": ["Warning"],
+                    "preview": "--brand-warning",
                     "class": "background-warning"
                 },
                 {
                     "name": "Brand Danger",
                     "oldNames": ["Danger"],
+                    "preview": "--brand-danger",
                     "class": "background-danger"
                 },
                 {
                     "name": "Brand Gradient",
+                    "preview": "--brand-gradient",
                     "class": "background-brand-gradient"
                 }
             ]
         },
         {
             "name": "Shade",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Apply a shade to your background color",
             "options": [
                 {
@@ -310,8 +314,9 @@
             ]
         },
         {
-            "name": "Add shadow",
-            "type": "Dropdown",
+            "name": "Shadow",
+            "oldNames": ["Add shadow"],
+            "type": "ToggleButtonGroup",
             "description": "Add a shadow to this element",
             "options": [
                 {
@@ -332,16 +337,35 @@
     "Button": [
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Size of the buttons",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "btn-sm"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "btn-lg"
+                }
+            ]
+        },
+        {
+            "name": "Align icon",
+            "type": "ToggleButtonGroup",
+            "description": "Place the icon to the right or on top of the button.",
+            "options": [
+                {
+                    "name": "Right",
+                    "icon": "Atlas_Core.Atlas.align-right",
+                    "class": "btn-icon-right"
+                },
+                {
+                    "name": "Top",
+                    "icon": "Atlas_Core.Atlas.align-top",
+                    "class": "btn-icon-top"
                 }
             ]
         },
@@ -357,27 +381,12 @@
             "type": "Toggle",
             "description": "Style the button with a transparent background, a colored border, and colored text.",
             "class": "btn-bordered"
-        },
-        {
-            "name": "Align icon",
-            "type": "Dropdown",
-            "description": "Place the icon to the right or on top of the button.",
-            "options": [
-                {
-                    "name": "Right",
-                    "class": "btn-icon-right"
-                },
-                {
-                    "name": "Top",
-                    "class": "btn-icon-top"
-                }
-            ]
         }
     ],
     "ListView": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the appearance of rows in the list view.",
             "options": [
                 {
@@ -393,7 +402,8 @@
                     "class": "listview-bordered"
                 },
                 {
-                    "name": "No Styling",
+                    "name": "No styling",
+                    "oldNames": ["No Styling"],
                     "class": "listview-stylingless"
                 }
             ]
@@ -405,16 +415,19 @@
             "class": "listview-hover"
         },
         {
-            "name": "Row Size",
-            "type": "Dropdown",
+            "name": "Row size",
+            "oldNames": ["Row Size"],
+            "type": "ToggleButtonGroup",
             "description": "Change the row spacing of the list view.",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "listview-sm"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "listview-lg"
                 }
             ]
@@ -423,7 +436,7 @@
     "DataGrid": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Choose one of the following styles to change the appearance of the data grid.",
             "options": [
                 {
@@ -448,15 +461,17 @@
         },
         {
             "name": "Row size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Increase or decrease the row spacing of the data grid row.",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "datagrid-sm"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "datagrid-lg"
                 }
             ]
@@ -465,7 +480,7 @@
     "TemplateGrid": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Choose one of the following styles to change the appearance of the template grid.",
             "options": [
                 {
@@ -496,37 +511,43 @@
     "GroupBox": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Choose one of the following styles to change the appearance of the groupbox.",
             "options": [
                 {
                     "name": "Brand Primary",
                     "oldNames": ["Primary"],
-                    "class": "groupbox-primary"
+                    "class": "groupbox-primary",
+                    "preview": "--groupbox-primary-bg"
                 },
                 {
                     "name": "Brand Secondary",
                     "oldNames": ["Default", "Brand Default"],
-                    "class": "groupbox-secondary"
+                    "class": "groupbox-secondary",
+                    "preview": "--groupbox-default-bg"
                 },
                 {
                     "name": "Brand Success",
                     "oldNames": ["Success"],
-                    "class": "groupbox-success"
+                    "class": "groupbox-success",
+                    "preview": "--groupbox-success-bg"
                 },
                 {
                     "name": "Brand Warning",
                     "oldNames": ["Warning"],
-                    "class": "groupbox-warning"
+                    "class": "groupbox-warning",
+                    "preview": "--groupbox-warning-bg"
                 },
                 {
                     "name": "Brand Danger",
                     "oldNames": ["Danger"],
-                    "class": "groupbox-danger"
+                    "class": "groupbox-danger",
+                    "preview": "--groupbox-danger-bg"
                 },
                 {
                     "name": "Transparent",
-                    "class": "groupbox-transparent"
+                    "class": "groupbox-transparent",
+                    "preview": "transparent"
                 }
             ]
         },
@@ -540,7 +561,7 @@
     "StaticImageViewer": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Choose the style of your image.",
             "options": [
                 {
@@ -590,7 +611,7 @@
     "DynamicImageViewer": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Choose the style of your image.",
             "options": [
                 {
@@ -640,33 +661,38 @@
     "Label": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Change the appearance of a label.",
             "options": [
                 {
                     "name": "Brand Primary",
                     "oldNames": ["Primary"],
-                    "class": "label-primary"
+                    "class": "label-primary",
+                    "preview": "--label-primary-bg"
                 },
                 {
                     "name": "Brand Secondary",
                     "oldNames": ["Default", "Brand Default"],
-                    "class": "label-secondary"
+                    "class": "label-secondary",
+                    "preview": "--label-default-bg"
                 },
                 {
                     "name": "Brand Success",
                     "oldNames": ["Success"],
-                    "class": "label-success"
+                    "class": "label-success",
+                    "preview": "--label-success-bg"
                 },
                 {
                     "name": "Brand Warning",
                     "oldNames": ["Warning"],
-                    "class": "label-warning"
+                    "class": "label-warning",
+                    "preview": "--label-warning-bg"
                 },
                 {
                     "name": "Brand Danger",
                     "oldNames": ["Danger"],
-                    "class": "label-danger"
+                    "class": "label-danger",
+                    "preview": "--label-danger-bg"
                 }
             ]
         }
@@ -674,7 +700,7 @@
     "TabContainer": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the appearance of the tab container",
             "options": [
                 {
@@ -696,20 +722,24 @@
             ]
         },
         {
-            "name": "Tab Position",
-            "type": "Dropdown",
+            "name": "Tab position",
+            "oldNames": ["Tab Position"],
+            "type": "ToggleButtonGroup",
             "description": "Change the position of the tabs",
             "options": [
                 {
                     "name": "Left",
+                    "icon": "Atlas_Core.Atlas.align-left",
                     "class": "tab-left"
                 },
                 {
                     "name": "Center",
+                    "icon": "Atlas_Core.Atlas.align-center",
                     "class": "tab-center"
                 },
                 {
                     "name": "Right",
+                    "icon": "Atlas_Core.Atlas.align-right",
                     "class": "tab-right"
                 }
             ]
@@ -724,15 +754,17 @@
     "DynamicText": [
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Make the text smaller or larger.",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "text-small"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "text-large"
                 }
             ]
@@ -740,7 +772,7 @@
         {
             "name": "Weight",
             "oldNames": ["Font Weight"],
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Emphasize the text with a heavier or lighter font weight",
             "options": [
                 {
@@ -763,78 +795,92 @@
         },
         {
             "name": "Color",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Change the color of text.",
             "options": [
                 {
                     "name": "Header color",
-                    "class": "text-header"
+                    "class": "text-header",
+                    "preview": "--font-color-header"
                 },
                 {
                     "name": "Detail color",
-                    "class": "text-detail"
+                    "class": "text-detail",
+                    "preview": "--font-color-detail"
                 },
                 {
                     "name": "Brand Primary",
                     "oldNames": ["Primary"],
-                    "class": "text-primary"
+                    "class": "text-primary",
+                    "preview": "--brand-primary"
                 },
                 {
                     "name": "Brand Secondary",
                     "oldNames": ["Default", "Brand Default"],
-                    "class": "text-secondary"
+                    "class": "text-secondary",
+                    "preview": "--font-color-default"
                 },
                 {
                     "name": "Brand Success",
                     "oldNames": ["Success"],
-                    "class": "text-success"
+                    "class": "text-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Brand Warning",
                     "oldNames": ["Warning"],
-                    "class": "text-warning"
+                    "class": "text-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Brand Danger",
                     "oldNames": ["Danger"],
-                    "class": "text-danger"
+                    "class": "text-danger",
+                    "preview": "--brand-danger"
                 },
                 {
                     "name": "White",
-                    "class": "text-white"
+                    "class": "text-white",
+                    "preview": "white"
                 }
             ]
         },
         {
             "name": "Alignment",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Align the text.",
             "options": [
                 {
                     "name": "Left",
+                    "icon": "Atlas_Core.Atlas.text-align-left",
                     "class": "text-left d-block"
                 },
                 {
                     "name": "Center",
+                    "icon": "Atlas_Core.Atlas.text-align-center",
                     "class": "text-center d-block"
                 },
                 {
                     "name": "Right",
+                    "icon": "Atlas_Core.Atlas.text-align-right",
                     "class": "text-right d-block"
                 }
             ]
         },
         {
-            "name": "Transform",
-            "type": "Dropdown",
+            "name": "Letter case",
+            "oldNames": ["Transform"],
+            "type": "ToggleButtonGroup",
             "description": "Change the letter case of the text.",
             "options": [
                 {
-                    "name": "Lowercase",
+                    "name": "lower",
+                    "oldNames": ["Lowercase"],
                     "class": "text-lowercase"
                 },
                 {
-                    "name": "Uppercase",
+                    "name": "UPPER",
+                    "oldNames": ["Uppercase"],
                     "class": "text-uppercase"
                 },
                 {
@@ -845,7 +891,7 @@
         },
         {
             "name": "Wrap options",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Break long words and sentences into multiple lines.",
             "options": [
                 {
@@ -853,8 +899,9 @@
                     "class": "text-break"
                 },
                 {
-                    "name": "No Wrap",
-                    "class": "text-nowrap"
+                    "name": "No wrap",
+                    "class": "text-nowrap",
+                    "oldNames": ["No Wrap"]
                 }
             ]
         }
@@ -862,7 +909,7 @@
     "Table": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the appearance of cells in the table.",
             "options": [
                 {
@@ -885,28 +932,33 @@
     "com.mendix.widget.custom.badge.Badge": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "The brand style affecting this element's appearance.",
             "options": [
                 {
                     "name": "Brand Primary",
-                    "class": "label-primary"
+                    "class": "label-primary",
+                    "preview": "--label-primary-bg"
                 },
                 {
                     "name": "Brand Secondary",
-                    "class": "label-secondary"
+                    "class": "label-secondary",
+                    "preview": "--label-default-bg"
                 },
                 {
                     "name": "Brand Success",
-                    "class": "label-success"
+                    "class": "label-success",
+                    "preview": "--label-success-bg"
                 },
                 {
                     "name": "Brand Warning",
-                    "class": "label-warning"
+                    "class": "label-warning",
+                    "preview": "--label-warning-bg"
                 },
                 {
                     "name": "Brand Danger",
-                    "class": "label-danger"
+                    "class": "label-danger",
+                    "preview": "--label-danger-bg"
                 }
             ]
         }
@@ -920,30 +972,34 @@
         },
         {
             "name": "Bar color",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Color of the progress bar",
             "options": [
                 {
                     "name": "Primary",
-                    "class": "progress-bar-primary"
+                    "class": "progress-bar-primary",
+                    "preview": "--brand-primary"
                 },
                 {
                     "name": "Success",
-                    "class": "progress-bar-success"
+                    "class": "progress-bar-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Warning",
-                    "class": "progress-bar-warning"
+                    "class": "progress-bar-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Danger",
-                    "class": "progress-bar-danger"
+                    "class": "progress-bar-danger",
+                    "preview": "--brand-danger"
                 }
             ]
         },
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Size of the progress bar",
             "options": [
                 {
@@ -964,42 +1020,49 @@
     "com.mendix.widget.custom.badgebutton.BadgeButton": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "The brand style affecting this element's appearance.",
             "options": [
                 {
                     "name": "Brand Primary",
-                    "class": "btn-primary"
+                    "class": "btn-primary",
+                    "preview": "--btn-primary-bg"
                 },
                 {
                     "name": "Brand Secondary",
-                    "class": "btn-secondary"
+                    "class": "btn-secondary",
+                    "preview": "--btn-default-bg"
                 },
                 {
                     "name": "Brand Success",
-                    "class": "btn-success"
+                    "class": "btn-success",
+                    "preview": "--btn-success-bg"
                 },
                 {
                     "name": "Brand Warning",
-                    "class": "btn-warning"
+                    "class": "btn-warning",
+                    "preview": "--btn-warning-bg"
                 },
                 {
                     "name": "Brand Danger",
-                    "class": "btn-danger"
+                    "class": "btn-danger",
+                    "preview": "--btn-danger-bg"
                 }
             ]
         },
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Size of the buttons",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "btn-sm"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "btn-lg"
                 }
             ]
@@ -1021,30 +1084,34 @@
     "com.mendix.widget.custom.progresscircle.ProgressCircle": [
         {
             "name": "Bar color",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "Color of the progress bar",
             "options": [
                 {
                     "name": "Primary",
-                    "class": "widget-progress-circle-primary"
+                    "class": "widget-progress-circle-primary",
+                    "preview": "--brand-primary"
                 },
                 {
                     "name": "Success",
-                    "class": "widget-progress-circle-success"
+                    "class": "widget-progress-circle-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Warning",
-                    "class": "widget-progress-circle-warning"
+                    "class": "widget-progress-circle-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Danger",
-                    "class": "widget-progress-circle-danger"
+                    "class": "widget-progress-circle-danger",
+                    "preview": "--brand-danger"
                 }
             ]
         },
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Thickness of the progress circle",
             "options": [
                 {
@@ -1065,34 +1132,39 @@
     "com.mendix.widget.custom.switch.Switch": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "The brand style affecting this element's appearance.",
             "options": [
                 {
                     "name": "Brand Primary",
-                    "class": "widget-switch-brand-primary"
+                    "class": "widget-switch-brand-primary",
+                    "preview": "--brand-primary"
                 },
                 {
                     "name": "Brand Secondary",
-                    "class": "widget-switch-brand-secondary"
+                    "class": "widget-switch-brand-secondary",
+                    "preview": "--brand-default"
                 },
                 {
                     "name": "Brand Success",
-                    "class": "widget-switch-brand-success"
+                    "class": "widget-switch-brand-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Brand Warning",
-                    "class": "widget-switch-brand-warning"
+                    "class": "widget-switch-brand-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Brand Danger",
-                    "class": "widget-switch-brand-danger"
+                    "class": "widget-switch-brand-danger",
+                    "preview": "--brand-danger"
                 }
             ]
         },
         {
             "name": "Device style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "The general appearance of the switch. When no option selected iOS styles are applied",
             "options": [
                 {
@@ -1133,15 +1205,17 @@
     "com.mendix.widget.custom.starrating.StarRating": [
         {
             "name": "Size",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change size of the rating icon/image. Default is medium.",
             "options": [
                 {
                     "name": "Small",
+                    "icon": "Atlas_Core.Atlas.resize-small",
                     "class": "widget-rating-small"
                 },
                 {
                     "name": "Large",
+                    "icon": "Atlas_Core.Atlas.resize-full",
                     "class": "widget-rating-large"
                 }
             ]
@@ -1150,7 +1224,7 @@
     "com.mendix.widget.web.accordion.Accordion": [
         {
             "name": "Borders",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the border appearance. By default, only horizontal borders between groups are applied.",
             "options": [
                 {
@@ -1214,7 +1288,7 @@
         },
         {
             "name": "Image style",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the image style.",
             "options": [
                 {
@@ -1266,7 +1340,7 @@
         },
         {
             "name": "Opacity",
-            "type": "Dropdown",
+            "type": "ToggleButtonGroup",
             "description": "Change the opacity of the image.",
             "options": [
                 {
@@ -1287,25 +1361,28 @@
     "com.mendix.widget.custom.slider.Slider": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "The brand style affecting this element's appearance.",
             "options": [
                 {
                     "name": "Brand Primary",
-                    "class": "widget-slider-primary"
+                    "class": "widget-slider-primary",
+                    "preview": "--brand-primary"
                 },
-
                 {
                     "name": "Brand Success",
-                    "class": "widget-slider-success"
+                    "class": "widget-slider-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Brand Warning",
-                    "class": "widget-slider-warning"
+                    "class": "widget-slider-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Brand Danger",
-                    "class": "widget-slider-danger"
+                    "class": "widget-slider-danger",
+                    "preview": "--brand-danger"
                 }
             ]
         }
@@ -1321,25 +1398,28 @@
     "com.mendix.widget.custom.RangeSlider.RangeSlider": [
         {
             "name": "Style",
-            "type": "Dropdown",
+            "type": "ColorPicker",
             "description": "The brand style affecting this element's appearance.",
             "options": [
                 {
                     "name": "Brand Primary",
-                    "class": "widget-range-slider-primary"
+                    "class": "widget-range-slider-primary",
+                    "preview": "--brand-primary"
                 },
-
                 {
                     "name": "Brand Success",
-                    "class": "widget-range-slider-success"
+                    "class": "widget-range-slider-success",
+                    "preview": "--brand-success"
                 },
                 {
                     "name": "Brand Warning",
-                    "class": "widget-range-slider-warning"
+                    "class": "widget-range-slider-warning",
+                    "preview": "--brand-warning"
                 },
                 {
                     "name": "Brand Danger",
-                    "class": "widget-range-slider-danger"
+                    "class": "widget-range-slider-danger",
+                    "preview": "--brand-danger"
                 }
             ]
         }

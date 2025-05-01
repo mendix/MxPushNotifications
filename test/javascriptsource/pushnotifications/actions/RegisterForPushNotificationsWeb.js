@@ -30,7 +30,7 @@ async function attemptWithRetries(retries, timeout, action) {
  * @returns {Promise.<string>}
  */
 export async function RegisterForPushNotificationsWeb(vapidKey) {
-    // BEGIN USER CODE
+	// BEGIN USER CODE
     if ("Notification" in window !== true)
         throw new Error("Notification API not available.");
     
@@ -51,5 +51,5 @@ export async function RegisterForPushNotificationsWeb(vapidKey) {
 
     console.info("Registered for push notifications with token: " + token);
     return token;
-    // END USER CODE
+	// END USER CODE
 }

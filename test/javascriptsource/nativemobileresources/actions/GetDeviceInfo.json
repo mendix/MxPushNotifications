@@ -1,5 +1,5 @@
 {
   "nativeDependencies": {
-    "react-native-localize": "1.4.2"
+    "react-native-localize": "3.2.1"
   }
 }

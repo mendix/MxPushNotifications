@@ -35,7 +35,7 @@ export async function GetCurrentLocation(timeout, maximumAge, highAccuracy) {
             return Promise.reject(new Error("React Native module could not be found"));
         }
         if (reactNativeModule.NativeModules.RNFusedLocation) {
-            geolocationModule = (await import('react-native-geolocation-service')).default;
+            geolocationModule = (await import('@react-native-community/geolocation')).default;
         }
         else if (reactNativeModule.NativeModules.RNCGeolocation) {
             geolocationModule = Geolocation;

@@ -14,9 +14,11 @@
     .popupmenu {
         position: relative;
         display: inline-flex;
+        overflow: visible;
     }
 
     .popupmenu-trigger {
+        position: relative;
         cursor: pointer;
     }
 
@@ -63,6 +65,17 @@
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
         }
+    }
+
+    ul.popupmenu-menu {
+        display: flex;
+        list-style-type: none;
+        padding-inline-start: 0;
+        z-index: 1;
+    }
+
+    .table .td > .popupmenu {
+        overflow: visible;
     }
 
     .popupmenu-basic-divider {

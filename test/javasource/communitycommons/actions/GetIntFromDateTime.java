@@ -10,8 +10,8 @@
 package communitycommons.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import communitycommons.DateTime;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Converts a datetime to an integer based on the selector used.
@@ -21,16 +21,20 @@ import communitycommons.DateTime;
  * - month (returns 1-12)
  * - day (returns 1-31)
  */
-public class GetIntFromDateTime extends CustomJavaAction<java.lang.Long>
+public class GetIntFromDateTime extends UserAction<java.lang.Long>
 {
-	private java.util.Date dateObj;
-	private communitycommons.proxies.DatePartSelector selectorObj;
+	private final java.util.Date dateObj;
+	private final communitycommons.proxies.DatePartSelector selectorObj;
 
-	public GetIntFromDateTime(IContext context, java.util.Date dateObj, java.lang.String selectorObj)
+	public GetIntFromDateTime(
+		IContext context,
+		java.util.Date _dateObj,
+		java.lang.String _selectorObj
+	)
 	{
 		super(context);
-		this.dateObj = dateObj;
-		this.selectorObj = selectorObj == null ? null : communitycommons.proxies.DatePartSelector.valueOf(selectorObj);
+		this.dateObj = _dateObj;
+		this.selectorObj = _selectorObj == null ? null : communitycommons.proxies.DatePartSelector.valueOf(_selectorObj);
 	}
 
 	@java.lang.Override

@@ -13,11 +13,16 @@
     ========================================================================== */
 
     .mx-dataview {
-        /* Dataview-content gives problems for nexted layout grid containers */
-        > .mx-dataview-content > .mx-container-nested {
-            > .row {
-                margin-right: 0;
-                margin-left: 0;
+        display: flex;
+        flex-direction: column;
+        /* Dataview-content gives problems for nested layout grid containers */
+        > .mx-dataview-content {
+            flex-grow: 1;
+            > .mx-container-nested {
+                > .row {
+                    margin-right: 0;
+                    margin-left: 0;
+                }
             }
         }
 
@@ -29,7 +34,6 @@
     }
 
     .mx-dataview-controls {
-        margin-top: $spacing-medium;
         padding: $spacing-medium 0 0;
         border-top: 1px solid $dataview-controls-border-color;
         border-radius: 0;
@@ -41,6 +45,13 @@
 
             &:last-child {
                 margin-right: 0;
+            }
+        }
+
+        /* Fix for Dojo rendering in react client */
+        [id^="mxui_widget_Wrapper"]:has(> .mx-button) {
+            .mx-button {
+                margin-right: $spacing-small;
             }
         }
 
