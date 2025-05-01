@@ -10,8 +10,8 @@
 package communitycommons.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import communitycommons.Misc;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Returns the Cloud Foundry Instance Index that is set during deployment of the application in a Cloud native environment. Based on the Cloud Foundry Instance Index, Mendix determines what is the leader instance (index 0 executes scheduled events, db sync, session management etc.) or slave instance.
@@ -20,7 +20,7 @@ import communitycommons.Misc;
  * 
  * Make sure emulate cloud security is disabled. Otherwise, the policy restrictions will prevent the method to be executed. Action is tested in Mendix Cloud on 19-12-2018.
  */
-public class GetCFInstanceIndex extends CustomJavaAction<java.lang.Long>
+public class GetCFInstanceIndex extends UserAction<java.lang.Long>
 {
 	public GetCFInstanceIndex(IContext context)
 	{

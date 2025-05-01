@@ -14,16 +14,19 @@ import java.util.Collections;
 import java.util.List;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class GetFCMAccessToken extends CustomJavaAction<java.lang.String>
+public class GetFCMAccessToken extends UserAction<java.lang.String>
 {
-	private java.lang.String PrivateKey;
+	private final java.lang.String PrivateKey;
 
-	public GetFCMAccessToken(IContext context, java.lang.String PrivateKey)
+	public GetFCMAccessToken(
+		IContext context,
+		java.lang.String _privateKey
+	)
 	{
 		super(context);
-		this.PrivateKey = PrivateKey;
+		this.PrivateKey = _privateKey;
 	}
 
 	@java.lang.Override

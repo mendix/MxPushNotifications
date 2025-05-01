@@ -19,7 +19,7 @@ async function initializeCounter() {
 }
 async function getItem(key) {
     if (navigator && navigator.product === "ReactNative") {
-        const AsyncStorage = (await import('@react-native-community/async-storage')).default;
+        const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
         return AsyncStorage.getItem(key);
     }
     if (window) {
@@ -29,7 +29,7 @@ async function getItem(key) {
 }
 async function setItem(key, value) {
     if (navigator && navigator.product === "ReactNative") {
-        const AsyncStorage = (await import('@react-native-community/async-storage')).default;
+        const AsyncStorage = (await import('@react-native-async-storage/async-storage')).default;
         return AsyncStorage.setItem(key, value);
     }
     if (window) {

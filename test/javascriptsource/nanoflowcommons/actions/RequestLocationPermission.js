@@ -91,14 +91,12 @@ export async function RequestLocationPermission() {
                 ? true
                 : reactNativeModule === null || reactNativeModule === void 0 ? void 0 : reactNativeModule.PermissionsAndroid.request(locationPermission).then(status => status === (reactNativeModule === null || reactNativeModule === void 0 ? void 0 : reactNativeModule.PermissionsAndroid.RESULTS.GRANTED)));
         }
-        else if (geolocationModule && geolocationModule.requestAuthorization) {
-            try {
-                geolocationModule.requestAuthorization();
+        else if (geolocationModule) {
+            geolocationModule.requestAuthorization(() => {
                 return Promise.resolve(true);
-            }
-            catch (error) {
-                return Promise.reject(error);
-            }
+            }, (err) => {
+                return Promise.reject(err);
+            });
         }
         return false;
     };
@@ -108,7 +106,7 @@ export async function RequestLocationPermission() {
             return Promise.reject(new Error("React Native module could not be found"));
         }
         if (reactNativeModule.NativeModules.RNFusedLocation) {
-            geolocationModule = (await import('react-native-geolocation-service')).default;
+            geolocationModule = (await import('@react-native-community/geolocation')).default;
             return hasLocationPermission();
         }
         else if (reactNativeModule.NativeModules.RNCGeolocation) {

@@ -195,11 +195,17 @@
             display: none #{$important-helpers-value};
         }
     }
+    .profile-phone .hide-phone {
+        display: none #{$important-helpers-value};
+    }
 
     @media (min-width: $screen-md) and (max-width: $screen-md-max) {
         .hide-tablet {
             display: none #{$important-helpers-value};
         }
+    }
+    .profile-tablet .hide-tablet {
+        display: none #{$important-helpers-value};
     }
 
     @media (min-width: $screen-lg) {

@@ -10,12 +10,12 @@
 package pushnotifications.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import pushnotifications.proxies.Message;
 import java.util.ArrayList;
 import java.util.List;
 import static pushnotifications.proxies.microflows.Microflows.createAndSendMessageToUser;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Java action to send a message directly to all devices of a user
@@ -28,29 +28,36 @@ import static pushnotifications.proxies.microflows.Microflows.createAndSendMessa
  * Sound: name of system sound to play (iOS)
  * 
  */
-public class SendMessageToUser extends CustomJavaAction<java.util.List<IMendixObject>>
+public class SendMessageToUser extends UserAction<java.util.List<IMendixObject>>
 {
-	private IMendixObject __MessageDataParam;
-	private pushnotifications.proxies.MessageData MessageDataParam;
-	private IMendixObject __UserParam;
-	private system.proxies.User UserParam;
-	private IMendixObject ContextObject;
+	/** @deprecated use MessageDataParam.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __MessageDataParam;
+	private final pushnotifications.proxies.MessageData MessageDataParam;
+	/** @deprecated use UserParam.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __UserParam;
+	private final system.proxies.User UserParam;
+	private final IMendixObject ContextObject;
 
-	public SendMessageToUser(IContext context, IMendixObject MessageDataParam, IMendixObject UserParam, IMendixObject ContextObject)
+	public SendMessageToUser(
+		IContext context,
+		IMendixObject _messageDataParam,
+		IMendixObject _userParam,
+		IMendixObject _contextObject
+	)
 	{
 		super(context);
-		this.__MessageDataParam = MessageDataParam;
-		this.__UserParam = UserParam;
-		this.ContextObject = ContextObject;
+		this.__MessageDataParam = _messageDataParam;
+		this.MessageDataParam = _messageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), _messageDataParam);
+		this.__UserParam = _userParam;
+		this.UserParam = _userParam == null ? null : system.proxies.User.initialize(getContext(), _userParam);
+		this.ContextObject = _contextObject;
 	}
 
 	@java.lang.Override
 	public java.util.List<IMendixObject> executeAction() throws Exception
 	{
-		this.MessageDataParam = this.__MessageDataParam == null ? null : pushnotifications.proxies.MessageData.initialize(getContext(), __MessageDataParam);
-
-		this.UserParam = this.__UserParam == null ? null : system.proxies.User.initialize(getContext(), __UserParam);
-
 		// BEGIN USER CODE
 		if (ContextObject != null) {
 			Long guid = ContextObject.getId().toLong();

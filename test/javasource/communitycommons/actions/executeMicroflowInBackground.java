@@ -12,7 +12,7 @@ package communitycommons.actions;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import communitycommons.Misc;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action allows an microflow to be executed independently from this microflow. 
@@ -29,16 +29,20 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Returns true if scheduled successfully.
  */
-public class executeMicroflowInBackground extends CustomJavaAction<java.lang.Boolean>
+public class executeMicroflowInBackground extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String microflow;
-	private IMendixObject contextObject;
+	private final java.lang.String microflow;
+	private final IMendixObject contextObject;
 
-	public executeMicroflowInBackground(IContext context, java.lang.String microflow, IMendixObject contextObject)
+	public executeMicroflowInBackground(
+		IContext context,
+		java.lang.String _microflow,
+		IMendixObject _contextObject
+	)
 	{
 		super(context);
-		this.microflow = microflow;
-		this.contextObject = contextObject;
+		this.microflow = _microflow;
+		this.contextObject = _contextObject;
 	}
 
 	@java.lang.Override

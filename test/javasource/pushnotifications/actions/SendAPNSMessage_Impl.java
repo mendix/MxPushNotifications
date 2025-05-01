@@ -11,30 +11,36 @@ package pushnotifications.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
-import com.mendix.webui.CustomJavaAction;
 import pushnotifications.implementation.apns.APNSConnection;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
-public class SendAPNSMessage_Impl extends CustomJavaAction<java.lang.Boolean>
+public class SendAPNSMessage_Impl extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject __message;
-	private pushnotifications.proxies.Message message;
-	private IMendixObject __settings;
-	private pushnotifications.proxies.APNSSettings settings;
+	/** @deprecated use message.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __message;
+	private final pushnotifications.proxies.Message message;
+	/** @deprecated use settings.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __settings;
+	private final pushnotifications.proxies.APNSSettings settings;
 
-	public SendAPNSMessage_Impl(IContext context, IMendixObject message, IMendixObject settings)
+	public SendAPNSMessage_Impl(
+		IContext context,
+		IMendixObject _message,
+		IMendixObject _settings
+	)
 	{
 		super(context);
-		this.__message = message;
-		this.__settings = settings;
+		this.__message = _message;
+		this.message = _message == null ? null : pushnotifications.proxies.Message.initialize(getContext(), _message);
+		this.__settings = _settings;
+		this.settings = _settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), _settings);
 	}
 
 	@java.lang.Override
 	public java.lang.Boolean executeAction() throws Exception
 	{
-		this.message = this.__message == null ? null : pushnotifications.proxies.Message.initialize(getContext(), __message);
-
-		this.settings = this.__settings == null ? null : pushnotifications.proxies.APNSSettings.initialize(getContext(), __settings);
-
 		// BEGIN USER CODE
 		APNSConnection apnsConnection = APNSConnection.getInstance();
 		apnsConnection.sendMessage(settings, message);

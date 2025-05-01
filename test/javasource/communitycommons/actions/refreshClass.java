@@ -10,8 +10,8 @@
 package communitycommons.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import com.mendix.webui.FeedbackHelper;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Refreshes a certain domain object type in the client. Useful to enforce a datagrid to refresh for example.
@@ -19,14 +19,17 @@ import com.mendix.webui.FeedbackHelper;
  * -objectType : Type of the domain objects to refresh, such as System.User or MyModule.MyFirstEntity.
  *  (you can use getTypeAsString to determine this dynamically, so that the invoke of this action is not be sensitive to domain model changes).
  */
-public class refreshClass extends CustomJavaAction<java.lang.Boolean>
+public class refreshClass extends UserAction<java.lang.Boolean>
 {
-	private java.lang.String objectType;
+	private final java.lang.String objectType;
 
-	public refreshClass(IContext context, java.lang.String objectType)
+	public refreshClass(
+		IContext context,
+		java.lang.String _objectType
+	)
 	{
 		super(context);
-		this.objectType = objectType;
+		this.objectType = _objectType;
 	}
 
 	@java.lang.Override

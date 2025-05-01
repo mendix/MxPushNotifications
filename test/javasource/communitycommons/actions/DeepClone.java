@@ -12,7 +12,7 @@ package communitycommons.actions;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import communitycommons.ORM;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Clones objects, their associations and even referred objects. 
@@ -35,26 +35,35 @@ import com.mendix.webui.CustomJavaAction;
  * 
  * Note that DeepClone does commit all objects, where Clone does not.
  */
-public class DeepClone extends CustomJavaAction<java.lang.Boolean>
+public class DeepClone extends UserAction<java.lang.Boolean>
 {
-	private IMendixObject source;
-	private IMendixObject target;
-	private java.lang.String membersToSkip;
-	private java.lang.String membersToKeep;
-	private java.lang.String reverseAssociations;
-	private java.lang.String excludeEntities;
-	private java.lang.String excludeModules;
+	private final IMendixObject source;
+	private final IMendixObject target;
+	private final java.lang.String membersToSkip;
+	private final java.lang.String membersToKeep;
+	private final java.lang.String reverseAssociations;
+	private final java.lang.String excludeEntities;
+	private final java.lang.String excludeModules;
 
-	public DeepClone(IContext context, IMendixObject source, IMendixObject target, java.lang.String membersToSkip, java.lang.String membersToKeep, java.lang.String reverseAssociations, java.lang.String excludeEntities, java.lang.String excludeModules)
+	public DeepClone(
+		IContext context,
+		IMendixObject _source,
+		IMendixObject _target,
+		java.lang.String _membersToSkip,
+		java.lang.String _membersToKeep,
+		java.lang.String _reverseAssociations,
+		java.lang.String _excludeEntities,
+		java.lang.String _excludeModules
+	)
 	{
 		super(context);
-		this.source = source;
-		this.target = target;
-		this.membersToSkip = membersToSkip;
-		this.membersToKeep = membersToKeep;
-		this.reverseAssociations = reverseAssociations;
-		this.excludeEntities = excludeEntities;
-		this.excludeModules = excludeModules;
+		this.source = _source;
+		this.target = _target;
+		this.membersToSkip = _membersToSkip;
+		this.membersToKeep = _membersToKeep;
+		this.reverseAssociations = _reverseAssociations;
+		this.excludeEntities = _excludeEntities;
+		this.excludeModules = _excludeModules;
 	}
 
 	@java.lang.Override
