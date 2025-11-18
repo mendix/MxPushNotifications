@@ -4,12 +4,14 @@ test/javasource/pushnotifications/proxies/
 test/javasource/system/proxies/
 test/javasource/myfirstmodule/proxies/
 test/javasource/encryption/proxies/
+test/javasource/*/proxies/
 test/deployment/
 test/.classpath
 test/.mendix-cache/
 test/.project
 test/.svn/
 test/resources/Firestore/
+test/theme-cache/
 
 *.launch
 *.tmp
