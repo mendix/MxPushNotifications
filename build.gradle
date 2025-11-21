@@ -22,7 +22,7 @@ apply plugin: 'org.owasp.dependencycheck'
 apply plugin: 'com.github.ben-manes.versions'
 
 project.ext {
-    PNC_VERSION = '8.0.1'
+    PNC_VERSION = '8.0.2'
     MXBUILD_VERSION = '10.21.0.64362'
     MODULE_NAME = 'PushNotifications'
 }
@@ -74,19 +74,19 @@ dependencies {
     
     implementation('io.netty:netty-codec-http2') {
         version {
-            strictly '4.2.0.Final'
+            strictly '4.2.5.Final'
         }
     }
 
     implementation('io.netty:netty-handler-proxy') {
         version {
-            strictly '4.2.0.Final'
+            strictly '4.2.5.Final'
         }
     }
 
     implementation('io.netty:netty-resolver-dns') {
         version {
-            strictly '4.2.0.Final'
+            strictly '4.2.5.Final'
         }
     }
 
