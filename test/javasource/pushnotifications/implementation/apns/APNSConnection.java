@@ -3,25 +3,25 @@ package pushnotifications.implementation.apns;
 import java.io.*;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.systemwideinterfaces.core.IContext;
 
-import com.turo.pushy.apns.ApnsClient;
-import com.turo.pushy.apns.ApnsClientBuilder;
-import com.turo.pushy.apns.PushNotificationResponse;
-import com.turo.pushy.apns.auth.ApnsSigningKey;
-import com.turo.pushy.apns.util.ApnsPayloadBuilder;
-import com.turo.pushy.apns.util.SimpleApnsPushNotification;
-import com.turo.pushy.apns.util.TokenUtil;
-import com.turo.pushy.apns.util.concurrent.PushNotificationFuture;
+import com.eatthepath.pushy.apns.ApnsClient;
+import com.eatthepath.pushy.apns.ApnsClientBuilder;
+import com.eatthepath.pushy.apns.PushNotificationResponse;
+import com.eatthepath.pushy.apns.auth.ApnsSigningKey;
+import com.eatthepath.pushy.apns.util.SimpleApnsPayloadBuilder;
+import com.eatthepath.pushy.apns.util.SimpleApnsPushNotification;
+import com.eatthepath.pushy.apns.util.TokenUtil;
+import com.eatthepath.pushy.apns.util.concurrent.PushNotificationFuture;
 import encryption.proxies.microflows.Microflows;
-import io.netty.util.concurrent.Future;
 import org.apache.commons.io.IOUtils;
 import pushnotifications.proxies.*;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class APNSConnection {
     private static APNSConnection instance = null;
@@ -39,7 +39,7 @@ public class APNSConnection {
         return instance;
     }
 
-	public void start(APNSSettings settings) throws CoreException, IOException, InvalidKeyException, NoSuchAlgorithmException, NoAuthenticationTypeException, InterruptedException {
+    public void start(APNSSettings settings) throws CoreException, IOException, InvalidKeyException, NoSuchAlgorithmException, NoAuthenticationTypeException, InterruptedException, ExecutionException {
 		IContext sysContext = Core.createSystemContext();
 
 		APNSAuthenticationType authType = settings.getAuthenticationType();
@@ -62,8 +62,8 @@ public class APNSConnection {
                             ApnsClientBuilder.PRODUCTION_APNS_HOST :
                             ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
                     .setClientCredentials(cert, passcode)
-                    .setConnectionTimeout(30, TimeUnit.SECONDS)
-                    .setGracefulShutdownTimeout(30, TimeUnit.SECONDS)
+                    .setConnectionTimeout(Duration.ofSeconds(30))
+                    .setGracefulShutdownTimeout(Duration.ofSeconds(30))
                     .build();
         } else if (authType == APNSAuthenticationType.Token) {
             APNSToken apnsToken = settings.getAPNSSettings_APNSToken();
@@ -78,27 +78,27 @@ public class APNSConnection {
                             ApnsClientBuilder.DEVELOPMENT_APNS_HOST)
                     .setSigningKey(ApnsSigningKey.loadFromPkcs8File(token,
                             apnsToken.getTeamId(), apnsToken.getKeyId()))
-                    .setConnectionTimeout(30, TimeUnit.SECONDS)
-                    .setGracefulShutdownTimeout(30, TimeUnit.SECONDS)
+                    .setConnectionTimeout(Duration.ofSeconds(30))
+                    .setGracefulShutdownTimeout(Duration.ofSeconds(30))
                     .build();
         } else {
 			throw new NoAuthenticationTypeException();
 		}
 	}
 
-	public void stop() throws InterruptedException {
-	    if (apnsClient != null) {
-            final Future<Void> closeFuture = apnsClient.close();
-            closeFuture.await();
+    public void stop() throws InterruptedException, ExecutionException {
+        if (apnsClient != null) {
+            final CompletableFuture<Void> closeFuture = apnsClient.close();
+            closeFuture.get();
             apnsClient = null;
         }
-	}
+    }
 
 	public void sendMessage(APNSSettings settings, Message message) throws ExecutionException, InterruptedException, MessageRejectedException, DeviceTokenInvalidException {
         final SimpleApnsPushNotification pushNotification;
 
         {
-            final ApnsPayloadBuilder payloadBuilder = new ApnsPayloadBuilder();
+            final SimpleApnsPayloadBuilder payloadBuilder = new SimpleApnsPayloadBuilder();
             payloadBuilder.setAlertBody(message.getBody());
             payloadBuilder.setSound("default");
 
@@ -114,7 +114,7 @@ public class APNSConnection {
                 }
             }
 
-            final String payload = payloadBuilder.buildWithDefaultMaximumLength();
+            final String payload = payloadBuilder.build();
             final String token = TokenUtil.sanitizeTokenString(message.getTo());
 
             pushNotification = new SimpleApnsPushNotification(token, settings.getDefaultTopic(), payload);
