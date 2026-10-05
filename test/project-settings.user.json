@@ -14,10 +14,6 @@
       "suppressedRecommendations": [],
       "hasShownRecommendationsNotificationForThisApp": false,
       "type": "Mendix.Modeler.MxAssist.PerformanceBot.Serialization.Configuration.PerformanceBotConfiguration, Mendix.Modeler.MxAssist.PerformanceBot.Serialization, Version=10.21.0.0, Culture=neutral, PublicKeyToken=null"
-    },
-    {
-      "antivirusExcludedProjectDirectory": "",
-      "type": "Mendix.Modeler.ProjectHandling.View.ProjectDirectory.ProjectDirectoryConfiguration, Mendix.Modeler.ProjectHandling.View, Version=10.21.0.0, Culture=neutral, PublicKeyToken=null"
     }
   ]
 }
